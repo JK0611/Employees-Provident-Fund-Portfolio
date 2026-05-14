@@ -1,0 +1,60 @@
+[
+  {
+    "company": "IOI PROPERTIES GROUP BERHAD",
+    "stock_name": "IOIPG",
+    "announced_date": "13 May 2026",
+    "change_date": "08 May 2026",
+    "transactions": [
+      {"type": "Disposed", "amount": 8241500},
+      {"type": "Disposed", "amount": 1000000},
+      {"type": "Disposed", "amount": 794500}
+    ],
+    "total_holding": 379885307,
+    "percentage": 6.899
+  },
+  {
+    "company": "KLCC REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "KLCC",
+    "announced_date": "13 May 2026",
+    "change_date": "08 May 2026",
+    "transactions": [
+      {"type": "Acquired", "amount": 1500000}
+    ],
+    "total_holding": 198723475,
+    "percentage": 11.008
+  },
+  {
+    "company": "KLCC PROPERTY HOLDINGS BERHAD",
+    "stock_name": "KLCC",
+    "announced_date": "13 May 2026",
+    "change_date": "08 May 2026",
+    "transactions": [
+      {"type": "Acquired", "amount": 1500000}
+    ],
+    "total_holding": 198723475,
+    "percentage": 11.008
+  },
+  {
+    "company": "BURSA MALAYSIA BERHAD",
+    "stock_name": "BURSA",
+    "announced_date": "13 May 2026",
+    "change_date": "08 May 2026",
+    "transactions": [
+      {"type": "Disposed", "amount": 446300},
+      {"type": "Disposed", "amount": 27800}
+    ],
+    "total_holding": 118536741,
+    "percentage": 14.647
+  },
+  {
+    "company": "SKP RESOURCES BHD",
+    "stock_name": "SKPRES",
+    "announced_date": "13 May 2026",
+    "change_date": "08 May 2026",
+    "transactions": [
+      {"type": "Disposed", "amount": 1762000}
+    ],
+    "total_holding": 197701350,
+    "percentage": 12.654
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "name": "employees-provident-fund-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JK0611/Employees-Provident-Fund-Portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JK0611/Employees-Provident-Fund-Portfolio/issues"
+  },
+  "homepage": "https://github.com/JK0611/Employees-Provident-Fund-Portfolio#readme",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "cheerio": "^1.2.0",
+    "crawlee": "^3.16.0",
+    "playwright": "^1.60.0"
+  }
+}
