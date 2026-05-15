@@ -1,115 +1,170 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const { PlaywrightCrawler, Dataset } = require('crawlee');
 const fs = require('fs');
 
-const BASE_URL = 'https://www.bursamalaysia.com';
-const API_URL = `${BASE_URL}/market_information/announcements/company_announcement/data`;
-const MAIN_PAGE = `${BASE_URL}/bm/market_information/announcements/company_announcement`;
+async function run() {
+    console.log('--- Starting Robust Scrape (First 5 Links) ---');
+    
+    const crawler = new PlaywrightCrawler({
+        launchContext: {
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            launchOptions: {
+                headless: true,
+                args: [
+                    '--disable-blink-features=AutomationControlled',
+                ],
+            },
+        },
+        maxRequestsPerCrawl: 20, 
+        requestHandler: async ({ page, request, log, crawler }) => {
+            log.info(`Processing ${request.url}...`);
 
-const HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'application/json, text/javascript, */*; q=0.01',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'X-Requested-With': 'XMLHttpRequest',
-    'Referer': MAIN_PAGE
-};
+            if (request.label === 'LIST') {
+                try {
+                    await page.goto(request.url, { waitUntil: 'load', timeout: 60000 });
+                } catch (e) {
+                    log.error(`Navigation failed: ${e.message}`);
+                }
 
-async function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+                // Wait for the table to load
+                try {
+                    await page.waitForSelector('#announcement_table tbody tr', { timeout: 30000 });
+                } catch (e) {
+                    log.error('Table not found.');
+                    return;
+                }
+                
+                // Extract first 5 links
+                const links = await page.$$eval('#announcement_table tbody tr', (rows) => {
+                    return rows.slice(0, 5).map(row => {
+                        const link = row.querySelector('td:nth-child(4) a');
+                        return link ? link.href : null;
+                    }).filter(l => l !== null);
+                });
 
-async function scrapeFirstPage() {
-    console.log('--- Step 1: Baking Session ---');
-    let cookies = '';
-    try {
-        const landing = await axios.get(MAIN_PAGE, { headers: { 'User-Agent': HEADERS['User-Agent'] } });
-        cookies = landing.headers['set-cookie'] ? landing.headers['set-cookie'].map(c => c.split(';')[0]).join('; ') : '';
-        console.log('Session baked.');
-    } catch (err) {
-        console.error('Failed to bake session:', err.message);
-    }
+                log.info(`Found ${links.length} links. Adding to queue...`);
+                await crawler.addRequests(links.map(url => ({ url, label: 'DETAIL' })));
+            } else if (request.label === 'DETAIL') {
+                // ... same as before but maybe with a delay
+                await new Promise(r => setTimeout(r, Math.random() * 2000 + 1000));
+                // Handle Iframe
+                const iframeSelector = await page.evaluate(() => {
+                    if (document.querySelector('#story_iframe')) return '#story_iframe';
+                    if (document.querySelector('#announcement_details')) return '#announcement_details';
+                    return null;
+                });
 
-    console.log('\n--- Step 2: Fetching Page 1 Links ---');
-    const params = new URLSearchParams({
-        per_page: 50,
-        page: 1,
-        keyword: 'Employees Provident Fund',
-        from_date: '01/01/2026',
-        to_date: '13/05/2026'
+                if (!iframeSelector) {
+                    log.error('Could not find iframe for details');
+                    return;
+                }
+
+                log.info(`Switching to iframe: ${iframeSelector}`);
+                const iframeElement = await page.waitForSelector(iframeSelector);
+                const frame = await iframeElement.contentFrame();
+                
+                if (!frame) {
+                    log.error('Could not access iframe content frame');
+                    return;
+                }
+
+                await frame.waitForSelector('table', { timeout: 20000 });
+
+                // Extract structured data
+                const data = await frame.evaluate(() => {
+                    const findTdByText = (text) => {
+                        return Array.from(document.querySelectorAll('td'))
+                            .find(td => td.innerText.trim().includes(text));
+                    };
+
+                    const getValueNextTo = (text) => {
+                        const td = findTdByText(text);
+                        return td ? td.nextElementSibling?.innerText.trim() : '';
+                    };
+
+                    const companyRaw = document.querySelector('.company-name')?.innerText.trim() || 
+                                     document.querySelector('h3')?.innerText.trim() || '';
+                    
+                    const stockNameMatch = companyRaw.match(/\(([^)]+)\)/);
+                    const stockName = stockNameMatch ? stockNameMatch[1] : '';
+                    const companyName = companyRaw.split('(')[0].trim();
+                    
+                    const announcedDate = getValueNextTo('Date Announced') || getValueNextTo('Announcement Date');
+
+                    // Transactions table
+                    const transTable = Array.from(document.querySelectorAll('table'))
+                        .find(t => t.innerText.includes('Details of changes'));
+                    
+                    const transactions = [];
+                    let changeDate = '';
+                    
+                    if (transTable) {
+                        const rows = Array.from(transTable.querySelectorAll('tr'));
+                        // Find the header row to know columns
+                        const headerIdx = rows.findIndex(r => r.innerText.includes('Date of change'));
+                        if (headerIdx !== -1) {
+                            const dataRows = rows.slice(headerIdx + 1);
+                            dataRows.forEach(row => {
+                                const cells = row.querySelectorAll('td');
+                                if (cells.length >= 4) {
+                                    const date = cells[1]?.innerText.trim();
+                                    const amount = cells[2]?.innerText.replace(/,/g, '').trim();
+                                    const type = cells[3]?.innerText.trim();
+                                    
+                                    if (date && date !== 'No' && !date.includes('Date')) {
+                                        changeDate = date;
+                                        if (type && amount) {
+                                            transactions.push({ 
+                                                type, 
+                                                amount: parseInt(amount, 10) || 0 
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    const totalHoldingStr = getValueNextTo('Total no of securities after change');
+                    const totalHolding = parseInt(totalHoldingStr.replace(/,/g, ''), 10) || 0;
+
+                    const percentageStr = getValueNextTo('Direct (%)');
+                    const percentage = parseFloat(percentageStr.replace(/%/g, '')) || 0;
+
+                    return {
+                        company: companyName,
+                        stock_name: stockName,
+                        announced_date: announcedDate,
+                        change_date: changeDate,
+                        transactions,
+                        total_holding: totalHolding,
+                        percentage
+                    };
+                });
+
+                await Dataset.pushData({
+                    url: request.url,
+                    ...data
+                });
+            }
+        },
     });
 
-    try {
-        const response = await axios.get(`${API_URL}?${params.toString()}`, {
-            headers: { ...HEADERS, Cookie: cookies }
-        });
+    const startUrl = 'https://www.bursamalaysia.com/market_information/announcements/company_announcements?keyword=Employees+Provident+Fund&from_date=01/01/2026&to_date=13/05/2026';
 
-        const data = response.data;
-        if (!data || !data.data) {
-            console.error('No data found in API response.');
-            return;
-        }
-
-        const entries = data.data;
-        console.log(`Found ${entries.length} entries on Page 1.`);
-
-        const results = [];
-
-        console.log('\n--- Step 3: Scraping Details (First 5 for test) ---');
-        // Limiting to 5 for a quick check as requested
-        for (let i = 0; i < 5; i++) {
-            const entry = entries[i];
-            const htmlString = entry.title; // The title field in the API usually contains the link HTML
-            const $ = cheerio.load(htmlString);
-            const linkPath = $('a').attr('href');
-            const title = $('a').text().trim();
-            const company = entry.company_name || 'N/A';
-            const date = entry.announcement_date || 'N/A';
-
-            if (!linkPath) {
-                console.log(`Skipping entry ${i+1}: No link found.`);
-                continue;
-            }
-
-            const fullLink = linkPath.startsWith('http') ? linkPath : `${BASE_URL}${linkPath}`;
-            console.log(`[${i+1}/5] Scraping: ${title} (${company})`);
-
-            try {
-                const detailResp = await axios.get(fullLink, {
-                    headers: { ...HEADERS, Cookie: cookies }
-                });
-                const $detail = cheerio.load(detailResp.data);
-
-                // Basic extraction of "Details of changes" table
-                const details = {};
-                $detail('table.table-striped tr').each((_, row) => {
-                    const key = $detail(row).find('td').eq(0).text().trim();
-                    const value = $detail(row).find('td').eq(1).text().trim();
-                    if (key && value) details[key] = value;
-                });
-
-                results.push({
-                    title,
-                    company,
-                    date,
-                    url: fullLink,
-                    details
-                });
-
-                // Randomized human-like delay
-                const wait = Math.floor(Math.random() * 3000) + 2000;
-                await sleep(wait);
-            } catch (err) {
-                console.error(`Failed to scrape ${fullLink}:`, err.message);
-            }
-        }
-
-        fs.writeFileSync('scrape_test_results.json', JSON.stringify(results, null, 2));
-        console.log('\n--- Done! ---');
-        console.log('Results saved to scrape_test_results.json');
-
-    } catch (err) {
-        console.error('API request failed:', err.message);
-    }
+    await crawler.run([{ url: startUrl, label: 'LIST' }]);
+    
+    const dataset = await Dataset.open();
+    const { items } = await dataset.getData();
+    
+    const outputPath = 'scrape_test_results.json';
+    fs.writeFileSync(outputPath, JSON.stringify(items, null, 2));
+    
+    console.log(`\n--- Done! ---`);
+    console.log(`Successfully scraped ${items.length} announcements.`);
+    console.log(`Results saved to ${outputPath}`);
 }
 
-scrapeFirstPage();
+run().catch(err => {
+    console.error('Fatal error during scrape:', err);
+});
+

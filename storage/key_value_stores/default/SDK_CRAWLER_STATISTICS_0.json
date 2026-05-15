@@ -1,0 +1,62 @@
+{
+  "requestsFinished": 0,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 0,
+  "requestMinDurationMillis": null,
+  "requestMaxDurationMillis": 0,
+  "requestTotalFailedDurationMillis": 365,
+  "requestTotalFinishedDurationMillis": 0,
+  "crawlerStartedAt": "2026-05-14T17:46:03.083Z",
+  "crawlerFinishedAt": "2026-05-14T17:48:10.941Z",
+  "statsPersistedAt": "2026-05-14T17:48:10.941Z",
+  "crawlerRuntimeMillis": 128006,
+  "crawlerLastStartTimestamp": 1778780762935,
+  "requestRetryHistogram": [
+    null,
+    null,
+    null,
+    1
+  ],
+  "statsId": 0,
+  "requestAvgFailedDurationMillis": 365,
+  "requestAvgFinishedDurationMillis": null,
+  "requestTotalDurationMillis": 365,
+  "requestsTotal": 1,
+  "requestsWithStatusCode": {
+    "403": 2,
+    "404": 2
+  },
+  "errors": {
+    "C:\\Users\\jklaw\\Desktop\\UTAR\\Vibe Coding\\Employees-Provident-Fund-Portfolio\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:913:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "C:\\Users\\jklaw\\Desktop\\UTAR\\Vibe Coding\\Employees-Provident-Fund-Portfolio\\node_modules\\@apify\\timeout\\cjs\\index.cjs:64:68": {
+      "missing error code": {
+        "Error": {
+          "requestHandler timed out after 60 seconds.": {
+            "count": 2
+          }
+        }
+      }
+    },
+    "C:\\Users\\jklaw\\Desktop\\UTAR\\Vibe Coding\\Employees-Provident-Fund-Portfolio\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:913:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
+}

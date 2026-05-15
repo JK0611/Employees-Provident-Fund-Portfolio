@@ -1,0 +1,250 @@
+{
+  "usableSessionsCount": 4,
+  "retiredSessionsCount": 2,
+  "sessions": [
+    {
+      "id": "session_ijImL8twQc",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:36:05.139Z",
+      "createdAt": "2026-05-14T17:46:05.139Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_ueLrxPZ0lp",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "_locomotiveapp_session",
+            "value": "T2YrNW01VHVtdXoxdkpIMEx2VThBNjY1a1MxMnl6bDRlOGhWR05wWHVpOE80N014VWhuSFVJcTNzOWxoNEVTRlAzdE1hM3JUSXJQSXFZRUI3U1JZSFNTOWp3TldvTmpZT1ZwS0wzaDVLbHlGWnpZSkRYbWhQZjEvejVhTkpmRE5RTWlyNEQrWGYzQkhwVXVuZnEzb2pBPT0tLWIvVFh1U25Qa0xwMTNtMVZkS2t5YVE9PQ%3D%3D--03bd8b3d7774d42a3491c4d8849aba3b2b00e756",
+            "expires": "2026-05-14T18:36:06.735Z",
+            "domain": "www.bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": true,
+            "creation": "2026-05-14T17:46:06.737Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          },
+          {
+            "key": "_cfuvid",
+            "value": "PVHMTUkuVMPBvktkZs63zhPnYicWmZ2Mf0EklcEaGkM-1778780761.3407671-1.0.1.1-ExPohUQVCsrG3ObwSAyWVPe0m9vk98OA3s3Lg1z42gk",
+            "expires": "2026-05-14T18:36:06.735Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2026-05-14T17:46:06.737Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          },
+          {
+            "key": "NPS_91b5b7fb_last_seen",
+            "value": "1778780766122",
+            "expires": "2026-08-12T17:46:06.000Z",
+            "domain": "www.bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-05-14T17:46:06.741Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          },
+          {
+            "key": "_ga",
+            "value": "GA1.1.1048047882.1778780766",
+            "expires": "2027-06-18T17:46:06.227Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2026-05-14T17:46:06.741Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          },
+          {
+            "key": "cf_clearance",
+            "value": "FKXUFW9.gBeVHwMWyR6bzXq9PNCxDmMHzKLLyUismOY-1778780762-1.2.1.1-P0Ahz1Aqhf4hwcUAjzWLfiKDoYyptJbEKk5tRpe7y1uw_YISFDKQtazCDPJzkfgAdUDrMFJjaLHGZKRCOUGArccfCoazQGEz.UQAAbJRuOmZnyQthAcwIX3lr5_d_NQOuQSSGtUCHTdd4ExsdZLW6F3.1L4PvPsiEaG.a_3kKg5IHUy4L9N9oIwyJmEa.mJrdSU9wP.OuinnJRItao36ipb3Dx61maHUANJuxAa4kcqiYWIqXd2SQ_CHE2CkcJp2U.qYZn7hq3Lhw.QkKa9HCubfqwqj6SLEgRYUnjWncm2PgN9PVNLGonYW2uJ6lO5nJUEhWOFjQhAspvqPZyXPZg",
+            "expires": "2027-05-14T17:46:06.645Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2026-05-14T17:46:06.742Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          },
+          {
+            "key": "_ga_3NMNNC625P",
+            "value": "GS2.1.s1778780766$o1$g1$t1778780766$j60$l0$h0",
+            "expires": "2027-06-18T17:46:06.646Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2026-05-14T17:46:06.742Z",
+            "lastAccessed": "2026-05-14T17:47:07.013Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:36:05.143Z",
+      "createdAt": "2026-05-14T17:46:05.143Z",
+      "usageCount": 4,
+      "maxUsageCount": 50,
+      "errorScore": 8
+    },
+    {
+      "id": "session_YdT5WQToh0",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:37:06.809Z",
+      "createdAt": "2026-05-14T17:47:06.809Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_kl2dYOPDPT",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:37:07.352Z",
+      "createdAt": "2026-05-14T17:47:07.352Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_WeTUCUT67F",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "_cfuvid",
+            "value": "wdlSU10d4ucpNtDcU3XR0SQbpp4YEzeiKhIIwi1Uyjk-1778780823.6824055-1.0.1.1-WkjvDPxC8M1itX9PNOtr0.IDbKWWWXK8EYQKtZZE1i4",
+            "expires": "2026-05-14T18:37:09.302Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2026-05-14T17:47:09.303Z",
+            "lastAccessed": "2026-05-14T17:48:09.440Z"
+          },
+          {
+            "key": "NPS_91b5b7fb_last_seen",
+            "value": "1778780828697",
+            "expires": "2026-08-12T17:47:08.000Z",
+            "domain": "www.bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-05-14T17:47:09.303Z",
+            "lastAccessed": "2026-05-14T17:48:09.440Z"
+          },
+          {
+            "key": "_ga",
+            "value": "GA1.1.1832027266.1778780829",
+            "expires": "2027-06-18T17:47:08.836Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2026-05-14T17:47:09.303Z",
+            "lastAccessed": "2026-05-14T17:48:09.440Z"
+          },
+          {
+            "key": "_ga_3NMNNC625P",
+            "value": "GS2.1.s1778780828$o1$g1$t1778780828$j60$l0$h0",
+            "expires": "2027-06-18T17:47:08.850Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "hostOnly": false,
+            "creation": "2026-05-14T17:47:09.303Z",
+            "lastAccessed": "2026-05-14T17:48:09.440Z"
+          },
+          {
+            "key": "cf_clearance",
+            "value": "yTljXDxm6EsjvRLpHl8.4AVPgN6p.OYq0p4ZGwrcxro-1778780824-1.2.1.1-z5B4aWwiTtNVdXrlFdekza6OCWv6QpOp7XCaxAMkqO1kPn0HjkHYLvrXx3ZIv7c_yMoZIZRKRxTEIvjq90PRHQ80xZ0F9jozeelb_pH0sNO0WO_5kSgV.FJPa2ss__sq9WUqCN3MoRV2KlVuZY_QXijId_wFdtTmBoMqDGtCVoYEvTRdpJ.92nhecZmK7CMLEkxUoA5jMZ5jY2WgUD67i7xe2Sp0p7GZiISu4MKL0u5OOx3jPMwvjhXT6b2dVvmGDSu__z9MAYk3zhu6OZPOof6B9MYzDQYqRm02VoQEz6LsnKuUxk0CtHO_I4mKvphxn8hdvyqgzCsC0gfdBiqPMg",
+            "expires": "2027-05-14T17:47:09.261Z",
+            "domain": "bursamalaysia.com",
+            "path": "/",
+            "secure": true,
+            "httpOnly": true,
+            "hostOnly": false,
+            "creation": "2026-05-14T17:47:09.303Z",
+            "lastAccessed": "2026-05-14T17:48:09.440Z"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:37:07.355Z",
+      "createdAt": "2026-05-14T17:47:07.355Z",
+      "usageCount": 4,
+      "maxUsageCount": 50,
+      "errorScore": 8
+    },
+    {
+      "id": "session_WHrsoARKy8",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.1",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-05-14T18:38:09.353Z",
+      "createdAt": "2026-05-14T17:48:09.353Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    }
+  ]
+}
