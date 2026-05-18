@@ -141,11 +141,72 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // Compute portfolio totals
 const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
 
+// Pre-calculate portfolio percentage for each holding
+EPF_DATA.holdings.forEach(h => {
+  h.percent_portfolio = (h.total_securities / totalSecurities) * 100;
+  h.percent_company = h.direct_percent; // alias for sorting
+  h.shares = h.total_securities; // alias for sorting
+});
+
+// Setup sector filter
+const sectors = [...new Set(EPF_DATA.holdings.map(h => h.sector))].sort();
+const sectorFilter = document.getElementById('holdings-sector-filter');
+if (sectorFilter) {
+  sectors.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    sectorFilter.appendChild(opt);
+  });
+  sectorFilter.addEventListener('change', renderHoldingsTable);
+}
+
+// Setup sorting
+let holdingsSortCol = null;
+let holdingsSortAsc = true;
+
+document.querySelectorAll('#holdings-table th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.sort;
+    if (holdingsSortCol === col) {
+      holdingsSortAsc = !holdingsSortAsc; // Toggle direction
+    } else {
+      holdingsSortCol = col;
+      holdingsSortAsc = true; // Default to ascending on first click
+    }
+    
+    // Update UI headers
+    document.querySelectorAll('#holdings-table th.sortable').forEach(h => {
+      h.classList.remove('active', 'desc');
+    });
+    
+    if (holdingsSortAsc) {
+      th.classList.add('active');
+    }
+    
+    renderHoldingsTable();
+  });
+});
+
 function renderHoldingsTable() {
   const tbody = document.getElementById('holdings-tbody');
-  document.getElementById('holdings-count').textContent = EPF_DATA.holdings.length;
+  
+  // 1. Filter
+  const filterVal = sectorFilter ? sectorFilter.value : 'all';
+  let data = EPF_DATA.holdings.filter(h => filterVal === 'all' || h.sector === filterVal);
+  
+  // 2. Sort
+  if (holdingsSortCol) {
+    data.sort((a, b) => {
+      const valA = a[holdingsSortCol] || 0;
+      const valB = b[holdingsSortCol] || 0;
+      return holdingsSortAsc ? valA - valB : valB - valA;
+    });
+  }
 
-  tbody.innerHTML = EPF_DATA.holdings.map((h, i) => {
+  document.getElementById('holdings-count').textContent = data.length;
+
+  tbody.innerHTML = data.map((h, i) => {
     const pctPortfolio = ((h.total_securities / totalSecurities) * 100).toFixed(2);
     const logoUrl = getLogoUrl(h.company_name);
     return `<tr>
@@ -165,8 +226,8 @@ function renderHoldingsTable() {
       <td>${h.company_name}</td>
       <td>${h.sector}</td>
       <td class="align-right">${h.total_securities.toLocaleString()}</td>
-      <td class="align-right">${h.direct_percent}%</td>
-      <td class="align-right">${pctPortfolio}%</td>
+      <td class="align-right">${h.direct_percent.toFixed(3)}%</td>
+      <td class="align-right">${h.percent_portfolio.toFixed(3)}%</td>
     </tr>`;
   }).join('');
 }
@@ -203,6 +264,8 @@ function getPortfolioTimeSeries(range) {
   });
 }
 
+let lineChartAnimId = null;
+
 function drawLineChart(canvasId, data, color = '#8b5cf6') {
   const canvas = document.getElementById(canvasId);
   const ctx = canvas.getContext('2d');
@@ -234,84 +297,159 @@ function drawLineChart(canvasId, data, color = '#8b5cf6') {
   const maxV = Math.max(...values);
   const range = maxV - minV || 1;
 
-  // Y-axis labels
-  ctx.fillStyle = '#555570';
-  ctx.font = '10px Inter, sans-serif';
-  ctx.textAlign = 'right';
-  for (let i = 0; i <= 4; i++) {
-    const val = minV + (range * i / 4);
-    const y = pad.top + plotH - (plotH * i / 4);
-    ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-    // Grid line
-    ctx.strokeStyle = 'rgba(37, 37, 58, 0.5)';
-    ctx.lineWidth = 1;
+  if (lineChartAnimId) cancelAnimationFrame(lineChartAnimId);
+
+  let startTime = null;
+  const DURATION = 1000; // 1 second animation
+
+  function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / DURATION, 1);
+    
+    // Easing function (easeOutQuart)
+    const easeProgress = 1 - Math.pow(1 - progress, 4);
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Y-axis labels
+    ctx.fillStyle = '#555570';
+    ctx.font = '10px Inter, sans-serif';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 4; i++) {
+      const val = minV + (range * i / 4);
+      const y = pad.top + plotH - (plotH * i / 4);
+      ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
+      // Grid line
+      ctx.strokeStyle = 'rgba(37, 37, 58, 0.5)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(w - pad.right, y);
+      ctx.stroke();
+    }
+
+    // X-axis labels
+    ctx.fillStyle = '#555570';
+    ctx.textAlign = 'center';
+    const labelStep = Math.max(1, Math.floor(data.length / 6));
+    for (let i = 0; i < data.length; i += labelStep) {
+      const x = pad.left + (plotW * i / (data.length - 1));
+      const parts = data[i].label.split(' ');
+      ctx.fillText(`${parts[0]} ${parts[1]}`, x, h - 5);
+    }
+
+    // Gradient fill
+    const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
+    gradient.addColorStop(0, color + '30');
+    gradient.addColorStop(1, color + '00');
+
+    // Calculate how many points to draw based on progress
+    const maxDrawIndex = (data.length - 1) * easeProgress;
+    
+    // Fill area
+    const fillPath = new Path2D();
+    data.forEach((d, i) => {
+      if (i > Math.ceil(maxDrawIndex)) return;
+      
+      let x = pad.left + (plotW * i / (data.length - 1));
+      let y = pad.top + plotH - ((d.value - minV) / range * plotH);
+      
+      // Interpolate the last point for smooth animation
+      if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
+        const prev = data[i-1];
+        const prevX = pad.left + (plotW * (i-1) / (data.length - 1));
+        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+        const fraction = maxDrawIndex % 1;
+        x = prevX + (x - prevX) * fraction;
+        y = prevY + (y - prevY) * fraction;
+      }
+      
+      if (i === 0) fillPath.moveTo(x, y);
+      else fillPath.lineTo(x, y);
+    });
+    
+    // Complete the fill path down to the x-axis
+    const lastDrawnIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
+    let finalX = pad.left + (plotW * lastDrawnIdx / (data.length - 1));
+    if (maxDrawIndex % 1 !== 0 && lastDrawnIdx > 0) {
+        const prev = data[lastDrawnIdx-1];
+        const prevX = pad.left + (plotW * (lastDrawnIdx-1) / (data.length - 1));
+        const fraction = maxDrawIndex % 1;
+        finalX = prevX + (finalX - prevX) * fraction;
+    }
+    
+    fillPath.lineTo(finalX, pad.top + plotH);
+    fillPath.lineTo(pad.left, pad.top + plotH);
+    fillPath.closePath();
+    
+    ctx.save();
+    ctx.fillStyle = gradient;
+    ctx.fill(fillPath);
+    ctx.restore();
+
+    // Stroke line
     ctx.beginPath();
-    ctx.moveTo(pad.left, y);
-    ctx.lineTo(w - pad.right, y);
+    data.forEach((d, i) => {
+      if (i > Math.ceil(maxDrawIndex)) return;
+      
+      let x = pad.left + (plotW * i / (data.length - 1));
+      let y = pad.top + plotH - ((d.value - minV) / range * plotH);
+      
+      if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
+        const prev = data[i-1];
+        const prevX = pad.left + (plotW * (i-1) / (data.length - 1));
+        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+        const fraction = maxDrawIndex % 1;
+        x = prevX + (x - prevX) * fraction;
+        y = prevY + (y - prevY) * fraction;
+      }
+      
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
     ctx.stroke();
+
+    // Dots on the moving end point
+    if (easeProgress > 0) {
+        const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
+        let currX = pad.left + (plotW * lastIdx / (data.length - 1));
+        let currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
+        
+        if (maxDrawIndex % 1 !== 0 && lastIdx > 0) {
+            const prev = data[lastIdx-1];
+            const prevX = pad.left + (plotW * (lastIdx-1) / (data.length - 1));
+            const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+            const fraction = maxDrawIndex % 1;
+            currX = prevX + (currX - prevX) * fraction;
+            currY = prevY + (currY - prevY) * fraction;
+        }
+
+        ctx.beginPath();
+        ctx.arc(currX, currY, 4, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(currX, currY, 8, 0, Math.PI * 2);
+        ctx.fillStyle = color + '30';
+        ctx.fill();
+    }
+
+    if (progress < 1) {
+      lineChartAnimId = requestAnimationFrame(animate);
+    } else {
+      // Animation complete, save state for hover interactions
+      lineChartMeta = { data, pad, plotW, plotH, minV, range, rect };
+      if (window._lineSaveCanvas) window._lineSaveCanvas();
+    }
   }
 
-  // X-axis labels (sample a few)
-  ctx.textAlign = 'center';
-  const labelStep = Math.max(1, Math.floor(data.length / 6));
-  for (let i = 0; i < data.length; i += labelStep) {
-    const x = pad.left + (plotW * i / (data.length - 1));
-    const parts = data[i].label.split(' ');
-    ctx.fillText(`${parts[0]} ${parts[1]}`, x, h - 5);
-  }
-
-  // Gradient fill
-  const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
-  gradient.addColorStop(0, color + '30');
-  gradient.addColorStop(1, color + '00');
-
-  // Line + fill path
-  ctx.beginPath();
-  data.forEach((d, i) => {
-    const x = pad.left + (plotW * i / (data.length - 1));
-    const y = pad.top + plotH - ((d.value - minV) / range * plotH);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  });
-
-  // Fill area
-  const fillPath = new Path2D();
-  data.forEach((d, i) => {
-    const x = pad.left + (plotW * i / (data.length - 1));
-    const y = pad.top + plotH - ((d.value - minV) / range * plotH);
-    if (i === 0) fillPath.moveTo(x, y);
-    else fillPath.lineTo(x, y);
-  });
-  fillPath.lineTo(pad.left + plotW, pad.top + plotH);
-  fillPath.lineTo(pad.left, pad.top + plotH);
-  fillPath.closePath();
-  ctx.save();
-  ctx.fillStyle = gradient;
-  ctx.fill(fillPath);
-  ctx.restore();
-
-  // Stroke line
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
-  ctx.lineJoin = 'round';
-  ctx.stroke();
-
-  // Dots on last point
-  const lastX = pad.left + plotW;
-  const lastY = pad.top + plotH - ((data[data.length - 1].value - minV) / range * plotH);
-  ctx.beginPath();
-  ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(lastX, lastY, 8, 0, Math.PI * 2);
-  ctx.fillStyle = color + '30';
-  ctx.fill();
-
-  // Store metadata for hover
-  lineChartMeta = { data, pad, plotW, plotH, minV, range, rect };
-  // Save canvas bitmap for hover overlay
-  if (window._lineSaveCanvas) window._lineSaveCanvas();
+  // Start animation
+  lineChartAnimId = requestAnimationFrame(animate);
 }
 
 // ============================================
@@ -352,6 +490,7 @@ function getPieData(mode) {
 }
 
 let currentPieModeForDraw = 'company';
+let pieChartAnimId = null;
 function drawPieChart(canvasId, data, mode) {
   currentPieModeForDraw = mode || 'company';
   const canvas = document.getElementById(canvasId);
@@ -372,45 +511,74 @@ function drawPieChart(canvasId, data, mode) {
   const innerRadius = radius * 0.45;
   const total = data.reduce((s, d) => s + d.value, 0);
 
-  ctx.clearRect(0, 0, size, size);
+  if (pieChartAnimId) cancelAnimationFrame(pieChartAnimId);
 
-  let startAngle = -Math.PI / 2;
-  data.forEach(d => {
-    const sliceAngle = (d.value / total) * 2 * Math.PI;
+  let startTime = null;
+  const DURATION = 1000; // 1 second animation
+
+  function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / DURATION, 1);
+    
+    // Easing function (easeOutCubic)
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
+    const maxRevealAngle = -Math.PI / 2 + (Math.PI * 2 * easeProgress);
+
+    ctx.clearRect(0, 0, size, size);
+
+    let startAngle = -Math.PI / 2;
+    data.forEach(d => {
+      if (startAngle >= maxRevealAngle) return; // Beyond current animation progress
+
+      const sliceAngle = (d.value / total) * 2 * Math.PI;
+      const trueEndAngle = startAngle + sliceAngle;
+      const endAngle = Math.min(trueEndAngle, maxRevealAngle);
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = d.color;
+      ctx.fill();
+
+      // Slight gap
+      ctx.strokeStyle = '#16161f';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      startAngle = trueEndAngle;
+    });
+
+    // Inner circle (donut)
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, startAngle, startAngle + sliceAngle);
-    ctx.closePath();
-    ctx.fillStyle = d.color;
+    ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
+    ctx.fillStyle = '#16161f';
     ctx.fill();
 
-    // Slight gap
-    ctx.strokeStyle = '#16161f';
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    // Center text - fade in
+    ctx.globalAlpha = easeProgress;
+    ctx.fillStyle = '#eaeaf0';
+    ctx.font = '600 15px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const totalItems = mode === 'sector'
+      ? Object.keys(Object.fromEntries(EPF_DATA.holdings.map(h => [h.sector, 1]))).length
+      : EPF_DATA.holdings.length;
+    // +1 to cy helps perfectly center Inter font visually
+    ctx.fillText(totalItems + (mode === 'sector' ? ' sectors' : ' stocks'), cx, cy + 1);
+    ctx.globalAlpha = 1.0;
 
-    startAngle += sliceAngle;
-  });
+    if (progress < 1) {
+      pieChartAnimId = requestAnimationFrame(animate);
+    } else {
+      // Store metadata for hover
+      pieChartMeta = { data, cx, cy, radius, innerRadius, total };
+    }
+  }
 
-  // Inner circle (donut)
-  ctx.beginPath();
-  ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
-  ctx.fillStyle = '#16161f';
-  ctx.fill();
-
-  // Center text
-  ctx.fillStyle = '#eaeaf0';
-  ctx.font = '600 15px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const totalItems = mode === 'sector'
-    ? Object.keys(Object.fromEntries(EPF_DATA.holdings.map(h => [h.sector, 1]))).length
-    : EPF_DATA.holdings.length;
-  // +1 to cy helps perfectly center Inter font visually
-  ctx.fillText(totalItems + (mode === 'sector' ? ' sectors' : ' stocks'), cx, cy + 1);
-
-  // Store metadata for hover
-  pieChartMeta = { data, cx, cy, radius, innerRadius, total };
+  // Start animation
+  pieChartAnimId = requestAnimationFrame(animate);
 }
 
 function renderPieLegend(data) {
@@ -596,10 +764,61 @@ const allFlatTx = flattenTransactions();
 function filterTransactions() {
   const typeFilter = document.getElementById('tx-filter-type').value;
   const search = document.getElementById('tx-search').value.toLowerCase().trim();
+  
+  const dateStart = document.getElementById('tx-date-start').value;
+  const dateEnd = document.getElementById('tx-date-end').value;
+  const amountMin = document.getElementById('tx-amount-min').value;
+  const amountMax = document.getElementById('tx-amount-max').value;
+  const pctMin = document.getElementById('tx-percent-min').value;
+  const pctMax = document.getElementById('tx-percent-max').value;
+
+  // Highlight active filters
+  const toggleHeader = (id, isActive) => {
+    const popup = document.getElementById(id);
+    if (popup) {
+      const th = popup.closest('th');
+      if (th) {
+        if (isActive) th.classList.add('filter-active');
+        else th.classList.remove('filter-active');
+      }
+    }
+  };
+  
+  toggleHeader('date-popup', dateStart || dateEnd);
+  toggleHeader('type-popup', typeFilter !== 'all');
+  toggleHeader('amount-popup', amountMin !== '' || amountMax !== '');
+  toggleHeader('pct-popup', pctMin !== '' || pctMax !== '');
+
+  // Sync min/max bounds for the date pickers
+  document.getElementById('tx-date-end').min = dateStart;
+  document.getElementById('tx-date-start').max = dateEnd;
+
+  let startT = -Infinity;
+  if (dateStart) {
+    const [y, m, d] = dateStart.split('-');
+    startT = new Date(y, m - 1, d).getTime();
+  }
+  
+  let endT = Infinity;
+  if (dateEnd) {
+    const [y, m, d] = dateEnd.split('-');
+    endT = new Date(y, m - 1, d).getTime() + 86400000; // +1 day for inclusive end
+  }
 
   filteredTx = allFlatTx.filter(tx => {
     if (typeFilter !== 'all' && tx.type !== typeFilter) return false;
     if (search && !tx.company.toLowerCase().includes(search) && !tx.stock.toLowerCase().includes(search)) return false;
+    
+    // tx.date is like "07 May 2026", new Date() parses it in local time midnight
+    const tTime = new Date(tx.date).getTime();
+    if (tTime < startT || tTime >= endT) return false;
+
+    if (amountMin !== '' && tx.amount < parseFloat(amountMin)) return false;
+    if (amountMax !== '' && tx.amount > parseFloat(amountMax)) return false;
+
+    if (pctMin !== '' && tx.percent < parseFloat(pctMin)) return false;
+    if (pctMax !== '' && tx.percent > parseFloat(pctMax)) return false;
+
     return true;
   });
 
@@ -977,6 +1196,12 @@ document.getElementById('returns-toggle').addEventListener('click', (e) => {
 // Transaction filters
 document.getElementById('tx-filter-type').addEventListener('change', filterTransactions);
 document.getElementById('tx-search').addEventListener('input', filterTransactions);
+document.getElementById('tx-date-start').addEventListener('change', filterTransactions);
+document.getElementById('tx-date-end').addEventListener('change', filterTransactions);
+document.getElementById('tx-amount-min').addEventListener('input', filterTransactions);
+document.getElementById('tx-amount-max').addEventListener('input', filterTransactions);
+document.getElementById('tx-percent-min').addEventListener('input', filterTransactions);
+document.getElementById('tx-percent-max').addEventListener('input', filterTransactions);
 
 // Initial render
 function init() {
@@ -1007,6 +1232,36 @@ function init() {
   setupPieChartHover();
   setupBarChartHover();
 }
+
+// ============================================
+// Filter Popups Logic
+// ============================================
+window.togglePopup = function(event, element, popupId) {
+  event.stopPropagation();
+  const popup = document.getElementById(popupId);
+  const isShowing = popup.classList.contains('show');
+  
+  // Close all other popups
+  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
+  
+  if (!isShowing) {
+    popup.classList.add('show');
+    // Set active state on the icon for styling
+    document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
+    element.classList.add('active');
+  } else {
+    element.classList.remove('active');
+  }
+};
+
+document.addEventListener('click', (event) => {
+  // If click is inside a popup, do nothing
+  if (event.target.closest('.filter-popup')) return;
+  
+  // Otherwise close all popups and remove active state from icons
+  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
+});
 
 // Handle resize
 let resizeTimeout;

@@ -187,8 +187,8 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* ============================================
@@ -383,8 +383,38 @@ body {
   margin-left: auto;
 }
 
+.table-filter.multi-row-filter {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(25, 25, 38, 0.4);
+  padding: 0.2rem;
+  border-radius: var(--radius-xs);
+}
+
+.filter-group label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+}
+
+.filter-group span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
 .table-filter select,
-.table-filter input {
+.table-filter input,
+.filter-popup select,
+.filter-popup input {
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: var(--radius-xs);
@@ -394,15 +424,23 @@ body {
   color: var(--text-primary);
   outline: none;
   transition: border-color var(--transition);
+  color-scheme: dark; /* Fixes white icons/spinners in dark theme */
 }
 
 .table-filter select:focus,
-.table-filter input:focus {
+.table-filter input:focus,
+.filter-popup select:focus,
+.filter-popup input:focus {
   border-color: var(--accent);
 }
 
 .table-filter input::placeholder {
   color: var(--text-muted);
+}
+
+.filter-popup input::placeholder {
+  color: var(--text-primary);
+  opacity: 0.8;
 }
 
 .table-wrapper {
@@ -424,6 +462,127 @@ thead th {
   letter-spacing: 0.05em;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
+}
+
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition);
+}
+
+th.sortable:hover {
+  color: var(--text-primary);
+}
+
+.sort-icon {
+  display: inline-block;
+  margin-left: 4px;
+  vertical-align: middle;
+  font-size: 1.1em;
+  opacity: 0.4;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.sort-icon path {
+  transition: fill 0.2s ease;
+}
+
+th.sortable.active {
+  color: var(--accent);
+}
+
+th.sortable.active .sort-icon {
+  opacity: 1;
+  transform: scale(1.3);
+}
+th.sortable.active .sort-icon path {
+  fill: currentColor;
+}
+
+th.has-filter {
+  padding: 0 !important;
+}
+
+.th-content {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition);
+}
+
+th.align-right .th-content {
+  justify-content: flex-end;
+}
+
+th.has-filter:hover .th-content {
+  color: var(--text-primary);
+}
+
+th.filter-active .th-content {
+  color: var(--accent);
+}
+
+.col-filter-icon {
+  display: inline-block;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  cursor: pointer;
+  opacity: 0.5;
+  font-size: 1.3em;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.col-filter-icon:hover, .col-filter-icon.active, th.filter-active .col-filter-icon {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.filter-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  min-width: 150px;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.filter-popup.show {
+  display: flex;
+}
+
+th.align-right .filter-popup {
+  left: auto;
+  right: 0;
+}
+
+.filter-popup input, .filter-popup select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-popup label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
 }
 
 tbody tr {
@@ -680,7 +839,7 @@ tbody td:first-child {
 .chart-tooltip .tt-negative { color: var(--red); }
 
 /* ============================================
-   Responsive
+   Responsive Layout & Mobile UX Optimizations
    ============================================ */
 @media (max-width: 900px) {
   .charts-row {
@@ -696,7 +855,8 @@ tbody td:first-child {
     width: 100%;
   }
 
-  .table-filter input {
+  .table-filter input, .table-filter select {
+    width: 100%;
     flex: 1;
   }
 }
@@ -706,8 +866,92 @@ tbody td:first-child {
     padding: 0 1rem;
   }
 
+  .tab-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    gap: 0.5rem;
+  }
+
   .tab-btn {
     padding: 0.75rem 1rem;
     font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* Morph Filter Popups into iOS-Style Bottom Sheets */
+  .filter-popup {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid var(--border-light) !important;
+    border-bottom: none !important;
+    padding: 1.5rem 1.25rem 2.25rem 1.25rem !important;
+    gap: 0.75rem !important;
+    display: none;
+    z-index: 9999 !important;
+    background: var(--bg-card) !important;
+  }
+
+  /* Drawer Drag Handle Notch */
+  .filter-popup::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 0 auto 0.75rem auto;
+  }
+
+  .filter-popup.show {
+    display: flex !important;
+    animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
   }
 }
+
+@media (max-width: 480px) {
+  /* Dynamic Toggle Group scaling */
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .chart-toggle-group {
+    width: 100%;
+  }
+
+  .chart-toggle {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.5rem;
+  }
+
+  /* 2x2 Grid for summary returns cards */
+  .summary-cards {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .summary-card {
+    padding: 1rem 0.75rem !important;
+  }
+
+  .summary-card-value {
+    font-size: 1.15rem !important;
+  }
+}
+
