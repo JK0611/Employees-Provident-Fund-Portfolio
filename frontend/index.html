@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EPFTracker - Employees Provident Fund Portfolio Dashboard. Track holdings, returns, and transactions.">
+  <title>EPFTracker — Portfolio Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header id="app-header">
+    <div class="header-inner">
+      <h1 class="logo"><span class="logo-epf">EPF</span><span class="logo-tracker">Tracker</span></h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="app-main">
+    <!-- Page Title -->
+    <div class="page-title-row">
+      <h2 class="page-title">Dashboard</h2>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav id="tab-nav" class="tab-nav">
+      <button class="tab-btn active" data-tab="holdings" id="tab-holdings">Holdings</button>
+      <button class="tab-btn" data-tab="returns" id="tab-returns">Returns</button>
+      <button class="tab-btn" data-tab="transactions" id="tab-transactions">Transactions</button>
+    </nav>
+
+    <!-- Holdings Tab Content -->
+    <section id="panel-holdings" class="tab-panel active">
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <!-- Portfolio Value Chart -->
+        <div class="chart-card" id="portfolio-chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Portfolio Value</h3>
+            <div class="chart-toggle-group" id="time-toggle">
+              <button class="chart-toggle active" data-range="1M">1M</button>
+              <button class="chart-toggle" data-range="3M">3M</button>
+              <button class="chart-toggle" data-range="1Y">1Y</button>
+              <button class="chart-toggle" data-range="ALL">All Time</button>
+            </div>
+          </div>
+          <div class="chart-body">
+            <canvas id="portfolio-canvas"></canvas>
+          </div>
+          <div class="chart-footer">
+            <div class="chart-legend-item">
+              <span class="legend-line"></span>
+              <span class="legend-label">Portfolio Value</span>
+            </div>
+            <div class="chart-value" id="portfolio-value-display">RM 0</div>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart-card" id="pie-chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Allocation</h3>
+            <div class="chart-toggle-group" id="pie-toggle">
+              <button class="chart-toggle active" data-mode="company">By Company</button>
+              <button class="chart-toggle" data-mode="sector">By Sector</button>
+            </div>
+          </div>
+          <div class="chart-body pie-body">
+            <canvas id="pie-canvas"></canvas>
+          </div>
+          <div class="chart-footer" id="pie-legend"></div>
+        </div>
+      </div>
+
+      <!-- Holdings Table -->
+      <div class="table-section">
+        <div class="table-header-row">
+          <h3 class="table-title">Current Holdings</h3>
+          <span class="badge" id="holdings-count">0</span>
+        </div>
+        <div class="table-wrapper">
+          <table id="holdings-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Symbol</th>
+                <th>Company</th>
+                <th>Sector</th>
+                <th class="align-right">No. of Shares Holdings</th>
+                <th class="align-right">Percentage in Company</th>
+                <th class="align-right">Percentage in Portfolio</th>
+              </tr>
+            </thead>
+            <tbody id="holdings-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Returns Tab Content -->
+    <section id="panel-returns" class="tab-panel">
+      <div class="charts-row">
+        <div class="chart-card full-width">
+          <div class="chart-header">
+            <h3 class="chart-title">Net Activity by Date</h3>
+            <div class="chart-toggle-group" id="returns-toggle">
+              <button class="chart-toggle active" data-view="net">Net</button>
+              <button class="chart-toggle" data-view="acquired">Acquired</button>
+              <button class="chart-toggle" data-view="disposed">Disposed</button>
+            </div>
+          </div>
+          <div class="chart-body chart-body-tall">
+            <canvas id="returns-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- Summary Cards -->
+      <div class="summary-cards" id="returns-summary"></div>
+    </section>
+
+    <!-- Transactions Tab Content -->
+    <section id="panel-transactions" class="tab-panel">
+      <div class="table-section">
+        <div class="table-header-row">
+          <h3 class="table-title">All Transactions</h3>
+          <span class="badge" id="tx-count">0</span>
+          <div class="table-filter">
+            <select id="tx-filter-type">
+              <option value="all">All Types</option>
+              <option value="Acquired">Acquired</option>
+              <option value="Disposed">Disposed</option>
+            </select>
+            <input type="text" id="tx-search" placeholder="Search by company..." />
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table id="tx-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Symbol</th>
+                <th>Company</th>
+                <th>Type</th>
+                <th class="align-right">Amount</th>
+                <th class="align-right">% in Company</th>
+                <th class="align-right">Total After Change</th>
+              </tr>
+            </thead>
+            <tbody id="tx-tbody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="tx-pagination"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Tooltip -->
+  <div id="chart-tooltip" class="chart-tooltip"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+{
+  "PETGAS": {
+    "code": "6033",
+    "sector": "Industrial"
+  },
+  "AXIATA": {
+    "code": "6888",
+    "sector": "Telecom"
+  },
+  "SKPRES": {
+    "code": "7155",
+    "sector": "Industrial"
+  },
+  "GAMUDA": {
+    "code": "5398",
+    "sector": "Industrial"
+  },
+  "MAYBANK": {
+    "code": "1155",
+    "sector": "Banking"
+  },
+  "MRDIY": {
+    "code": "5296",
+    "sector": "Consumer"
+  },
+  "CTOS": {
+    "code": "5301",
+    "sector": "Banking"
+  },
+  "HLFG": {
+    "code": "1082",
+    "sector": "Banking"
+  },
+  "ORKIM": {
+    "code": "5348",
+    "sector": "Industrial"
+  },
+  "TIMECOM": {
+    "code": "5031",
+    "sector": "Telecom"
+  },
+  "IHH": {
+    "code": "5225",
+    "sector": "Healthcare"
+  },
+  "PAVREIT": {
+    "code": "5212",
+    "sector": "Property"
+  },
+  "KOSSAN": {
+    "code": "7153",
+    "sector": "Healthcare"
+  },
+  "KLK": {
+    "code": "2445",
+    "sector": "Industrial"
+  },
+  "BAUTO": {
+    "code": "5248",
+    "sector": "Consumer"
+  },
+  "YTLPOWR": {
+    "code": "6742",
+    "sector": "Utilities"
+  },
+  "SUNREIT": {
+    "code": "5176",
+    "sector": "Property"
+  },
+  "DIALOG": {
+    "code": "7277",
+    "sector": "Industrial"
+  },
+  "MALAKOF": {
+    "code": "5264",
+    "sector": "Utilities"
+  },
+  "FFB": {
+    "code": "5306",
+    "sector": "Consumer"
+  },
+  "IOIPG": {
+    "code": "5249",
+    "sector": "Property"
+  },
+  "CDB": {
+    "code": "6947",
+    "sector": "Telecom"
+  },
+  "SUNWAY": {
+    "code": "5263",
+    "sector": "Industrial"
+  },
+  "PCHEM": {
+    "code": "5183",
+    "sector": "Industrial"
+  },
+  "MFCB": {
+    "code": "3069",
+    "sector": "Utilities"
+  },
+  "SIMEPROP": {
+    "code": "5288",
+    "sector": "Property"
+  },
+  "AMBANK": {
+    "code": "1015",
+    "sector": "Banking"
+  },
+  "HLBANK": {
+    "code": "5819",
+    "sector": "Banking"
+  },
+  "KLCC": {
+    "code": "5235SS",
+    "sector": "Property"
+  },
+  "PBBANK": {
+    "code": "1295",
+    "sector": "Banking"
+  },
+  "INARI": {
+    "code": "0166",
+    "sector": "Technology"
+  },
+  "PETDAG": {
+    "code": "5681",
+    "sector": "Industrial"
+  },
+  "PMETAL": {
+    "code": "8869",
+    "sector": "Industrial"
+  },
+  "TENAGA": {
+    "code": "5347",
+    "sector": "Utilities"
+  },
+  "UTDPLT": {
+    "code": "2089",
+    "sector": "Consumer"
+  },
+  "RHBBANK": {
+    "code": "1066",
+    "sector": "Banking"
+  },
+  "MAXIS": {
+    "code": "6012",
+    "sector": "Telecom"
+  },
+  "UOADEV": {
+    "code": "5200",
+    "sector": "Property"
+  },
+  "IGBREIT": {
+    "code": "5227",
+    "sector": "Property"
+  },
+  "IOICORP": {
+    "code": "1961",
+    "sector": "Consumer"
+  },
+  "BIMB": {
+    "code": "5258",
+    "sector": "Banking"
+  },
+  "SCGBHD": {
+    "code": "0225",
+    "sector": "Industrial"
+  },
+  "MISC": {
+    "code": "3816",
+    "sector": "Industrial"
+  },
+  "IJM": {
+    "code": "3336",
+    "sector": "Industrial"
+  },
+  "SCOMNET": {
+    "code": "0001",
+    "sector": "Industrial"
+  },
+  "DRBHCOM": {
+    "code": "1619",
+    "sector": "Consumer"
+  },
+  "PADINI": {
+    "code": "7052",
+    "sector": "Consumer"
+  },
+  "UWC": {
+    "code": "5292",
+    "sector": "Industrial"
+  },
+  "SPSETIA": {
+    "code": "8664PC",
+    "sector": "Property"
+  },
+  "YTL": {
+    "code": "5109",
+    "sector": "Property"
+  },
+  "JPG": {
+    "code": "5323",
+    "sector": "Consumer"
+  },
+  "AXREIT": {
+    "code": "5106",
+    "sector": "Property"
+  },
+  "DAYANG": {
+    "code": "5141",
+    "sector": "Industrial"
+  },
+  "FRONTKN": {
+    "code": "0128",
+    "sector": "Industrial"
+  },
+  "PANAMY": {
+    "code": "3719",
+    "sector": "Consumer"
+  },
+  "ATECH": {
+    "code": "5302",
+    "sector": "Technology"
+  },
+  "WASCO": {
+    "code": "5142",
+    "sector": "Industrial"
+  },
+  "MBSB": {
+    "code": "1171",
+    "sector": "Banking"
+  },
+  "ABMB": {
+    "code": "2488",
+    "sector": "Banking"
+  },
+  "TAKAFUL": {
+    "code": "6139",
+    "sector": "Banking"
+  },
+  "99SMART": {
+    "code": "5326",
+    "sector": "Consumer"
+  },
+  "PLINTAS": {
+    "code": "5320",
+    "sector": "Industrial"
+  },
+  "ECONBHD": {
+    "code": "5253",
+    "sector": "Industrial"
+  },
+  "SUNMED": {
+    "code": "5555",
+    "sector": "Healthcare"
+  },
+  "WPRTS": {
+    "code": "5246",
+    "sector": "Industrial"
+  },
+  "SIME": {
+    "code": "4197",
+    "sector": "Consumer"
+  },
+  "TM": {
+    "code": "4863",
+    "sector": "Telecom"
+  },
+  "CLMT": {
+    "code": "5180",
+    "sector": "Property"
+  },
+  "ALLIANZ": {
+    "code": "1163",
+    "sector": "Banking"
+  },
+  "D&O": {
+    "code": "7204",
+    "sector": "Technology"
+  },
+  "CIMB": {
+    "code": "1023",
+    "sector": "Banking"
+  },
+  "SDG": {
+    "code": "5285",
+    "sector": "Consumer"
+  },
+  "E&O": {
+    "code": "3417",
+    "sector": "Property"
+  },
+  "F&N": {
+    "code": "3689",
+    "sector": "Consumer"
+  },
+  "GENP": {
+    "code": "2291",
+    "sector": "Consumer"
+  },
+  "SAM": {
+    "code": "9822",
+    "sector": "Industrial"
+  },
+  "AME": {
+    "code": "5293",
+    "sector": "Industrial"
+  }
+}

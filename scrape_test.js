@@ -1,146 +1,179 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
+const path = require('path');
 
 puppeteer.use(StealthPlugin());
 
 const KEYWORD = 'Employees Provident Fund';
 const FROM_DATE = '01/01/2026';
 const TO_DATE = '14/05/2026';
-const MAX_DETAIL_LINKS = 5;
+const LINKS_FILE = path.join(__dirname, 'links.json');
+const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
 
 async function run() {
     console.log('--- Starting EPF Announcement Scrape ---');
     console.log(`Keyword: ${KEYWORD}`);
-    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}`);
-    console.log(`Max Links: ${MAX_DETAIL_LINKS}\n`);
+    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}\n`);
+    
+    // Load existing results for checkpointing
+    let existingResults = [];
+    if (fs.existsSync(RESULTS_FILE)) {
+        try {
+            existingResults = JSON.parse(fs.readFileSync(RESULTS_FILE, 'utf-8'));
+            console.log(`[i] Loaded ${existingResults.length} existing records from ${RESULTS_FILE}`);
+        } catch (e) {
+            console.log('[!] Error parsing existing results, starting fresh.');
+        }
+    }
+    const scrapedIds = new Set(existingResults.map(r => {
+        const match = r.url.match(/ann_id=(\d+)/);
+        return match ? match[1] : null;
+    }).filter(Boolean));
 
     const browser = await puppeteer.launch({
         headless: 'new',
         executablePath: require('playwright').chromium.executablePath(),
-        args: [
-            '--disable-blink-features=AutomationControlled',
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-        ],
     });
 
-    try {
+    let links = [];
+
+    // ==========================================
+    // Phase 1: Pagination & Link Collection
+    // ==========================================
+    if (fs.existsSync(LINKS_FILE)) {
+        try {
+            links = JSON.parse(fs.readFileSync(LINKS_FILE, 'utf-8'));
+            console.log(`[i] Loaded ${links.length} total links from ${LINKS_FILE}`);
+        } catch(e) {}
+    }
+
+    if (links.length === 0) {
+        console.log('\n--- Phase 1: Collecting Links ---');
         const page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
-        await page.setViewport({ width: 1440, height: 900 });
 
-        // ==========================================
-        // Step 1: Navigate to announcements page
-        // ==========================================
         console.log('[1] Navigating to Bursa Malaysia announcements page...');
-        await page.goto('https://www.bursamalaysia.com/market_information/announcements/company_announcement', {
-            waitUntil: 'domcontentloaded',
-            timeout: 60000,
-        });
+        await page.goto('https://www.bursamalaysia.com/market_information/announcements/company_announcement', { waitUntil: 'domcontentloaded', timeout: 60000 });
 
-        // Wait for Cloudflare challenge to resolve (if present)
         const title = await page.title();
-        if (title.includes('Just a moment') || title.includes('Cloudflare')) {
-            console.log('[!] Cloudflare challenge detected — waiting for it to auto-resolve...');
-            await page.waitForFunction(
-                () => !document.title.includes('Just a moment'),
-                { timeout: 30000 }
-            );
-            console.log('[✓] Cloudflare challenge passed!');
+        if (title.includes('Just a moment') || title.includes('Attention Required')) {
+            console.log('  [!] Cloudflare challenge — waiting...');
+            await page.waitForFunction(() => !document.title.includes('Just a moment') && !document.title.includes('Attention Required'), { timeout: 60000 });
         }
 
-        // ==========================================
-        // Step 2: Fill keyword
-        // ==========================================
-        await page.waitForSelector('#keyword', { timeout: 15000 });
-        console.log('[2] Filling keyword: "' + KEYWORD + '"');
-        await page.type('#keyword', KEYWORD, { delay: 50 });
+        await page.waitForSelector('#keyword', { timeout: 30000 });
+        console.log('[2] Filling keyword...');
+        await page.type('#keyword', KEYWORD);
 
-        // ==========================================
-        // Step 3: Set date range
-        // ==========================================
         console.log('[3] Setting date range...');
-        // Clear and type from date
-        await page.click('#inDate', { clickCount: 3 });
-        await page.type('#inDate', FROM_DATE, { delay: 30 });
-        await page.keyboard.press('Escape');
-        await new Promise(r => setTimeout(r, 500));
+        await page.evaluate(({ from, to }) => {
+            if (window.$ || window.jQuery) {
+                const jq = window.$ || window.jQuery;
+                jq('#inDate').val(from).trigger('change');
+                jq('#inDateTo').val(to).trigger('change');
+            }
+        }, { from: FROM_DATE, to: TO_DATE });
 
-        // Clear and type to date
-        await page.click('#inDateTo', { clickCount: 3 });
-        await page.type('#inDateTo', TO_DATE, { delay: 30 });
-        await page.keyboard.press('Escape');
-        await new Promise(r => setTimeout(r, 500));
-
-        // ==========================================
-        // Step 4: Click Search
-        // ==========================================
         console.log('[4] Clicking Search...');
         await page.click('.form-submit-btn');
+        await new Promise(r => setTimeout(r, 5000));
+        await page.waitForSelector('#table-announcements', { timeout: 30000 });
 
-        // Wait for results table
-        await new Promise(r => setTimeout(r, 3000));
-        await page.waitForSelector('#announcement_table tbody tr', { timeout: 30000 });
-        console.log('[✓] Results table loaded!');
+        console.log('[5] Extracting links across all pages...');
+        let hasNextPage = true;
+        let pageNum = 1;
 
-        // ==========================================
-        // Step 5: Extract first N detail links
-        // ==========================================
-        const links = await page.$$eval('#announcement_table tbody tr', (rows, max) => {
-            return rows.slice(0, max).map(row => {
-                const titleCell = row.querySelector('td:nth-child(4)');
-                const link = titleCell ? titleCell.querySelector('a') : null;
-                return link ? link.href : null;
-            }).filter(Boolean);
-        }, MAX_DETAIL_LINKS);
+        while (hasNextPage) {
+            console.log(`    Scraping page ${pageNum}...`);
+            await page.waitForNetworkIdle({ timeout: 5000 }).catch(() => {});
+            
+            const newLinks = await page.evaluate(() => {
+                const anchors = Array.from(document.querySelectorAll('#table-announcements tbody tr a'));
+                return anchors.map(a => a.href).filter(h => h && h.includes('announcement_details'));
+            });
+            
+            // Deduplicate
+            for (const link of newLinks) {
+                if (!links.includes(link)) {
+                    links.push(link);
+                }
+            }
 
-        console.log(`[5] Found ${links.length} detail links:`);
-        links.forEach((url, i) => console.log(`    [${i + 1}] ${url}`));
+            // Check if there's a next page
+            const nextBtn = await page.$('.paginate_button.next:not(.disabled)');
+            if (nextBtn) {
+                await nextBtn.click();
+                await new Promise(r => setTimeout(r, 2000)); // wait for table reload
+                pageNum++;
+            } else {
+                hasNextPage = false;
+            }
+        }
+        
+        fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
+        console.log(`[✓] Saved ${links.length} unique links to ${LINKS_FILE}`);
+        await page.close();
+    }
 
-        // ==========================================
-        // Step 6: Scrape each detail page
-        // ==========================================
-        const results = [];
+    // ==========================================
+    // Phase 2: Detail Scraping with Checkpointing
+    // ==========================================
+    console.log('\n--- Phase 2: Scraping Details ---');
+    const detailPage = await browser.newPage();
+    
+    // Speed optimization: Block images, fonts, css, media
+    await detailPage.setRequestInterception(true);
+    detailPage.on('request', (req) => {
+        const type = req.resourceType();
+        if (['image', 'stylesheet', 'font', 'media'].includes(type)) {
+            req.abort();
+        } else {
+            req.continue();
+        }
+    });
 
-        for (let i = 0; i < links.length; i++) {
-            const url = links[i];
-            console.log(`\n[6.${i + 1}] Scraping: ${url}`);
+    for (let i = 0; i < links.length; i++) {
+        const url = links[i];
+        const match = url.match(/ann_id=(\d+)/);
+        const annId = match ? match[1] : null;
 
-            // Random delay to be polite
-            await new Promise(r => setTimeout(r, Math.random() * 2000 + 1000));
+        if (annId && scrapedIds.has(annId)) {
+            console.log(`[${i + 1}/${links.length}] Skipping (already scraped): ${url}`);
+            continue;
+        }
 
-            await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        console.log(`\n[${i + 1}/${links.length}] Scraping: ${url}`);
 
-            // Handle Cloudflare again if needed
-            const detailTitle = await page.title();
+        // Random delay to be polite to the server
+        await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
+
+        try {
+            await detailPage.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+
+            // Handle Cloudflare on detail page
+            const detailTitle = await detailPage.title();
             if (detailTitle.includes('Just a moment')) {
                 console.log('  [!] Cloudflare challenge — waiting...');
-                await page.waitForFunction(
+                await detailPage.waitForFunction(
                     () => !document.title.includes('Just a moment'),
                     { timeout: 30000 }
                 );
             }
 
-            await page.waitForNetworkIdle({ timeout: 15000 }).catch(() => {});
-
-            // Find the iframe containing the announcement details
+            // Find iframe containing the data
             let frame = null;
-
-            // Try to find by frame URL pattern first
-            for (const f of page.frames()) {
+            for (const f of detailPage.frames()) {
                 if (f.url().includes('disclosure.bursamalaysia.com')) {
                     frame = f;
                     break;
                 }
             }
 
-            // Fallback: try iframe element selectors
             if (!frame) {
                 const selectors = ['#story_iframe', '#announcement_details', '#announcement_iframe', 'iframe'];
                 for (const sel of selectors) {
                     try {
-                        const el = await page.waitForSelector(sel, { timeout: 10000 });
+                        const el = await detailPage.waitForSelector(sel, { timeout: 5000 });
                         if (el) {
                             frame = await el.contentFrame();
                             if (frame) break;
@@ -154,52 +187,37 @@ async function run() {
                 continue;
             }
 
-            // Wait for content inside the frame
             try {
-                await frame.waitForSelector('table', { timeout: 20000 });
+                await frame.waitForSelector('table', { timeout: 15000 });
             } catch (e) {
                 console.log('  [✗] No tables found in frame — skipping');
                 continue;
             }
 
-            // Extract structured data
+            // Extract data from iframe
             const data = await frame.evaluate(() => {
-                const findTdByText = (text) => {
-                    return Array.from(document.querySelectorAll('td'))
-                        .find(td => td.innerText.trim().includes(text));
-                };
-
                 const getValueNextTo = (text) => {
-                    const td = findTdByText(text);
+                    let td = Array.from(document.querySelectorAll('td')).find(el => el.innerText.trim() === text);
+                    if (!td) {
+                        td = Array.from(document.querySelectorAll('td')).find(el => el.innerText.trim().includes(text));
+                    }
                     return td ? (td.nextElementSibling?.innerText.trim() || '') : '';
                 };
 
-                // Company Name & Stock Name
-                const companyRaw = document.querySelector('.company-name')?.innerText.trim()
-                    || document.querySelector('h3')?.innerText.trim()
-                    || '';
-                const stockNameMatch = companyRaw.match(/\(([^)]+)\)/);
-                const stockName = stockNameMatch ? stockNameMatch[1] : '';
-                const companyName = companyRaw.split('(')[0].trim();
-
-                // Date Announced
-                const dateAnnounced = getValueNextTo('Date Announced')
-                    || getValueNextTo('Announcement Date')
-                    || '';
-
-                // Transactions (type + no of securities)
-                const transTable = Array.from(document.querySelectorAll('table'))
-                    .find(t => t.innerText.includes('Details of changes'));
+                const companyName = getValueNextTo('Company Name') || document.querySelector('h3')?.innerText.trim() || '';
+                const stockName = getValueNextTo('Stock Name') || '';
+                const dateAnnounced = getValueNextTo('Date Announced') || getValueNextTo('Announcement Date') || '';
 
                 const transactions = [];
-                if (transTable) {
+                const transTables = Array.from(document.querySelectorAll('.ven_table'));
+                transTables.forEach(transTable => {
                     const rows = Array.from(transTable.querySelectorAll('tr'));
                     const headerIdx = rows.findIndex(r => r.innerText.includes('Date of change'));
                     if (headerIdx !== -1) {
                         const dataRows = rows.slice(headerIdx + 1);
                         dataRows.forEach(row => {
                             const cells = row.querySelectorAll('td');
-                            if (cells.length >= 4) {
+                            if (cells.length === 5) {
                                 const type = cells[3]?.innerText.trim();
                                 const noOfSecurities = cells[2]?.innerText.replace(/,/g, '').trim();
                                 if (type && noOfSecurities && !type.includes('Date') && noOfSecurities !== '') {
@@ -211,13 +229,11 @@ async function run() {
                             }
                         });
                     }
-                }
+                });
 
-                // Direct (%)
                 const directPercentStr = getValueNextTo('Direct (%)');
                 const directPercent = parseFloat(directPercentStr.replace(/%/g, '')) || 0;
 
-                // Total no of securities after change
                 const totalSecuritiesStr = getValueNextTo('Total no of securities after change');
                 const totalSecurities = parseInt(totalSecuritiesStr.replace(/,/g, ''), 10) || 0;
 
@@ -225,30 +241,28 @@ async function run() {
                     company_name: companyName,
                     stock_name: stockName,
                     date_announced: dateAnnounced,
-                    transactions,
+                    transactions: transactions,
                     direct_percent: directPercent,
-                    total_securities_after_change: totalSecurities,
+                    total_securities_after_change: totalSecurities
                 };
             });
 
+            const resultObj = { url, ...data };
             console.log(`  [✓] ${data.company_name} (${data.stock_name}) — ${data.transactions.length} transaction(s)`);
-            results.push({ url, ...data });
+
+            existingResults.push(resultObj);
+            
+            // Checkpoint: Write to file instantly
+            fs.writeFileSync(RESULTS_FILE, JSON.stringify(existingResults, null, 2));
+
+        } catch (e) {
+            console.log(`  [✗] Error scraping detail page: ${e.message}`);
         }
-
-        // Save results
-        const outputPath = 'scrape_test_results.json';
-        fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
-
-        console.log(`\n--- Done! ---`);
-        console.log(`Successfully scraped ${results.length} announcements.`);
-        console.log(`Results saved to ${outputPath}`);
-
-    } finally {
-        await browser.close();
     }
+
+    console.log('\n--- Done! ---');
+    console.log(`Total scraped: ${existingResults.length}`);
+    await browser.close();
 }
 
-run().catch(err => {
-    console.error('Fatal error:', err);
-    process.exit(1);
-});
+run();

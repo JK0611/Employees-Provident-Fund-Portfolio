@@ -1,0 +1,713 @@
+/* ============================================
+   EPFTracker — Design System & Styles
+   ============================================ */
+
+:root {
+  /* Colors */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #16161f;
+  --bg-card-hover: #1c1c28;
+  --bg-input: #1a1a26;
+  --border: #25253a;
+  --border-light: #2a2a42;
+
+  /* Text */
+  --text-primary: #eaeaf0;
+  --text-secondary: #8888a0;
+  --text-muted: #555570;
+  --text-accent: #a78bfa;
+
+  /* Accent */
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --accent-glow: rgba(139, 92, 246, 0.15);
+  --accent-subtle: rgba(139, 92, 246, 0.08);
+
+  /* Semantic */
+  --green: #22c55e;
+  --green-bg: rgba(34, 197, 94, 0.08);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.08);
+  --amber: #f59e0b;
+
+  /* Chart palette */
+  --chart-1: #8b5cf6;
+  --chart-2: #06b6d4;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #22c55e;
+  --chart-6: #ec4899;
+  --chart-7: #14b8a6;
+  --chart-8: #f97316;
+  --chart-9: #6366f1;
+  --chart-10: #84cc16;
+
+  /* Spacing */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+
+  /* Transitions */
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+#app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.logo-epf {
+  color: var(--accent);
+}
+
+.logo-tracker {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   Main Layout
+   ============================================ */
+#app-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-title-row {
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   Tab Navigation
+   ============================================ */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: color var(--transition);
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background var(--transition);
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+}
+
+.tab-btn.active::after {
+  background: var(--accent);
+}
+
+/* ============================================
+   Tab Panels
+   ============================================ */
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   Charts Row
+   ============================================ */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.chart-card:hover {
+  border-color: var(--border-light);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.chart-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.chart-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Toggle Group */
+.chart-toggle-group {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-input);
+  border-radius: var(--radius-xs);
+  padding: 3px;
+}
+
+.chart-toggle {
+  background: transparent;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.chart-toggle:hover {
+  color: var(--text-primary);
+}
+
+.chart-toggle.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Chart Body */
+.chart-body {
+  height: 220px;
+  position: relative;
+}
+
+.chart-body-tall {
+  height: 320px;
+}
+
+.pie-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-body canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.pie-body canvas {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Chart Footer */
+.chart-footer {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.legend-line {
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+.chart-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Pie Legend */
+#pie-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1;
+}
+
+.pie-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   Table Section
+   ============================================ */
+.table-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.table-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.table-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+}
+
+.table-filter {
+  display: flex;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.table-filter select,
+.table-filter input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 0.5rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.table-filter select:focus,
+.table-filter input:focus {
+  border-color: var(--accent);
+}
+
+.table-filter input::placeholder {
+  color: var(--text-muted);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(37, 37, 58, 0.5);
+  transition: background var(--transition);
+}
+
+tbody tr:hover {
+  background: var(--accent-subtle);
+}
+
+tbody td {
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+tbody td:first-child {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+/* Stock Symbol */
+.stock-symbol {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.stock-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.stock-icon-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.stock-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Transaction Type */
+.tx-type {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.tx-type.acquired {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.tx-type.disposed {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.tx-type.transferred {
+  background: rgba(14, 165, 233, 0.08);
+  color: #0ea5e9;
+}
+
+.tx-type.others {
+  background: rgba(245, 158, 11, 0.08);
+  color: #f59e0b;
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 1.5rem;
+}
+
+.page-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 0.4rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.page-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.page-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Summary Cards (Returns Tab)
+   ============================================ */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.summary-card:hover {
+  border-color: var(--border-light);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.summary-card-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.summary-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.summary-card-value.positive {
+  color: var(--green);
+}
+
+.summary-card-value.negative {
+  color: var(--red);
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* ============================================
+   Chart Tooltip
+   ============================================ */
+.chart-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(22, 22, 31, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  max-width: 280px;
+  white-space: nowrap;
+}
+
+.chart-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chart-tooltip .tt-label {
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.chart-tooltip .tt-value {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.chart-tooltip .tt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-tooltip .tt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-tooltip .tt-positive { color: var(--green); }
+.chart-tooltip .tt-negative { color: var(--red); }
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 900px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+
+  #app-main {
+    padding: 1rem;
+  }
+
+  .table-filter {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .table-filter input {
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 0 1rem;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+}
