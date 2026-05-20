@@ -6,16 +6,18 @@ const path = require('path');
 puppeteer.use(StealthPlugin());
 
 const KEYWORD = 'Employees Provident Fund';
-const FROM_DATE = '01/01/2026';
-const TO_DATE = '14/05/2026';
 const LINKS_FILE = path.join(__dirname, 'links.json');
 const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
 
+const getFormattedDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
 async function run() {
-    console.log('--- Starting EPF Announcement Scrape ---');
-    console.log(`Keyword: ${KEYWORD}`);
-    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}\n`);
-    
     // Load existing results for checkpointing
     let existingResults = [];
     if (fs.existsSync(RESULTS_FILE)) {
@@ -30,6 +32,22 @@ async function run() {
         const match = r.url.match(/ann_id=(\d+)/);
         return match ? match[1] : null;
     }).filter(Boolean));
+
+    // Dynamic Date Calculation:
+    // If we have previous results, look back 7 days to check for new announcements.
+    // Otherwise, perform a full backfill from 01/01/2026.
+    const TO_DATE = getFormattedDate(new Date());
+    const FROM_DATE = existingResults.length > 0
+        ? (() => {
+            const d = new Date();
+            d.setDate(d.getDate() - 7);
+            return getFormattedDate(d);
+          })()
+        : '01/01/2026';
+
+    console.log('--- Starting EPF Announcement Scrape ---');
+    console.log(`Keyword: ${KEYWORD}`);
+    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}\n`);
 
     const browser = await puppeteer.launch({
         headless: 'new',
@@ -48,72 +66,71 @@ async function run() {
         } catch(e) {}
     }
 
-    if (links.length === 0) {
-        console.log('\n--- Phase 1: Collecting Links ---');
-        const page = await browser.newPage();
+    console.log('\n--- Phase 1: Collecting Links ---');
+    const page = await browser.newPage();
 
-        console.log('[1] Navigating to Bursa Malaysia announcements page...');
-        await page.goto('https://www.bursamalaysia.com/market_information/announcements/company_announcement', { waitUntil: 'domcontentloaded', timeout: 60000 });
+    console.log('[1] Navigating to Bursa Malaysia announcements page...');
+    await page.goto('https://www.bursamalaysia.com/market_information/announcements/company_announcement', { waitUntil: 'domcontentloaded', timeout: 60000 });
 
-        const title = await page.title();
-        if (title.includes('Just a moment') || title.includes('Attention Required')) {
-            console.log('  [!] Cloudflare challenge — waiting...');
-            await page.waitForFunction(() => !document.title.includes('Just a moment') && !document.title.includes('Attention Required'), { timeout: 60000 });
-        }
-
-        await page.waitForSelector('#keyword', { timeout: 30000 });
-        console.log('[2] Filling keyword...');
-        await page.type('#keyword', KEYWORD);
-
-        console.log('[3] Setting date range...');
-        await page.evaluate(({ from, to }) => {
-            if (window.$ || window.jQuery) {
-                const jq = window.$ || window.jQuery;
-                jq('#inDate').val(from).trigger('change');
-                jq('#inDateTo').val(to).trigger('change');
-            }
-        }, { from: FROM_DATE, to: TO_DATE });
-
-        console.log('[4] Clicking Search...');
-        await page.click('.form-submit-btn');
-        await new Promise(r => setTimeout(r, 5000));
-        await page.waitForSelector('#table-announcements', { timeout: 30000 });
-
-        console.log('[5] Extracting links across all pages...');
-        let hasNextPage = true;
-        let pageNum = 1;
-
-        while (hasNextPage) {
-            console.log(`    Scraping page ${pageNum}...`);
-            await page.waitForNetworkIdle({ timeout: 5000 }).catch(() => {});
-            
-            const newLinks = await page.evaluate(() => {
-                const anchors = Array.from(document.querySelectorAll('#table-announcements tbody tr a'));
-                return anchors.map(a => a.href).filter(h => h && h.includes('announcement_details'));
-            });
-            
-            // Deduplicate
-            for (const link of newLinks) {
-                if (!links.includes(link)) {
-                    links.push(link);
-                }
-            }
-
-            // Check if there's a next page
-            const nextBtn = await page.$('.paginate_button.next:not(.disabled)');
-            if (nextBtn) {
-                await nextBtn.click();
-                await new Promise(r => setTimeout(r, 2000)); // wait for table reload
-                pageNum++;
-            } else {
-                hasNextPage = false;
-            }
-        }
-        
-        fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
-        console.log(`[✓] Saved ${links.length} unique links to ${LINKS_FILE}`);
-        await page.close();
+    const title = await page.title();
+    if (title.includes('Just a moment') || title.includes('Attention Required')) {
+        console.log('  [!] Cloudflare challenge — waiting...');
+        await page.waitForFunction(() => !document.title.includes('Just a moment') && !document.title.includes('Attention Required'), { timeout: 60000 });
     }
+
+    await page.waitForSelector('#keyword', { timeout: 30000 });
+    console.log('[2] Filling keyword...');
+    await page.type('#keyword', KEYWORD);
+
+    console.log('[3] Setting date range...');
+    await page.evaluate(({ from, to }) => {
+        if (window.$ || window.jQuery) {
+            const jq = window.$ || window.jQuery;
+            jq('#inDate').val(from).trigger('change');
+            jq('#inDateTo').val(to).trigger('change');
+        }
+    }, { from: FROM_DATE, to: TO_DATE });
+
+    console.log('[4] Clicking Search...');
+    await page.click('.form-submit-btn');
+    await new Promise(r => setTimeout(r, 5000));
+    await page.waitForSelector('#table-announcements', { timeout: 30000 });
+
+    console.log('[5] Extracting links across all pages...');
+    let hasNextPage = true;
+    let pageNum = 1;
+
+    while (hasNextPage) {
+        console.log(`    Scraping page ${pageNum}...`);
+        await page.waitForNetworkIdle({ timeout: 5000 }).catch(() => {});
+        
+        const newLinks = await page.evaluate(() => {
+            const anchors = Array.from(document.querySelectorAll('#table-announcements tbody tr a'));
+            return anchors.map(a => a.href).filter(h => h && h.includes('announcement_details'));
+        });
+        
+        // Deduplicate
+        for (const link of newLinks) {
+            if (!links.includes(link)) {
+                links.push(link);
+            }
+        }
+
+        // Check if there's a next page
+        const nextBtn = await page.$('.paginate_button.next:not(.disabled)');
+        if (nextBtn) {
+            await nextBtn.click();
+            await new Promise(r => setTimeout(r, 2000)); // wait for table reload
+            pageNum++;
+        } else {
+            hasNextPage = false;
+        }
+    }
+    
+    fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
+    console.log(`[✓] Saved ${links.length} unique links to ${LINKS_FILE}`);
+    await page.close();
+
 
     // ==========================================
     // Phase 2: Detail Scraping with Checkpointing
