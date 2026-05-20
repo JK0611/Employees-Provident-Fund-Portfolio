@@ -52,6 +52,7 @@ async function run() {
     const browser = await puppeteer.launch({
         headless: 'new',
         executablePath: require('playwright').chromium.executablePath(),
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
     let links = [];
