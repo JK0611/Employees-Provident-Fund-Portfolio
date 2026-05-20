@@ -747,6 +747,7 @@ function flattenTransactions() {
         date: tx.date,
         stock: tx.stock,
         company: tx.company,
+        url: tx.url,
         type: t.type,
         amount: t.amount,
         percent: tx.percent,
@@ -836,7 +837,9 @@ function renderTransactionsTable() {
   tbody.innerHTML = pageData.map((tx, i) => `
     <tr>
       <td>${start + i + 1}</td>
-      <td>${tx.date}</td>
+      <td>
+        ${tx.url ? `<a href="${tx.url}" target="_blank" class="tx-date-link">${tx.date}</a>` : tx.date}
+      </td>
       <td>
         <div class="stock-symbol">
           <div class="stock-icon" style="background:${stockColor(tx.stock)}">${tx.stock.slice(0, 2)}</div>
@@ -1252,6 +1255,27 @@ window.togglePopup = function(event, element, popupId) {
   } else {
     element.classList.remove('active');
   }
+};
+
+window.clearFilter = function(type) {
+  if (type === 'date') {
+    document.getElementById('tx-date-start').value = '';
+    document.getElementById('tx-date-end').value = '';
+  } else if (type === 'type') {
+    document.getElementById('tx-filter-type').value = 'all';
+  } else if (type === 'amount') {
+    document.getElementById('tx-amount-min').value = '';
+    document.getElementById('tx-amount-max').value = '';
+  } else if (type === 'pct') {
+    document.getElementById('tx-percent-min').value = '';
+    document.getElementById('tx-percent-max').value = '';
+  }
+  
+  // Close all popups and remove active state from icons
+  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
+  
+  filterTransactions();
 };
 
 document.addEventListener('click', (event) => {

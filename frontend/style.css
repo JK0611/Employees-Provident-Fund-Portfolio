@@ -997,3 +997,42 @@ tbody td:first-child {
     font-size: 1.15rem !important;
   }
 }
+
+/* ============================================
+   Filter Clear Button & Interactive Date Links
+   ============================================ */
+.clear-filter-btn {
+  background: var(--border);
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  padding: 0.4rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  width: 100%;
+  transition: all var(--transition);
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.clear-filter-btn:hover {
+  background: var(--red-bg);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--red);
+}
+
+.tx-date-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(136, 136, 160, 0.4);
+  transition: all var(--transition);
+  display: inline-block;
+}
+
+.tx-date-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-glow);
+}

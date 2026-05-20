@@ -158,6 +158,7 @@ async function processData() {
         stock,
         company: item.company_name,
         date,
+        url: item.url,
         transactions: validTransactions,
         percent: directPercent,
         total: totalSecurities

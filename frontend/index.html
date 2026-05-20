@@ -150,6 +150,7 @@
                       <input type="date" id="tx-date-start" />
                       <label>To</label>
                       <input type="date" id="tx-date-end" />
+                      <button class="clear-filter-btn" onclick="clearFilter('date')">Clear</button>
                     </div>
                   </div>
                 </th>
@@ -165,6 +166,7 @@
                         <option value="Acquired">Acquired</option>
                         <option value="Disposed">Disposed</option>
                       </select>
+                      <button class="clear-filter-btn" onclick="clearFilter('type')">Clear</button>
                     </div>
                   </div>
                 </th>
@@ -175,6 +177,7 @@
                     <div class="filter-popup" id="amount-popup" onclick="event.stopPropagation()">
                       <input type="number" id="tx-amount-min" placeholder="Min" />
                       <input type="number" id="tx-amount-max" placeholder="Max" />
+                      <button class="clear-filter-btn" onclick="clearFilter('amount')">Clear</button>
                     </div>
                   </div>
                 </th>
@@ -185,6 +188,7 @@
                     <div class="filter-popup" id="pct-popup" onclick="event.stopPropagation()">
                       <input type="number" id="tx-percent-min" placeholder="Min %" step="0.01" />
                       <input type="number" id="tx-percent-max" placeholder="Max %" step="0.01" />
+                      <button class="clear-filter-btn" onclick="clearFilter('pct')">Clear</button>
                     </div>
                   </div>
                 </th>
