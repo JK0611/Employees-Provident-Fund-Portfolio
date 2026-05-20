@@ -78888,5 +78888,2603 @@
     ],
     "direct_percent": 17.882,
     "total_securities_after_change": 1123893380
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667422",
+    "company_name": "NESTLE (MALAYSIA) BERHAD",
+    "stock_name": "NESTLE",
+    "date_announced": "20 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Transferred",
+        "no_of_securities": 104226
+      },
+      {
+        "type_of_transaction": "Transferred",
+        "no_of_securities": 104226
+      }
+    ],
+    "direct_percent": 13.547,
+    "total_securities_after_change": 31766800
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667393",
+    "company_name": "SIME DARBY BERHAD",
+    "stock_name": "SIME",
+    "date_announced": "20 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 734000
+      }
+    ],
+    "direct_percent": 14.604,
+    "total_securities_after_change": 1154533060
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667291",
+    "company_name": "KPJ HEALTHCARE BERHAD",
+    "stock_name": "KPJ",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 903500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 35500
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 822517505
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667266",
+    "company_name": "PENTAMASTER CORPORATION BERHAD",
+    "stock_name": "PENTA",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 729200
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1965300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 159800
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 110426950
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667260",
+    "company_name": "MALAYAN BANKING BERHAD",
+    "stock_name": "MAYBANK",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2357700
+      }
+    ],
+    "direct_percent": 12.481,
+    "total_securities_after_change": 1509660497
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667245",
+    "company_name": "IOI PROPERTIES GROUP BERHAD",
+    "stock_name": "IOIPG",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 514500
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 224100
+      }
+    ],
+    "direct_percent": 6.721,
+    "total_securities_after_change": 370071407
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667241",
+    "company_name": "SOUTHERN CABLE GROUP BERHAD",
+    "stock_name": "SCGBHD",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 97400
+      }
+    ],
+    "direct_percent": 8.671,
+    "total_securities_after_change": 98800000
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667240",
+    "company_name": "SIME DARBY PROPERTY BERHAD",
+    "stock_name": "SIMEPROP",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2921000
+      }
+    ],
+    "direct_percent": 12.508,
+    "total_securities_after_change": 1181135400
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667239",
+    "company_name": "SUNWAY BERHAD",
+    "stock_name": "SUNWAY",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 150900
+      }
+    ],
+    "direct_percent": 10.88,
+    "total_securities_after_change": 735704302
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667238",
+    "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+    "stock_name": "SUNMED",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 4892400
+      }
+    ],
+    "direct_percent": 5.22,
+    "total_securities_after_change": 600324644
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667237",
+    "company_name": "PETRONAS GAS BERHAD",
+    "stock_name": "PETGAS",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 500
+      }
+    ],
+    "direct_percent": 13.932,
+    "total_securities_after_change": 275682931
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667232",
+    "company_name": "UWC BERHAD",
+    "stock_name": "UWC",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 410600
+      }
+    ],
+    "direct_percent": 5.73,
+    "total_securities_after_change": 63221732
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667212",
+    "company_name": "RHB BANK BERHAD",
+    "stock_name": "RHBBANK",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 137100
+      }
+    ],
+    "direct_percent": 35.655,
+    "total_securities_after_change": 1555260369
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667210",
+    "company_name": "WESTPORTS HOLDINGS BERHAD",
+    "stock_name": "WPRTS",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 706300
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 720000
+      }
+    ],
+    "direct_percent": 6.612,
+    "total_securities_after_change": 227217463
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667205",
+    "company_name": "AXIS REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "AXREIT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 237200
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 132900
+      }
+    ],
+    "direct_percent": 21.532,
+    "total_securities_after_change": 436009397
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667206",
+    "company_name": "PANASONIC MANUFACTURING MALAYSIA BERHAD",
+    "stock_name": "PANAMY",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 8300
+      }
+    ],
+    "direct_percent": 6.058,
+    "total_securities_after_change": 3679721
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667188",
+    "company_name": "CTOS DIGITAL BERHAD",
+    "stock_name": "CTOS",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 467900
+      }
+    ],
+    "direct_percent": 22.454,
+    "total_securities_after_change": 510844963
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667185",
+    "company_name": "PARADIGM REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PARADIGM",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 118400
+      }
+    ],
+    "direct_percent": 8.512,
+    "total_securities_after_change": 136434000
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667180",
+    "company_name": "IHH HEALTHCARE BERHAD",
+    "stock_name": "IHH",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 266200
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 6500
+      }
+    ],
+    "direct_percent": 13.423,
+    "total_securities_after_change": 1186080200
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667166",
+    "company_name": "KELINGTON GROUP BERHAD",
+    "stock_name": "KGB",
+    "date_announced": "19 May 2026",
+    "transactions": [],
+    "direct_percent": 0,
+    "total_securities_after_change": 0
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667163",
+    "company_name": "KLCC REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "KLCC",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 396900
+      }
+    ],
+    "direct_percent": 11.059,
+    "total_securities_after_change": 199642875
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667162",
+    "company_name": "MISC BERHAD",
+    "stock_name": "MISC",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 973800
+      }
+    ],
+    "direct_percent": 15.118,
+    "total_securities_after_change": 674842303
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667160",
+    "company_name": "KLCC PROPERTY HOLDINGS BERHAD",
+    "stock_name": "KLCC",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 396900
+      }
+    ],
+    "direct_percent": 11.059,
+    "total_securities_after_change": 199642875
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667158",
+    "company_name": "FARM FRESH BERHAD",
+    "stock_name": "FFB",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 295700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 117700
+      }
+    ],
+    "direct_percent": 16.989,
+    "total_securities_after_change": 320147778
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667144",
+    "company_name": "SUNWAY REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "SUNREIT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1681000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2968300
+      }
+    ],
+    "direct_percent": 16.277,
+    "total_securities_after_change": 557466150
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667136",
+    "company_name": "HONG LEONG BANK BERHAD",
+    "stock_name": "HLBANK",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 422500
+      }
+    ],
+    "direct_percent": 9.505,
+    "total_securities_after_change": 198334097
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667137",
+    "company_name": "MR D.I.Y. GROUP (M) BERHAD",
+    "stock_name": "MRDIY",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2888100
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 84500
+      }
+    ],
+    "direct_percent": 11.204,
+    "total_securities_after_change": 1061850975
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667135",
+    "company_name": "DRB-HICOM BERHAD",
+    "stock_name": "DRBHCOM",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2000000
+      }
+    ],
+    "direct_percent": 7.987,
+    "total_securities_after_change": 154402991
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667128",
+    "company_name": "99 SPEED MART RETAIL HOLDINGS BERHAD",
+    "stock_name": "99SMART",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2934800
+      }
+    ],
+    "direct_percent": 7.153,
+    "total_securities_after_change": 600876800
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667125",
+    "company_name": "SUPERCOMNET TECHNOLOGIES BERHAD",
+    "stock_name": "SCOMNET",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 577500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 372300
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 357200
+      }
+    ],
+    "direct_percent": 8.057,
+    "total_securities_after_change": 68373000
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667124",
+    "company_name": "SKP RESOURCES BHD",
+    "stock_name": "SKPRES",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1000000
+      }
+    ],
+    "direct_percent": 12.575,
+    "total_securities_after_change": 196463350
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667121",
+    "company_name": "TENAGA NASIONAL BHD",
+    "stock_name": "TENAGA",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3279200
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 39800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1202300
+      }
+    ],
+    "direct_percent": 24.45,
+    "total_securities_after_change": 1425157845
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667117",
+    "company_name": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
+    "stock_name": "PMETAL",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2241500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 150000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1173400
+      }
+    ],
+    "direct_percent": 8.929,
+    "total_securities_after_change": 735706737
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667114",
+    "company_name": "SD GUTHRIE BERHAD",
+    "stock_name": "SDG",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 540800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 675200
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1731600
+      }
+    ],
+    "direct_percent": 11.397,
+    "total_securities_after_change": 1138150430
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667113",
+    "company_name": "GENTING PLANTATIONS BERHAD",
+    "stock_name": "GENP",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 109700
+      }
+    ],
+    "direct_percent": 15.454,
+    "total_securities_after_change": 138649300
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667101",
+    "company_name": "MEGA FIRST CORPORATION BERHAD",
+    "stock_name": "MFCB",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 500000
+      }
+    ],
+    "direct_percent": 11.569,
+    "total_securities_after_change": 109003940
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667097",
+    "company_name": "CAPITALAND MALAYSIA TRUST",
+    "stock_name": "CLMT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 894200
+      }
+    ],
+    "direct_percent": 17.944,
+    "total_securities_after_change": 603844761
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667087",
+    "company_name": "PAVILION REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PAVREIT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1727300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1076500
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3000000
+      }
+    ],
+    "direct_percent": 13.254,
+    "total_securities_after_change": 520621047
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667080",
+    "company_name": "AEON CO. (M) BHD",
+    "stock_name": "AEON",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 264400
+      }
+    ],
+    "direct_percent": 7.625,
+    "total_securities_after_change": 107049800
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667073",
+    "company_name": "PETRONAS CHEMICALS GROUP BERHAD",
+    "stock_name": "PCHEM",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1230200
+      }
+    ],
+    "direct_percent": 12.825,
+    "total_securities_after_change": 1025980608
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667072",
+    "company_name": "NESTLE (MALAYSIA) BERHAD",
+    "stock_name": "NESTLE",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2800
+      }
+    ],
+    "direct_percent": 13.504,
+    "total_securities_after_change": 31666800
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667067",
+    "company_name": "MALAYSIAN PACIFIC INDUSTRIES BERHAD",
+    "stock_name": "MPI",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 126800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 220000
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 15966118
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667065",
+    "company_name": "AMMB HOLDINGS BERHAD",
+    "stock_name": "AMBANK",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 31000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 700000
+      }
+    ],
+    "direct_percent": 16.905,
+    "total_securities_after_change": 559018161
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667056",
+    "company_name": "IGB REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "IGBREIT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 996100
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2000000
+      }
+    ],
+    "direct_percent": 9.584,
+    "total_securities_after_change": 414878004
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667055",
+    "company_name": "S P SETIA BERHAD",
+    "stock_name": "SPSETIA",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3300000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 589400
+      }
+    ],
+    "direct_percent": 13.513,
+    "total_securities_after_change": 676130224
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667052",
+    "company_name": "PUBLIC BANK BERHAD",
+    "stock_name": "PBBANK",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 12772300
+      }
+    ],
+    "direct_percent": 17.22,
+    "total_securities_after_change": 3342302883
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667021",
+    "company_name": "TIME DOTCOM BERHAD",
+    "stock_name": "TIMECOM",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 454500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 100900
+      }
+    ],
+    "direct_percent": 16.876,
+    "total_securities_after_change": 312000653
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667017",
+    "company_name": "ALLIANZ MALAYSIA BERHAD",
+    "stock_name": "ALLIANZ",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 13500
+      }
+    ],
+    "direct_percent": 7.507,
+    "total_securities_after_change": 13833184
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667016",
+    "company_name": "CIMB GROUP HOLDINGS BERHAD",
+    "stock_name": "CIMB",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2237300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 712700
+      }
+    ],
+    "direct_percent": 17.64,
+    "total_securities_after_change": 1905344308
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667013",
+    "company_name": "SAM ENGINEERING & EQUIPMENT (M) BERHAD",
+    "stock_name": "SAM",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 87200
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 209600
+      }
+    ],
+    "direct_percent": 6.193,
+    "total_securities_after_change": 41923700
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667011",
+    "company_name": "FRONTKEN CORPORATION BERHAD",
+    "stock_name": "FRONTKN",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 559900
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 559900
+      }
+    ],
+    "direct_percent": 17.589,
+    "total_securities_after_change": 318875694
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667003",
+    "company_name": "UNITED PLANTATIONS BERHAD",
+    "stock_name": "UTDPLT",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 300000
+      }
+    ],
+    "direct_percent": 7.619,
+    "total_securities_after_change": 47405593
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666963",
+    "company_name": "YTL POWER INTERNATIONAL BHD",
+    "stock_name": "YTLPOWR",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 25000000
+      }
+    ],
+    "direct_percent": 11.982,
+    "total_securities_after_change": 1036046897
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666948",
+    "company_name": "SD GUTHRIE BERHAD",
+    "stock_name": "SDG",
+    "date_announced": "19 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 60400
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 642600
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 673800
+      }
+    ],
+    "direct_percent": 11.389,
+    "total_securities_after_change": 1140016430
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666861",
+    "company_name": "KPJ HEALTHCARE BERHAD",
+    "stock_name": "KPJ",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 4242900
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 250000
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 821578505
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666833",
+    "company_name": "MISC BERHAD",
+    "stock_name": "MISC",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 206800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 219100
+      }
+    ],
+    "direct_percent": 15.096,
+    "total_securities_after_change": 673868503
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666822",
+    "company_name": "FRONTKEN CORPORATION BERHAD",
+    "stock_name": "FRONTKN",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 338600
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 403900
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2372500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 444600
+      }
+    ],
+    "direct_percent": 17.527,
+    "total_securities_after_change": 317755894
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666815",
+    "company_name": "SOUTHERN CABLE GROUP BERHAD",
+    "stock_name": "SCGBHD",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 250000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 17800
+      }
+    ],
+    "direct_percent": 8.662,
+    "total_securities_after_change": 98702600
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666814",
+    "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+    "stock_name": "SUNMED",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 4998000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 248300
+      }
+    ],
+    "direct_percent": 5.178,
+    "total_securities_after_change": 595432244
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666798",
+    "company_name": "TENAGA NASIONAL BHD",
+    "stock_name": "TENAGA",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 4000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2000000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 527600
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1000000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 750000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 723800
+      }
+    ],
+    "direct_percent": 24.42,
+    "total_securities_after_change": 1423716145
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666796",
+    "company_name": "KLCC REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "KLCC",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 546400
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 31900
+      }
+    ],
+    "direct_percent": 11.037,
+    "total_securities_after_change": 199245975
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666794",
+    "company_name": "KELINGTON GROUP BERHAD",
+    "stock_name": "KGB",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 350000
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 43290200
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666792",
+    "company_name": "KLCC PROPERTY HOLDINGS BERHAD",
+    "stock_name": "KLCC",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 546400
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 31900
+      }
+    ],
+    "direct_percent": 11.037,
+    "total_securities_after_change": 199245975
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666791",
+    "company_name": "SIME DARBY PROPERTY BERHAD",
+    "stock_name": "SIMEPROP",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 16153000
+      }
+    ],
+    "direct_percent": 12.465,
+    "total_securities_after_change": 1178214400
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666785",
+    "company_name": "RHB BANK BERHAD",
+    "stock_name": "RHBBANK",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 628700
+      }
+    ],
+    "direct_percent": 35.659,
+    "total_securities_after_change": 1555397469
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666777",
+    "company_name": "AXIS REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "AXREIT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1779900
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 621400
+      }
+    ],
+    "direct_percent": 21.507,
+    "total_securities_after_change": 435503656
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666776",
+    "company_name": "PANASONIC MANUFACTURING MALAYSIA BERHAD",
+    "stock_name": "PANAMY",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 7700
+      }
+    ],
+    "direct_percent": 6.071,
+    "total_securities_after_change": 3688021
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666766",
+    "company_name": "GENTING PLANTATIONS BERHAD",
+    "stock_name": "GENP",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 6000
+      }
+    ],
+    "direct_percent": 15.442,
+    "total_securities_after_change": 138539600
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666759",
+    "company_name": "TELEKOM MALAYSIA BERHAD",
+    "stock_name": "TM",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 492700
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 500000
+      }
+    ],
+    "direct_percent": 23.483,
+    "total_securities_after_change": 901219257
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666754",
+    "company_name": "SUNWAY BERHAD",
+    "stock_name": "SUNWAY",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1731200
+      }
+    ],
+    "direct_percent": 10.88,
+    "total_securities_after_change": 735553402
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666753",
+    "company_name": "PARADIGM REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PARADIGM",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 396100
+      }
+    ],
+    "direct_percent": 8.51,
+    "total_securities_after_change": 136315600
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666752",
+    "company_name": "ALLIANZ MALAYSIA BERHAD",
+    "stock_name": "ALLIANZ",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 43600
+      }
+    ],
+    "direct_percent": 7.515,
+    "total_securities_after_change": 13846684
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666747",
+    "company_name": "SIME DARBY BERHAD",
+    "stock_name": "SIME",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2285700
+      }
+    ],
+    "direct_percent": 14.604,
+    "total_securities_after_change": 1153799060
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666744",
+    "company_name": "99 SPEED MART RETAIL HOLDINGS BERHAD",
+    "stock_name": "99SMART",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 162900
+      }
+    ],
+    "direct_percent": 7.118,
+    "total_securities_after_change": 597942000
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666742",
+    "company_name": "WESTPORTS HOLDINGS BERHAD",
+    "stock_name": "WPRTS",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 33600
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 250000
+      }
+    ],
+    "direct_percent": 6.612,
+    "total_securities_after_change": 227231163
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666736",
+    "company_name": "GAMUDA BERHAD",
+    "stock_name": "GAMUDA",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2000100
+      }
+    ],
+    "direct_percent": 20.59,
+    "total_securities_after_change": 1227020264
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666733",
+    "company_name": "PENTAMASTER CORPORATION BERHAD",
+    "stock_name": "PENTA",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 72900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 719900
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 112961650
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666728",
+    "company_name": "PETRONAS GAS BERHAD",
+    "stock_name": "PETGAS",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 114100
+      }
+    ],
+    "direct_percent": 13.932,
+    "total_securities_after_change": 275682431
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666706",
+    "company_name": "SUPERCOMNET TECHNOLOGIES BERHAD",
+    "stock_name": "SCOMNET",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 300000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 500000
+      }
+    ],
+    "direct_percent": 8.122,
+    "total_securities_after_change": 68935400
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666697",
+    "company_name": "SUNWAY REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "SUNREIT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 929100
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1267300
+      }
+    ],
+    "direct_percent": 16.315,
+    "total_securities_after_change": 558753450
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666694",
+    "company_name": "CIMB GROUP HOLDINGS BERHAD",
+    "stock_name": "CIMB",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 6390300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 724500
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1302400
+      }
+    ],
+    "direct_percent": 17.69,
+    "total_securities_after_change": 1910566408
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666692",
+    "company_name": "CIMB GROUP HOLDINGS BERHAD",
+    "stock_name": "CIMB",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3296700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 718900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1119700
+      }
+    ],
+    "direct_percent": 17.65,
+    "total_securities_after_change": 1906868908
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666691",
+    "company_name": "HONG LEONG BANK BERHAD",
+    "stock_name": "HLBANK",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 137000
+      }
+    ],
+    "direct_percent": 9.525,
+    "total_securities_after_change": 198756597
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666672",
+    "company_name": "MALAYSIAN PACIFIC INDUSTRIES BERHAD",
+    "stock_name": "MPI",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 300000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 100000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 563100
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 16312918
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666668",
+    "company_name": "DRB-HICOM BERHAD",
+    "stock_name": "DRBHCOM",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1725800
+      }
+    ],
+    "direct_percent": 8.071,
+    "total_securities_after_change": 156023959
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666655",
+    "company_name": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
+    "stock_name": "PMETAL",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 5467300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 800000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 750000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 50000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1104300
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1282600
+      }
+    ],
+    "direct_percent": 8.94,
+    "total_securities_after_change": 736624837
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666652",
+    "company_name": "IHH HEALTHCARE BERHAD",
+    "stock_name": "IHH",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 344300
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 846300
+      }
+    ],
+    "direct_percent": 13.42,
+    "total_securities_after_change": 1185807500
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666651",
+    "company_name": "MEGA FIRST CORPORATION BERHAD",
+    "stock_name": "MFCB",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 300000
+      }
+    ],
+    "direct_percent": 11.516,
+    "total_securities_after_change": 108503940
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666648",
+    "company_name": "MALAYAN BANKING BERHAD",
+    "stock_name": "MAYBANK",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 86000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 750000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1061400
+      }
+    ],
+    "direct_percent": 12.501,
+    "total_securities_after_change": 1512018197
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666623",
+    "company_name": "KUALA LUMPUR KEPONG BERHAD",
+    "stock_name": "KLK",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1111100
+      }
+    ],
+    "direct_percent": 19.473,
+    "total_securities_after_change": 216862120
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666616",
+    "company_name": "CAPITALAND MALAYSIA TRUST",
+    "stock_name": "CLMT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1140800
+      }
+    ],
+    "direct_percent": 17.918,
+    "total_securities_after_change": 602950561
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666610",
+    "company_name": "IOI PROPERTIES GROUP BERHAD",
+    "stock_name": "IOIPG",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3000000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1000000
+      }
+    ],
+    "direct_percent": 6.734,
+    "total_securities_after_change": 370810007
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666604",
+    "company_name": "PUBLIC BANK BERHAD",
+    "stock_name": "PBBANK",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 5900000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 999900
+      }
+    ],
+    "direct_percent": 17.28,
+    "total_securities_after_change": 3355075183
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666597",
+    "company_name": "PAVILION REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PAVREIT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 614700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 303800
+      }
+    ],
+    "direct_percent": 13.259,
+    "total_securities_after_change": 520817247
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666592",
+    "company_name": "S P SETIA BERHAD",
+    "stock_name": "SPSETIA",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3300000
+      }
+    ],
+    "direct_percent": 13.459,
+    "total_securities_after_change": 673419624
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666586",
+    "company_name": "PETRONAS CHEMICALS GROUP BERHAD",
+    "stock_name": "PCHEM",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3000000
+      }
+    ],
+    "direct_percent": 12.809,
+    "total_securities_after_change": 1024750408
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666583",
+    "company_name": "UWC BERHAD",
+    "stock_name": "UWC",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 129200
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 446200
+      }
+    ],
+    "direct_percent": 5.784,
+    "total_securities_after_change": 63811132
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666577",
+    "company_name": "TIME DOTCOM BERHAD",
+    "stock_name": "TIMECOM",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 100000
+      }
+    ],
+    "direct_percent": 16.895,
+    "total_securities_after_change": 312354253
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666576",
+    "company_name": "FARM FRESH BERHAD",
+    "stock_name": "FFB",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 186500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 687500
+      }
+    ],
+    "direct_percent": 16.967,
+    "total_securities_after_change": 319734378
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666525",
+    "company_name": "UNITED PLANTATIONS BERHAD",
+    "stock_name": "UTDPLT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 184900
+      }
+    ],
+    "direct_percent": 7.571,
+    "total_securities_after_change": 47105593
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666496",
+    "company_name": "IGB REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "IGBREIT",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 11100
+      }
+    ],
+    "direct_percent": 9.585,
+    "total_securities_after_change": 414919332
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666480",
+    "company_name": "YTL POWER INTERNATIONAL BHD",
+    "stock_name": "YTLPOWR",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 465700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1180200
+      }
+    ],
+    "direct_percent": 11.693,
+    "total_securities_after_change": 1011046897
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666478",
+    "company_name": "YTL CORPORATION BERHAD",
+    "stock_name": "YTL",
+    "date_announced": "18 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1923900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 840000
+      }
+    ],
+    "direct_percent": 11.459,
+    "total_securities_after_change": 1331897471
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666398",
+    "company_name": "KPJ HEALTHCARE BERHAD",
+    "stock_name": "KPJ",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2000000
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 817085605
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666380",
+    "company_name": "BURSA MALAYSIA BERHAD",
+    "stock_name": "BURSA",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 687700
+      }
+    ],
+    "direct_percent": 14.438,
+    "total_securities_after_change": 116849041
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666379",
+    "company_name": "SKP RESOURCES BHD",
+    "stock_name": "SKPRES",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1000000
+      }
+    ],
+    "direct_percent": 12.511,
+    "total_securities_after_change": 195463350
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666369",
+    "company_name": "MR D.I.Y. GROUP (M) BERHAD",
+    "stock_name": "MRDIY",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1961400
+      }
+    ],
+    "direct_percent": 11.174,
+    "total_securities_after_change": 1059047375
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666356",
+    "company_name": "SD GUTHRIE BERHAD",
+    "stock_name": "SDG",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 852200
+      }
+    ],
+    "direct_percent": 11.389,
+    "total_securities_after_change": 1141272430
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666355",
+    "company_name": "YTL POWER INTERNATIONAL BHD",
+    "stock_name": "YTLPOWR",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2327500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2325600
+      }
+    ],
+    "direct_percent": 11.686,
+    "total_securities_after_change": 1010332397
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666354",
+    "company_name": "YTL CORPORATION BERHAD",
+    "stock_name": "YTL",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 7694600
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1541600
+      }
+    ],
+    "direct_percent": 11.432,
+    "total_securities_after_change": 1328713571
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666350",
+    "company_name": "KELINGTON GROUP BERHAD",
+    "stock_name": "KGB",
+    "date_announced": "15 May 2026",
+    "transactions": [],
+    "direct_percent": 0,
+    "total_securities_after_change": 0
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666347",
+    "company_name": "AXIS REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "AXREIT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 93400
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 25000
+      }
+    ],
+    "direct_percent": 21.389,
+    "total_securities_after_change": 433102356
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666346",
+    "company_name": "PANASONIC MANUFACTURING MALAYSIA BERHAD",
+    "stock_name": "PANAMY",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 25800
+      }
+    ],
+    "direct_percent": 6.084,
+    "total_securities_after_change": 3695721
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666345",
+    "company_name": "PENTAMASTER CORPORATION BERHAD",
+    "stock_name": "PENTA",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 5200000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 265400
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1423400
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 113608650
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666343",
+    "company_name": "SIME DARBY PROPERTY BERHAD",
+    "stock_name": "SIMEPROP",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 10000000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 374900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3435000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2145200
+      }
+    ],
+    "direct_percent": 12.228,
+    "total_securities_after_change": 1162061400
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666329",
+    "company_name": "BANK ISLAM MALAYSIA BERHAD",
+    "stock_name": "BIMB",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 5900
+      }
+    ],
+    "direct_percent": 16.234,
+    "total_securities_after_change": 367936681
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666326",
+    "company_name": "CTOS DIGITAL BERHAD",
+    "stock_name": "CTOS",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 959500
+      }
+    ],
+    "direct_percent": 22.474,
+    "total_securities_after_change": 511312863
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666314",
+    "company_name": "PETRONAS CHEMICALS GROUP BERHAD",
+    "stock_name": "PCHEM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2171800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 631600
+      }
+    ],
+    "direct_percent": 12.772,
+    "total_securities_after_change": 1021750408
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666313",
+    "company_name": "SUPERCOMNET TECHNOLOGIES BERHAD",
+    "stock_name": "SCOMNET",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 191700
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 200000
+      }
+    ],
+    "direct_percent": 8.097,
+    "total_securities_after_change": 68735400
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666300",
+    "company_name": "SUNWAY BERHAD",
+    "stock_name": "SUNWAY",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2460900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1000000
+      }
+    ],
+    "direct_percent": 10.85,
+    "total_securities_after_change": 733822202
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666288",
+    "company_name": "MALAYSIAN PACIFIC INDUSTRIES BERHAD",
+    "stock_name": "MPI",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 500000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 100000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 288200
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 50000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 399600
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 17276018
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666283",
+    "company_name": "PAVILION REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PAVREIT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1829000
+      }
+    ],
+    "direct_percent": 13.236,
+    "total_securities_after_change": 519898747
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666275",
+    "company_name": "IOI PROPERTIES GROUP BERHAD",
+    "stock_name": "IOIPG",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 503800
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 120400
+      }
+    ],
+    "direct_percent": 6.807,
+    "total_securities_after_change": 374810007
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666267",
+    "company_name": "MEGA FIRST CORPORATION BERHAD",
+    "stock_name": "MFCB",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 84700
+      }
+    ],
+    "direct_percent": 11.484,
+    "total_securities_after_change": 108203940
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666250",
+    "company_name": "MALAYAN BANKING BERHAD",
+    "stock_name": "MAYBANK",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1664500
+      }
+    ],
+    "direct_percent": 12.498,
+    "total_securities_after_change": 1511620797
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666244",
+    "company_name": "IHH HEALTHCARE BERHAD",
+    "stock_name": "IHH",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 5000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 3113400
+      }
+    ],
+    "direct_percent": 13.426,
+    "total_securities_after_change": 1186309500
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666243",
+    "company_name": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
+    "stock_name": "PMETAL",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1500100
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 4000000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 800000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 3002900
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1577500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 43600
+      }
+    ],
+    "direct_percent": 8.958,
+    "total_securities_after_change": 738105237
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666241",
+    "company_name": "FRONTKEN CORPORATION BERHAD",
+    "stock_name": "FRONTKN",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 444500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 212900
+      }
+    ],
+    "direct_percent": 17.276,
+    "total_securities_after_change": 313196294
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666237",
+    "company_name": "IGB REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "IGBREIT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 436500
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 857900
+      }
+    ],
+    "direct_percent": 9.585,
+    "total_securities_after_change": 414908232
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666234",
+    "company_name": "PETRONAS GAS BERHAD",
+    "stock_name": "PETGAS",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 200000
+      }
+    ],
+    "direct_percent": 13.927,
+    "total_securities_after_change": 275568331
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666231",
+    "company_name": "HONG LEONG BANK BERHAD",
+    "stock_name": "HLBANK",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 252100
+      }
+    ],
+    "direct_percent": 9.532,
+    "total_securities_after_change": 198893597
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666228",
+    "company_name": "AMMB HOLDINGS BERHAD",
+    "stock_name": "AMBANK",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 487800
+      }
+    ],
+    "direct_percent": 16.883,
+    "total_securities_after_change": 558287161
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666226",
+    "company_name": "RHB BANK BERHAD",
+    "stock_name": "RHBBANK",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 986700
+      }
+    ],
+    "direct_percent": 35.673,
+    "total_securities_after_change": 1556026169
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666219",
+    "company_name": "SUNWAY REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "SUNREIT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1490100
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 720000
+      }
+    ],
+    "direct_percent": 16.251,
+    "total_securities_after_change": 556557050
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666208",
+    "company_name": "FARM FRESH BERHAD",
+    "stock_name": "FFB",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1125800
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 519000
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 751700
+      }
+    ],
+    "direct_percent": 16.921,
+    "total_securities_after_change": 318860378
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666197",
+    "company_name": "DRB-HICOM BERHAD",
+    "stock_name": "DRBHCOM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 22600
+      }
+    ],
+    "direct_percent": 8.16,
+    "total_securities_after_change": 157749759
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666192",
+    "company_name": "PARADIGM REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "PARADIGM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1292800
+      }
+    ],
+    "direct_percent": 8.405,
+    "total_securities_after_change": 135919500
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666190",
+    "company_name": "CAPITALAND MALAYSIA TRUST",
+    "stock_name": "CLMT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1634200
+      }
+    ],
+    "direct_percent": 17.884,
+    "total_securities_after_change": 601809761
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666185",
+    "company_name": "99 SPEED MART RETAIL HOLDINGS BERHAD",
+    "stock_name": "99SMART",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1001200
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1914400
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 256100
+      }
+    ],
+    "direct_percent": 7.12,
+    "total_securities_after_change": 598104900
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666184",
+    "company_name": "KLCC REAL ESTATE INVESTMENT TRUST",
+    "stock_name": "KLCC",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 15400
+      }
+    ],
+    "direct_percent": 11.008,
+    "total_securities_after_change": 198731475
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666180",
+    "company_name": "KLCC PROPERTY HOLDINGS BERHAD",
+    "stock_name": "KLCC",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 15400
+      }
+    ],
+    "direct_percent": 11.008,
+    "total_securities_after_change": 198731475
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666178",
+    "company_name": "UWC BERHAD",
+    "stock_name": "UWC",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 347600
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 385700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 788900
+      }
+    ],
+    "direct_percent": 5.731,
+    "total_securities_after_change": 63235732
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666176",
+    "company_name": "TIME DOTCOM BERHAD",
+    "stock_name": "TIMECOM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 353000
+      }
+    ],
+    "direct_percent": 16.889,
+    "total_securities_after_change": 312254253
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666175",
+    "company_name": "AEON CO. (M) BHD",
+    "stock_name": "AEON",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 135600
+      }
+    ],
+    "direct_percent": 7.643,
+    "total_securities_after_change": 107314200
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666152",
+    "company_name": "S P SETIA BERHAD",
+    "stock_name": "SPSETIA",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1800500
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 400000
+      }
+    ],
+    "direct_percent": 13.393,
+    "total_securities_after_change": 670119624
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666151",
+    "company_name": "TENAGA NASIONAL BHD",
+    "stock_name": "TENAGA",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1250000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 4709900
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1085600
+      }
+    ],
+    "direct_percent": 24.37,
+    "total_securities_after_change": 1420717545
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666145",
+    "company_name": "SAM ENGINEERING & EQUIPMENT (M) BERHAD",
+    "stock_name": "SAM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 290600
+      }
+    ],
+    "direct_percent": 6.149,
+    "total_securities_after_change": 41626900
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666130",
+    "company_name": "TELEKOM MALAYSIA BERHAD",
+    "stock_name": "TM",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 750600
+      }
+    ],
+    "direct_percent": 23.483,
+    "total_securities_after_change": 901226557
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666127",
+    "company_name": "ALLIANZ MALAYSIA BERHAD",
+    "stock_name": "ALLIANZ",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 46600
+      }
+    ],
+    "direct_percent": 7.538,
+    "total_securities_after_change": 13890284
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666126",
+    "company_name": "UNITED PLANTATIONS BERHAD",
+    "stock_name": "UTDPLT",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 218800
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 46000
+      }
+    ],
+    "direct_percent": 7.541,
+    "total_securities_after_change": 46920693
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666121",
+    "company_name": "WESTPORTS HOLDINGS BERHAD",
+    "stock_name": "WPRTS",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 69600
+      },
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 983600
+      }
+    ],
+    "direct_percent": 6.619,
+    "total_securities_after_change": 227447563
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666116",
+    "company_name": "PUBLIC BANK BERHAD",
+    "stock_name": "PBBANK",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 5233600
+      }
+    ],
+    "direct_percent": 17.31,
+    "total_securities_after_change": 3359925283
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666105",
+    "company_name": "INARI AMERTRON BERHAD",
+    "stock_name": "INARI",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 837700
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 180500
+      }
+    ],
+    "direct_percent": 15.181,
+    "total_securities_after_change": 578061422
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666064",
+    "company_name": "IOI CORPORATION BERHAD",
+    "stock_name": "IOICORP",
+    "date_announced": "15 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 20700
+      }
+    ],
+    "direct_percent": 16.708,
+    "total_securities_after_change": 1050145890
   }
 ]
