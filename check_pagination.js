@@ -1,4 +1,6 @@
-const puppeteer = require('puppeteer-extra');
+const { addExtra } = require('puppeteer-extra');
+const rebrowserPuppeteer = require('rebrowser-puppeteer');
+const puppeteer = addExtra(rebrowserPuppeteer);
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 
