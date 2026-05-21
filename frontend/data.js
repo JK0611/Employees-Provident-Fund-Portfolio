@@ -448,7 +448,7 @@ const EPF_DATA = {
       "date": "01 Apr 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "pbebank.com"
+      "domain": null
     },
     {
       "stock_name": "JPG",
@@ -598,7 +598,7 @@ const EPF_DATA = {
       "date": "19 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "paradigmmall.com.my"
+      "domain": null
     },
     {
       "stock_name": "PETDAG",
@@ -618,7 +618,7 @@ const EPF_DATA = {
       "date": "15 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "bursa.listedcompany.com"
+      "domain": "bursamalaysia.com"
     },
     {
       "stock_name": "MFCB",
@@ -638,7 +638,7 @@ const EPF_DATA = {
       "date": "19 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "myaeon2go.com"
+      "domain": null
     },
     {
       "stock_name": "PADINI",
@@ -798,7 +798,7 @@ const EPF_DATA = {
       "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "nestle.com.my"
+      "domain": null
     },
     {
       "stock_name": "ALLIANZ",
@@ -82675,8 +82675,6 @@ const EPF_DATA = {
     "MR D.I.Y. GROUP (M) BERHAD": "vocaberry.com",
     "CTOS": "ctoscredit.com.my",
     "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
-    "PPB": "pbebank.com",
-    "PPB GROUP BERHAD": "pbebank.com",
     "HLFG": "hongleongconnect.my",
     "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
     "ORKIM": "chatgpt.com",
@@ -82693,8 +82691,6 @@ const EPF_DATA = {
     "CAPITALAND MALAYSIA TRUST": "capitaland.com",
     "KLK": "theendlesstravellers.com",
     "KUALA LUMPUR KEPONG BERHAD": "theendlesstravellers.com",
-    "PARADIGM": "paradigmmall.com.my",
-    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
     "BAUTO": "bauto.com.my",
     "BERMAZ AUTO BERHAD": "bauto.com.my",
     "YTLPOWR": "ytl.com",
@@ -82781,10 +82777,8 @@ const EPF_DATA = {
     "S P SETIA BERHAD": "google.com",
     "YTL": "ytl.com",
     "YTL CORPORATION BERHAD": "ytl.com",
-    "NESTLE": "nestle.com.my",
-    "NESTLE (MALAYSIA) BERHAD": "nestle.com.my",
-    "BURSA": "bursa.listedcompany.com",
-    "BURSA MALAYSIA BERHAD": "bursa.listedcompany.com",
+    "BURSA": "bursamalaysia.com",
+    "BURSA MALAYSIA BERHAD": "bursamalaysia.com",
     "JPG": "tourism.johor.gov.my",
     "JOHOR PLANTATIONS GROUP BERHAD": "tourism.johor.gov.my",
     "AXREIT": "axis.com",
@@ -82803,8 +82797,6 @@ const EPF_DATA = {
     "WASCO BERHAD": "wascoenergy.com",
     "MBSB": "mbsb.com",
     "MBSB BERHAD": "mbsb.com",
-    "AEON": "myaeon2go.com",
-    "AEON CO. (M) BHD": "myaeon2go.com",
     "AME": "ameconstruction.com.my",
     "AME ELITE CONSORTIUM BERHAD": "ameconstruction.com.my",
     "ABMB": "alliancebank.com.my",
