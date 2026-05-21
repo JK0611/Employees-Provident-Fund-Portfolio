@@ -895,17 +895,37 @@ let filteredTx = [];
 function flattenTransactions() {
   const list = [];
   EPF_DATA.transactions.forEach(tx => {
+    let acquired = 0;
+    let disposed = 0;
     tx.transactions.forEach(t => {
-      list.push({
-        date: tx.date,
-        stock: tx.stock,
-        company: tx.company,
-        url: tx.url,
-        type: t.type,
-        amount: t.amount,
-        percent: tx.percent,
-        total: tx.total
-      });
+      if (t.type === 'Acquired') acquired += t.amount;
+      else if (t.type === 'Disposed') disposed += t.amount;
+    });
+
+    let type = 'Acquired';
+    let amount = 0;
+    if (acquired > disposed) {
+      type = 'Acquired';
+      amount = acquired - disposed;
+    } else if (disposed > acquired) {
+      type = 'Disposed';
+      amount = disposed - acquired;
+    } else {
+      type = tx.transactions[0]?.type || 'Acquired';
+      amount = 0;
+    }
+
+    list.push({
+      date: tx.date,
+      stock: tx.stock,
+      company: tx.company,
+      url: tx.url,
+      type: type,
+      amount: amount,
+      percent: tx.percent,
+      total: tx.total,
+      rawTransactions: tx.transactions,
+      isNet: tx.transactions.length > 1
     });
   });
   // Sort by date descending, with ann_id descending as a secondary key for matching Bursa Malaysia order
@@ -1021,8 +1041,13 @@ function renderTransactionsTable() {
         </div>
       </td>
       <td>${tx.company}</td>
-      <td><span class="tx-type ${tx.type.toLowerCase()}">${tx.type}</span></td>
-      <td class="align-right">${tx.amount.toLocaleString()}</td>
+      <td>
+        <span class="tx-type ${tx.type.toLowerCase()}" 
+              ${tx.isNet ? `title="Consolidated announcement containing multiple transactions:\n${tx.rawTransactions.map(t => `• ${t.type} ${t.amount.toLocaleString()}`).join('\n')}" style="cursor:help; border-bottom: 1.5px dashed var(--text-muted);"` : ''}>
+          ${tx.type}${tx.isNet ? ' (Net)' : ''}
+        </span>
+      </td>
+      <td class="align-right" ${tx.isNet ? `title="Net amount. Raw transactions:\n${tx.rawTransactions.map(t => `• ${t.type} ${t.amount.toLocaleString()}`).join('\n')}" style="cursor:help;"` : ''}>${tx.amount.toLocaleString()}</td>
       <td class="align-right">${tx.percent}%</td>
       <td class="align-right">${tx.total.toLocaleString()}</td>
     </tr>`;
