@@ -1043,11 +1043,16 @@ function renderTransactionsTable() {
       <td>${tx.company}</td>
       <td>
         <span class="tx-type ${tx.type.toLowerCase()}" 
-              ${tx.isNet ? `title="Consolidated announcement containing multiple transactions:\n${tx.rawTransactions.map(t => `• ${t.type} ${t.amount.toLocaleString()}`).join('\n')}" style="cursor:help; border-bottom: 1.5px dashed var(--text-muted);"` : ''}>
+              onclick="openTxModal(${start + i})"
+              style="cursor:pointer; display:inline-flex; align-items:center; gap:0.25rem; transition:transform var(--transition);"
+              onmouseover="this.style.transform='scale(1.05)'"
+              onmouseout="this.style.transform='scale(1)'"
+              title="Click to view all transactions">
           ${tx.type}${tx.isNet ? ' (Net)' : ''}
+          <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.75;"><path d="M12 5v14M5 12h14"/></svg>
         </span>
       </td>
-      <td class="align-right" ${tx.isNet ? `title="Net amount. Raw transactions:\n${tx.rawTransactions.map(t => `• ${t.type} ${t.amount.toLocaleString()}`).join('\n')}" style="cursor:help;"` : ''}>${tx.amount.toLocaleString()}</td>
+      <td class="align-right">${tx.amount.toLocaleString()}</td>
       <td class="align-right">${tx.percent}%</td>
       <td class="align-right">${tx.total.toLocaleString()}</td>
     </tr>`;
@@ -1516,5 +1521,91 @@ fetch('logo.json')
   .catch(err => {
     console.warn("Using fallback TradingView logos:", err.message);
   });
+
+// ============================================
+// Transaction Details Modal
+// ============================================
+window.openTxModal = function(index) {
+  const tx = filteredTx[index];
+  if (!tx) return;
+
+  document.getElementById('modal-title').textContent = tx.company;
+  
+  const netBadge = tx.isNet ? `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">Net ${tx.type}</span>` : `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">${tx.type}</span>`;
+  
+  let txRows = '';
+  tx.rawTransactions.forEach(t => {
+    txRows += `
+      <tr>
+        <td><span class="tx-type ${t.type.toLowerCase()}">${t.type}</span></td>
+        <td class="align-right">${t.amount.toLocaleString()}</td>
+      </tr>
+    `;
+  });
+
+  const bodyHtml = `
+    <div class="modal-meta-grid">
+      <div class="modal-meta-item">
+        <span class="modal-meta-label">Stock Symbol</span>
+        <span class="modal-meta-value">${tx.stock}</span>
+      </div>
+      <div class="modal-meta-item">
+        <span class="modal-meta-label">Date Announced</span>
+        <span class="modal-meta-value">${tx.date}</span>
+      </div>
+      <div class="modal-meta-item">
+        <span class="modal-meta-label">Direct Shareholding %</span>
+        <span class="modal-meta-value">${tx.percent}%</span>
+      </div>
+      <div class="modal-meta-item">
+        <span class="modal-meta-label">Total Shares After Change</span>
+        <span class="modal-meta-value">${tx.total.toLocaleString()}</span>
+      </div>
+    </div>
+    
+    <div>
+      <h4 class="modal-tx-list-title">Filing Transactions ${netBadge}</h4>
+      <table class="modal-tx-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th class="align-right">No. of Securities</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${txRows}
+        </tbody>
+      </table>
+    </div>
+
+    ${tx.url ? `
+      <a href="${tx.url}" target="_blank" class="modal-link-btn">
+        <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        View Official Announcement
+      </a>
+    ` : ''}
+  `;
+
+  document.getElementById('modal-body').innerHTML = bodyHtml;
+  document.getElementById('tx-modal').classList.add('show');
+};
+
+window.closeTxModal = function() {
+  document.getElementById('tx-modal').classList.remove('show');
+};
+
+// Close modal when clicking overlay background
+document.getElementById('tx-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'tx-modal') {
+    closeTxModal();
+  }
+});
+
+// Close modal on Escape key press
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeTxModal();
+  }
+});
 
 init();
