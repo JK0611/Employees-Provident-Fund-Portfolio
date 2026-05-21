@@ -226,7 +226,14 @@ async function run() {
             });
 
             const directPercentStr = getValueNextTo('Direct (%)');
-            const directPercent = parseFloat(directPercentStr.replace(/%/g, '')) || 0;
+            let directPercent = parseFloat(directPercentStr.replace(/%/g, '')) || 0;
+
+            if (directPercent === 0) {
+                const indirectPercentStr = getValueNextTo('Indirect/deemed interest (%)') || getValueNextTo('Indirect (%)') || getValueNextTo('Deemed (%)');
+                if (indirectPercentStr) {
+                    directPercent = parseFloat(indirectPercentStr.replace(/%/g, '')) || 0;
+                }
+            }
 
             const totalSecuritiesStr = getValueNextTo('Total no of securities after change');
             const totalSecurities = parseInt(totalSecuritiesStr.replace(/,/g, ''), 10) || 0;

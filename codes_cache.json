@@ -408,5 +408,30 @@
     "code": null,
     "sector": "Others",
     "domain": "aeonretail.com.my"
+  },
+  "AHEALTH": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ea.com"
+  },
+  "MPI": {
+    "code": "3867",
+    "sector": "Technology",
+    "domain": "malaysiaairlines.com"
+  },
+  "PENTA": {
+    "code": "7160",
+    "sector": "Industrial",
+    "domain": "pentamaster.com"
+  },
+  "KPJ": {
+    "code": "5878",
+    "sector": "Healthcare",
+    "domain": "kpjhealth.com.my"
+  },
+  "DPHARMA": {
+    "code": "7148",
+    "sector": "Healthcare",
+    "domain": "duopharmabiotech.com"
   }
 }

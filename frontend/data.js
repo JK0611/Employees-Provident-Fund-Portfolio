@@ -13,9 +13,9 @@ const EPF_DATA = {
     {
       "stock_name": "PBBANK",
       "company_name": "PUBLIC BANK BERHAD",
-      "direct_percent": 17.22,
-      "total_securities": 3342302883,
-      "date": "19 May 2026",
+      "direct_percent": 17.18,
+      "total_securities": 3334775783,
+      "date": "20 May 2026",
       "stock_code": "1295",
       "sector": "Banking",
       "domain": "pbebank.com"
@@ -23,9 +23,9 @@ const EPF_DATA = {
     {
       "stock_name": "CIMB",
       "company_name": "CIMB GROUP HOLDINGS BERHAD",
-      "direct_percent": 17.64,
-      "total_securities": 1905344308,
-      "date": "19 May 2026",
+      "direct_percent": 17.63,
+      "total_securities": 1904655708,
+      "date": "20 May 2026",
       "stock_code": "1023",
       "sector": "Banking",
       "domain": "cimbclicks.com.my"
@@ -43,9 +43,9 @@ const EPF_DATA = {
     {
       "stock_name": "RHBBANK",
       "company_name": "RHB BANK BERHAD",
-      "direct_percent": 35.655,
-      "total_securities": 1555260369,
-      "date": "19 May 2026",
+      "direct_percent": 35.653,
+      "total_securities": 1555140569,
+      "date": "20 May 2026",
       "stock_code": "1066",
       "sector": "Banking",
       "domain": "onlinebanking.rhbgroup.com"
@@ -53,9 +53,9 @@ const EPF_DATA = {
     {
       "stock_name": "MAYBANK",
       "company_name": "MALAYAN BANKING BERHAD",
-      "direct_percent": 12.481,
-      "total_securities": 1509660497,
-      "date": "19 May 2026",
+      "direct_percent": 12.471,
+      "total_securities": 1508410497,
+      "date": "20 May 2026",
       "stock_code": "1155",
       "sector": "Banking",
       "domain": "smart-ex.jp"
@@ -63,9 +63,9 @@ const EPF_DATA = {
     {
       "stock_name": "TENAGA",
       "company_name": "TENAGA NASIONAL BHD",
-      "direct_percent": 24.45,
-      "total_securities": 1425157845,
-      "date": "19 May 2026",
+      "direct_percent": 24.49,
+      "total_securities": 1427510645,
+      "date": "20 May 2026",
       "stock_code": "5347",
       "sector": "Utilities",
       "domain": "mytnb.com.my"
@@ -73,9 +73,9 @@ const EPF_DATA = {
     {
       "stock_name": "YTL",
       "company_name": "YTL CORPORATION BERHAD",
-      "direct_percent": 11.459,
-      "total_securities": 1331897471,
-      "date": "18 May 2026",
+      "direct_percent": 11.485,
+      "total_securities": 1334966071,
+      "date": "21 May 2026",
       "stock_code": "5109",
       "sector": "Property",
       "domain": "ytl.com"
@@ -83,9 +83,9 @@ const EPF_DATA = {
     {
       "stock_name": "CDB",
       "company_name": "CELCOMDIGI BERHAD",
-      "direct_percent": 10.744,
-      "total_securities": 1260401290,
-      "date": "03 Feb 2026",
+      "direct_percent": 10.701,
+      "total_securities": 1255401281,
+      "date": "20 May 2026",
       "stock_code": "6947",
       "sector": "Telecom",
       "domain": "celcomdigi.com"
@@ -94,8 +94,8 @@ const EPF_DATA = {
       "stock_name": "GAMUDA",
       "company_name": "GAMUDA BERHAD",
       "direct_percent": 20.59,
-      "total_securities": 1227020264,
-      "date": "18 May 2026",
+      "total_securities": 1227120264,
+      "date": "20 May 2026",
       "stock_code": "5398",
       "sector": "Industrial",
       "domain": "gamuda.com"
@@ -105,36 +105,36 @@ const EPF_DATA = {
       "company_name": "DIALOG GROUP BERHAD",
       "direct_percent": 21.72,
       "total_securities": 1225846695,
-      "date": "13 May 2026",
+      "date": "20 May 2026",
       "stock_code": "7277",
       "sector": "Industrial",
       "domain": "dialogasia.com"
     },
     {
-      "stock_name": "IHH",
-      "company_name": "IHH HEALTHCARE BERHAD",
-      "direct_percent": 13.423,
-      "total_securities": 1186080200,
-      "date": "19 May 2026",
-      "stock_code": "5225",
-      "sector": "Healthcare",
-      "domain": "ihhhealthcare.com"
-    },
-    {
       "stock_name": "SIMEPROP",
       "company_name": "SIME DARBY PROPERTY BERHAD",
-      "direct_percent": 12.508,
-      "total_securities": 1181135400,
-      "date": "19 May 2026",
+      "direct_percent": 12.622,
+      "total_securities": 1188888700,
+      "date": "20 May 2026",
       "stock_code": "5288",
       "sector": "Property",
       "domain": "baike.baidu.com"
     },
     {
+      "stock_name": "IHH",
+      "company_name": "IHH HEALTHCARE BERHAD",
+      "direct_percent": 13.425,
+      "total_securities": 1186222100,
+      "date": "20 May 2026",
+      "stock_code": "5225",
+      "sector": "Healthcare",
+      "domain": "ihhhealthcare.com"
+    },
+    {
       "stock_name": "SIME",
       "company_name": "SIME DARBY BERHAD",
-      "direct_percent": 14.604,
-      "total_securities": 1154533060,
+      "direct_percent": 14.612,
+      "total_securities": 1156112660,
       "date": "20 May 2026",
       "stock_code": "4197",
       "sector": "Consumer",
@@ -143,8 +143,8 @@ const EPF_DATA = {
     {
       "stock_name": "SDG",
       "company_name": "SD GUTHRIE BERHAD",
-      "direct_percent": 11.389,
-      "total_securities": 1140016430,
+      "direct_percent": 11.397,
+      "total_securities": 1138150430,
       "date": "19 May 2026",
       "stock_code": "5285",
       "sector": "Consumer",
@@ -155,7 +155,7 @@ const EPF_DATA = {
       "company_name": "MAXIS BERHAD",
       "direct_percent": 13.213,
       "total_securities": 1063769339,
-      "date": "07 May 2026",
+      "date": "20 May 2026",
       "stock_code": "6012",
       "sector": "Telecom",
       "domain": "maxis.com.my"
@@ -165,7 +165,7 @@ const EPF_DATA = {
       "company_name": "MR D.I.Y. GROUP (M) BERHAD",
       "direct_percent": 11.204,
       "total_securities": 1061850975,
-      "date": "19 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5296",
       "sector": "Consumer",
       "domain": "vocaberry.com"
@@ -175,7 +175,7 @@ const EPF_DATA = {
       "company_name": "IOI CORPORATION BERHAD",
       "direct_percent": 16.708,
       "total_securities": 1050145890,
-      "date": "15 May 2026",
+      "date": "20 May 2026",
       "stock_code": "1961",
       "sector": "Consumer",
       "domain": "ioicitymall.com.my"
@@ -183,9 +183,9 @@ const EPF_DATA = {
     {
       "stock_name": "YTLPOWR",
       "company_name": "YTL POWER INTERNATIONAL BHD",
-      "direct_percent": 11.982,
-      "total_securities": 1036046897,
-      "date": "19 May 2026",
+      "direct_percent": 12.048,
+      "total_securities": 1041719897,
+      "date": "21 May 2026",
       "stock_code": "6742",
       "sector": "Utilities",
       "domain": "ytl.com"
@@ -193,9 +193,9 @@ const EPF_DATA = {
     {
       "stock_name": "PCHEM",
       "company_name": "PETRONAS CHEMICALS GROUP BERHAD",
-      "direct_percent": 12.825,
-      "total_securities": 1025980608,
-      "date": "19 May 2026",
+      "direct_percent": 12.838,
+      "total_securities": 1027027408,
+      "date": "20 May 2026",
       "stock_code": "5183",
       "sector": "Industrial",
       "domain": "petronas.com"
@@ -215,17 +215,27 @@ const EPF_DATA = {
       "company_name": "TELEKOM MALAYSIA BERHAD",
       "direct_percent": 23.483,
       "total_securities": 901219257,
-      "date": "18 May 2026",
+      "date": "20 May 2026",
       "stock_code": "4863",
       "sector": "Telecom",
       "domain": "tm.com.my"
     },
     {
+      "stock_name": "KPJ",
+      "company_name": "KPJ HEALTHCARE BERHAD",
+      "direct_percent": 0,
+      "total_securities": 822928005,
+      "date": "21 May 2026",
+      "stock_code": "5878",
+      "sector": "Healthcare",
+      "domain": "kpjhealth.com.my"
+    },
+    {
       "stock_name": "PMETAL",
       "company_name": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
-      "direct_percent": 8.929,
-      "total_securities": 735706737,
-      "date": "19 May 2026",
+      "direct_percent": 8.953,
+      "total_securities": 737681437,
+      "date": "20 May 2026",
       "stock_code": "8869",
       "sector": "Industrial",
       "domain": "chinapress.com.my"
@@ -233,9 +243,9 @@ const EPF_DATA = {
     {
       "stock_name": "SUNWAY",
       "company_name": "SUNWAY BERHAD",
-      "direct_percent": 10.88,
-      "total_securities": 735704302,
-      "date": "19 May 2026",
+      "direct_percent": 10.89,
+      "total_securities": 736458602,
+      "date": "20 May 2026",
       "stock_code": "5263",
       "sector": "Industrial",
       "domain": "sunway.com.my"
@@ -243,19 +253,29 @@ const EPF_DATA = {
     {
       "stock_name": "IJM",
       "company_name": "IJM CORPORATION BERHAD",
-      "direct_percent": 20.487,
-      "total_securities": 718107656,
-      "date": "06 May 2026",
+      "direct_percent": 20.523,
+      "total_securities": 719375469,
+      "date": "20 May 2026",
       "stock_code": "3336",
       "sector": "Industrial",
       "domain": "ijm.com"
     },
     {
+      "stock_name": "AHEALTH",
+      "company_name": "APEX HEALTHCARE BERHAD",
+      "direct_percent": 0,
+      "total_securities": 689441234,
+      "date": "07 Jan 2026",
+      "stock_code": null,
+      "sector": "Others",
+      "domain": "ea.com"
+    },
+    {
       "stock_name": "SPSETIA",
       "company_name": "S P SETIA BERHAD",
-      "direct_percent": 13.513,
-      "total_securities": 676130224,
-      "date": "19 May 2026",
+      "direct_percent": 13.679,
+      "total_securities": 684430224,
+      "date": "20 May 2026",
       "stock_code": "8664PC",
       "sector": "Property",
       "domain": "google.com"
@@ -263,19 +283,29 @@ const EPF_DATA = {
     {
       "stock_name": "MISC",
       "company_name": "MISC BERHAD",
-      "direct_percent": 15.118,
-      "total_securities": 674842303,
-      "date": "19 May 2026",
+      "direct_percent": 15.144,
+      "total_securities": 675986103,
+      "date": "20 May 2026",
       "stock_code": "3816",
       "sector": "Industrial",
       "domain": "miscgroup.com"
     },
     {
+      "stock_name": "SUNMED",
+      "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "direct_percent": 5.261,
+      "total_securities": 605013844,
+      "date": "20 May 2026",
+      "stock_code": "5555",
+      "sector": "Healthcare",
+      "domain": "sunway.com.my"
+    },
+    {
       "stock_name": "CLMT",
       "company_name": "CAPITALAND MALAYSIA TRUST",
-      "direct_percent": 17.944,
-      "total_securities": 603844761,
-      "date": "19 May 2026",
+      "direct_percent": 17.967,
+      "total_securities": 604611661,
+      "date": "20 May 2026",
       "stock_code": "5180",
       "sector": "Property",
       "domain": "capitaland.com"
@@ -291,21 +321,11 @@ const EPF_DATA = {
       "domain": "99bulksales.my"
     },
     {
-      "stock_name": "SUNMED",
-      "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
-      "direct_percent": 5.22,
-      "total_securities": 600324644,
-      "date": "19 May 2026",
-      "stock_code": "5555",
-      "sector": "Healthcare",
-      "domain": "sunway.com.my"
-    },
-    {
       "stock_name": "INARI",
       "company_name": "INARI AMERTRON BERHAD",
-      "direct_percent": 15.181,
-      "total_securities": 578061422,
-      "date": "15 May 2026",
+      "direct_percent": 15.194,
+      "total_securities": 578561422,
+      "date": "20 May 2026",
       "stock_code": "0166",
       "sector": "Technology",
       "domain": "inari-amertron.com"
@@ -313,9 +333,9 @@ const EPF_DATA = {
     {
       "stock_name": "AMBANK",
       "company_name": "AMMB HOLDINGS BERHAD",
-      "direct_percent": 16.905,
-      "total_securities": 559018161,
-      "date": "19 May 2026",
+      "direct_percent": 16.941,
+      "total_securities": 560191461,
+      "date": "20 May 2026",
       "stock_code": "1015",
       "sector": "Banking",
       "domain": "ambankgroup.com"
@@ -323,9 +343,9 @@ const EPF_DATA = {
     {
       "stock_name": "SUNREIT",
       "company_name": "SUNWAY REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 16.277,
-      "total_securities": 557466150,
-      "date": "19 May 2026",
+      "direct_percent": 16.355,
+      "total_securities": 560125150,
+      "date": "20 May 2026",
       "stock_code": "5176",
       "sector": "Property",
       "domain": "sunway.com.my"
@@ -333,9 +353,9 @@ const EPF_DATA = {
     {
       "stock_name": "PAVREIT",
       "company_name": "PAVILION REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 13.254,
-      "total_securities": 520621047,
-      "date": "19 May 2026",
+      "direct_percent": 13.261,
+      "total_securities": 520878547,
+      "date": "20 May 2026",
       "stock_code": "5212",
       "sector": "Property",
       "domain": "pavilion-kl.com"
@@ -343,9 +363,9 @@ const EPF_DATA = {
     {
       "stock_name": "CTOS",
       "company_name": "CTOS DIGITAL BERHAD",
-      "direct_percent": 22.454,
-      "total_securities": 510844963,
-      "date": "19 May 2026",
+      "direct_percent": 22.426,
+      "total_securities": 510204063,
+      "date": "20 May 2026",
       "stock_code": "5301",
       "sector": "Banking",
       "domain": "ctoscredit.com.my"
@@ -353,9 +373,9 @@ const EPF_DATA = {
     {
       "stock_name": "AXREIT",
       "company_name": "AXIS REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 21.532,
-      "total_securities": 436009397,
-      "date": "19 May 2026",
+      "direct_percent": 21.537,
+      "total_securities": 436093597,
+      "date": "20 May 2026",
       "stock_code": "5106",
       "sector": "Property",
       "domain": "axis.com"
@@ -363,9 +383,9 @@ const EPF_DATA = {
     {
       "stock_name": "IGBREIT",
       "company_name": "IGB REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 9.584,
-      "total_securities": 414878004,
-      "date": "19 May 2026",
+      "direct_percent": 9.63,
+      "total_securities": 416878004,
+      "date": "20 May 2026",
       "stock_code": "5227",
       "sector": "Property",
       "domain": "igbbhd.com"
@@ -375,20 +395,10 @@ const EPF_DATA = {
       "company_name": "UOA DEVELOPMENT BHD",
       "direct_percent": 14.43,
       "total_securities": 383111600,
-      "date": "06 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5200",
       "sector": "Property",
       "domain": "k5learning.com"
-    },
-    {
-      "stock_name": "IOIPG",
-      "company_name": "IOI PROPERTIES GROUP BERHAD",
-      "direct_percent": 6.721,
-      "total_securities": 370071407,
-      "date": "19 May 2026",
-      "stock_code": "5249",
-      "sector": "Property",
-      "domain": "ioicitymall.com.my"
     },
     {
       "stock_name": "BIMB",
@@ -401,11 +411,21 @@ const EPF_DATA = {
       "domain": "bankislam.com"
     },
     {
+      "stock_name": "IOIPG",
+      "company_name": "IOI PROPERTIES GROUP BERHAD",
+      "direct_percent": 6.662,
+      "total_securities": 366801407,
+      "date": "20 May 2026",
+      "stock_code": "5249",
+      "sector": "Property",
+      "domain": "ioicitymall.com.my"
+    },
+    {
       "stock_name": "FFB",
       "company_name": "FARM FRESH BERHAD",
-      "direct_percent": 16.989,
-      "total_securities": 320147778,
-      "date": "19 May 2026",
+      "direct_percent": 17.079,
+      "total_securities": 321847178,
+      "date": "20 May 2026",
       "stock_code": "5306",
       "sector": "Consumer",
       "domain": "kamifarming.com"
@@ -413,9 +433,9 @@ const EPF_DATA = {
     {
       "stock_name": "FRONTKN",
       "company_name": "FRONTKEN CORPORATION BERHAD",
-      "direct_percent": 17.589,
-      "total_securities": 318875694,
-      "date": "19 May 2026",
+      "direct_percent": 17.591,
+      "total_securities": 318916894,
+      "date": "20 May 2026",
       "stock_code": "0128",
       "sector": "Industrial",
       "domain": "frontken.com"
@@ -423,9 +443,9 @@ const EPF_DATA = {
     {
       "stock_name": "TIMECOM",
       "company_name": "TIME DOTCOM BERHAD",
-      "direct_percent": 16.876,
-      "total_securities": 312000653,
-      "date": "19 May 2026",
+      "direct_percent": 16.869,
+      "total_securities": 311873753,
+      "date": "20 May 2026",
       "stock_code": "5031",
       "sector": "Telecom",
       "domain": "time.io"
@@ -433,9 +453,9 @@ const EPF_DATA = {
     {
       "stock_name": "PETGAS",
       "company_name": "PETRONAS GAS BERHAD",
-      "direct_percent": 13.932,
-      "total_securities": 275682931,
-      "date": "19 May 2026",
+      "direct_percent": 13.927,
+      "total_securities": 275582931,
+      "date": "20 May 2026",
       "stock_code": "6033",
       "sector": "Industrial",
       "domain": "petronas.com"
@@ -443,9 +463,9 @@ const EPF_DATA = {
     {
       "stock_name": "PPB",
       "company_name": "PPB GROUP BERHAD",
-      "direct_percent": 18.984,
-      "total_securities": 270063997,
-      "date": "01 Apr 2026",
+      "direct_percent": 18.992,
+      "total_securities": 270181354,
+      "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
       "domain": "pbebank.com"
@@ -453,9 +473,9 @@ const EPF_DATA = {
     {
       "stock_name": "JPG",
       "company_name": "JOHOR PLANTATIONS GROUP BERHAD",
-      "direct_percent": 9.368,
-      "total_securities": 234191500,
-      "date": "14 May 2026",
+      "direct_percent": 9.31,
+      "total_securities": 232752800,
+      "date": "21 May 2026",
       "stock_code": "5323",
       "sector": "Consumer",
       "domain": "tourism.johor.gov.my"
@@ -463,9 +483,9 @@ const EPF_DATA = {
     {
       "stock_name": "WPRTS",
       "company_name": "WESTPORTS HOLDINGS BERHAD",
-      "direct_percent": 6.612,
-      "total_securities": 227217463,
-      "date": "19 May 2026",
+      "direct_percent": 6.543,
+      "total_securities": 224850463,
+      "date": "20 May 2026",
       "stock_code": "5246",
       "sector": "Industrial",
       "domain": "westportsholdings.com"
@@ -475,17 +495,17 @@ const EPF_DATA = {
       "company_name": "KUALA LUMPUR KEPONG BERHAD",
       "direct_percent": 19.473,
       "total_securities": 216862120,
-      "date": "18 May 2026",
+      "date": "20 May 2026",
       "stock_code": "2445",
       "sector": "Industrial",
       "domain": "theendlesstravellers.com"
     },
     {
       "stock_name": "KLCC",
-      "company_name": "KLCC PROPERTY HOLDINGS BERHAD",
-      "direct_percent": 11.059,
-      "total_securities": 199642875,
-      "date": "19 May 2026",
+      "company_name": "KLCC REAL ESTATE INVESTMENT TRUST",
+      "direct_percent": 11.078,
+      "total_securities": 199998675,
+      "date": "20 May 2026",
       "stock_code": "5235SS",
       "sector": "Property",
       "domain": "suriaklcc.com.my"
@@ -493,9 +513,9 @@ const EPF_DATA = {
     {
       "stock_name": "HLBANK",
       "company_name": "HONG LEONG BANK BERHAD",
-      "direct_percent": 9.505,
-      "total_securities": 198334097,
-      "date": "19 May 2026",
+      "direct_percent": 9.504,
+      "total_securities": 198311497,
+      "date": "20 May 2026",
       "stock_code": "5819",
       "sector": "Banking",
       "domain": "hongleongconnect.my"
@@ -505,7 +525,7 @@ const EPF_DATA = {
       "company_name": "SKP RESOURCES BHD",
       "direct_percent": 12.575,
       "total_securities": 196463350,
-      "date": "19 May 2026",
+      "date": "20 May 2026",
       "stock_code": "7155",
       "sector": "Industrial",
       "domain": "skpres.com"
@@ -513,9 +533,9 @@ const EPF_DATA = {
     {
       "stock_name": "E&O",
       "company_name": "EASTERN & ORIENTAL BERHAD",
-      "direct_percent": 7.76,
+      "direct_percent": 7.758,
       "total_securities": 193408100,
-      "date": "10 Mar 2026",
+      "date": "20 May 2026",
       "stock_code": "3417",
       "sector": "Property",
       "domain": "easterncineplex.com.my"
@@ -525,7 +545,7 @@ const EPF_DATA = {
       "company_name": "AURELIUS TECHNOLOGIES BERHAD",
       "direct_percent": 1.819,
       "total_securities": 158933445,
-      "date": "22 Apr 2026",
+      "date": "20 May 2026",
       "stock_code": "5302",
       "sector": "Technology",
       "domain": "aureliushealth.com"
@@ -533,9 +553,9 @@ const EPF_DATA = {
     {
       "stock_name": "TAKAFUL",
       "company_name": "SYARIKAT TAKAFUL MALAYSIA KELUARGA BERHAD",
-      "direct_percent": 18.199,
-      "total_securities": 158726197,
-      "date": "06 May 2026",
+      "direct_percent": 18.091,
+      "total_securities": 157790897,
+      "date": "20 May 2026",
       "stock_code": "6139",
       "sector": "Banking",
       "domain": "ssm.com.my"
@@ -555,7 +575,7 @@ const EPF_DATA = {
       "company_name": "DAYANG ENTERPRISE HOLDINGS BERHAD",
       "direct_percent": 13.093,
       "total_securities": 151590200,
-      "date": "27 Apr 2026",
+      "date": "20 May 2026",
       "stock_code": "5141",
       "sector": "Industrial",
       "domain": "translate.google.com"
@@ -563,9 +583,9 @@ const EPF_DATA = {
     {
       "stock_name": "ABMB",
       "company_name": "ALLIANCE BANK MALAYSIA BERHAD",
-      "direct_percent": 8.653,
-      "total_securities": 149709842,
-      "date": "12 May 2026",
+      "direct_percent": 8.632,
+      "total_securities": 149359842,
+      "date": "20 May 2026",
       "stock_code": "2488",
       "sector": "Banking",
       "domain": "alliancebank.com.my"
@@ -575,7 +595,7 @@ const EPF_DATA = {
       "company_name": "KOSSAN RUBBER INDUSTRIES BHD.",
       "direct_percent": 5.917,
       "total_securities": 149231400,
-      "date": "08 May 2026",
+      "date": "20 May 2026",
       "stock_code": "7153",
       "sector": "Healthcare",
       "domain": "kossan.com.my"
@@ -583,9 +603,9 @@ const EPF_DATA = {
     {
       "stock_name": "GENP",
       "company_name": "GENTING PLANTATIONS BERHAD",
-      "direct_percent": 15.454,
-      "total_securities": 138649300,
-      "date": "19 May 2026",
+      "direct_percent": 15.443,
+      "total_securities": 138549300,
+      "date": "20 May 2026",
       "stock_code": "2291",
       "sector": "Consumer",
       "domain": "rwgenting.com"
@@ -593,9 +613,9 @@ const EPF_DATA = {
     {
       "stock_name": "PARADIGM",
       "company_name": "PARADIGM REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 8.512,
-      "total_securities": 136434000,
-      "date": "19 May 2026",
+      "direct_percent": 8.537,
+      "total_securities": 136826300,
+      "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
       "domain": "paradigmmall.com.my"
@@ -605,7 +625,7 @@ const EPF_DATA = {
       "company_name": "PETRONAS DAGANGAN BHD",
       "direct_percent": 12.594,
       "total_securities": 125119112,
-      "date": "06 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5681",
       "sector": "Industrial",
       "domain": "petronas.com"
@@ -614,8 +634,8 @@ const EPF_DATA = {
       "stock_name": "BURSA",
       "company_name": "BURSA MALAYSIA BERHAD",
       "direct_percent": 14.438,
-      "total_securities": 116849041,
-      "date": "15 May 2026",
+      "total_securities": 116843141,
+      "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
       "domain": "bursamalaysia.com"
@@ -623,19 +643,29 @@ const EPF_DATA = {
     {
       "stock_name": "MFCB",
       "company_name": "MEGA FIRST CORPORATION BERHAD",
-      "direct_percent": 11.569,
-      "total_securities": 109003940,
-      "date": "19 May 2026",
+      "direct_percent": 11.584,
+      "total_securities": 109147140,
+      "date": "20 May 2026",
       "stock_code": "3069",
       "sector": "Utilities",
       "domain": "mega.nz"
+    },
+    {
+      "stock_name": "PENTA",
+      "company_name": "PENTAMASTER CORPORATION BERHAD",
+      "direct_percent": 15.189,
+      "total_securities": 108041750,
+      "date": "20 May 2026",
+      "stock_code": "7160",
+      "sector": "Industrial",
+      "domain": "pentamaster.com"
     },
     {
       "stock_name": "AEON",
       "company_name": "AEON CO. (M) BHD",
       "direct_percent": 7.625,
       "total_securities": 107049800,
-      "date": "19 May 2026",
+      "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
       "domain": "aeonretail.com.my"
@@ -643,9 +673,9 @@ const EPF_DATA = {
     {
       "stock_name": "PADINI",
       "company_name": "PADINI HOLDINGS BERHAD",
-      "direct_percent": 10.427,
-      "total_securities": 102903350,
-      "date": "30 Apr 2026",
+      "direct_percent": 10.439,
+      "total_securities": 103016550,
+      "date": "20 May 2026",
       "stock_code": "7052",
       "sector": "Consumer",
       "domain": "padini.com"
@@ -653,9 +683,9 @@ const EPF_DATA = {
     {
       "stock_name": "SCGBHD",
       "company_name": "SOUTHERN CABLE GROUP BERHAD",
-      "direct_percent": 8.671,
-      "total_securities": 98800000,
-      "date": "19 May 2026",
+      "direct_percent": 8.682,
+      "total_securities": 98921400,
+      "date": "20 May 2026",
       "stock_code": "0225",
       "sector": "Industrial",
       "domain": "southern.edu.my"
@@ -669,6 +699,16 @@ const EPF_DATA = {
       "stock_code": "5320",
       "sector": "Industrial",
       "domain": "prolintas.com.my"
+    },
+    {
+      "stock_name": "DPHARMA",
+      "company_name": "DUOPHARMA BIOTECH BERHAD",
+      "direct_percent": 8.888,
+      "total_securities": 85498334,
+      "date": "20 May 2026",
+      "stock_code": "7148",
+      "sector": "Healthcare",
+      "domain": "duopharmabiotech.com"
     },
     {
       "stock_name": "HLFG",
@@ -685,7 +725,7 @@ const EPF_DATA = {
       "company_name": "ECONPILE HOLDINGS BERHAD",
       "direct_percent": 5.22,
       "total_securities": 73987814,
-      "date": "07 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5253",
       "sector": "Industrial",
       "domain": "get.adobe.com"
@@ -693,9 +733,9 @@ const EPF_DATA = {
     {
       "stock_name": "BAUTO",
       "company_name": "BERMAZ AUTO BERHAD",
-      "direct_percent": 6.094,
+      "direct_percent": 6.095,
       "total_securities": 69169358,
-      "date": "04 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5248",
       "sector": "Consumer",
       "domain": "bauto.com.my"
@@ -703,39 +743,39 @@ const EPF_DATA = {
     {
       "stock_name": "SCOMNET",
       "company_name": "SUPERCOMNET TECHNOLOGIES BERHAD",
-      "direct_percent": 8.057,
-      "total_securities": 68373000,
-      "date": "19 May 2026",
+      "direct_percent": 8.021,
+      "total_securities": 68069000,
+      "date": "20 May 2026",
       "stock_code": "0001",
       "sector": "Industrial",
       "domain": "developer.mozilla.org"
-    },
-    {
-      "stock_name": "UWC",
-      "company_name": "UWC BERHAD",
-      "direct_percent": 5.73,
-      "total_securities": 63221732,
-      "date": "19 May 2026",
-      "stock_code": "5292",
-      "sector": "Industrial",
-      "domain": "uwcberhad.com.my"
     },
     {
       "stock_name": "ORKIM",
       "company_name": "ORKIM BERHAD",
       "direct_percent": 6.317,
       "total_securities": 63172300,
-      "date": "04 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5348",
       "sector": "Industrial",
       "domain": "chatgpt.com"
+    },
+    {
+      "stock_name": "UWC",
+      "company_name": "UWC BERHAD",
+      "direct_percent": 5.725,
+      "total_securities": 63168332,
+      "date": "20 May 2026",
+      "stock_code": "5292",
+      "sector": "Industrial",
+      "domain": "uwcberhad.com.my"
     },
     {
       "stock_name": "D&O",
       "company_name": "D & O GREEN TECHNOLOGIES BERHAD",
       "direct_percent": 5.004,
       "total_securities": 62021000,
-      "date": "14 May 2026",
+      "date": "20 May 2026",
       "stock_code": "7204",
       "sector": "Technology",
       "domain": "dictionary.cambridge.org"
@@ -743,9 +783,9 @@ const EPF_DATA = {
     {
       "stock_name": "F&N",
       "company_name": "FRASER & NEAVE HOLDINGS BHD",
-      "direct_percent": 16.432,
-      "total_securities": 60268030,
-      "date": "11 May 2026",
+      "direct_percent": 16.424,
+      "total_securities": 60240630,
+      "date": "20 May 2026",
       "stock_code": "3689",
       "sector": "Consumer",
       "domain": "support.microsoft.com"
@@ -755,7 +795,7 @@ const EPF_DATA = {
       "company_name": "WASCO BERHAD",
       "direct_percent": 7.463,
       "total_securities": 57788900,
-      "date": "06 May 2026",
+      "date": "20 May 2026",
       "stock_code": "5142",
       "sector": "Industrial",
       "domain": "wascoenergy.com"
@@ -763,9 +803,9 @@ const EPF_DATA = {
     {
       "stock_name": "UTDPLT",
       "company_name": "UNITED PLANTATIONS BERHAD",
-      "direct_percent": 7.619,
-      "total_securities": 47405593,
-      "date": "19 May 2026",
+      "direct_percent": 7.631,
+      "total_securities": 47477293,
+      "date": "20 May 2026",
       "stock_code": "2089",
       "sector": "Consumer",
       "domain": "united.com"
@@ -773,9 +813,9 @@ const EPF_DATA = {
     {
       "stock_name": "SAM",
       "company_name": "SAM ENGINEERING & EQUIPMENT (M) BERHAD",
-      "direct_percent": 6.193,
-      "total_securities": 41923700,
-      "date": "19 May 2026",
+      "direct_percent": 6.284,
+      "total_securities": 42541700,
+      "date": "20 May 2026",
       "stock_code": "9822",
       "sector": "Industrial",
       "domain": "sam-malaysia.com"
@@ -783,9 +823,9 @@ const EPF_DATA = {
     {
       "stock_name": "AME",
       "company_name": "AME ELITE CONSORTIUM BERHAD",
-      "direct_percent": 5.973,
-      "total_securities": 38083550,
-      "date": "03 Feb 2026",
+      "direct_percent": 6.221,
+      "total_securities": 39583550,
+      "date": "20 May 2026",
       "stock_code": "5293",
       "sector": "Industrial",
       "domain": "ameconstruction.com.my"
@@ -793,19 +833,29 @@ const EPF_DATA = {
     {
       "stock_name": "NESTLE",
       "company_name": "NESTLE (MALAYSIA) BERHAD",
-      "direct_percent": 13.547,
-      "total_securities": 31766800,
-      "date": "20 May 2026",
+      "direct_percent": 13.514,
+      "total_securities": 31691000,
+      "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
       "domain": "nestle.com.my"
     },
     {
+      "stock_name": "MPI",
+      "company_name": "MALAYSIAN PACIFIC INDUSTRIES BERHAD",
+      "direct_percent": 0,
+      "total_securities": 15841518,
+      "date": "20 May 2026",
+      "stock_code": "3867",
+      "sector": "Technology",
+      "domain": "malaysiaairlines.com"
+    },
+    {
       "stock_name": "ALLIANZ",
       "company_name": "ALLIANZ MALAYSIA BERHAD",
-      "direct_percent": 7.507,
-      "total_securities": 13833184,
-      "date": "19 May 2026",
+      "direct_percent": 7.498,
+      "total_securities": 13816484,
+      "date": "20 May 2026",
       "stock_code": "1163",
       "sector": "Banking",
       "domain": "allianz.com.my"
@@ -813,9 +863,9 @@ const EPF_DATA = {
     {
       "stock_name": "PANAMY",
       "company_name": "PANASONIC MANUFACTURING MALAYSIA BERHAD",
-      "direct_percent": 6.058,
-      "total_securities": 3679721,
-      "date": "19 May 2026",
+      "direct_percent": 6.031,
+      "total_securities": 3663321,
+      "date": "20 May 2026",
       "stock_code": "3719",
       "sector": "Consumer",
       "domain": "panasonic.com"
@@ -1375,13 +1425,2431 @@ const EPF_DATA = {
       "count": 51
     },
     "20 May 2026": {
-      "acquired": 734000,
-      "disposed": 0,
-      "net": 734000,
-      "count": 2
+      "acquired": 59541000,
+      "disposed": 27880600,
+      "net": 31660400,
+      "count": 81
+    },
+    "21 May 2026": {
+      "acquired": 6298800,
+      "disposed": 445500,
+      "net": 5853300,
+      "count": 5
     }
   },
   "transactions": [
+    {
+      "stock": "YTL",
+      "company": "YTL CORPORATION BERHAD",
+      "date": "21 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667976",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1237200
+        }
+      ],
+      "percent": 11.485,
+      "total": 1334966071
+    },
+    {
+      "stock": "YTLPOWR",
+      "company": "YTL POWER INTERNATIONAL BHD",
+      "date": "21 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667975",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 3629800
+        }
+      ],
+      "percent": 12.048,
+      "total": 1041719897
+    },
+    {
+      "stock": "NESTLE",
+      "company": "NESTLE (MALAYSIA) BERHAD",
+      "date": "21 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667972",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 21300
+        },
+        {
+          "type": "Disposed",
+          "amount": 27100
+        }
+      ],
+      "percent": 13.514,
+      "total": 31691000
+    },
+    {
+      "stock": "KPJ",
+      "company": "KPJ HEALTHCARE BERHAD",
+      "date": "21 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667961",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 594600
+        },
+        {
+          "type": "Acquired",
+          "amount": 815900
+        }
+      ],
+      "percent": 0,
+      "total": 822928005
+    },
+    {
+      "stock": "JPG",
+      "company": "JOHOR PLANTATIONS GROUP BERHAD",
+      "date": "21 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667949",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 418400
+        }
+      ],
+      "percent": 9.31,
+      "total": 232752800
+    },
+    {
+      "stock": "PENTA",
+      "company": "PENTAMASTER CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667844",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 625400
+        },
+        {
+          "type": "Disposed",
+          "amount": 1796500
+        },
+        {
+          "type": "Acquired",
+          "amount": 36700
+        },
+        {
+          "type": "Transferred",
+          "amount": 3681336
+        },
+        {
+          "type": "Transferred",
+          "amount": 443538
+        },
+        {
+          "type": "Transferred",
+          "amount": 2649133
+        },
+        {
+          "type": "Transferred",
+          "amount": 1646213
+        },
+        {
+          "type": "Transferred",
+          "amount": 2040899
+        },
+        {
+          "type": "Transferred",
+          "amount": 3681336
+        },
+        {
+          "type": "Transferred",
+          "amount": 443538
+        },
+        {
+          "type": "Transferred",
+          "amount": 1646213
+        },
+        {
+          "type": "Transferred",
+          "amount": 2040899
+        },
+        {
+          "type": "Transferred",
+          "amount": 2649133
+        }
+      ],
+      "percent": 15.189,
+      "total": 108041750
+    },
+    {
+      "stock": "ATECH",
+      "company": "AURELIUS TECHNOLOGIES BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667825",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 4162175
+        },
+        {
+          "type": "Transferred",
+          "amount": 4162175
+        },
+        {
+          "type": "Transferred",
+          "amount": 1558157
+        },
+        {
+          "type": "Transferred",
+          "amount": 1558157
+        },
+        {
+          "type": "Transferred",
+          "amount": 24961366
+        },
+        {
+          "type": "Transferred",
+          "amount": 24961366
+        }
+      ],
+      "percent": 1.819,
+      "total": 158933445
+    },
+    {
+      "stock": "PETDAG",
+      "company": "PETRONAS DAGANGAN BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667823",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 961474
+        },
+        {
+          "type": "Transferred",
+          "amount": 140440
+        },
+        {
+          "type": "Transferred",
+          "amount": 471191
+        },
+        {
+          "type": "Transferred",
+          "amount": 961474
+        },
+        {
+          "type": "Transferred",
+          "amount": 140440
+        },
+        {
+          "type": "Transferred",
+          "amount": 471191
+        }
+      ],
+      "percent": 12.594,
+      "total": 125119112
+    },
+    {
+      "stock": "KPJ",
+      "company": "KPJ HEALTHCARE BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667821",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 10098434
+        },
+        {
+          "type": "Transferred",
+          "amount": 849299
+        },
+        {
+          "type": "Transferred",
+          "amount": 10098434
+        },
+        {
+          "type": "Transferred",
+          "amount": 849299
+        }
+      ],
+      "percent": 0,
+      "total": 822517505
+    },
+    {
+      "stock": "SIMEPROP",
+      "company": "SIME DARBY PROPERTY BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667811",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 7753300
+        },
+        {
+          "type": "Transferred",
+          "amount": 83045451
+        },
+        {
+          "type": "Transferred",
+          "amount": 8680309
+        },
+        {
+          "type": "Transferred",
+          "amount": 6812599
+        },
+        {
+          "type": "Transferred",
+          "amount": 4389584
+        },
+        {
+          "type": "Transferred",
+          "amount": 12298457
+        },
+        {
+          "type": "Transferred",
+          "amount": 83045451
+        },
+        {
+          "type": "Transferred",
+          "amount": 8680309
+        },
+        {
+          "type": "Transferred",
+          "amount": 4389584
+        },
+        {
+          "type": "Transferred",
+          "amount": 12298457
+        },
+        {
+          "type": "Transferred",
+          "amount": 6812599
+        }
+      ],
+      "percent": 12.622,
+      "total": 1188888700
+    },
+    {
+      "stock": "PCHEM",
+      "company": "PETRONAS CHEMICALS GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667810",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 761300
+        },
+        {
+          "type": "Transferred",
+          "amount": 3599192
+        },
+        {
+          "type": "Transferred",
+          "amount": 1716399
+        },
+        {
+          "type": "Transferred",
+          "amount": 1863497
+        },
+        {
+          "type": "Acquired",
+          "amount": 285500
+        },
+        {
+          "type": "Transferred",
+          "amount": 1623519
+        },
+        {
+          "type": "Transferred",
+          "amount": 3599192
+        },
+        {
+          "type": "Transferred",
+          "amount": 1716399
+        },
+        {
+          "type": "Transferred",
+          "amount": 1623519
+        },
+        {
+          "type": "Transferred",
+          "amount": 1863497
+        }
+      ],
+      "percent": 12.838,
+      "total": 1027027408
+    },
+    {
+      "stock": "IJM",
+      "company": "IJM CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667801",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 30966248
+        },
+        {
+          "type": "Transferred",
+          "amount": 6132345
+        },
+        {
+          "type": "Transferred",
+          "amount": 3958819
+        },
+        {
+          "type": "Transferred",
+          "amount": 2045723
+        },
+        {
+          "type": "Transferred",
+          "amount": 30966248
+        },
+        {
+          "type": "Transferred",
+          "amount": 6132345
+        },
+        {
+          "type": "Transferred",
+          "amount": 2045723
+        },
+        {
+          "type": "Transferred",
+          "amount": 3958819
+        }
+      ],
+      "percent": 20.523,
+      "total": 719375469
+    },
+    {
+      "stock": "KLK",
+      "company": "KUALA LUMPUR KEPONG BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667799",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 910954
+        },
+        {
+          "type": "Transferred",
+          "amount": 291123
+        },
+        {
+          "type": "Transferred",
+          "amount": 519159
+        },
+        {
+          "type": "Transferred",
+          "amount": 1112484
+        },
+        {
+          "type": "Transferred",
+          "amount": 910954
+        },
+        {
+          "type": "Transferred",
+          "amount": 291123
+        },
+        {
+          "type": "Transferred",
+          "amount": 519159
+        },
+        {
+          "type": "Transferred",
+          "amount": 1112484
+        }
+      ],
+      "percent": 19.473,
+      "total": 216862120
+    },
+    {
+      "stock": "SUNMED",
+      "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667796",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 4189200
+        },
+        {
+          "type": "Acquired",
+          "amount": 500000
+        }
+      ],
+      "percent": 5.261,
+      "total": 605013844
+    },
+    {
+      "stock": "SCGBHD",
+      "company": "SOUTHERN CABLE GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667793",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 4926952
+        },
+        {
+          "type": "Transferred",
+          "amount": 1005909
+        },
+        {
+          "type": "Acquired",
+          "amount": 101100
+        },
+        {
+          "type": "Acquired",
+          "amount": 20300
+        },
+        {
+          "type": "Transferred",
+          "amount": 1005909
+        },
+        {
+          "type": "Transferred",
+          "amount": 4926952
+        }
+      ],
+      "percent": 8.682,
+      "total": 98921400
+    },
+    {
+      "stock": "PETGAS",
+      "company": "PETRONAS GAS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667777",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 4802207
+        },
+        {
+          "type": "Transferred",
+          "amount": 504280
+        },
+        {
+          "type": "Transferred",
+          "amount": 1337883
+        },
+        {
+          "type": "Transferred",
+          "amount": 541785
+        },
+        {
+          "type": "Transferred",
+          "amount": 4802207
+        },
+        {
+          "type": "Transferred",
+          "amount": 504280
+        },
+        {
+          "type": "Transferred",
+          "amount": 541785
+        },
+        {
+          "type": "Transferred",
+          "amount": 1337883
+        }
+      ],
+      "percent": 13.927,
+      "total": 275582931
+    },
+    {
+      "stock": "INARI",
+      "company": "INARI AMERTRON BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667775",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 21890302
+        },
+        {
+          "type": "Others",
+          "amount": 3247583
+        },
+        {
+          "type": "Others",
+          "amount": 2947304
+        },
+        {
+          "type": "Others",
+          "amount": 4139686
+        },
+        {
+          "type": "Others",
+          "amount": 21890302
+        },
+        {
+          "type": "Others",
+          "amount": 2947304
+        },
+        {
+          "type": "Others",
+          "amount": 4139686
+        },
+        {
+          "type": "Others",
+          "amount": 3247583
+        }
+      ],
+      "percent": 15.194,
+      "total": 578561422
+    },
+    {
+      "stock": "PANAMY",
+      "company": "PANASONIC MANUFACTURING MALAYSIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667771",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 16400
+        }
+      ],
+      "percent": 6.031,
+      "total": 3663321
+    },
+    {
+      "stock": "AXREIT",
+      "company": "AXIS REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667770",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 27282745
+        },
+        {
+          "type": "Acquired",
+          "amount": 84200
+        },
+        {
+          "type": "Transferred",
+          "amount": 5083519
+        },
+        {
+          "type": "Transferred",
+          "amount": 27282745
+        },
+        {
+          "type": "Transferred",
+          "amount": 5083519
+        }
+      ],
+      "percent": 21.537,
+      "total": 436093597
+    },
+    {
+      "stock": "FFB",
+      "company": "FARM FRESH BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667760",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 876200
+        },
+        {
+          "type": "Acquired",
+          "amount": 823200
+        },
+        {
+          "type": "Transferred",
+          "amount": 4438435
+        },
+        {
+          "type": "Transferred",
+          "amount": 79291
+        },
+        {
+          "type": "Transferred",
+          "amount": 79291
+        },
+        {
+          "type": "Transferred",
+          "amount": 4438435
+        }
+      ],
+      "percent": 17.079,
+      "total": 321847178
+    },
+    {
+      "stock": "CTOS",
+      "company": "CTOS DIGITAL BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667737",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 2781487
+        },
+        {
+          "type": "Disposed",
+          "amount": 640900
+        },
+        {
+          "type": "Transferred",
+          "amount": 3000335
+        },
+        {
+          "type": "Transferred",
+          "amount": 49345752
+        },
+        {
+          "type": "Transferred",
+          "amount": 3000335
+        },
+        {
+          "type": "Transferred",
+          "amount": 49345752
+        },
+        {
+          "type": "Transferred",
+          "amount": 2781487
+        }
+      ],
+      "percent": 22.426,
+      "total": 510204063
+    },
+    {
+      "stock": "AME",
+      "company": "AME ELITE CONSORTIUM BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667733",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 2895769
+        },
+        {
+          "type": "Others",
+          "amount": 2895769
+        },
+        {
+          "type": "Others",
+          "amount": 3606666
+        },
+        {
+          "type": "Others",
+          "amount": 3606666
+        }
+      ],
+      "percent": 6.221,
+      "total": 39583550
+    },
+    {
+      "stock": "BAUTO",
+      "company": "BERMAZ AUTO BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667731",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 4519900
+        },
+        {
+          "type": "Transferred",
+          "amount": 4519900
+        }
+      ],
+      "percent": 6.095,
+      "total": 69169358
+    },
+    {
+      "stock": "KLCC",
+      "company": "KLCC REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667727",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 355800
+        },
+        {
+          "type": "Transferred",
+          "amount": 11170249
+        },
+        {
+          "type": "Transferred",
+          "amount": 358472
+        },
+        {
+          "type": "Transferred",
+          "amount": 2371718
+        },
+        {
+          "type": "Transferred",
+          "amount": 11170249
+        },
+        {
+          "type": "Transferred",
+          "amount": 358472
+        },
+        {
+          "type": "Transferred",
+          "amount": 2371718
+        }
+      ],
+      "percent": 11.078,
+      "total": 199998675
+    },
+    {
+      "stock": "ECONBHD",
+      "company": "ECONPILE HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667724",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 9001208
+        }
+      ],
+      "percent": 5.22,
+      "total": 73987814
+    },
+    {
+      "stock": "KLCC",
+      "company": "KLCC PROPERTY HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667723",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 355800
+        },
+        {
+          "type": "Transferred",
+          "amount": 11170249
+        },
+        {
+          "type": "Transferred",
+          "amount": 358472
+        },
+        {
+          "type": "Transferred",
+          "amount": 2371718
+        },
+        {
+          "type": "Transferred",
+          "amount": 11170249
+        },
+        {
+          "type": "Transferred",
+          "amount": 358472
+        },
+        {
+          "type": "Transferred",
+          "amount": 2371718
+        }
+      ],
+      "percent": 11.078,
+      "total": 199998675
+    },
+    {
+      "stock": "MRDIY",
+      "company": "MR D.I.Y. GROUP (M) BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667722",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 4574357
+        },
+        {
+          "type": "Transferred",
+          "amount": 4260592
+        },
+        {
+          "type": "Transferred",
+          "amount": 7315927
+        },
+        {
+          "type": "Transferred",
+          "amount": 4260592
+        },
+        {
+          "type": "Transferred",
+          "amount": 7315927
+        },
+        {
+          "type": "Transferred",
+          "amount": 4574357
+        }
+      ],
+      "percent": 11.204,
+      "total": 1061850975
+    },
+    {
+      "stock": "DIALOG",
+      "company": "DIALOG GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667720",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 22303333
+        },
+        {
+          "type": "Transferred",
+          "amount": 6255459
+        },
+        {
+          "type": "Transferred",
+          "amount": 3856360
+        },
+        {
+          "type": "Transferred",
+          "amount": 4023366
+        },
+        {
+          "type": "Transferred",
+          "amount": 9492782
+        },
+        {
+          "type": "Transferred",
+          "amount": 22303333
+        },
+        {
+          "type": "Transferred",
+          "amount": 6255459
+        },
+        {
+          "type": "Transferred",
+          "amount": 4023366
+        },
+        {
+          "type": "Transferred",
+          "amount": 9492782
+        },
+        {
+          "type": "Transferred",
+          "amount": 3856360
+        }
+      ],
+      "percent": 21.72,
+      "total": 1225846695
+    },
+    {
+      "stock": "SUNWAY",
+      "company": "SUNWAY BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667718",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 754300
+        },
+        {
+          "type": "Transferred",
+          "amount": 3563046
+        },
+        {
+          "type": "Transferred",
+          "amount": 898762
+        },
+        {
+          "type": "Transferred",
+          "amount": 898762
+        },
+        {
+          "type": "Transferred",
+          "amount": 3563046
+        }
+      ],
+      "percent": 10.89,
+      "total": 736458602
+    },
+    {
+      "stock": "CIMB",
+      "company": "CIMB GROUP HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667714",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 406300
+        },
+        {
+          "type": "Acquired",
+          "amount": 568400
+        },
+        {
+          "type": "Disposed",
+          "amount": 850700
+        }
+      ],
+      "percent": 17.63,
+      "total": 1904655708
+    },
+    {
+      "stock": "SUNREIT",
+      "company": "SUNWAY REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667695",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 618400
+        },
+        {
+          "type": "Acquired",
+          "amount": 2000000
+        },
+        {
+          "type": "Acquired",
+          "amount": 40600
+        }
+      ],
+      "percent": 16.355,
+      "total": 560125150
+    },
+    {
+      "stock": "AEON",
+      "company": "AEON CO. (M) BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667692",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 3009507
+        },
+        {
+          "type": "Transferred",
+          "amount": 3009507
+        }
+      ],
+      "percent": 7.625,
+      "total": 107049800
+    },
+    {
+      "stock": "WASCO",
+      "company": "WASCO BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667683",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 13353151
+        },
+        {
+          "type": "Transferred",
+          "amount": 13353151
+        }
+      ],
+      "percent": 7.463,
+      "total": 57788900
+    },
+    {
+      "stock": "ORKIM",
+      "company": "ORKIM BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667675",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 5705521
+        },
+        {
+          "type": "Others",
+          "amount": 10531304
+        },
+        {
+          "type": "Others",
+          "amount": 5705521
+        },
+        {
+          "type": "Others",
+          "amount": 10531304
+        }
+      ],
+      "percent": 6.317,
+      "total": 63172300
+    },
+    {
+      "stock": "MISC",
+      "company": "MISC BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667673",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1343800
+        },
+        {
+          "type": "Transferred",
+          "amount": 1970373
+        },
+        {
+          "type": "Disposed",
+          "amount": 200000
+        },
+        {
+          "type": "Transferred",
+          "amount": 714974
+        },
+        {
+          "type": "Transferred",
+          "amount": 714974
+        },
+        {
+          "type": "Transferred",
+          "amount": 1970373
+        }
+      ],
+      "percent": 15.144,
+      "total": 675986103
+    },
+    {
+      "stock": "IOIPG",
+      "company": "IOI PROPERTIES GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667668",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 2945700
+        },
+        {
+          "type": "Disposed",
+          "amount": 324300
+        }
+      ],
+      "percent": 6.662,
+      "total": 366801407
+    },
+    {
+      "stock": "TAKAFUL",
+      "company": "SYARIKAT TAKAFUL MALAYSIA KELUARGA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667663",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 755300
+        }
+      ],
+      "percent": 18.091,
+      "total": 157790897
+    },
+    {
+      "stock": "TENAGA",
+      "company": "TENAGA NASIONAL BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667660",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1326900
+        },
+        {
+          "type": "Transferred",
+          "amount": 10601015
+        },
+        {
+          "type": "Transferred",
+          "amount": 392308
+        },
+        {
+          "type": "Transferred",
+          "amount": 4739291
+        },
+        {
+          "type": "Acquired",
+          "amount": 500000
+        },
+        {
+          "type": "Transferred",
+          "amount": 1140235
+        },
+        {
+          "type": "Transferred",
+          "amount": 4048369
+        },
+        {
+          "type": "Acquired",
+          "amount": 525900
+        }
+      ],
+      "percent": 24.49,
+      "total": 1427510645
+    },
+    {
+      "stock": "PARADIGM",
+      "company": "PARADIGM REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667659",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 392300
+        }
+      ],
+      "percent": 8.537,
+      "total": 136826300
+    },
+    {
+      "stock": "F&N",
+      "company": "FRASER & NEAVE HOLDINGS BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667654",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 33100
+        },
+        {
+          "type": "Transferred",
+          "amount": 635683
+        },
+        {
+          "type": "Transferred",
+          "amount": 35671
+        },
+        {
+          "type": "Transferred",
+          "amount": 35671
+        },
+        {
+          "type": "Transferred",
+          "amount": 635683
+        }
+      ],
+      "percent": 16.424,
+      "total": 60240630
+    },
+    {
+      "stock": "GENP",
+      "company": "GENTING PLANTATIONS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667652",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 2166323
+        },
+        {
+          "type": "Transferred",
+          "amount": 1142816
+        },
+        {
+          "type": "Transferred",
+          "amount": 449449
+        },
+        {
+          "type": "Transferred",
+          "amount": 503328
+        },
+        {
+          "type": "Transferred",
+          "amount": 2166323
+        },
+        {
+          "type": "Transferred",
+          "amount": 1142816
+        },
+        {
+          "type": "Transferred",
+          "amount": 503328
+        },
+        {
+          "type": "Transferred",
+          "amount": 449449
+        }
+      ],
+      "percent": 15.443,
+      "total": 138549300
+    },
+    {
+      "stock": "GAMUDA",
+      "company": "GAMUDA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667649",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 19846842
+        },
+        {
+          "type": "Others",
+          "amount": 3977468
+        },
+        {
+          "type": "Others",
+          "amount": 8630910
+        },
+        {
+          "type": "Others",
+          "amount": 3634387
+        },
+        {
+          "type": "Others",
+          "amount": 19846842
+        },
+        {
+          "type": "Others",
+          "amount": 3977468
+        },
+        {
+          "type": "Others",
+          "amount": 3634387
+        },
+        {
+          "type": "Acquired",
+          "amount": 100000
+        },
+        {
+          "type": "Others",
+          "amount": 8630910
+        }
+      ],
+      "percent": 20.59,
+      "total": 1227120264
+    },
+    {
+      "stock": "MAYBANK",
+      "company": "MALAYAN BANKING BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667647",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 1250000
+        }
+      ],
+      "percent": 12.471,
+      "total": 1508410497
+    },
+    {
+      "stock": "MPI",
+      "company": "MALAYSIAN PACIFIC INDUSTRIES BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667646",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 196700
+        },
+        {
+          "type": "Disposed",
+          "amount": 300
+        },
+        {
+          "type": "Disposed",
+          "amount": 294600
+        },
+        {
+          "type": "Acquired",
+          "amount": 75000
+        },
+        {
+          "type": "Transferred",
+          "amount": 117271
+        },
+        {
+          "type": "Disposed",
+          "amount": 123500
+        },
+        {
+          "type": "Transferred",
+          "amount": 117271
+        },
+        {
+          "type": "Acquired",
+          "amount": 415500
+        }
+      ],
+      "percent": 0,
+      "total": 15841518
+    },
+    {
+      "stock": "PPB",
+      "company": "PPB GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667625",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 175975
+        }
+      ],
+      "percent": 18.992,
+      "total": 270181354
+    },
+    {
+      "stock": "SCOMNET",
+      "company": "SUPERCOMNET TECHNOLOGIES BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667622",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 304000
+        },
+        {
+          "type": "Transferred",
+          "amount": 4042186
+        }
+      ],
+      "percent": 8.021,
+      "total": 68069000
+    },
+    {
+      "stock": "RHBBANK",
+      "company": "RHB BANK BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667621",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 119800
+        }
+      ],
+      "percent": 35.653,
+      "total": 1555140569
+    },
+    {
+      "stock": "TIMECOM",
+      "company": "TIME DOTCOM BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667616",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 18698569
+        },
+        {
+          "type": "Others",
+          "amount": 543551
+        },
+        {
+          "type": "Disposed",
+          "amount": 342500
+        },
+        {
+          "type": "Acquired",
+          "amount": 215600
+        },
+        {
+          "type": "Others",
+          "amount": 431240
+        },
+        {
+          "type": "Others",
+          "amount": 8154831
+        },
+        {
+          "type": "Others",
+          "amount": 18698569
+        },
+        {
+          "type": "Others",
+          "amount": 431240
+        },
+        {
+          "type": "Others",
+          "amount": 8154831
+        },
+        {
+          "type": "Others",
+          "amount": 543551
+        }
+      ],
+      "percent": 16.869,
+      "total": 311873753
+    },
+    {
+      "stock": "CLMT",
+      "company": "CAPITALAND MALAYSIA TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667609",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 766900
+        }
+      ],
+      "percent": 17.967,
+      "total": 604611661
+    },
+    {
+      "stock": "SKPRES",
+      "company": "SKP RESOURCES BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667599",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 32021569
+        },
+        {
+          "type": "Transferred",
+          "amount": 32021569
+        },
+        {
+          "type": "Transferred",
+          "amount": 3230563
+        },
+        {
+          "type": "Transferred",
+          "amount": 3230563
+        },
+        {
+          "type": "Transferred",
+          "amount": 35722694
+        },
+        {
+          "type": "Transferred",
+          "amount": 35722694
+        },
+        {
+          "type": "Transferred",
+          "amount": 4852485
+        },
+        {
+          "type": "Transferred",
+          "amount": 4852485
+        }
+      ],
+      "percent": 12.575,
+      "total": 196463350
+    },
+    {
+      "stock": "MFCB",
+      "company": "MEGA FIRST CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667597",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 143200
+        },
+        {
+          "type": "Transferred",
+          "amount": 9960032
+        },
+        {
+          "type": "Transferred",
+          "amount": 9960032
+        }
+      ],
+      "percent": 11.584,
+      "total": 109147140
+    },
+    {
+      "stock": "PBBANK",
+      "company": "PUBLIC BANK BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667596",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 8000000
+        },
+        {
+          "type": "Acquired",
+          "amount": 762800
+        },
+        {
+          "type": "Disposed",
+          "amount": 289900
+        }
+      ],
+      "percent": 17.18,
+      "total": 3334775783
+    },
+    {
+      "stock": "D&O",
+      "company": "D & O GREEN TECHNOLOGIES BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667593",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 13257214
+        },
+        {
+          "type": "Transferred",
+          "amount": 13257214
+        },
+        {
+          "type": "Transferred",
+          "amount": 21359116
+        },
+        {
+          "type": "Transferred",
+          "amount": 21359116
+        }
+      ],
+      "percent": 5.004,
+      "total": 62021000
+    },
+    {
+      "stock": "DPHARMA",
+      "company": "DUOPHARMA BIOTECH BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667585",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 1543278
+        }
+      ],
+      "percent": 8.888,
+      "total": 85498334
+    },
+    {
+      "stock": "SIME",
+      "company": "SIME DARBY BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667583",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 465800
+        },
+        {
+          "type": "Acquired",
+          "amount": 1523800
+        },
+        {
+          "type": "Transferred",
+          "amount": 4358669
+        },
+        {
+          "type": "Disposed",
+          "amount": 500000
+        },
+        {
+          "type": "Transferred",
+          "amount": 2651986
+        },
+        {
+          "type": "Transferred",
+          "amount": 4358669
+        },
+        {
+          "type": "Transferred",
+          "amount": 2651986
+        }
+      ],
+      "percent": 14.612,
+      "total": 1156112660
+    },
+    {
+      "stock": "WPRTS",
+      "company": "WESTPORTS HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667578",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 282400
+        },
+        {
+          "type": "Transferred",
+          "amount": 7187602
+        },
+        {
+          "type": "Transferred",
+          "amount": 1025540
+        },
+        {
+          "type": "Disposed",
+          "amount": 1200000
+        },
+        {
+          "type": "Transferred",
+          "amount": 1352016
+        },
+        {
+          "type": "Disposed",
+          "amount": 1449400
+        },
+        {
+          "type": "Transferred",
+          "amount": 19058
+        },
+        {
+          "type": "Transferred",
+          "amount": 7187602
+        },
+        {
+          "type": "Transferred",
+          "amount": 1025540
+        },
+        {
+          "type": "Transferred",
+          "amount": 1352016
+        },
+        {
+          "type": "Transferred",
+          "amount": 19058
+        }
+      ],
+      "percent": 6.543,
+      "total": 224850463
+    },
+    {
+      "stock": "SAM",
+      "company": "SAM ENGINEERING & EQUIPMENT (M) BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667572",
+      "transactions": [
+        {
+          "type": "Others",
+          "amount": 5293781
+        },
+        {
+          "type": "Others",
+          "amount": 1314714
+        },
+        {
+          "type": "Acquired",
+          "amount": 618000
+        },
+        {
+          "type": "Others",
+          "amount": 410381
+        },
+        {
+          "type": "Others",
+          "amount": 5552987
+        },
+        {
+          "type": "Others",
+          "amount": 5293781
+        },
+        {
+          "type": "Others",
+          "amount": 410381
+        },
+        {
+          "type": "Others",
+          "amount": 5552987
+        },
+        {
+          "type": "Others",
+          "amount": 1314714
+        }
+      ],
+      "percent": 6.284,
+      "total": 42541700
+    },
+    {
+      "stock": "DAYANG",
+      "company": "DAYANG ENTERPRISE HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667555",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 29998319
+        },
+        {
+          "type": "Transferred",
+          "amount": 29998319
+        },
+        {
+          "type": "Transferred",
+          "amount": 1208314
+        },
+        {
+          "type": "Transferred",
+          "amount": 1208314
+        },
+        {
+          "type": "Transferred",
+          "amount": 4629018
+        },
+        {
+          "type": "Transferred",
+          "amount": 4629018
+        },
+        {
+          "type": "Transferred",
+          "amount": 14889974
+        },
+        {
+          "type": "Transferred",
+          "amount": 14889974
+        }
+      ],
+      "percent": 13.093,
+      "total": 151590200
+    },
+    {
+      "stock": "IHH",
+      "company": "IHH HEALTHCARE BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667553",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 658400
+        },
+        {
+          "type": "Disposed",
+          "amount": 1516500
+        },
+        {
+          "type": "Transferred",
+          "amount": 13180165
+        },
+        {
+          "type": "Transferred",
+          "amount": 1581530
+        },
+        {
+          "type": "Transferred",
+          "amount": 5470028
+        },
+        {
+          "type": "Acquired",
+          "amount": 1000000
+        },
+        {
+          "type": "Transferred",
+          "amount": 1141525
+        },
+        {
+          "type": "Transferred",
+          "amount": 13180165
+        },
+        {
+          "type": "Transferred",
+          "amount": 1581530
+        },
+        {
+          "type": "Transferred",
+          "amount": 1141525
+        },
+        {
+          "type": "Transferred",
+          "amount": 5470028
+        }
+      ],
+      "percent": 13.425,
+      "total": 1186222100
+    },
+    {
+      "stock": "SPSETIA",
+      "company": "S P SETIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667543",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 3300000
+        },
+        {
+          "type": "Acquired",
+          "amount": 5000000
+        },
+        {
+          "type": "Transferred",
+          "amount": 21052553
+        },
+        {
+          "type": "Transferred",
+          "amount": 21052553
+        },
+        {
+          "type": "Transferred",
+          "amount": 3162992
+        },
+        {
+          "type": "Transferred",
+          "amount": 3162992
+        }
+      ],
+      "percent": 13.679,
+      "total": 684430224
+    },
+    {
+      "stock": "IOICORP",
+      "company": "IOI CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667539",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 2780740
+        },
+        {
+          "type": "Transferred",
+          "amount": 2780740
+        },
+        {
+          "type": "Transferred",
+          "amount": 6314638
+        },
+        {
+          "type": "Transferred",
+          "amount": 6314638
+        }
+      ],
+      "percent": 16.708,
+      "total": 1050145890
+    },
+    {
+      "stock": "PMETAL",
+      "company": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667538",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 1070000
+        },
+        {
+          "type": "Acquired",
+          "amount": 1000000
+        },
+        {
+          "type": "Transferred",
+          "amount": 2224687
+        },
+        {
+          "type": "Acquired",
+          "amount": 820000
+        },
+        {
+          "type": "Transferred",
+          "amount": 384834
+        },
+        {
+          "type": "Transferred",
+          "amount": 2224687
+        },
+        {
+          "type": "Transferred",
+          "amount": 384834
+        },
+        {
+          "type": "Acquired",
+          "amount": 1224700
+        }
+      ],
+      "percent": 8.953,
+      "total": 737681437
+    },
+    {
+      "stock": "JPG",
+      "company": "JOHOR PLANTATIONS GROUP BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667524",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 12960435
+        },
+        {
+          "type": "Transferred",
+          "amount": 12960435
+        },
+        {
+          "type": "Transferred",
+          "amount": 12532252
+        },
+        {
+          "type": "Transferred",
+          "amount": 12532252
+        },
+        {
+          "type": "Disposed",
+          "amount": 449500
+        },
+        {
+          "type": "Disposed",
+          "amount": 570800
+        }
+      ],
+      "percent": 9.327,
+      "total": 233171200
+    },
+    {
+      "stock": "UWC",
+      "company": "UWC BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667522",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 24400
+        },
+        {
+          "type": "Disposed",
+          "amount": 382000
+        },
+        {
+          "type": "Acquired",
+          "amount": 353000
+        },
+        {
+          "type": "Transferred",
+          "amount": 1066787
+        },
+        {
+          "type": "Transferred",
+          "amount": 1066787
+        },
+        {
+          "type": "Transferred",
+          "amount": 3686432
+        },
+        {
+          "type": "Transferred",
+          "amount": 3686432
+        }
+      ],
+      "percent": 5.725,
+      "total": 63168332
+    },
+    {
+      "stock": "TM",
+      "company": "TELEKOM MALAYSIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667512",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 1481517
+        },
+        {
+          "type": "Transferred",
+          "amount": 1998774
+        },
+        {
+          "type": "Transferred",
+          "amount": 4984568
+        },
+        {
+          "type": "Transferred",
+          "amount": 1235967
+        },
+        {
+          "type": "Transferred",
+          "amount": 19273238
+        }
+      ],
+      "percent": 23.483,
+      "total": 901219257
+    },
+    {
+      "stock": "KOSSAN",
+      "company": "KOSSAN RUBBER INDUSTRIES BHD.",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667504",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 6553665
+        },
+        {
+          "type": "Transferred",
+          "amount": 2060874
+        },
+        {
+          "type": "Transferred",
+          "amount": 13041220
+        },
+        {
+          "type": "Transferred",
+          "amount": 6553665
+        },
+        {
+          "type": "Transferred",
+          "amount": 2060874
+        },
+        {
+          "type": "Transferred",
+          "amount": 13041220
+        }
+      ],
+      "percent": 5.917,
+      "total": 149231400
+    },
+    {
+      "stock": "IGBREIT",
+      "company": "IGB REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667499",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2000000
+        }
+      ],
+      "percent": 9.63,
+      "total": 416878004
+    },
+    {
+      "stock": "PAVREIT",
+      "company": "PAVILION REAL ESTATE INVESTMENT TRUST",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667498",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 207400
+        },
+        {
+          "type": "Acquired",
+          "amount": 50100
+        }
+      ],
+      "percent": 13.261,
+      "total": 520878547
+    },
+    {
+      "stock": "AMBANK",
+      "company": "AMMB HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667486",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 597200
+        },
+        {
+          "type": "Acquired",
+          "amount": 576100
+        }
+      ],
+      "percent": 16.941,
+      "total": 560191461
+    },
+    {
+      "stock": "FRONTKN",
+      "company": "FRONTKEN CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667470",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 41200
+        },
+        {
+          "type": "Transferred",
+          "amount": 3294939
+        },
+        {
+          "type": "Transferred",
+          "amount": 1421454
+        },
+        {
+          "type": "Transferred",
+          "amount": 4181268
+        },
+        {
+          "type": "Transferred",
+          "amount": 1421454
+        },
+        {
+          "type": "Transferred",
+          "amount": 4181268
+        },
+        {
+          "type": "Transferred",
+          "amount": 3294939
+        }
+      ],
+      "percent": 17.591,
+      "total": 318916894
+    },
+    {
+      "stock": "BURSA",
+      "company": "BURSA MALAYSIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667460",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 5900
+        },
+        {
+          "type": "Transferred",
+          "amount": 4387613
+        },
+        {
+          "type": "Transferred",
+          "amount": 4387613
+        }
+      ],
+      "percent": 14.438,
+      "total": 116843141
+    },
+    {
+      "stock": "HLBANK",
+      "company": "HONG LEONG BANK BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667456",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 22600
+        }
+      ],
+      "percent": 9.504,
+      "total": 198311497
+    },
+    {
+      "stock": "PADINI",
+      "company": "PADINI HOLDINGS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667455",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 1617506
+        },
+        {
+          "type": "Transferred",
+          "amount": 1617506
+        }
+      ],
+      "percent": 10.439,
+      "total": 103016550
+    },
+    {
+      "stock": "ABMB",
+      "company": "ALLIANCE BANK MALAYSIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667451",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 350000
+        }
+      ],
+      "percent": 8.632,
+      "total": 149359842
+    },
+    {
+      "stock": "CDB",
+      "company": "CELCOMDIGI BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667448",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 3283729
+        },
+        {
+          "type": "Transferred",
+          "amount": 4624194
+        },
+        {
+          "type": "Transferred",
+          "amount": 2227065
+        },
+        {
+          "type": "Transferred",
+          "amount": 1069709
+        },
+        {
+          "type": "Transferred",
+          "amount": 3283729
+        },
+        {
+          "type": "Transferred",
+          "amount": 2227065
+        },
+        {
+          "type": "Transferred",
+          "amount": 1069709
+        },
+        {
+          "type": "Transferred",
+          "amount": 4624194
+        }
+      ],
+      "percent": 10.701,
+      "total": 1255401281
+    },
+    {
+      "stock": "UOADEV",
+      "company": "UOA DEVELOPMENT BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667447",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 13771617
+        },
+        {
+          "type": "Transferred",
+          "amount": 556053
+        },
+        {
+          "type": "Transferred",
+          "amount": 9366882
+        },
+        {
+          "type": "Transferred",
+          "amount": 13771617
+        },
+        {
+          "type": "Transferred",
+          "amount": 556053
+        },
+        {
+          "type": "Transferred",
+          "amount": 9366882
+        }
+      ],
+      "percent": 14.43,
+      "total": 383111600
+    },
+    {
+      "stock": "UTDPLT",
+      "company": "UNITED PLANTATIONS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667445",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 71700
+        },
+        {
+          "type": "Transferred",
+          "amount": 845086
+        },
+        {
+          "type": "Transferred",
+          "amount": 845086
+        }
+      ],
+      "percent": 7.631,
+      "total": 47477293
+    },
+    {
+      "stock": "MAXIS",
+      "company": "MAXIS BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667444",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 1293584
+        },
+        {
+          "type": "Transferred",
+          "amount": 1293584
+        }
+      ],
+      "percent": 13.213,
+      "total": 1063769339
+    },
+    {
+      "stock": "E&O",
+      "company": "EASTERN & ORIENTAL BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667441",
+      "transactions": [
+        {
+          "type": "Transferred",
+          "amount": 35773279
+        },
+        {
+          "type": "Transferred",
+          "amount": 35773279
+        }
+      ],
+      "percent": 7.758,
+      "total": 193408100
+    },
+    {
+      "stock": "ALLIANZ",
+      "company": "ALLIANZ MALAYSIA BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667440",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 16700
+        }
+      ],
+      "percent": 7.498,
+      "total": 13816484
+    },
+    {
+      "stock": "YTL",
+      "company": "YTL CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667431",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 3242400
+        },
+        {
+          "type": "Acquired",
+          "amount": 920000
+        },
+        {
+          "type": "Others",
+          "amount": 3400000
+        }
+      ],
+      "percent": 11.477,
+      "total": 1334059871
+    },
+    {
+      "stock": "YTLPOWR",
+      "company": "YTL POWER INTERNATIONAL BHD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667427",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2043200
+        }
+      ],
+      "percent": 12.006,
+      "total": 1038090097
+    },
+    {
+      "stock": "YTL",
+      "company": "YTL CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667426",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 3242400
+        },
+        {
+          "type": "Acquired",
+          "amount": 920000
+        },
+        {
+          "type": "Others",
+          "amount": 3400000
+        }
+      ],
+      "percent": 11.477,
+      "total": 1334059871
+    },
+    {
+      "stock": "YTL",
+      "company": "YTL CORPORATION BERHAD",
+      "date": "20 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667425",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1923900
+        },
+        {
+          "type": "Disposed",
+          "amount": 840000
+        }
+      ],
+      "percent": 11.43,
+      "total": 1328497471
+    },
     {
       "stock": "NESTLE",
       "company": "NESTLE (MALAYSIA) BERHAD",
@@ -82655,142 +85123,150 @@ const EPF_DATA = {
       "total": 1123893380
     }
   ],
-  "uniqueStocks": 82,
+  "uniqueStocks": 87,
   "companyDomains": {
-    "PETGAS": "petronas.com",
-    "PETRONAS GAS BERHAD": "petronas.com",
-    "AXIATA": "axiata.com",
-    "AXIATA GROUP BERHAD": "axiata.com",
-    "SKPRES": "skpres.com",
-    "SKP RESOURCES BHD": "skpres.com",
-    "GAMUDA": "gamuda.com",
-    "GAMUDA BERHAD": "gamuda.com",
-    "SIME": "zhidao.baidu.com",
-    "SIME DARBY BERHAD": "zhidao.baidu.com",
-    "MAYBANK": "smart-ex.jp",
-    "MALAYAN BANKING BERHAD": "smart-ex.jp",
-    "TM": "tm.com.my",
-    "TELEKOM MALAYSIA BERHAD": "tm.com.my",
-    "MRDIY": "vocaberry.com",
-    "MR D.I.Y. GROUP (M) BERHAD": "vocaberry.com",
-    "CTOS": "ctoscredit.com.my",
-    "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
-    "PPB": "pbebank.com",
-    "PPB GROUP BERHAD": "pbebank.com",
-    "HLFG": "hongleongconnect.my",
-    "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
-    "ORKIM": "chatgpt.com",
-    "ORKIM BERHAD": "chatgpt.com",
-    "TIMECOM": "time.io",
-    "TIME DOTCOM BERHAD": "time.io",
-    "IHH": "ihhhealthcare.com",
-    "IHH HEALTHCARE BERHAD": "ihhhealthcare.com",
-    "PAVREIT": "pavilion-kl.com",
-    "PAVILION REAL ESTATE INVESTMENT TRUST": "pavilion-kl.com",
-    "KOSSAN": "kossan.com.my",
-    "KOSSAN RUBBER INDUSTRIES BHD.": "kossan.com.my",
-    "CLMT": "capitaland.com",
-    "CAPITALAND MALAYSIA TRUST": "capitaland.com",
-    "KLK": "theendlesstravellers.com",
-    "KUALA LUMPUR KEPONG BERHAD": "theendlesstravellers.com",
-    "PARADIGM": "paradigmmall.com.my",
-    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
-    "BAUTO": "bauto.com.my",
-    "BERMAZ AUTO BERHAD": "bauto.com.my",
-    "YTLPOWR": "ytl.com",
-    "YTL POWER INTERNATIONAL BHD": "ytl.com",
-    "SUNREIT": "sunway.com.my",
-    "SUNWAY REAL ESTATE INVESTMENT TRUST": "sunway.com.my",
-    "DIALOG": "dialogasia.com",
-    "DIALOG GROUP BERHAD": "dialogasia.com",
-    "ALLIANZ": "allianz.com.my",
-    "ALLIANZ MALAYSIA BERHAD": "allianz.com.my",
-    "MALAKOF": "malakoff.com.my",
-    "MALAKOFF CORPORATION BERHAD": "malakoff.com.my",
-    "FFB": "kamifarming.com",
-    "FARM FRESH BERHAD": "kamifarming.com",
-    "D&O": "dictionary.cambridge.org",
-    "D & O GREEN TECHNOLOGIES BERHAD": "dictionary.cambridge.org",
-    "CIMB": "cimbclicks.com.my",
-    "CIMB GROUP HOLDINGS BERHAD": "cimbclicks.com.my",
-    "IOIPG": "ioicitymall.com.my",
-    "IOI PROPERTIES GROUP BERHAD": "ioicitymall.com.my",
-    "CDB": "celcomdigi.com",
-    "CELCOMDIGI BERHAD": "celcomdigi.com",
-    "SUNWAY": "sunway.com.my",
-    "SUNWAY BERHAD": "sunway.com.my",
-    "PCHEM": "petronas.com",
-    "PETRONAS CHEMICALS GROUP BERHAD": "petronas.com",
-    "MFCB": "mega.nz",
-    "MEGA FIRST CORPORATION BERHAD": "mega.nz",
-    "SIMEPROP": "baike.baidu.com",
-    "SIME DARBY PROPERTY BERHAD": "baike.baidu.com",
-    "AMBANK": "ambankgroup.com",
-    "AMMB HOLDINGS BERHAD": "ambankgroup.com",
-    "HLBANK": "hongleongconnect.my",
-    "HONG LEONG BANK BERHAD": "hongleongconnect.my",
-    "SDG": "sdgroup.com.my",
-    "SD GUTHRIE BERHAD": "sdgroup.com.my",
-    "E&O": "easterncineplex.com.my",
-    "EASTERN & ORIENTAL BERHAD": "easterncineplex.com.my",
-    "KLCC": "suriaklcc.com.my",
-    "KLCC PROPERTY HOLDINGS BERHAD": "suriaklcc.com.my",
-    "PBBANK": "pbebank.com",
-    "PUBLIC BANK BERHAD": "pbebank.com",
-    "INARI": "inari-amertron.com",
-    "INARI AMERTRON BERHAD": "inari-amertron.com",
-    "PETDAG": "petronas.com",
-    "PETRONAS DAGANGAN BHD": "petronas.com",
-    "PMETAL": "chinapress.com.my",
-    "PRESS METAL ALUMINIUM HOLDINGS BERHAD": "chinapress.com.my",
-    "TENAGA": "mytnb.com.my",
-    "TENAGA NASIONAL BHD": "mytnb.com.my",
-    "UTDPLT": "united.com",
-    "UNITED PLANTATIONS BERHAD": "united.com",
-    "RHBBANK": "onlinebanking.rhbgroup.com",
-    "RHB BANK BERHAD": "onlinebanking.rhbgroup.com",
+    "IOICORP": "ioicitymall.com.my",
+    "IOI CORPORATION BERHAD": "ioicitymall.com.my",
+    "IGBREIT": "igbbhd.com",
+    "IGB REAL ESTATE INVESTMENT TRUST": "igbbhd.com",
+    "UOADEV": "k5learning.com",
+    "UOA DEVELOPMENT BHD": "k5learning.com",
+    "MAXIS": "maxis.com.my",
+    "MAXIS BERHAD": "maxis.com.my",
     "F&N": "support.microsoft.com",
     "FRASER & NEAVE HOLDINGS BHD": "support.microsoft.com",
     "GENP": "rwgenting.com",
     "GENTING PLANTATIONS BERHAD": "rwgenting.com",
-    "MAXIS": "maxis.com.my",
-    "MAXIS BERHAD": "maxis.com.my",
-    "UOADEV": "k5learning.com",
-    "UOA DEVELOPMENT BHD": "k5learning.com",
-    "IGBREIT": "igbbhd.com",
-    "IGB REAL ESTATE INVESTMENT TRUST": "igbbhd.com",
-    "IOICORP": "ioicitymall.com.my",
-    "IOI CORPORATION BERHAD": "ioicitymall.com.my",
-    "BIMB": "bankislam.com",
-    "BANK ISLAM MALAYSIA BERHAD": "bankislam.com",
-    "SCGBHD": "southern.edu.my",
-    "SOUTHERN CABLE GROUP BERHAD": "southern.edu.my",
-    "MISC": "miscgroup.com",
-    "MISC BERHAD": "miscgroup.com",
-    "IJM": "ijm.com",
-    "IJM CORPORATION BERHAD": "ijm.com",
-    "SCOMNET": "developer.mozilla.org",
-    "SUPERCOMNET TECHNOLOGIES BERHAD": "developer.mozilla.org",
-    "DRBHCOM": "drb-hicom.com",
-    "DRB-HICOM BERHAD": "drb-hicom.com",
-    "PADINI": "padini.com",
-    "PADINI HOLDINGS BERHAD": "padini.com",
-    "UWC": "uwcberhad.com.my",
-    "UWC BERHAD": "uwcberhad.com.my",
-    "SPSETIA": "google.com",
-    "S P SETIA BERHAD": "google.com",
-    "YTL": "ytl.com",
-    "YTL CORPORATION BERHAD": "ytl.com",
+    "RHBBANK": "onlinebanking.rhbgroup.com",
+    "RHB BANK BERHAD": "onlinebanking.rhbgroup.com",
+    "UTDPLT": "united.com",
+    "UNITED PLANTATIONS BERHAD": "united.com",
+    "PMETAL": "chinapress.com.my",
+    "PRESS METAL ALUMINIUM HOLDINGS BERHAD": "chinapress.com.my",
+    "TENAGA": "mytnb.com.my",
+    "TENAGA NASIONAL BHD": "mytnb.com.my",
+    "PETDAG": "petronas.com",
+    "PETRONAS DAGANGAN BHD": "petronas.com",
+    "INARI": "inari-amertron.com",
+    "INARI AMERTRON BERHAD": "inari-amertron.com",
+    "KLCC": "suriaklcc.com.my",
+    "KLCC REAL ESTATE INVESTMENT TRUST": "suriaklcc.com.my",
+    "PBBANK": "pbebank.com",
+    "PUBLIC BANK BERHAD": "pbebank.com",
+    "E&O": "easterncineplex.com.my",
+    "EASTERN & ORIENTAL BERHAD": "easterncineplex.com.my",
+    "SDG": "sdgroup.com.my",
+    "SD GUTHRIE BERHAD": "sdgroup.com.my",
+    "AMBANK": "ambankgroup.com",
+    "AMMB HOLDINGS BERHAD": "ambankgroup.com",
+    "HLBANK": "hongleongconnect.my",
+    "HONG LEONG BANK BERHAD": "hongleongconnect.my",
+    "SIMEPROP": "baike.baidu.com",
+    "SIME DARBY PROPERTY BERHAD": "baike.baidu.com",
+    "MFCB": "mega.nz",
+    "MEGA FIRST CORPORATION BERHAD": "mega.nz",
+    "PCHEM": "petronas.com",
+    "PETRONAS CHEMICALS GROUP BERHAD": "petronas.com",
+    "SUNWAY": "sunway.com.my",
+    "SUNWAY BERHAD": "sunway.com.my",
+    "AHEALTH": "ea.com",
+    "APEX HEALTHCARE BERHAD": "ea.com",
+    "CDB": "celcomdigi.com",
+    "CELCOMDIGI BERHAD": "celcomdigi.com",
+    "IOIPG": "ioicitymall.com.my",
+    "IOI PROPERTIES GROUP BERHAD": "ioicitymall.com.my",
+    "CIMB": "cimbclicks.com.my",
+    "CIMB GROUP HOLDINGS BERHAD": "cimbclicks.com.my",
+    "D&O": "dictionary.cambridge.org",
+    "D & O GREEN TECHNOLOGIES BERHAD": "dictionary.cambridge.org",
+    "FFB": "kamifarming.com",
+    "FARM FRESH BERHAD": "kamifarming.com",
+    "MALAKOF": "malakoff.com.my",
+    "MALAKOFF CORPORATION BERHAD": "malakoff.com.my",
+    "ALLIANZ": "allianz.com.my",
+    "ALLIANZ MALAYSIA BERHAD": "allianz.com.my",
+    "DIALOG": "dialogasia.com",
+    "DIALOG GROUP BERHAD": "dialogasia.com",
+    "SUNREIT": "sunway.com.my",
+    "SUNWAY REAL ESTATE INVESTMENT TRUST": "sunway.com.my",
+    "YTLPOWR": "ytl.com",
+    "YTL POWER INTERNATIONAL BHD": "ytl.com",
+    "MPI": "malaysiaairlines.com",
+    "MALAYSIAN PACIFIC INDUSTRIES BERHAD": "malaysiaairlines.com",
+    "BAUTO": "bauto.com.my",
+    "BERMAZ AUTO BERHAD": "bauto.com.my",
+    "PARADIGM": "paradigmmall.com.my",
+    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
+    "CLMT": "capitaland.com",
+    "CAPITALAND MALAYSIA TRUST": "capitaland.com",
+    "KLK": "theendlesstravellers.com",
+    "KUALA LUMPUR KEPONG BERHAD": "theendlesstravellers.com",
+    "KOSSAN": "kossan.com.my",
+    "KOSSAN RUBBER INDUSTRIES BHD.": "kossan.com.my",
+    "PAVREIT": "pavilion-kl.com",
+    "PAVILION REAL ESTATE INVESTMENT TRUST": "pavilion-kl.com",
+    "IHH": "ihhhealthcare.com",
+    "IHH HEALTHCARE BERHAD": "ihhhealthcare.com",
+    "TIMECOM": "time.io",
+    "TIME DOTCOM BERHAD": "time.io",
+    "PENTA": "pentamaster.com",
+    "PENTAMASTER CORPORATION BERHAD": "pentamaster.com",
+    "ORKIM": "chatgpt.com",
+    "ORKIM BERHAD": "chatgpt.com",
+    "HLFG": "hongleongconnect.my",
+    "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
+    "PPB": "pbebank.com",
+    "PPB GROUP BERHAD": "pbebank.com",
+    "CTOS": "ctoscredit.com.my",
+    "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
+    "MRDIY": "vocaberry.com",
+    "MR D.I.Y. GROUP (M) BERHAD": "vocaberry.com",
+    "TM": "tm.com.my",
+    "TELEKOM MALAYSIA BERHAD": "tm.com.my",
+    "MAYBANK": "smart-ex.jp",
+    "MALAYAN BANKING BERHAD": "smart-ex.jp",
+    "SIME": "zhidao.baidu.com",
+    "SIME DARBY BERHAD": "zhidao.baidu.com",
+    "GAMUDA": "gamuda.com",
+    "GAMUDA BERHAD": "gamuda.com",
+    "SKPRES": "skpres.com",
+    "SKP RESOURCES BHD": "skpres.com",
+    "KPJ": "kpjhealth.com.my",
+    "KPJ HEALTHCARE BERHAD": "kpjhealth.com.my",
+    "AXIATA": "axiata.com",
+    "AXIATA GROUP BERHAD": "axiata.com",
+    "PETGAS": "petronas.com",
+    "PETRONAS GAS BERHAD": "petronas.com",
     "NESTLE": "nestle.com.my",
     "NESTLE (MALAYSIA) BERHAD": "nestle.com.my",
-    "BURSA": "bursamalaysia.com",
-    "BURSA MALAYSIA BERHAD": "bursamalaysia.com",
+    "YTL": "ytl.com",
+    "YTL CORPORATION BERHAD": "ytl.com",
+    "SPSETIA": "google.com",
+    "S P SETIA BERHAD": "google.com",
+    "UWC": "uwcberhad.com.my",
+    "UWC BERHAD": "uwcberhad.com.my",
+    "PADINI": "padini.com",
+    "PADINI HOLDINGS BERHAD": "padini.com",
+    "DRBHCOM": "drb-hicom.com",
+    "DRB-HICOM BERHAD": "drb-hicom.com",
+    "SCOMNET": "developer.mozilla.org",
+    "SUPERCOMNET TECHNOLOGIES BERHAD": "developer.mozilla.org",
+    "IJM": "ijm.com",
+    "IJM CORPORATION BERHAD": "ijm.com",
+    "MISC": "miscgroup.com",
+    "MISC BERHAD": "miscgroup.com",
+    "SCGBHD": "southern.edu.my",
+    "SOUTHERN CABLE GROUP BERHAD": "southern.edu.my",
+    "BIMB": "bankislam.com",
+    "BANK ISLAM MALAYSIA BERHAD": "bankislam.com",
     "JPG": "tourism.johor.gov.my",
     "JOHOR PLANTATIONS GROUP BERHAD": "tourism.johor.gov.my",
-    "AXREIT": "axis.com",
-    "AXIS REAL ESTATE INVESTMENT TRUST": "axis.com",
+    "BURSA": "bursamalaysia.com",
+    "BURSA MALAYSIA BERHAD": "bursamalaysia.com",
     "DAYANG": "translate.google.com",
     "DAYANG ENTERPRISE HOLDINGS BERHAD": "translate.google.com",
+    "AXREIT": "axis.com",
+    "AXIS REAL ESTATE INVESTMENT TRUST": "axis.com",
     "FRONTKN": "frontken.com",
     "FRONTKEN CORPORATION BERHAD": "frontken.com",
     "PANAMY": "panasonic.com",
@@ -82801,10 +85277,12 @@ const EPF_DATA = {
     "AURELIUS TECHNOLOGIES BERHAD": "aureliushealth.com",
     "WASCO": "wascoenergy.com",
     "WASCO BERHAD": "wascoenergy.com",
-    "MBSB": "mbsb.com",
-    "MBSB BERHAD": "mbsb.com",
     "AEON": "aeonretail.com.my",
     "AEON CO. (M) BHD": "aeonretail.com.my",
+    "MBSB": "mbsb.com",
+    "MBSB BERHAD": "mbsb.com",
+    "DPHARMA": "duopharmabiotech.com",
+    "DUOPHARMA BIOTECH BERHAD": "duopharmabiotech.com",
     "AME": "ameconstruction.com.my",
     "AME ELITE CONSORTIUM BERHAD": "ameconstruction.com.my",
     "ABMB": "alliancebank.com.my",

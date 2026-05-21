@@ -908,10 +908,12 @@ function flattenTransactions() {
       });
     });
   });
-  // Sort exactly by announcement ID descending (newest first)
+  // Sort by date descending, with ann_id descending as a secondary key for matching Bursa Malaysia order
   list.sort((a, b) => {
-    const idA = a.url ? parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
-    const idB = b.url ? parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
+    const dateDiff = new Date(b.date) - new Date(a.date);
+    if (dateDiff !== 0) return dateDiff;
+    const idA = parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
+    const idB = parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
     return idB - idA;
   });
   return list;

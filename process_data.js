@@ -209,8 +209,14 @@ async function processData() {
   console.log('Processing EPF announcement results...');
   const rawData = JSON.parse(fs.readFileSync(RESULTS_FILE, 'utf-8'));
 
-  // Sort raw data by date to ensure proper timeline ordering
-  rawData.sort((a, b) => new Date(a.date_announced) - new Date(b.date_announced));
+  // Sort raw data by date to ensure proper timeline ordering, with ann_id as a secondary key for consistent same-day order
+  rawData.sort((a, b) => {
+    const dateDiff = new Date(a.date_announced) - new Date(b.date_announced);
+    if (dateDiff !== 0) return dateDiff;
+    const idA = parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
+    const idB = parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
+    return idA - idB;
+  });
 
   // Find unique stocks and track active holdings
   const holdingsMap = {};
@@ -266,11 +272,11 @@ async function processData() {
     };
   }
 
-  // Filter out completely disposed stocks (either total securities is 0 or percent is 0)
+  // Filter out completely disposed stocks (total securities is 0)
   const holdings = [];
   for (const stock of Object.keys(holdingsMap)) {
     const h = holdingsMap[stock];
-    if (h.total_securities > 0 && h.direct_percent > 0) {
+    if (h.total_securities > 0) {
       holdings.push(h);
     }
   }
@@ -301,12 +307,8 @@ async function processData() {
   // Sort holdings by value (total securities)
   holdings.sort((a, b) => b.total_securities - a.total_securities);
 
-  // Sort transactions exactly by announcement ID in descending order (newest first)
-  allTransactions.sort((a, b) => {
-    const idA = a.url ? parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
-    const idB = b.url ? parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
-    return idB - idA;
-  });
+  // Group transactions in reverse chronological order for dashboard timeline
+  allTransactions.reverse();
 
   // Construct final dataset
   const finalDataset = {
