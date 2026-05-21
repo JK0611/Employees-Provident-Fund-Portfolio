@@ -1134,7 +1134,12 @@
     "company_name": "KELINGTON GROUP BERHAD",
     "stock_name": "KGB",
     "date_announced": "13 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 874300
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -2899,7 +2904,12 @@
     "company_name": "UNISEM (M) BERHAD",
     "stock_name": "UNISEM",
     "date_announced": "12 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 5364000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -3356,7 +3366,12 @@
     "company_name": "V.S. INDUSTRY BERHAD",
     "stock_name": "VS",
     "date_announced": "11 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 11617700
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -5791,7 +5806,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "06 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 807700
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -6866,7 +6886,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "05 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2862900
+      }
+    ],
     "direct_percent": 5.059,
     "total_securities_after_change": 0
   },
@@ -14015,7 +14040,12 @@
     "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
     "stock_name": "SUNMED",
     "date_announced": "22 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2355500
+      }
+    ],
     "direct_percent": 5.017,
     "total_securities_after_change": 0
   },
@@ -15198,7 +15228,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "21 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 617800
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -15601,7 +15636,12 @@
     "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
     "stock_name": "SUNMED",
     "date_announced": "21 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 1000000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -16106,7 +16146,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "20 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2000000
+      }
+    ],
     "direct_percent": 5.048,
     "total_securities_after_change": 0
   },
@@ -25757,7 +25802,12 @@
     "company_name": "WESTPORTS HOLDINGS BERHAD",
     "stock_name": "WPRTS",
     "date_announced": "03 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 7999300
+      }
+    ],
     "direct_percent": 5.169,
     "total_securities_after_change": 0
   },
@@ -25844,7 +25894,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "03 Apr 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 100700
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -32209,7 +32264,12 @@
     "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
     "stock_name": "SUNMED",
     "date_announced": "25 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 589814078
+      }
+    ],
     "direct_percent": 5.13,
     "total_securities_after_change": 0
   },
@@ -32484,7 +32544,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "25 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 452100
+      }
+    ],
     "direct_percent": 5.04,
     "total_securities_after_change": 0
   },
@@ -36451,7 +36516,12 @@
     "company_name": "SDS GROUP BERHAD",
     "stock_name": "SDS",
     "date_announced": "16 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 165000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -37398,7 +37468,12 @@
     "company_name": "VELESTO ENERGY BERHAD",
     "stock_name": "VELESTO",
     "date_announced": "13 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 25289300
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -39447,7 +39522,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "11 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 295500
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -42016,7 +42096,12 @@
     "company_name": "ITMAX SYSTEM BERHAD",
     "stock_name": "ITMAX",
     "date_announced": "06 Mar 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1000000
+      }
+    ],
     "direct_percent": 5.005,
     "total_securities_after_change": 0
   },
@@ -50787,7 +50872,12 @@
     "company_name": "99 SPEED MART RETAIL HOLDINGS BERHAD",
     "stock_name": "99SMART",
     "date_announced": "19 Feb 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 5779100
+      }
+    ],
     "direct_percent": 5.006,
     "total_securities_after_change": 0
   },
@@ -56090,7 +56180,12 @@
     "company_name": "ALLIANCE BANK MALAYSIA BERHAD",
     "stock_name": "ABMB",
     "date_announced": "09 Feb 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2463900
+      }
+    ],
     "direct_percent": 5.194,
     "total_securities_after_change": 0
   },
@@ -58365,7 +58460,12 @@
     "company_name": "ALLIANCE BANK MALAYSIA BERHAD",
     "stock_name": "ABMB",
     "date_announced": "05 Feb 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2000000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -59278,7 +59378,12 @@
     "company_name": "ALLIANCE BANK MALAYSIA BERHAD",
     "stock_name": "ABMB",
     "date_announced": "04 Feb 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1110000
+      }
+    ],
     "direct_percent": 5.021,
     "total_securities_after_change": 0
   },
@@ -65603,7 +65708,12 @@
     "company_name": "SMRT HOLDINGS BERHAD",
     "stock_name": "SMRT",
     "date_announced": "22 Jan 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 20994400
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -79196,7 +79306,12 @@
     "company_name": "KELINGTON GROUP BERHAD",
     "stock_name": "KGB",
     "date_announced": "19 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 2514000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },
@@ -80737,7 +80852,12 @@
     "company_name": "KELINGTON GROUP BERHAD",
     "stock_name": "KGB",
     "date_announced": "15 May 2026",
-    "transactions": [],
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 460000
+      }
+    ],
     "direct_percent": 0,
     "total_securities_after_change": 0
   },

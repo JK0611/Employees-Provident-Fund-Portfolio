@@ -225,6 +225,34 @@ async function run() {
                 }
             });
 
+            if (transactions.length === 0) {
+                // Fallback for Cessation notices
+                const disposedStr = getValueNextTo('No of securities disposed');
+                if (disposedStr) {
+                    const disposedVal = parseInt(disposedStr.replace(/,/g, ''), 10) || 0;
+                    if (disposedVal > 0) {
+                        transactions.push({
+                            type_of_transaction: 'Disposed',
+                            no_of_securities: disposedVal
+                        });
+                    }
+                }
+                
+                // Fallback for Interest notices
+                if (transactions.length === 0) {
+                    const acquiredStr = getValueNextTo('No of securities acquired') || getValueNextTo('No of securities');
+                    if (acquiredStr) {
+                        const acquiredVal = parseInt(acquiredStr.replace(/,/g, ''), 10) || 0;
+                        if (acquiredVal > 0) {
+                            transactions.push({
+                                type_of_transaction: 'Acquired',
+                                no_of_securities: acquiredVal
+                            });
+                        }
+                    }
+                }
+            }
+
             const directPercentStr = getValueNextTo('Direct (%)');
             let directPercent = parseFloat(directPercentStr.replace(/%/g, '')) || 0;
 

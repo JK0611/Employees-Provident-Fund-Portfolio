@@ -958,9 +958,9 @@ const EPF_DATA = {
     },
     "22 Jan 2026": {
       "acquired": 72421600,
-      "disposed": 10334600,
-      "net": 62087000,
-      "count": 44
+      "disposed": 31329000,
+      "net": 41092600,
+      "count": 45
     },
     "23 Jan 2026": {
       "acquired": 72025800,
@@ -1005,16 +1005,16 @@ const EPF_DATA = {
       "count": 52
     },
     "04 Feb 2026": {
-      "acquired": 91549400,
+      "acquired": 92659400,
       "disposed": 47843700,
-      "net": 43705700,
-      "count": 59
+      "net": 44815700,
+      "count": 60
     },
     "05 Feb 2026": {
       "acquired": 78764500,
-      "disposed": 48058497,
-      "net": 30706003,
-      "count": 50
+      "disposed": 50058497,
+      "net": 28706003,
+      "count": 51
     },
     "06 Feb 2026": {
       "acquired": 61633500,
@@ -1023,10 +1023,10 @@ const EPF_DATA = {
       "count": 54
     },
     "09 Feb 2026": {
-      "acquired": 62435900,
+      "acquired": 64899800,
       "disposed": 22793511,
-      "net": 39642389,
-      "count": 53
+      "net": 42106289,
+      "count": 54
     },
     "10 Feb 2026": {
       "acquired": 63250000,
@@ -1059,10 +1059,10 @@ const EPF_DATA = {
       "count": 45
     },
     "19 Feb 2026": {
-      "acquired": 65782400,
+      "acquired": 71561500,
       "disposed": 40442400,
-      "net": 25340000,
-      "count": 51
+      "net": 31119100,
+      "count": 52
     },
     "20 Feb 2026": {
       "acquired": 68699000,
@@ -1125,10 +1125,10 @@ const EPF_DATA = {
       "count": 51
     },
     "06 Mar 2026": {
-      "acquired": 79480100,
+      "acquired": 80480100,
       "disposed": 61528477,
-      "net": 17951623,
-      "count": 52
+      "net": 18951623,
+      "count": 53
     },
     "09 Mar 2026": {
       "acquired": 77971100,
@@ -1144,9 +1144,9 @@ const EPF_DATA = {
     },
     "11 Mar 2026": {
       "acquired": 100693600,
-      "disposed": 93538500,
-      "net": 7155100,
-      "count": 48
+      "disposed": 93834000,
+      "net": 6859600,
+      "count": 49
     },
     "12 Mar 2026": {
       "acquired": 98569300,
@@ -1156,15 +1156,15 @@ const EPF_DATA = {
     },
     "13 Mar 2026": {
       "acquired": 92845900,
-      "disposed": 30580000,
-      "net": 62265900,
-      "count": 53
+      "disposed": 55869300,
+      "net": 36976600,
+      "count": 54
     },
     "16 Mar 2026": {
       "acquired": 72914600,
-      "disposed": 35904600,
-      "net": 37010000,
-      "count": 52
+      "disposed": 36069600,
+      "net": 36845000,
+      "count": 53
     },
     "17 Mar 2026": {
       "acquired": 78229400,
@@ -1191,10 +1191,10 @@ const EPF_DATA = {
       "count": 41
     },
     "25 Mar 2026": {
-      "acquired": 96191500,
+      "acquired": 686457678,
       "disposed": 30649000,
-      "net": 65542500,
-      "count": 50
+      "net": 655808678,
+      "count": 52
     },
     "26 Mar 2026": {
       "acquired": 92167700,
@@ -1233,10 +1233,10 @@ const EPF_DATA = {
       "count": 59
     },
     "03 Apr 2026": {
-      "acquired": 94306200,
-      "disposed": 47355400,
-      "net": 46950800,
-      "count": 51
+      "acquired": 102305500,
+      "disposed": 47456100,
+      "net": 54849400,
+      "count": 53
     },
     "06 Apr 2026": {
       "acquired": 109088400,
@@ -1299,22 +1299,22 @@ const EPF_DATA = {
       "count": 50
     },
     "20 Apr 2026": {
-      "acquired": 72926900,
+      "acquired": 74926900,
       "disposed": 41037700,
-      "net": 31889200,
-      "count": 57
+      "net": 33889200,
+      "count": 58
     },
     "21 Apr 2026": {
       "acquired": 74278000,
-      "disposed": 36184600,
-      "net": 38093400,
-      "count": 54
+      "disposed": 37802400,
+      "net": 36475600,
+      "count": 56
     },
     "22 Apr 2026": {
-      "acquired": 105797900,
+      "acquired": 108153400,
       "disposed": 54124400,
-      "net": 51673500,
-      "count": 57
+      "net": 54029000,
+      "count": 58
     },
     "23 Apr 2026": {
       "acquired": 44015800,
@@ -1359,16 +1359,16 @@ const EPF_DATA = {
       "count": 58
     },
     "05 May 2026": {
-      "acquired": 93512800,
+      "acquired": 96375700,
       "disposed": 63628400,
-      "net": 29884400,
-      "count": 49
+      "net": 32747300,
+      "count": 50
     },
     "06 May 2026": {
       "acquired": 89661200,
-      "disposed": 51828900,
-      "net": 37832300,
-      "count": 62
+      "disposed": 52636600,
+      "net": 37024600,
+      "count": 63
     },
     "07 May 2026": {
       "acquired": 62544900,
@@ -1384,21 +1384,21 @@ const EPF_DATA = {
     },
     "11 May 2026": {
       "acquired": 64120200,
-      "disposed": 51700600,
-      "net": 12419600,
-      "count": 47
+      "disposed": 63318300,
+      "net": 801900,
+      "count": 48
     },
     "12 May 2026": {
       "acquired": 96617400,
-      "disposed": 76370295,
-      "net": 20247105,
-      "count": 54
+      "disposed": 81734295,
+      "net": 14883105,
+      "count": 55
     },
     "13 May 2026": {
       "acquired": 73269400,
-      "disposed": 45095230,
-      "net": 28174170,
-      "count": 53
+      "disposed": 45969530,
+      "net": 27299870,
+      "count": 54
     },
     "14 May 2026": {
       "acquired": 61699600,
@@ -1407,10 +1407,10 @@ const EPF_DATA = {
       "count": 56
     },
     "15 May 2026": {
-      "acquired": 77139400,
+      "acquired": 77599400,
       "disposed": 33015600,
-      "net": 44123800,
-      "count": 50
+      "net": 44583800,
+      "count": 51
     },
     "18 May 2026": {
       "acquired": 71892800,
@@ -1420,9 +1420,9 @@ const EPF_DATA = {
     },
     "19 May 2026": {
       "acquired": 66600400,
-      "disposed": 45216800,
-      "net": 21383600,
-      "count": 51
+      "disposed": 47730800,
+      "net": 18869600,
+      "count": 52
     },
     "20 May 2026": {
       "acquired": 59541000,
@@ -4153,6 +4153,20 @@ const EPF_DATA = {
       "total": 1186080200
     },
     {
+      "stock": "KGB",
+      "company": "KELINGTON GROUP BERHAD",
+      "date": "19 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667166",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 2514000
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "KLCC",
       "company": "KLCC REAL ESTATE INVESTMENT TRUST",
       "date": "19 May 2026",
@@ -5683,6 +5697,20 @@ const EPF_DATA = {
       ],
       "percent": 11.432,
       "total": 1328713571
+    },
+    {
+      "stock": "KGB",
+      "company": "KELINGTON GROUP BERHAD",
+      "date": "15 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3666350",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 460000
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "AXREIT",
@@ -7561,6 +7589,20 @@ const EPF_DATA = {
       "total": 1017999608
     },
     {
+      "stock": "KGB",
+      "company": "KELINGTON GROUP BERHAD",
+      "date": "13 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3665580",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 874300
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "SIMEPROP",
       "company": "SIME DARBY PROPERTY BERHAD",
       "date": "13 May 2026",
@@ -9317,6 +9359,20 @@ const EPF_DATA = {
       "total": 46028093
     },
     {
+      "stock": "UNISEM",
+      "company": "UNISEM (M) BERHAD",
+      "date": "12 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3664872",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 5364000
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "YTLPOWR",
       "company": "YTL POWER INTERNATIONAL BHD",
       "date": "12 May 2026",
@@ -9763,6 +9819,20 @@ const EPF_DATA = {
       ],
       "percent": 23.413,
       "total": 898517957
+    },
+    {
+      "stock": "VS",
+      "company": "V.S. INDUSTRY BERHAD",
+      "date": "11 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3664622",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 11617700
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "IOICORP",
@@ -12191,6 +12261,20 @@ const EPF_DATA = {
       "total": 387311207
     },
     {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "06 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3663620",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 807700
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "99SMART",
       "company": "99 SPEED MART RETAIL HOLDINGS BERHAD",
       "date": "06 May 2026",
@@ -13255,6 +13339,20 @@ const EPF_DATA = {
       ],
       "percent": 13.871,
       "total": 274468358
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "05 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3663179",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2862900
+        }
+      ],
+      "percent": 5.059,
+      "total": 0
     },
     {
       "stock": "WPRTS",
@@ -20397,6 +20495,20 @@ const EPF_DATA = {
       "total": 594343200
     },
     {
+      "stock": "SUNMED",
+      "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "date": "22 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3657647",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2355500
+        }
+      ],
+      "percent": 5.017,
+      "total": 0
+    },
+    {
       "stock": "BURSA",
       "company": "BURSA MALAYSIA BERHAD",
       "date": "22 Apr 2026",
@@ -21571,6 +21683,20 @@ const EPF_DATA = {
       "total": 1243040195
     },
     {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "21 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3657136",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 617800
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "KGB",
       "company": "KELINGTON GROUP BERHAD",
       "date": "21 Apr 2026",
@@ -21963,6 +22089,20 @@ const EPF_DATA = {
       ],
       "percent": 12.713,
       "total": 1017044408
+    },
+    {
+      "stock": "SUNMED",
+      "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "date": "21 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3656998",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 1000000
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "SAM",
@@ -22459,6 +22599,20 @@ const EPF_DATA = {
       ],
       "percent": 21.99,
       "total": 1240813395
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "20 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3656706",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2000000
+        }
+      ],
+      "percent": 5.048,
+      "total": 0
     },
     {
       "stock": "SUNREIT",
@@ -32103,6 +32257,20 @@ const EPF_DATA = {
       "total": 1779119380
     },
     {
+      "stock": "WPRTS",
+      "company": "WESTPORTS HOLDINGS BERHAD",
+      "date": "03 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3652227",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 7999300
+        }
+      ],
+      "percent": 5.169,
+      "total": 0
+    },
+    {
       "stock": "SUNMED",
       "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
       "date": "03 Apr 2026",
@@ -32179,6 +32347,20 @@ const EPF_DATA = {
       ],
       "percent": 16.052,
       "total": 363805481
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "03 Apr 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3652163",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 100700
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "PCHEM",
@@ -38537,6 +38719,20 @@ const EPF_DATA = {
       "total": 233562500
     },
     {
+      "stock": "SUNMED",
+      "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "date": "25 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3648572",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 589814078
+        }
+      ],
+      "percent": 5.13,
+      "total": 0
+    },
+    {
       "stock": "CIMB",
       "company": "CIMB GROUP HOLDINGS BERHAD",
       "date": "25 Mar 2026",
@@ -38801,6 +38997,20 @@ const EPF_DATA = {
       ],
       "percent": 22.51,
       "total": 1270285495
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "25 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3648440",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 452100
+        }
+      ],
+      "percent": 5.04,
+      "total": 0
     },
     {
       "stock": "CLMT",
@@ -42761,6 +42971,20 @@ const EPF_DATA = {
       "total": 1159961580
     },
     {
+      "stock": "SDS",
+      "company": "SDS GROUP BERHAD",
+      "date": "16 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3646302",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 165000
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "MRDIY",
       "company": "MR D.I.Y. GROUP (M) BERHAD",
       "date": "16 Mar 2026",
@@ -43697,6 +43921,20 @@ const EPF_DATA = {
       ],
       "percent": 5.018,
       "total": 27261032
+    },
+    {
+      "stock": "VELESTO",
+      "company": "VELESTO ENERGY BERHAD",
+      "date": "13 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3645804",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 25289300
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "PARADIGM",
@@ -45737,6 +45975,20 @@ const EPF_DATA = {
       ],
       "percent": 9.38,
       "total": 634105202
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "11 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3644805",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 295500
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "99SMART",
@@ -48297,6 +48549,20 @@ const EPF_DATA = {
       ],
       "percent": 6.088,
       "total": 335240132
+    },
+    {
+      "stock": "ITMAX",
+      "company": "ITMAX SYSTEM BERHAD",
+      "date": "06 Mar 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3643363",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1000000
+        }
+      ],
+      "percent": 5.005,
+      "total": 0
     },
     {
       "stock": "99SMART",
@@ -57061,6 +57327,20 @@ const EPF_DATA = {
       "total": 357539232
     },
     {
+      "stock": "99SMART",
+      "company": "99 SPEED MART RETAIL HOLDINGS BERHAD",
+      "date": "19 Feb 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3636379",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 5779100
+        }
+      ],
+      "percent": 5.006,
+      "total": 0
+    },
+    {
       "stock": "KPJ",
       "company": "KPJ HEALTHCARE BERHAD",
       "date": "19 Feb 2026",
@@ -62369,6 +62649,20 @@ const EPF_DATA = {
       "total": 355516632
     },
     {
+      "stock": "ABMB",
+      "company": "ALLIANCE BANK MALAYSIA BERHAD",
+      "date": "09 Feb 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3633768",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 2463900
+        }
+      ],
+      "percent": 5.194,
+      "total": 0
+    },
+    {
       "stock": "CLMT",
       "company": "CAPITALAND MALAYSIA TRUST",
       "date": "09 Feb 2026",
@@ -64621,6 +64915,20 @@ const EPF_DATA = {
       "total": 41407200
     },
     {
+      "stock": "ABMB",
+      "company": "ALLIANCE BANK MALAYSIA BERHAD",
+      "date": "05 Feb 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3632731",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 2000000
+        }
+      ],
+      "percent": 0,
+      "total": 0
+    },
+    {
       "stock": "PMETAL",
       "company": "PRESS METAL ALUMINIUM HOLDINGS BERHAD",
       "date": "05 Feb 2026",
@@ -65523,6 +65831,20 @@ const EPF_DATA = {
       ],
       "percent": 21.186,
       "total": 481987563
+    },
+    {
+      "stock": "ABMB",
+      "company": "ALLIANCE BANK MALAYSIA BERHAD",
+      "date": "04 Feb 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3632370",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1110000
+        }
+      ],
+      "percent": 5.021,
+      "total": 0
     },
     {
       "stock": "PBBANK",
@@ -71839,6 +72161,20 @@ const EPF_DATA = {
       ],
       "percent": 0,
       "total": 610799305
+    },
+    {
+      "stock": "SMRT",
+      "company": "SMRT HOLDINGS BERHAD",
+      "date": "22 Jan 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3628456",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 20994400
+        }
+      ],
+      "percent": 0,
+      "total": 0
     },
     {
       "stock": "MISC",
