@@ -7,7 +7,8 @@ const EPF_DATA = {
       "total_securities": 4649619390,
       "date": "03 Feb 2026",
       "stock_code": "1171",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "mbsb.com"
     },
     {
       "stock_name": "PBBANK",
@@ -16,7 +17,8 @@ const EPF_DATA = {
       "total_securities": 3342302883,
       "date": "19 May 2026",
       "stock_code": "1295",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "pbebank.com"
     },
     {
       "stock_name": "CIMB",
@@ -25,7 +27,8 @@ const EPF_DATA = {
       "total_securities": 1905344308,
       "date": "19 May 2026",
       "stock_code": "1023",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "cimbclicks.com.my"
     },
     {
       "stock_name": "AXIATA",
@@ -34,7 +37,8 @@ const EPF_DATA = {
       "total_securities": 1783610180,
       "date": "08 May 2026",
       "stock_code": "6888",
-      "sector": "Telecom"
+      "sector": "Telecom",
+      "domain": "axiata.com"
     },
     {
       "stock_name": "RHBBANK",
@@ -43,7 +47,8 @@ const EPF_DATA = {
       "total_securities": 1555260369,
       "date": "19 May 2026",
       "stock_code": "1066",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "onlinebanking.rhbgroup.com"
     },
     {
       "stock_name": "MAYBANK",
@@ -52,7 +57,8 @@ const EPF_DATA = {
       "total_securities": 1509660497,
       "date": "19 May 2026",
       "stock_code": "1155",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "smart-ex.jp"
     },
     {
       "stock_name": "TENAGA",
@@ -61,7 +67,8 @@ const EPF_DATA = {
       "total_securities": 1425157845,
       "date": "19 May 2026",
       "stock_code": "5347",
-      "sector": "Utilities"
+      "sector": "Utilities",
+      "domain": "mytnb.com.my"
     },
     {
       "stock_name": "YTL",
@@ -70,7 +77,8 @@ const EPF_DATA = {
       "total_securities": 1331897471,
       "date": "18 May 2026",
       "stock_code": "5109",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "ytl.com"
     },
     {
       "stock_name": "CDB",
@@ -79,7 +87,8 @@ const EPF_DATA = {
       "total_securities": 1260401290,
       "date": "03 Feb 2026",
       "stock_code": "6947",
-      "sector": "Telecom"
+      "sector": "Telecom",
+      "domain": "celcomdigi.com"
     },
     {
       "stock_name": "GAMUDA",
@@ -88,7 +97,8 @@ const EPF_DATA = {
       "total_securities": 1227020264,
       "date": "18 May 2026",
       "stock_code": "5398",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "gamuda.com"
     },
     {
       "stock_name": "DIALOG",
@@ -97,7 +107,8 @@ const EPF_DATA = {
       "total_securities": 1225846695,
       "date": "13 May 2026",
       "stock_code": "7277",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "dialogasia.com"
     },
     {
       "stock_name": "IHH",
@@ -106,7 +117,8 @@ const EPF_DATA = {
       "total_securities": 1186080200,
       "date": "19 May 2026",
       "stock_code": "5225",
-      "sector": "Healthcare"
+      "sector": "Healthcare",
+      "domain": "ihhhealthcare.com"
     },
     {
       "stock_name": "SIMEPROP",
@@ -115,7 +127,8 @@ const EPF_DATA = {
       "total_securities": 1181135400,
       "date": "19 May 2026",
       "stock_code": "5288",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "baike.baidu.com"
     },
     {
       "stock_name": "SIME",
@@ -124,7 +137,8 @@ const EPF_DATA = {
       "total_securities": 1154533060,
       "date": "20 May 2026",
       "stock_code": "4197",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "zhidao.baidu.com"
     },
     {
       "stock_name": "SDG",
@@ -133,7 +147,8 @@ const EPF_DATA = {
       "total_securities": 1140016430,
       "date": "19 May 2026",
       "stock_code": "5285",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "sdgroup.com.my"
     },
     {
       "stock_name": "MAXIS",
@@ -142,7 +157,8 @@ const EPF_DATA = {
       "total_securities": 1063769339,
       "date": "07 May 2026",
       "stock_code": "6012",
-      "sector": "Telecom"
+      "sector": "Telecom",
+      "domain": "maxis.com.my"
     },
     {
       "stock_name": "MRDIY",
@@ -151,7 +167,8 @@ const EPF_DATA = {
       "total_securities": 1061850975,
       "date": "19 May 2026",
       "stock_code": "5296",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "vocaberry.com"
     },
     {
       "stock_name": "IOICORP",
@@ -160,7 +177,8 @@ const EPF_DATA = {
       "total_securities": 1050145890,
       "date": "15 May 2026",
       "stock_code": "1961",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "ioicitymall.com.my"
     },
     {
       "stock_name": "YTLPOWR",
@@ -169,7 +187,8 @@ const EPF_DATA = {
       "total_securities": 1036046897,
       "date": "19 May 2026",
       "stock_code": "6742",
-      "sector": "Utilities"
+      "sector": "Utilities",
+      "domain": "ytl.com"
     },
     {
       "stock_name": "PCHEM",
@@ -178,7 +197,8 @@ const EPF_DATA = {
       "total_securities": 1025980608,
       "date": "19 May 2026",
       "stock_code": "5183",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "petronas.com"
     },
     {
       "stock_name": "MALAKOF",
@@ -187,7 +207,8 @@ const EPF_DATA = {
       "total_securities": 915651530,
       "date": "07 May 2026",
       "stock_code": "5264",
-      "sector": "Utilities"
+      "sector": "Utilities",
+      "domain": "malakoff.com.my"
     },
     {
       "stock_name": "TM",
@@ -196,7 +217,8 @@ const EPF_DATA = {
       "total_securities": 901219257,
       "date": "18 May 2026",
       "stock_code": "4863",
-      "sector": "Telecom"
+      "sector": "Telecom",
+      "domain": "tm.com.my"
     },
     {
       "stock_name": "PMETAL",
@@ -205,7 +227,8 @@ const EPF_DATA = {
       "total_securities": 735706737,
       "date": "19 May 2026",
       "stock_code": "8869",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "chinapress.com.my"
     },
     {
       "stock_name": "SUNWAY",
@@ -214,7 +237,8 @@ const EPF_DATA = {
       "total_securities": 735704302,
       "date": "19 May 2026",
       "stock_code": "5263",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "sunway.com.my"
     },
     {
       "stock_name": "IJM",
@@ -223,7 +247,8 @@ const EPF_DATA = {
       "total_securities": 718107656,
       "date": "06 May 2026",
       "stock_code": "3336",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "ijm.com"
     },
     {
       "stock_name": "SPSETIA",
@@ -232,7 +257,8 @@ const EPF_DATA = {
       "total_securities": 676130224,
       "date": "19 May 2026",
       "stock_code": "8664PC",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "google.com"
     },
     {
       "stock_name": "MISC",
@@ -241,7 +267,8 @@ const EPF_DATA = {
       "total_securities": 674842303,
       "date": "19 May 2026",
       "stock_code": "3816",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "miscgroup.com"
     },
     {
       "stock_name": "CLMT",
@@ -250,7 +277,8 @@ const EPF_DATA = {
       "total_securities": 603844761,
       "date": "19 May 2026",
       "stock_code": "5180",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "capitaland.com"
     },
     {
       "stock_name": "99SMART",
@@ -259,7 +287,8 @@ const EPF_DATA = {
       "total_securities": 600876800,
       "date": "19 May 2026",
       "stock_code": "5326",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "99bulksales.my"
     },
     {
       "stock_name": "SUNMED",
@@ -268,7 +297,8 @@ const EPF_DATA = {
       "total_securities": 600324644,
       "date": "19 May 2026",
       "stock_code": "5555",
-      "sector": "Healthcare"
+      "sector": "Healthcare",
+      "domain": "sunway.com.my"
     },
     {
       "stock_name": "INARI",
@@ -277,7 +307,8 @@ const EPF_DATA = {
       "total_securities": 578061422,
       "date": "15 May 2026",
       "stock_code": "0166",
-      "sector": "Technology"
+      "sector": "Technology",
+      "domain": "inari-amertron.com"
     },
     {
       "stock_name": "AMBANK",
@@ -286,7 +317,8 @@ const EPF_DATA = {
       "total_securities": 559018161,
       "date": "19 May 2026",
       "stock_code": "1015",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "ambankgroup.com"
     },
     {
       "stock_name": "SUNREIT",
@@ -295,7 +327,8 @@ const EPF_DATA = {
       "total_securities": 557466150,
       "date": "19 May 2026",
       "stock_code": "5176",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "sunway.com.my"
     },
     {
       "stock_name": "PAVREIT",
@@ -304,7 +337,8 @@ const EPF_DATA = {
       "total_securities": 520621047,
       "date": "19 May 2026",
       "stock_code": "5212",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "pavilion-kl.com"
     },
     {
       "stock_name": "CTOS",
@@ -313,7 +347,8 @@ const EPF_DATA = {
       "total_securities": 510844963,
       "date": "19 May 2026",
       "stock_code": "5301",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "ctoscredit.com.my"
     },
     {
       "stock_name": "AXREIT",
@@ -322,7 +357,8 @@ const EPF_DATA = {
       "total_securities": 436009397,
       "date": "19 May 2026",
       "stock_code": "5106",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "axis.com"
     },
     {
       "stock_name": "IGBREIT",
@@ -331,7 +367,8 @@ const EPF_DATA = {
       "total_securities": 414878004,
       "date": "19 May 2026",
       "stock_code": "5227",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "igbbhd.com"
     },
     {
       "stock_name": "UOADEV",
@@ -340,7 +377,8 @@ const EPF_DATA = {
       "total_securities": 383111600,
       "date": "06 May 2026",
       "stock_code": "5200",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "k5learning.com"
     },
     {
       "stock_name": "IOIPG",
@@ -349,7 +387,8 @@ const EPF_DATA = {
       "total_securities": 370071407,
       "date": "19 May 2026",
       "stock_code": "5249",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "ioicitymall.com.my"
     },
     {
       "stock_name": "BIMB",
@@ -358,7 +397,8 @@ const EPF_DATA = {
       "total_securities": 367936681,
       "date": "15 May 2026",
       "stock_code": "5258",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "bankislam.com"
     },
     {
       "stock_name": "FFB",
@@ -367,7 +407,8 @@ const EPF_DATA = {
       "total_securities": 320147778,
       "date": "19 May 2026",
       "stock_code": "5306",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "kamifarming.com"
     },
     {
       "stock_name": "FRONTKN",
@@ -376,7 +417,8 @@ const EPF_DATA = {
       "total_securities": 318875694,
       "date": "19 May 2026",
       "stock_code": "0128",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "frontken.com"
     },
     {
       "stock_name": "TIMECOM",
@@ -385,7 +427,8 @@ const EPF_DATA = {
       "total_securities": 312000653,
       "date": "19 May 2026",
       "stock_code": "5031",
-      "sector": "Telecom"
+      "sector": "Telecom",
+      "domain": "time.io"
     },
     {
       "stock_name": "PETGAS",
@@ -394,7 +437,8 @@ const EPF_DATA = {
       "total_securities": 275682931,
       "date": "19 May 2026",
       "stock_code": "6033",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "petronas.com"
     },
     {
       "stock_name": "PPB",
@@ -403,7 +447,8 @@ const EPF_DATA = {
       "total_securities": 270063997,
       "date": "01 Apr 2026",
       "stock_code": null,
-      "sector": "Others"
+      "sector": "Others",
+      "domain": "pbebank.com"
     },
     {
       "stock_name": "JPG",
@@ -412,7 +457,8 @@ const EPF_DATA = {
       "total_securities": 234191500,
       "date": "14 May 2026",
       "stock_code": "5323",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "tourism.johor.gov.my"
     },
     {
       "stock_name": "WPRTS",
@@ -421,7 +467,8 @@ const EPF_DATA = {
       "total_securities": 227217463,
       "date": "19 May 2026",
       "stock_code": "5246",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "westportsholdings.com"
     },
     {
       "stock_name": "KLK",
@@ -430,7 +477,8 @@ const EPF_DATA = {
       "total_securities": 216862120,
       "date": "18 May 2026",
       "stock_code": "2445",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "theendlesstravellers.com"
     },
     {
       "stock_name": "KLCC",
@@ -439,7 +487,8 @@ const EPF_DATA = {
       "total_securities": 199642875,
       "date": "19 May 2026",
       "stock_code": "5235SS",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "suriaklcc.com.my"
     },
     {
       "stock_name": "HLBANK",
@@ -448,7 +497,8 @@ const EPF_DATA = {
       "total_securities": 198334097,
       "date": "19 May 2026",
       "stock_code": "5819",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "hongleongconnect.my"
     },
     {
       "stock_name": "SKPRES",
@@ -457,7 +507,8 @@ const EPF_DATA = {
       "total_securities": 196463350,
       "date": "19 May 2026",
       "stock_code": "7155",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "skpres.com"
     },
     {
       "stock_name": "E&O",
@@ -466,7 +517,8 @@ const EPF_DATA = {
       "total_securities": 193408100,
       "date": "10 Mar 2026",
       "stock_code": "3417",
-      "sector": "Property"
+      "sector": "Property",
+      "domain": "easterncineplex.com.my"
     },
     {
       "stock_name": "ATECH",
@@ -475,7 +527,8 @@ const EPF_DATA = {
       "total_securities": 158933445,
       "date": "22 Apr 2026",
       "stock_code": "5302",
-      "sector": "Technology"
+      "sector": "Technology",
+      "domain": "aureliushealth.com"
     },
     {
       "stock_name": "TAKAFUL",
@@ -484,7 +537,8 @@ const EPF_DATA = {
       "total_securities": 158726197,
       "date": "06 May 2026",
       "stock_code": "6139",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "ssm.com.my"
     },
     {
       "stock_name": "DRBHCOM",
@@ -493,7 +547,8 @@ const EPF_DATA = {
       "total_securities": 154402991,
       "date": "19 May 2026",
       "stock_code": "1619",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "drb-hicom.com"
     },
     {
       "stock_name": "DAYANG",
@@ -502,7 +557,8 @@ const EPF_DATA = {
       "total_securities": 151590200,
       "date": "27 Apr 2026",
       "stock_code": "5141",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "translate.google.com"
     },
     {
       "stock_name": "ABMB",
@@ -511,7 +567,8 @@ const EPF_DATA = {
       "total_securities": 149709842,
       "date": "12 May 2026",
       "stock_code": "2488",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "alliancebank.com.my"
     },
     {
       "stock_name": "KOSSAN",
@@ -520,7 +577,8 @@ const EPF_DATA = {
       "total_securities": 149231400,
       "date": "08 May 2026",
       "stock_code": "7153",
-      "sector": "Healthcare"
+      "sector": "Healthcare",
+      "domain": "kossan.com.my"
     },
     {
       "stock_name": "GENP",
@@ -529,7 +587,8 @@ const EPF_DATA = {
       "total_securities": 138649300,
       "date": "19 May 2026",
       "stock_code": "2291",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "rwgenting.com"
     },
     {
       "stock_name": "PARADIGM",
@@ -538,7 +597,8 @@ const EPF_DATA = {
       "total_securities": 136434000,
       "date": "19 May 2026",
       "stock_code": null,
-      "sector": "Others"
+      "sector": "Others",
+      "domain": "paradigmmall.com.my"
     },
     {
       "stock_name": "PETDAG",
@@ -547,7 +607,8 @@ const EPF_DATA = {
       "total_securities": 125119112,
       "date": "06 May 2026",
       "stock_code": "5681",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "petronas.com"
     },
     {
       "stock_name": "BURSA",
@@ -556,7 +617,8 @@ const EPF_DATA = {
       "total_securities": 116849041,
       "date": "15 May 2026",
       "stock_code": null,
-      "sector": "Others"
+      "sector": "Others",
+      "domain": "bursa.listedcompany.com"
     },
     {
       "stock_name": "MFCB",
@@ -565,7 +627,8 @@ const EPF_DATA = {
       "total_securities": 109003940,
       "date": "19 May 2026",
       "stock_code": "3069",
-      "sector": "Utilities"
+      "sector": "Utilities",
+      "domain": "mega.nz"
     },
     {
       "stock_name": "AEON",
@@ -574,7 +637,8 @@ const EPF_DATA = {
       "total_securities": 107049800,
       "date": "19 May 2026",
       "stock_code": null,
-      "sector": "Others"
+      "sector": "Others",
+      "domain": "myaeon2go.com"
     },
     {
       "stock_name": "PADINI",
@@ -583,7 +647,8 @@ const EPF_DATA = {
       "total_securities": 102903350,
       "date": "30 Apr 2026",
       "stock_code": "7052",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "padini.com"
     },
     {
       "stock_name": "SCGBHD",
@@ -592,7 +657,8 @@ const EPF_DATA = {
       "total_securities": 98800000,
       "date": "19 May 2026",
       "stock_code": "0225",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "southern.edu.my"
     },
     {
       "stock_name": "PLINTAS",
@@ -601,7 +667,8 @@ const EPF_DATA = {
       "total_securities": 85506300,
       "date": "16 Mar 2026",
       "stock_code": "5320",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "prolintas.com.my"
     },
     {
       "stock_name": "HLFG",
@@ -610,7 +677,8 @@ const EPF_DATA = {
       "total_securities": 74471374,
       "date": "14 May 2026",
       "stock_code": "1082",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "hongleongconnect.my"
     },
     {
       "stock_name": "ECONBHD",
@@ -619,7 +687,8 @@ const EPF_DATA = {
       "total_securities": 73987814,
       "date": "07 May 2026",
       "stock_code": "5253",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "get.adobe.com"
     },
     {
       "stock_name": "BAUTO",
@@ -628,7 +697,8 @@ const EPF_DATA = {
       "total_securities": 69169358,
       "date": "04 May 2026",
       "stock_code": "5248",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "bauto.com.my"
     },
     {
       "stock_name": "SCOMNET",
@@ -637,7 +707,8 @@ const EPF_DATA = {
       "total_securities": 68373000,
       "date": "19 May 2026",
       "stock_code": "0001",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "developer.mozilla.org"
     },
     {
       "stock_name": "UWC",
@@ -646,7 +717,8 @@ const EPF_DATA = {
       "total_securities": 63221732,
       "date": "19 May 2026",
       "stock_code": "5292",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "uwcberhad.com.my"
     },
     {
       "stock_name": "ORKIM",
@@ -655,7 +727,8 @@ const EPF_DATA = {
       "total_securities": 63172300,
       "date": "04 May 2026",
       "stock_code": "5348",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "chatgpt.com"
     },
     {
       "stock_name": "D&O",
@@ -664,7 +737,8 @@ const EPF_DATA = {
       "total_securities": 62021000,
       "date": "14 May 2026",
       "stock_code": "7204",
-      "sector": "Technology"
+      "sector": "Technology",
+      "domain": "dictionary.cambridge.org"
     },
     {
       "stock_name": "F&N",
@@ -673,7 +747,8 @@ const EPF_DATA = {
       "total_securities": 60268030,
       "date": "11 May 2026",
       "stock_code": "3689",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "support.microsoft.com"
     },
     {
       "stock_name": "WASCO",
@@ -682,7 +757,8 @@ const EPF_DATA = {
       "total_securities": 57788900,
       "date": "06 May 2026",
       "stock_code": "5142",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "wascoenergy.com"
     },
     {
       "stock_name": "UTDPLT",
@@ -691,7 +767,8 @@ const EPF_DATA = {
       "total_securities": 47405593,
       "date": "19 May 2026",
       "stock_code": "2089",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "united.com"
     },
     {
       "stock_name": "SAM",
@@ -700,7 +777,8 @@ const EPF_DATA = {
       "total_securities": 41923700,
       "date": "19 May 2026",
       "stock_code": "9822",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "sam-malaysia.com"
     },
     {
       "stock_name": "AME",
@@ -709,7 +787,8 @@ const EPF_DATA = {
       "total_securities": 38083550,
       "date": "03 Feb 2026",
       "stock_code": "5293",
-      "sector": "Industrial"
+      "sector": "Industrial",
+      "domain": "ameconstruction.com.my"
     },
     {
       "stock_name": "NESTLE",
@@ -718,7 +797,8 @@ const EPF_DATA = {
       "total_securities": 31766800,
       "date": "20 May 2026",
       "stock_code": null,
-      "sector": "Others"
+      "sector": "Others",
+      "domain": "nestle.com.my"
     },
     {
       "stock_name": "ALLIANZ",
@@ -727,7 +807,8 @@ const EPF_DATA = {
       "total_securities": 13833184,
       "date": "19 May 2026",
       "stock_code": "1163",
-      "sector": "Banking"
+      "sector": "Banking",
+      "domain": "allianz.com.my"
     },
     {
       "stock_name": "PANAMY",
@@ -736,7 +817,8 @@ const EPF_DATA = {
       "total_securities": 3679721,
       "date": "19 May 2026",
       "stock_code": "3719",
-      "sector": "Consumer"
+      "sector": "Consumer",
+      "domain": "panasonic.com"
     }
   ],
   "txByDate": {
@@ -82573,5 +82655,171 @@ const EPF_DATA = {
       "total": 267257696
     }
   ],
-  "uniqueStocks": 82
+  "uniqueStocks": 82,
+  "companyDomains": {
+    "PETGAS": "petronas.com",
+    "PETRONAS GAS BERHAD": "petronas.com",
+    "AXIATA": "axiata.com",
+    "AXIATA GROUP BERHAD": "axiata.com",
+    "SKPRES": "skpres.com",
+    "SKP RESOURCES BHD": "skpres.com",
+    "GAMUDA": "gamuda.com",
+    "GAMUDA BERHAD": "gamuda.com",
+    "SIME": "zhidao.baidu.com",
+    "SIME DARBY BERHAD": "zhidao.baidu.com",
+    "MAYBANK": "smart-ex.jp",
+    "MALAYAN BANKING BERHAD": "smart-ex.jp",
+    "TM": "tm.com.my",
+    "TELEKOM MALAYSIA BERHAD": "tm.com.my",
+    "MRDIY": "vocaberry.com",
+    "MR D.I.Y. GROUP (M) BERHAD": "vocaberry.com",
+    "CTOS": "ctoscredit.com.my",
+    "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
+    "PPB": "pbebank.com",
+    "PPB GROUP BERHAD": "pbebank.com",
+    "HLFG": "hongleongconnect.my",
+    "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
+    "ORKIM": "chatgpt.com",
+    "ORKIM BERHAD": "chatgpt.com",
+    "TIMECOM": "time.io",
+    "TIME DOTCOM BERHAD": "time.io",
+    "IHH": "ihhhealthcare.com",
+    "IHH HEALTHCARE BERHAD": "ihhhealthcare.com",
+    "PAVREIT": "pavilion-kl.com",
+    "PAVILION REAL ESTATE INVESTMENT TRUST": "pavilion-kl.com",
+    "KOSSAN": "kossan.com.my",
+    "KOSSAN RUBBER INDUSTRIES BHD.": "kossan.com.my",
+    "CLMT": "capitaland.com",
+    "CAPITALAND MALAYSIA TRUST": "capitaland.com",
+    "KLK": "theendlesstravellers.com",
+    "KUALA LUMPUR KEPONG BERHAD": "theendlesstravellers.com",
+    "PARADIGM": "paradigmmall.com.my",
+    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
+    "BAUTO": "bauto.com.my",
+    "BERMAZ AUTO BERHAD": "bauto.com.my",
+    "YTLPOWR": "ytl.com",
+    "YTL POWER INTERNATIONAL BHD": "ytl.com",
+    "SUNREIT": "sunway.com.my",
+    "SUNWAY REAL ESTATE INVESTMENT TRUST": "sunway.com.my",
+    "DIALOG": "dialogasia.com",
+    "DIALOG GROUP BERHAD": "dialogasia.com",
+    "ALLIANZ": "allianz.com.my",
+    "ALLIANZ MALAYSIA BERHAD": "allianz.com.my",
+    "MALAKOF": "malakoff.com.my",
+    "MALAKOFF CORPORATION BERHAD": "malakoff.com.my",
+    "FFB": "kamifarming.com",
+    "FARM FRESH BERHAD": "kamifarming.com",
+    "D&O": "dictionary.cambridge.org",
+    "D & O GREEN TECHNOLOGIES BERHAD": "dictionary.cambridge.org",
+    "CIMB": "cimbclicks.com.my",
+    "CIMB GROUP HOLDINGS BERHAD": "cimbclicks.com.my",
+    "IOIPG": "ioicitymall.com.my",
+    "IOI PROPERTIES GROUP BERHAD": "ioicitymall.com.my",
+    "CDB": "celcomdigi.com",
+    "CELCOMDIGI BERHAD": "celcomdigi.com",
+    "SUNWAY": "sunway.com.my",
+    "SUNWAY BERHAD": "sunway.com.my",
+    "PCHEM": "petronas.com",
+    "PETRONAS CHEMICALS GROUP BERHAD": "petronas.com",
+    "MFCB": "mega.nz",
+    "MEGA FIRST CORPORATION BERHAD": "mega.nz",
+    "SIMEPROP": "baike.baidu.com",
+    "SIME DARBY PROPERTY BERHAD": "baike.baidu.com",
+    "AMBANK": "ambankgroup.com",
+    "AMMB HOLDINGS BERHAD": "ambankgroup.com",
+    "HLBANK": "hongleongconnect.my",
+    "HONG LEONG BANK BERHAD": "hongleongconnect.my",
+    "SDG": "sdgroup.com.my",
+    "SD GUTHRIE BERHAD": "sdgroup.com.my",
+    "E&O": "easterncineplex.com.my",
+    "EASTERN & ORIENTAL BERHAD": "easterncineplex.com.my",
+    "KLCC": "suriaklcc.com.my",
+    "KLCC PROPERTY HOLDINGS BERHAD": "suriaklcc.com.my",
+    "PBBANK": "pbebank.com",
+    "PUBLIC BANK BERHAD": "pbebank.com",
+    "INARI": "inari-amertron.com",
+    "INARI AMERTRON BERHAD": "inari-amertron.com",
+    "PETDAG": "petronas.com",
+    "PETRONAS DAGANGAN BHD": "petronas.com",
+    "PMETAL": "chinapress.com.my",
+    "PRESS METAL ALUMINIUM HOLDINGS BERHAD": "chinapress.com.my",
+    "TENAGA": "mytnb.com.my",
+    "TENAGA NASIONAL BHD": "mytnb.com.my",
+    "UTDPLT": "united.com",
+    "UNITED PLANTATIONS BERHAD": "united.com",
+    "RHBBANK": "onlinebanking.rhbgroup.com",
+    "RHB BANK BERHAD": "onlinebanking.rhbgroup.com",
+    "F&N": "support.microsoft.com",
+    "FRASER & NEAVE HOLDINGS BHD": "support.microsoft.com",
+    "GENP": "rwgenting.com",
+    "GENTING PLANTATIONS BERHAD": "rwgenting.com",
+    "MAXIS": "maxis.com.my",
+    "MAXIS BERHAD": "maxis.com.my",
+    "UOADEV": "k5learning.com",
+    "UOA DEVELOPMENT BHD": "k5learning.com",
+    "IGBREIT": "igbbhd.com",
+    "IGB REAL ESTATE INVESTMENT TRUST": "igbbhd.com",
+    "IOICORP": "ioicitymall.com.my",
+    "IOI CORPORATION BERHAD": "ioicitymall.com.my",
+    "BIMB": "bankislam.com",
+    "BANK ISLAM MALAYSIA BERHAD": "bankislam.com",
+    "SCGBHD": "southern.edu.my",
+    "SOUTHERN CABLE GROUP BERHAD": "southern.edu.my",
+    "MISC": "miscgroup.com",
+    "MISC BERHAD": "miscgroup.com",
+    "IJM": "ijm.com",
+    "IJM CORPORATION BERHAD": "ijm.com",
+    "SCOMNET": "developer.mozilla.org",
+    "SUPERCOMNET TECHNOLOGIES BERHAD": "developer.mozilla.org",
+    "DRBHCOM": "drb-hicom.com",
+    "DRB-HICOM BERHAD": "drb-hicom.com",
+    "PADINI": "padini.com",
+    "PADINI HOLDINGS BERHAD": "padini.com",
+    "UWC": "uwcberhad.com.my",
+    "UWC BERHAD": "uwcberhad.com.my",
+    "SPSETIA": "google.com",
+    "S P SETIA BERHAD": "google.com",
+    "YTL": "ytl.com",
+    "YTL CORPORATION BERHAD": "ytl.com",
+    "NESTLE": "nestle.com.my",
+    "NESTLE (MALAYSIA) BERHAD": "nestle.com.my",
+    "BURSA": "bursa.listedcompany.com",
+    "BURSA MALAYSIA BERHAD": "bursa.listedcompany.com",
+    "JPG": "tourism.johor.gov.my",
+    "JOHOR PLANTATIONS GROUP BERHAD": "tourism.johor.gov.my",
+    "AXREIT": "axis.com",
+    "AXIS REAL ESTATE INVESTMENT TRUST": "axis.com",
+    "DAYANG": "translate.google.com",
+    "DAYANG ENTERPRISE HOLDINGS BERHAD": "translate.google.com",
+    "FRONTKN": "frontken.com",
+    "FRONTKEN CORPORATION BERHAD": "frontken.com",
+    "PANAMY": "panasonic.com",
+    "PANASONIC MANUFACTURING MALAYSIA BERHAD": "panasonic.com",
+    "SAM": "sam-malaysia.com",
+    "SAM ENGINEERING & EQUIPMENT (M) BERHAD": "sam-malaysia.com",
+    "ATECH": "aureliushealth.com",
+    "AURELIUS TECHNOLOGIES BERHAD": "aureliushealth.com",
+    "WASCO": "wascoenergy.com",
+    "WASCO BERHAD": "wascoenergy.com",
+    "MBSB": "mbsb.com",
+    "MBSB BERHAD": "mbsb.com",
+    "AEON": "myaeon2go.com",
+    "AEON CO. (M) BHD": "myaeon2go.com",
+    "AME": "ameconstruction.com.my",
+    "AME ELITE CONSORTIUM BERHAD": "ameconstruction.com.my",
+    "ABMB": "alliancebank.com.my",
+    "ALLIANCE BANK MALAYSIA BERHAD": "alliancebank.com.my",
+    "TAKAFUL": "ssm.com.my",
+    "SYARIKAT TAKAFUL MALAYSIA KELUARGA BERHAD": "ssm.com.my",
+    "99SMART": "99bulksales.my",
+    "99 SPEED MART RETAIL HOLDINGS BERHAD": "99bulksales.my",
+    "PLINTAS": "prolintas.com.my",
+    "PROLINTAS INFRA BUSINESS TRUST": "prolintas.com.my",
+    "ECONBHD": "get.adobe.com",
+    "ECONPILE HOLDINGS BERHAD": "get.adobe.com",
+    "SUNMED": "sunway.com.my",
+    "SUNWAY HEALTHCARE HOLDINGS BERHAD": "sunway.com.my",
+    "WPRTS": "westportsholdings.com",
+    "WESTPORTS HOLDINGS BERHAD": "westportsholdings.com"
+  }
 };

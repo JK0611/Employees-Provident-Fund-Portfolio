@@ -42,6 +42,86 @@ if (fs.existsSync(CACHE_FILE)) {
   }
 }
 
+async function fetchDomainFromSearch(companyName, stockName) {
+  // 1. Try DuckDuckGo Instant Answer API first (excellent for popular corporate brands, super fast and clean JSON)
+  const cleanComp = companyName
+    .replace(/\b(BERHAD|BHD|CORPORATION|GROUP|HOLDINGS|CO|M|RETAIL)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  
+  const ddgQueries = [cleanComp, stockName];
+  for (const q of ddgQueries) {
+    if (!q) continue;
+    try {
+      console.log(`[DDG API] Trying Instant Answer for "${q}"...`);
+      const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json`);
+      if (res.status === 200) {
+        const data = await res.json();
+        if (data.Results && data.Results.length > 0) {
+          const official = data.Results.find(r => r.Text && r.Text.toLowerCase().includes('official site'));
+          if (official && official.FirstURL) {
+            const domain = official.FirstURL.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+            console.log(`[DDG API] Resolved domain from Instant Answer: ${domain}`);
+            return domain;
+          }
+          if (data.Results[0].FirstURL) {
+            const domain = data.Results[0].FirstURL.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+            console.log(`[DDG API] Resolved domain from FirstURL: ${domain}`);
+            return domain;
+          }
+        }
+      }
+    } catch (e) {
+      console.log(`[DDG API] Failed for "${q}":`, e.message);
+    }
+  }
+
+  // 2. Fallback to Bing Search HTML scraping (very robust, rarely rate-limited or blocked)
+  const queries = [
+    `${companyName} official website`,
+    `${stockName} Malaysia official website`
+  ];
+
+  for (const query of queries) {
+    try {
+      console.log(`[Bing Search] Resolving domain for query: "${query}"...`);
+      const res = await fetch(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9'
+        }
+      });
+      if (res.status !== 200) {
+        console.log(`[Bing Search] Bing returned status ${res.status}. Trying next query...`);
+        continue;
+      }
+      const html = await res.text();
+      const matches = html.match(/<cite>([^<]+)<\/cite>/g);
+      if (matches) {
+        const urls = matches.map(m => m.replace(/<\/?cite>/g, '').trim().split(' ')[0]);
+        const ignoreDomains = [
+          'wikipedia.org', 'bursamalaysia.com', 'yahoo.com', 'bloomberg.com',
+          'facebook.com', 'linkedin.com', 'wsj.com', 'reuters.com', 'theedgemalaysia.com',
+          'youtube.com', 'instagram.com', 'twitter.com', 'pinterest.com', 'tiktok.com',
+          'klse.i3investor.com', 'klsescreener.com', 'tradingview.com', 'time.is', '24timezones.com'
+        ];
+        for (const url of urls) {
+          const cleanUrl = url.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+          if (cleanUrl && !ignoreDomains.some(d => cleanUrl.includes(d))) {
+            console.log(`[Bing Search] Resolved domain: ${cleanUrl}`);
+            return cleanUrl;
+          }
+        }
+      }
+    } catch (e) {
+      console.log(`[Bing Search] Failed to resolve domain:`, e.message);
+    }
+    await new Promise(resolve => setTimeout(resolve, 800));
+  }
+  return null;
+}
+
 async function fetchStockCodeAndSector(stockName, companyName) {
   if (cache[stockName] && cache[stockName].code) {
     return cache[stockName];
@@ -197,10 +277,25 @@ async function processData() {
 
   // Fetch codes & sectors dynamically for active holdings
   console.log(`Processing metadata for ${holdings.length} active holdings...`);
+  const companyDomains = {};
+
   for (const h of holdings) {
     const meta = await fetchStockCodeAndSector(h.stock_name, h.company_name);
     h.stock_code = meta.code;
     h.sector = meta.sector;
+
+    if (!meta.domain) {
+      const domain = await fetchDomainFromSearch(h.company_name, h.stock_name);
+      meta.domain = domain;
+      cache[h.stock_name] = meta;
+      fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    }
+
+    h.domain = meta.domain;
+    if (meta.domain) {
+      companyDomains[h.stock_name] = meta.domain;
+      companyDomains[h.company_name] = meta.domain;
+    }
   }
 
   // Sort holdings by value (total securities)
@@ -214,7 +309,8 @@ async function processData() {
     holdings,
     txByDate,
     transactions: allTransactions,
-    uniqueStocks: holdings.length
+    uniqueStocks: holdings.length,
+    companyDomains
   };
 
   const outputContent = `const EPF_DATA = ${JSON.stringify(finalDataset, null, 2)};`;

@@ -18,8 +18,141 @@ function stockColor(symbol) {
   return `hsl(${hue}, 55%, 45%)`;
 }
 
+// Dynamic tradingview logos cache
+let tvLogoMap = {};
+
+// Hardcoded fallback map from logo.json for instant synchronous load
+const fallbackTvLogos = {
+  'MBSB': 'https://s3-symbol-logo.tradingview.com/malaysia-building-society-bhd--big.svg',
+  'PBBANK': 'https://s3-symbol-logo.tradingview.com/public-bank--big.svg',
+  'CIMB': 'https://s3-symbol-logo.tradingview.com/cimb-group-holdings-berhad--big.svg',
+  'AXIATA': 'https://s3-symbol-logo.tradingview.com/axiata-group-berhad--big.svg',
+  'RHBBANK': 'https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg',
+  'RHB': 'https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg',
+  'MAYBANK': 'https://s3-symbol-logo.tradingview.com/malayan-banking--big.svg',
+  'TENAGA': 'https://s3-symbol-logo.tradingview.com/tenaga-nasional--big.svg',
+  'YTL': 'https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg',
+  'CDB': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
+  'CELCOMDIGI': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
+  'CBD': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
+  'GAMUDA': 'https://s3-symbol-logo.tradingview.com/gamuda-bhd--big.svg',
+  'DIALOG': 'https://s3-symbol-logo.tradingview.com/dialog-group--big.svg',
+  'DIALOG GROUP': 'https://s3-symbol-logo.tradingview.com/dialog-group--big.svg',
+  'IHH': 'https://s3-symbol-logo.tradingview.com/ihh--big.svg',
+  'SIMEPROP': 'https://s3-symbol-logo.tradingview.com/sime-darby-property-berhad--big.svg',
+  'SIME': 'https://s3-symbol-logo.tradingview.com/sime-darby-bhd--big.svg',
+  'SDG': 'https://s3-symbol-logo.tradingview.com/sime-darby-plantation-berhad--big.svg',
+  'MAXIS': 'https://s3-symbol-logo.tradingview.com/maxis-berhad--big.svg',
+  'MRDIY': 'https://s3-symbol-logo.tradingview.com/mr-d-i-y-group-m-berhad--big.svg',
+  'IOICORP': 'https://s3-symbol-logo.tradingview.com/ioi-corporation-bhd--big.svg'
+};
+
 // Clearbit official company domain mapping for high-quality corporate logos
-function getLogoUrl(companyName) {
+function getLogoUrl(companyName, stockName) {
+  const name = companyName ? companyName.toUpperCase().trim() : '';
+  const ticker = stockName ? stockName.toUpperCase().trim() : '';
+
+  // 1. Check TradingView Logo mappings from logo.json (cached or fallback)
+  const map = { ...fallbackTvLogos, ...tvLogoMap };
+  if (ticker && map[ticker]) return map[ticker];
+  
+  for (const [key, url] of Object.entries(map)) {
+    const upperKey = key.toUpperCase().trim();
+    if (ticker === upperKey) return url;
+    
+    // Check specific custom aliases
+    if (upperKey === 'CBD' && (ticker === 'CDB' || ticker === 'CELCOMDIGI')) return url;
+    if (upperKey === 'RHB' && (ticker === 'RHBBANK' || ticker === 'RHB')) return url;
+    if (upperKey === 'DIALOG GROUP' && (ticker === 'DIALOG' || name.includes('DIALOG'))) return url;
+    
+    // Check substring matches
+    if (ticker && (ticker.includes(upperKey) || upperKey.includes(ticker))) return url;
+    if (name && (name.includes(upperKey) || upperKey.includes(name))) return url;
+  }
+
+  let domain = null;
+
+  const symbolDomains = {
+    'MAYBANK': 'maybank.com',
+    'PBBANK': 'publicbank.com.my',
+    'CIMB': 'cimb.com',
+    'AXIATA': 'axiata.com',
+    'RHBBANK': 'rhbgroup.com',
+    'TENAGA': 'tnb.com.my',
+    'YTL': 'ytl.com',
+    'CELCOMDIGI': 'celcomdigi.com',
+    'DIALOG': 'dialogasia.com',
+    'GAMUDA': 'gamuda.com.my',
+    'IHH': 'ihhhealthcare.com',
+    'SIMEPROP': 'simedarbyproperty.com',
+    'SIME': 'simedarby.com',
+    'SDG': 'sdguthrie.com',
+    'MAXIS': 'maxis.com.my',
+    'MRDIY': 'mrdiy.com',
+    'IOICORP': 'ioigroup.com',
+    'PCHEM': 'petronaschemicals.com',
+    'YTLPOWR': 'ytlpower.com.my',
+    'MALAKOF': 'malakoff.com.my',
+    'TM': 'tm.com.my',
+    'PMETAL': 'pressmetal.com',
+    'SUNWAY': 'sunway.com.my',
+    'IJM': 'ijm.com',
+    'MISC': 'misc.com.my',
+    'SPSETIA': 'spsetia.com',
+    '99SMART': '99speedmart.com.my',
+    'INARI': 'inaricorp.com',
+    'AMBANK': 'ambankgroup.com',
+    'SUNREIT': 'sunwayreit.com',
+    'PAVREIT': 'pavilionreit.com',
+    'CTOS': 'ctosdigital.com',
+    'AXREIT': 'axisreit.com.my',
+    'IGBREIT': 'igbreit.com',
+    'UOADEV': 'uoa.com.my',
+    'IOIPG': 'ioiproperties.com.my',
+    'BIMB': 'bankislam.com',
+    'FFB': 'farmfresh.com.my',
+    'TIMECOM': 'time.com.my',
+    'FRONTKN': 'frontken.com',
+    'PETGAS': 'petronasgas.com',
+    'PPB': 'ppbgroup.com',
+    'JPG': 'johorplantations.com',
+    'WPRTS': 'westportsholdings.com',
+    'KLK': 'klk.com.my',
+    'HLBANK': 'hlb.com.my',
+    'KLCC': 'klcc.com.my',
+    'SKPRES': 'skpres.com',
+    'E&O': 'easternandoriental.com',
+    'ATECH': 'atechgroup.com.my',
+    'TAKAFUL': 'takaful-malaysia.com.my',
+    'DRBHCOM': 'drb-hicom.com',
+    'DAYANG': 'desb.net',
+    'ABMB': 'alliancebank.com.my',
+    'KOSSAN': 'kossan.com.my',
+    'GENP': 'gentingplantations.com',
+    'PETDAG': 'mymesra.com.my',
+    'BURSA': 'bursamalaysia.com',
+    'MFCB': 'megafirst.com',
+    'AEON': 'aeongroupmalaysia.com',
+    'PADINI': 'padini.com',
+    'SCGBHD': 'southerncable.com.my',
+    'PLINTAS': 'prolintas.com.my',
+    'HLFG': 'hlfg.com.my',
+    'ECONBHD': 'econpile.com',
+    'BAUTO': 'bauto.com.my',
+    'SCOMNET': 'supercomnet.com.my',
+    'ORKIM': 'orkim.com.my',
+    'UWC': 'uwcberhad.com.my',
+    'D&O': 'dogt.com.my',
+    'F&N': 'fn.com.my',
+    'WASCO': 'wascoenergy.com',
+    'UTDPLT': 'unitedplantations.com',
+    'SAM': 'sam-mfg.com.my',
+    'AME': 'ame-elite.com',
+    'NESTLE': 'nestle.com.my',
+    'ALLIANZ': 'allianz.com.my',
+    'PANAMY': 'panasonic.com.my'
+  };
+
   const domains = {
     'MALAYAN BANKING BERHAD': 'maybank.com',
     'PUBLIC BANK BERHAD': 'publicbank.com.my',
@@ -101,9 +234,21 @@ function getLogoUrl(companyName) {
     'PANASONIC MANUFACTURING MALAYSIA BERHAD': 'panasonic.com.my'
   };
 
-  const name = companyName.toUpperCase().trim();
-  if (domains[name]) {
-    return `https://logo.clearbit.com/${domains[name]}`;
+  domain = symbolDomains[ticker];
+  if (!domain) {
+    domain = domains[name];
+  }
+
+  if (!domain && typeof EPF_DATA !== 'undefined' && EPF_DATA.companyDomains) {
+    if (stockName && EPF_DATA.companyDomains[stockName]) {
+      domain = EPF_DATA.companyDomains[stockName];
+    } else if (companyName && EPF_DATA.companyDomains[companyName]) {
+      domain = EPF_DATA.companyDomains[companyName];
+    }
+  }
+
+  if (domain) {
+    return `https://logo.clearbit.com/${domain}`;
   }
   
   // Fallback slug generation
@@ -208,7 +353,15 @@ function renderHoldingsTable() {
 
   tbody.innerHTML = data.map((h, i) => {
     const pctPortfolio = ((h.total_securities / totalSecurities) * 100).toFixed(2);
-    const logoUrl = getLogoUrl(h.company_name);
+    const logoUrl = getLogoUrl(h.company_name, h.stock_name);
+    let domain = '';
+    if (EPF_DATA.companyDomains && EPF_DATA.companyDomains[h.stock_name]) {
+      domain = EPF_DATA.companyDomains[h.stock_name];
+    } else {
+      const match = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/) : null;
+      if (match) domain = match[1];
+    }
+
     return `<tr>
       <td>${i + 1}</td>
       <td>
@@ -216,7 +369,7 @@ function renderHoldingsTable() {
           ${logoUrl ? `
             <img src="${logoUrl}" 
                  class="stock-icon-img" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" 
+                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
                  alt="${h.stock_name}">
           ` : ''}
           <div class="stock-icon fallback-icon" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
@@ -834,15 +987,30 @@ function renderTransactionsTable() {
 
   document.getElementById('tx-count').textContent = filteredTx.length.toLocaleString();
 
-  tbody.innerHTML = pageData.map((tx, i) => `
-    <tr>
+  tbody.innerHTML = pageData.map((tx, i) => {
+    const logoUrl = getLogoUrl(tx.company, tx.stock);
+    let domain = '';
+    if (EPF_DATA.companyDomains && EPF_DATA.companyDomains[tx.stock]) {
+      domain = EPF_DATA.companyDomains[tx.stock];
+    } else {
+      const match = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/) : null;
+      if (match) domain = match[1];
+    }
+
+    return `<tr>
       <td>${start + i + 1}</td>
       <td>
         ${tx.url ? `<a href="${tx.url}" target="_blank" class="tx-date-link">${tx.date}</a>` : tx.date}
       </td>
       <td>
         <div class="stock-symbol">
-          <div class="stock-icon" style="background:${stockColor(tx.stock)}">${tx.stock.slice(0, 2)}</div>
+          ${logoUrl ? `
+            <img src="${logoUrl}" 
+                 class="stock-icon-img" 
+                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                 alt="${tx.stock}">
+          ` : ''}
+          <div class="stock-icon fallback-icon" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
           <span class="stock-name">${tx.stock}</span>
         </div>
       </td>
@@ -851,8 +1019,8 @@ function renderTransactionsTable() {
       <td class="align-right">${tx.amount.toLocaleString()}</td>
       <td class="align-right">${tx.percent}%</td>
       <td class="align-right">${tx.total.toLocaleString()}</td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 
   renderPagination();
 }
@@ -1298,5 +1466,24 @@ window.addEventListener('resize', () => {
     drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
   }, 200);
 });
+
+// Fetch logo.json dynamically to keep mapped logos up to date
+fetch('logo.json')
+  .then(res => {
+    if (res.ok) return res.json();
+    throw new Error('Failed to load logo.json');
+  })
+  .then(list => {
+    list.forEach(item => {
+      const key = item.company.toUpperCase().trim();
+      tvLogoMap[key] = item.logo_url;
+    });
+    // Re-render once loaded to show new logos
+    renderHoldingsTable();
+    renderTransactionsTable();
+  })
+  .catch(err => {
+    console.warn("Using fallback TradingView logos:", err.message);
+  });
 
 init();

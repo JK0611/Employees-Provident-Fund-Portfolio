@@ -1,310 +1,412 @@
 {
   "PETGAS": {
     "code": "6033",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "petronas.com"
   },
   "AXIATA": {
     "code": "6888",
-    "sector": "Telecom"
+    "sector": "Telecom",
+    "domain": "axiata.com"
   },
   "SKPRES": {
     "code": "7155",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "skpres.com"
   },
   "GAMUDA": {
     "code": "5398",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "gamuda.com"
   },
   "MAYBANK": {
     "code": "1155",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "smart-ex.jp"
   },
   "MRDIY": {
     "code": "5296",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "vocaberry.com"
   },
   "CTOS": {
     "code": "5301",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "ctoscredit.com.my"
   },
   "HLFG": {
     "code": "1082",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "hongleongconnect.my"
   },
   "ORKIM": {
     "code": "5348",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "chatgpt.com"
   },
   "TIMECOM": {
     "code": "5031",
-    "sector": "Telecom"
+    "sector": "Telecom",
+    "domain": "time.io"
   },
   "IHH": {
     "code": "5225",
-    "sector": "Healthcare"
+    "sector": "Healthcare",
+    "domain": "ihhhealthcare.com"
   },
   "PAVREIT": {
     "code": "5212",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "pavilion-kl.com"
   },
   "KOSSAN": {
     "code": "7153",
-    "sector": "Healthcare"
+    "sector": "Healthcare",
+    "domain": "kossan.com.my"
   },
   "KLK": {
     "code": "2445",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "theendlesstravellers.com"
   },
   "BAUTO": {
     "code": "5248",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "bauto.com.my"
   },
   "YTLPOWR": {
     "code": "6742",
-    "sector": "Utilities"
+    "sector": "Utilities",
+    "domain": "ytl.com"
   },
   "SUNREIT": {
     "code": "5176",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "sunway.com.my"
   },
   "DIALOG": {
     "code": "7277",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "dialogasia.com"
   },
   "MALAKOF": {
     "code": "5264",
-    "sector": "Utilities"
+    "sector": "Utilities",
+    "domain": "malakoff.com.my"
   },
   "FFB": {
     "code": "5306",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "kamifarming.com"
   },
   "IOIPG": {
     "code": "5249",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "ioicitymall.com.my"
   },
   "CDB": {
     "code": "6947",
-    "sector": "Telecom"
+    "sector": "Telecom",
+    "domain": "celcomdigi.com"
   },
   "SUNWAY": {
     "code": "5263",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "sunway.com.my"
   },
   "PCHEM": {
     "code": "5183",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "petronas.com"
   },
   "MFCB": {
     "code": "3069",
-    "sector": "Utilities"
+    "sector": "Utilities",
+    "domain": "mega.nz"
   },
   "SIMEPROP": {
     "code": "5288",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "baike.baidu.com"
   },
   "AMBANK": {
     "code": "1015",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "ambankgroup.com"
   },
   "HLBANK": {
     "code": "5819",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "hongleongconnect.my"
   },
   "KLCC": {
     "code": "5235SS",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "suriaklcc.com.my"
   },
   "PBBANK": {
     "code": "1295",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "pbebank.com"
   },
   "INARI": {
     "code": "0166",
-    "sector": "Technology"
+    "sector": "Technology",
+    "domain": "inari-amertron.com"
   },
   "PETDAG": {
     "code": "5681",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "petronas.com"
   },
   "PMETAL": {
     "code": "8869",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "chinapress.com.my"
   },
   "TENAGA": {
     "code": "5347",
-    "sector": "Utilities"
+    "sector": "Utilities",
+    "domain": "mytnb.com.my"
   },
   "UTDPLT": {
     "code": "2089",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "united.com"
   },
   "RHBBANK": {
     "code": "1066",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "onlinebanking.rhbgroup.com"
   },
   "MAXIS": {
     "code": "6012",
-    "sector": "Telecom"
+    "sector": "Telecom",
+    "domain": "maxis.com.my"
   },
   "UOADEV": {
     "code": "5200",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "k5learning.com"
   },
   "IGBREIT": {
     "code": "5227",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "igbbhd.com"
   },
   "IOICORP": {
     "code": "1961",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "ioicitymall.com.my"
   },
   "BIMB": {
     "code": "5258",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "bankislam.com"
   },
   "SCGBHD": {
     "code": "0225",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "southern.edu.my"
   },
   "MISC": {
     "code": "3816",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "miscgroup.com"
   },
   "IJM": {
     "code": "3336",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "ijm.com"
   },
   "SCOMNET": {
     "code": "0001",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "developer.mozilla.org"
   },
   "DRBHCOM": {
     "code": "1619",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "drb-hicom.com"
   },
   "PADINI": {
     "code": "7052",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "padini.com"
   },
   "UWC": {
     "code": "5292",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "uwcberhad.com.my"
   },
   "SPSETIA": {
     "code": "8664PC",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "google.com"
   },
   "YTL": {
     "code": "5109",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "ytl.com"
   },
   "JPG": {
     "code": "5323",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "tourism.johor.gov.my"
   },
   "AXREIT": {
     "code": "5106",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "axis.com"
   },
   "DAYANG": {
     "code": "5141",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "translate.google.com"
   },
   "FRONTKN": {
     "code": "0128",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "frontken.com"
   },
   "PANAMY": {
     "code": "3719",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "panasonic.com"
   },
   "ATECH": {
     "code": "5302",
-    "sector": "Technology"
+    "sector": "Technology",
+    "domain": "aureliushealth.com"
   },
   "WASCO": {
     "code": "5142",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "wascoenergy.com"
   },
   "MBSB": {
     "code": "1171",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "mbsb.com"
   },
   "ABMB": {
     "code": "2488",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "alliancebank.com.my"
   },
   "TAKAFUL": {
     "code": "6139",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "ssm.com.my"
   },
   "99SMART": {
     "code": "5326",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "99bulksales.my"
   },
   "PLINTAS": {
     "code": "5320",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "prolintas.com.my"
   },
   "ECONBHD": {
     "code": "5253",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "get.adobe.com"
   },
   "SUNMED": {
     "code": "5555",
-    "sector": "Healthcare"
+    "sector": "Healthcare",
+    "domain": "sunway.com.my"
   },
   "WPRTS": {
     "code": "5246",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "westportsholdings.com"
   },
   "SIME": {
     "code": "4197",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "zhidao.baidu.com"
   },
   "TM": {
     "code": "4863",
-    "sector": "Telecom"
+    "sector": "Telecom",
+    "domain": "tm.com.my"
   },
   "CLMT": {
     "code": "5180",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "capitaland.com"
   },
   "ALLIANZ": {
     "code": "1163",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "allianz.com.my"
   },
   "D&O": {
     "code": "7204",
-    "sector": "Technology"
+    "sector": "Technology",
+    "domain": "dictionary.cambridge.org"
   },
   "CIMB": {
     "code": "1023",
-    "sector": "Banking"
+    "sector": "Banking",
+    "domain": "cimbclicks.com.my"
   },
   "SDG": {
     "code": "5285",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "sdgroup.com.my"
   },
   "E&O": {
     "code": "3417",
-    "sector": "Property"
+    "sector": "Property",
+    "domain": "easterncineplex.com.my"
   },
   "F&N": {
     "code": "3689",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "support.microsoft.com"
   },
   "GENP": {
     "code": "2291",
-    "sector": "Consumer"
+    "sector": "Consumer",
+    "domain": "rwgenting.com"
   },
   "SAM": {
     "code": "9822",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "sam-malaysia.com"
   },
   "AME": {
     "code": "5293",
-    "sector": "Industrial"
+    "sector": "Industrial",
+    "domain": "ameconstruction.com.my"
+  },
+  "PPB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "pbebank.com"
+  },
+  "PARADIGM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "paradigmmall.com.my"
+  },
+  "NESTLE": {
+    "code": null,
+    "sector": "Others",
+    "domain": "nestle.com.my"
+  },
+  "BURSA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "bursa.listedcompany.com"
+  },
+  "AEON": {
+    "code": null,
+    "sector": "Others",
+    "domain": "myaeon2go.com"
   }
 }

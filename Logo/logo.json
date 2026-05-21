@@ -1,0 +1,74 @@
+[
+    {
+        "company": "MBSB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/malaysia-building-society-bhd--big.svg"
+    },
+    {
+        "company": "PBBANK",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/public-bank--big.svg"
+    },
+    {
+        "company": "CIMB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/cimb-group-holdings-berhad--big.svg"
+    },
+    {
+        "company": "Axiata",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/axiata-group-berhad--big.svg"
+    },
+    {
+        "company": "Rhb",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg"
+    },
+    {
+        "company": "Maybank",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/malayan-banking--big.svg"
+    },
+    {
+        "company": "Tenaga",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/tenaga-nasional--big.svg"
+    },
+    {
+        "company": "Ytl",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg"
+    },
+    {
+        "company": "Cbd",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg"
+    },
+    {
+        "company": "Gamuda",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/gamuda-bhd--big.svg"
+    },
+    {
+        "company": "Dialog group",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/dialog-group--big.svg"
+    },
+    {
+        "company": "Ihh",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ihh--big.svg"
+    },
+    {
+        "company": "Simeprop",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-property-berhad--big.svg"
+    },
+    {
+        "company": "Sime",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-bhd--big.svg"
+    },
+    {
+        "company": "Sdg",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-plantation-berhad--big.svg"
+    },
+    {
+        "company": "Maxis",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/maxis-berhad--big.svg"
+    },
+    {
+        "company": "Mrdiy",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/mr-d-i-y-group-m-berhad--big.svg"
+    },
+    {
+        "company": "Ioicorp",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ioi-corporation-bhd--big.svg"
+    }
+]

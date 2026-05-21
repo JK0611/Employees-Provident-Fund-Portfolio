@@ -665,10 +665,8 @@ tbody td:first-child {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
   flex-shrink: 0;
-  background: #fff;
-  border: 1px solid var(--border);
 }
 
 .stock-name {
