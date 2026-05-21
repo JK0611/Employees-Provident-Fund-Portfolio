@@ -2,6 +2,119 @@
    EPFTracker — Application Logic
    ============================================ */
 
+// KLSE Screener stock codes lookup map
+const STOCK_CODES = {
+  "99SMART": "5326",
+  "ABMB": "2488",
+  "AEON": "6599",
+  "AHEALTH": "7090",
+  "ALLIANZ": "1163",
+  "AMBANK": "1015",
+  "AME": "5293",
+  "ATECH": "5302",
+  "AXIATA": "6888",
+  "AXREIT": "5106",
+  "BAUTO": "5248",
+  "BIMB": "5258",
+  "BURSA": "1818",
+  "CBD": "6947",
+  "CDB": "6947",
+  "CELCOMDIGI": "6947",
+  "CIMB": "1023",
+  "CLMT": "5180",
+  "CTOS": "5301",
+  "D&O": "7204",
+  "DAYANG": "5141",
+  "DIALOG": "7277",
+  "DPHARMA": "7148",
+  "DRBHCOM": "1619",
+  "E&O": "3417",
+  "ECONBHD": "5253",
+  "F&N": "3689",
+  "FFB": "5306",
+  "FRONTKN": "0128",
+  "GAMUDA": "5398",
+  "GENP": "2291",
+  "HLBANK": "5819",
+  "HLFG": "1082",
+  "IGBREIT": "5227",
+  "IHH": "5225",
+  "IJM": "3336",
+  "INARI": "0166",
+  "IOICORP": "1961",
+  "IOIPG": "5249",
+  "ITMAX": "5309",
+  "JPG": "5323",
+  "KGB": "0151",
+  "KLCC": "5235SS",
+  "KLK": "2445",
+  "KOSSAN": "7153",
+  "KPJ": "5878",
+  "MALAKOF": "5264",
+  "MAXIS": "6012",
+  "MAYBANK": "1155",
+  "MBSB": "1171",
+  "MFCB": "3069",
+  "MISC": "3816",
+  "MPI": "3867",
+  "MRDIY": "5296",
+  "NESTLE": "4707",
+  "ORKIM": "5348",
+  "PADINI": "7052",
+  "PANAMY": "3719",
+  "PARADIGM": "5187",
+  "PAVREIT": "5212",
+  "PBBANK": "1295",
+  "PCHEM": "5183",
+  "PENTA": "7160",
+  "PETDAG": "5681",
+  "PETGAS": "6033",
+  "PLINTAS": "5320",
+  "PMETAL": "8869",
+  "PPB": "4065",
+  "RHB": "1066",
+  "RHBBANK": "1066",
+  "SAM": "9822",
+  "SCGBHD": "0225",
+  "SCOMNET": "0001",
+  "SDG": "5285",
+  "SDS": "0212",
+  "SIME": "4197",
+  "SIMEPROP": "5288",
+  "SKPRES": "7155",
+  "SMRT": "0117",
+  "SPSETIA": "8664PC",
+  "SUNMED": "5555",
+  "SUNREIT": "5176",
+  "SUNWAY": "5263",
+  "TAKAFUL": "6139",
+  "TENAGA": "5347",
+  "TIMECOM": "5031",
+  "TM": "4863",
+  "UNISEM": "5005",
+  "UOADEV": "5200",
+  "UTDPLT": "2089",
+  "UWC": "5292",
+  "VELESTO": "5243",
+  "VS": "6963",
+  "WASCO": "5142",
+  "WPRTS": "5246",
+  "YTL": "5109",
+  "YTLPOWR": "6742",
+  "YTLPOWER": "6742"
+};
+
+// Generates correct KLSE Screener URLs with slugified company name
+function getKlseLink(stockSymbol, companyName) {
+  const code = STOCK_CODES[stockSymbol.toUpperCase().trim()] || '';
+  const slug = (companyName || stockSymbol).toLowerCase().trim()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  return `https://www.klsescreener.com/v2/stocks/view/${code}/${slug}`;
+}
+
 // Chart color palette
 const COLORS = [
   '#8b5cf6', '#06b6d4', '#f59e0b', '#ef4444', '#22c55e',
@@ -460,16 +573,18 @@ function renderHoldingsTable() {
     return `<tr>
       <td>${i + 1}</td>
       <td>
-        <div class="stock-symbol">
-          ${logoUrl ? `
-            <img src="${logoUrl}" 
-                 class="stock-icon-img" 
-                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                 alt="${h.stock_name}">
-          ` : ''}
-          <div class="stock-icon fallback-icon" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
-          <span class="stock-name">${h.stock_name}</span>
-        </div>
+        <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="stock-symbol-link" title="View ${h.stock_name} on KLSE Screener">
+          <div class="stock-symbol">
+            ${logoUrl ? `
+              <img src="${logoUrl}" 
+                   class="stock-icon-img" 
+                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                   alt="${h.stock_name}">
+            ` : ''}
+            <div class="stock-icon fallback-icon" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
+            <span class="stock-name">${h.stock_name}</span>
+          </div>
+        </a>
       </td>
       <td>${h.company_name}</td>
       <td>${h.sector}</td>
@@ -1144,16 +1259,18 @@ function renderTransactionsTable() {
         ${tx.date}
       </td>
       <td>
-        <div class="stock-symbol">
-          ${logoUrl ? `
-            <img src="${logoUrl}" 
-                 class="stock-icon-img" 
-                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                 alt="${tx.stock}">
-          ` : ''}
-          <div class="stock-icon fallback-icon" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
-          <span class="stock-name">${tx.stock}</span>
-        </div>
+        <a href="${getKlseLink(tx.stock, tx.company)}" target="_blank" class="stock-symbol-link" title="View ${tx.stock} on KLSE Screener">
+          <div class="stock-symbol">
+            ${logoUrl ? `
+              <img src="${logoUrl}" 
+                   class="stock-icon-img" 
+                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                   alt="${tx.stock}">
+            ` : ''}
+            <div class="stock-icon fallback-icon" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
+            <span class="stock-name">${tx.stock}</span>
+          </div>
+        </a>
       </td>
       <td>${tx.company}</td>
       <td>

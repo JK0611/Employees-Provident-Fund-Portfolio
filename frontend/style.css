@@ -1246,3 +1246,21 @@ tbody td:first-child {
   color: var(--text-primary);
   background-color: var(--border);
 }
+
+/* ============================================
+   Stock Symbol Clickable Links
+   ============================================ */
+.stock-symbol-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  transition: transform var(--transition);
+}
+
+.stock-symbol-link:hover {
+  transform: translateY(-1px);
+}
+
+.stock-symbol-link:hover .stock-name {
+  color: var(--accent);
+}
