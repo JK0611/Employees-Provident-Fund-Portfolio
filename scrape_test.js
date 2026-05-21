@@ -232,7 +232,7 @@ async function run() {
                     const disposedVal = parseInt(disposedStr.replace(/,/g, ''), 10) || 0;
                     if (disposedVal > 0) {
                         transactions.push({
-                            type_of_transaction: 'Disposed',
+                            type_of_transaction: 'Divestment',
                             no_of_securities: disposedVal
                         });
                     }

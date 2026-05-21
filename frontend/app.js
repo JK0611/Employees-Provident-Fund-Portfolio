@@ -899,7 +899,7 @@ function flattenTransactions() {
     let disposed = 0;
     tx.transactions.forEach(t => {
       if (t.type === 'Acquired') acquired += t.amount;
-      else if (t.type === 'Disposed') disposed += t.amount;
+      else if (t.type === 'Disposed' || t.type === 'Divestment') disposed += t.amount;
     });
 
     let type = 'Acquired';
@@ -908,7 +908,7 @@ function flattenTransactions() {
       type = 'Acquired';
       amount = acquired - disposed;
     } else if (disposed > acquired) {
-      type = 'Disposed';
+      type = tx.transactions.some(t => t.type === 'Divestment') ? 'Divestment' : 'Disposed';
       amount = disposed - acquired;
     } else {
       type = tx.transactions[0]?.type || 'Acquired';

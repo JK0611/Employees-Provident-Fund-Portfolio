@@ -236,6 +236,7 @@ async function processData() {
       let type = tx.type_of_transaction;
       if (type.toLowerCase().startsWith('acq')) type = 'Acquired';
       else if (type.toLowerCase().startsWith('disp')) type = 'Disposed';
+      else if (type.toLowerCase().startsWith('divest')) type = 'Divestment';
       return { type, amount: tx.no_of_securities };
     });
 
@@ -256,7 +257,7 @@ async function processData() {
       }
       validTransactions.forEach(tx => {
         if (tx.type === 'Acquired') txByDate[date].acquired += tx.amount;
-        if (tx.type === 'Disposed') txByDate[date].disposed += tx.amount;
+        if (tx.type === 'Disposed' || tx.type === 'Divestment') txByDate[date].disposed += tx.amount;
       });
       txByDate[date].net = txByDate[date].acquired - txByDate[date].disposed;
       txByDate[date].count += 1;

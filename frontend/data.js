@@ -4159,7 +4159,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3667166",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 2514000
         }
       ],
@@ -7595,7 +7595,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3665580",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 874300
         }
       ],
@@ -9365,7 +9365,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3664872",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 5364000
         }
       ],
@@ -9827,7 +9827,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3664622",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 11617700
         }
       ],
@@ -12267,7 +12267,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3663620",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 807700
         }
       ],
@@ -21689,7 +21689,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3657136",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 617800
         }
       ],
@@ -22097,7 +22097,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3656998",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 1000000
         }
       ],
@@ -32355,7 +32355,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3652163",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 100700
         }
       ],
@@ -42977,7 +42977,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3646302",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 165000
         }
       ],
@@ -43929,7 +43929,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3645804",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 25289300
         }
       ],
@@ -45983,7 +45983,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3644805",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 295500
         }
       ],
@@ -64921,7 +64921,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3632731",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 2000000
         }
       ],
@@ -72169,7 +72169,7 @@ const EPF_DATA = {
       "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3628456",
       "transactions": [
         {
-          "type": "Disposed",
+          "type": "Divestment",
           "amount": 20994400
         }
       ],
