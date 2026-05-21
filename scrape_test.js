@@ -31,15 +31,27 @@ async function run() {
     }).filter(Boolean));
 
     // Dynamic Date Calculation:
-    // If we have previous results, look back 7 days to check for new announcements.
+    // If we have previous results, find the latest announcement date in the database
+    // and look back from that date (with a 3-day safety buffer) to bridge any gaps.
     // Otherwise, perform a full backfill from 01/01/2026.
     const now = new Date();
     const TO_DATE = getFormattedDate(now);
     const FROM_DATE = existingResults.length > 0
         ? (() => {
-            const d = new Date(now);
-            d.setDate(d.getDate() - 7);
-            return getFormattedDate(d);
+            let latest = new Date('2026-01-01');
+            for (const r of existingResults) {
+                if (r.date_announced) {
+                    const d = new Date(r.date_announced);
+                    if (!isNaN(d.getTime()) && d > latest) {
+                        latest = d;
+                    }
+                }
+            }
+            // Subtract 3 days safety buffer to capture overlapping announcements on the same day
+            latest.setDate(latest.getDate() - 3);
+            const limit = new Date('2026-01-01');
+            const target = latest < limit ? limit : latest;
+            return getFormattedDate(target);
           })()
         : '01/01/2026';
 
