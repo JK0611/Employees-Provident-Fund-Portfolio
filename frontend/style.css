@@ -1208,3 +1208,41 @@ tbody td:first-child {
   box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
   transform: translateY(-1px);
 }
+
+/* ============================================
+   Search Wrapper & Clear Button
+   ============================================ */
+.search-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.search-wrapper input {
+  padding-right: 2.25rem !important;
+  width: 200px;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: none; /* toggled via JS */
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  transition: color var(--transition), background-color var(--transition);
+  user-select: none;
+}
+
+.search-clear-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--border);
+}

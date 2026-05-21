@@ -375,6 +375,21 @@ if (sectorFilter) {
   sectorFilter.addEventListener('change', renderHoldingsTable);
 }
 
+// Setup holdings search
+const holdingsSearch = document.getElementById('holdings-search');
+const holdingsSearchClear = document.getElementById('holdings-search-clear');
+if (holdingsSearch && holdingsSearchClear) {
+  holdingsSearch.addEventListener('input', () => {
+    holdingsSearchClear.style.display = holdingsSearch.value ? 'flex' : 'none';
+    renderHoldingsTable();
+  });
+  holdingsSearchClear.addEventListener('click', () => {
+    holdingsSearch.value = '';
+    holdingsSearchClear.style.display = 'none';
+    renderHoldingsTable();
+  });
+}
+
 // Setup sorting
 let holdingsSortCol = null;
 let holdingsSortAsc = true;
@@ -407,7 +422,13 @@ function renderHoldingsTable() {
   
   // 1. Filter
   const filterVal = sectorFilter ? sectorFilter.value : 'all';
-  let data = EPF_DATA.holdings.filter(h => filterVal === 'all' || h.sector === filterVal);
+  const holdingsSearchVal = holdingsSearch ? holdingsSearch.value.toLowerCase().trim() : '';
+
+  let data = EPF_DATA.holdings.filter(h => {
+    const matchSector = filterVal === 'all' || h.sector === filterVal;
+    const matchSearch = !holdingsSearchVal || h.company_name.toLowerCase().includes(holdingsSearchVal) || h.stock_name.toLowerCase().includes(holdingsSearchVal);
+    return matchSector && matchSearch;
+  });
   
   // 2. Sort
   if (holdingsSortCol) {
@@ -419,6 +440,11 @@ function renderHoldingsTable() {
   }
 
   document.getElementById('holdings-count').textContent = data.length;
+
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" class="align-center" style="text-align: center; padding: 2rem; color: var(--text-muted);">No matching holdings found</td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = data.map((h, i) => {
     const pctPortfolio = ((h.total_securities / totalSecurities) * 100).toFixed(2);
@@ -1014,6 +1040,11 @@ function filterTransactions() {
   const typeFilter = document.getElementById('tx-filter-type').value;
   const search = document.getElementById('tx-search').value.toLowerCase().trim();
   
+  const txSearchClear = document.getElementById('tx-search-clear');
+  if (txSearchClear) {
+    txSearchClear.style.display = search ? 'flex' : 'none';
+  }
+
   const dateStart = document.getElementById('tx-date-start').value;
   const dateEnd = document.getElementById('tx-date-end').value;
   const amountMin = document.getElementById('tx-amount-min').value;
@@ -1039,8 +1070,15 @@ function filterTransactions() {
   toggleHeader('pct-popup', pctMin !== '' || pctMax !== '');
 
   // Sync min/max bounds for the date pickers
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+
   document.getElementById('tx-date-end').min = dateStart;
-  document.getElementById('tx-date-start').max = dateEnd;
+  document.getElementById('tx-date-start').max = dateEnd || todayStr;
+  document.getElementById('tx-date-end').max = todayStr;
 
   let startT = -Infinity;
   if (dateStart) {
@@ -1077,6 +1115,14 @@ function filterTransactions() {
 
 function renderTransactionsTable() {
   const tbody = document.getElementById('tx-tbody');
+
+  if (filteredTx.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" class="align-center" style="text-align: center; padding: 2rem; color: var(--text-muted);">No transactions found matching the filters</td></tr>`;
+    document.getElementById('tx-count').textContent = '0';
+    renderPagination();
+    return;
+  }
+
   const start = (txPage - 1) * TX_PER_PAGE;
   const pageData = filteredTx.slice(start, start + TX_PER_PAGE);
 
@@ -1095,7 +1141,7 @@ function renderTransactionsTable() {
     return `<tr>
       <td>${start + i + 1}</td>
       <td>
-        ${tx.url ? `<a href="${tx.url}" target="_blank" class="tx-date-link">${tx.date}</a>` : tx.date}
+        ${tx.date}
       </td>
       <td>
         <div class="stock-symbol">
@@ -1359,6 +1405,16 @@ function setupPieChartHover() {
   });
 }
 
+// Helper to parse date strings like "21 May 2026" or "25 March 2026" into ISO "YYYY-MM-DD"
+function parseDateStringToYYYYMMDD(dateStr) {
+  const dateObj = new Date(dateStr);
+  if (isNaN(dateObj.getTime())) return null;
+  const yyyy = dateObj.getFullYear();
+  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const dd = String(dateObj.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
 // --- Bar Chart Tooltip ---
 function setupBarChartHover() {
   const canvas = document.getElementById('returns-canvas');
@@ -1383,11 +1439,18 @@ function setupBarChartHover() {
     const mx = e.clientX - canvasRect.left;
 
     const relX = mx - pad.left;
-    if (relX < 0 || relX > plotW) { restoreCanvas(); hideTooltip(); return; }
+    if (relX < 0 || relX > plotW) {
+      restoreCanvas();
+      hideTooltip();
+      canvas.style.cursor = 'default';
+      return;
+    }
 
     const idx = Math.floor(relX / (plotW / data.length));
     const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
     const d = data[clampedIdx];
+
+    canvas.style.cursor = 'pointer';
 
     const valClass = d.value >= 0 ? 'tt-positive' : 'tt-negative';
     const valSign = d.value >= 0 ? '+' : '';
@@ -1420,6 +1483,33 @@ function setupBarChartHover() {
   canvas.addEventListener('mouseleave', () => {
     restoreCanvas();
     hideTooltip();
+    canvas.style.cursor = 'default';
+  });
+
+  canvas.addEventListener('click', (e) => {
+    if (!barChartMeta || barChartMeta.data.length === 0) return;
+    const { data, pad, plotW } = barChartMeta;
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const mx = e.clientX - canvasRect.left;
+
+    const relX = mx - pad.left;
+    if (relX < 0 || relX > plotW) return;
+
+    const idx = Math.floor(relX / (plotW / data.length));
+    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+    const d = data[clampedIdx];
+
+    const yyyymmdd = parseDateStringToYYYYMMDD(d.label);
+    if (yyyymmdd) {
+      document.getElementById('tx-date-start').value = yyyymmdd;
+      document.getElementById('tx-date-end').value = yyyymmdd;
+      filterTransactions();
+      
+      // Programmatically switch to Transactions tab
+      const tabBtn = document.getElementById('tab-transactions');
+      if (tabBtn) tabBtn.click();
+    }
   });
 
   // We need to re-save canvas bitmap whenever bar chart redraws
@@ -1472,6 +1562,17 @@ document.getElementById('returns-toggle').addEventListener('click', (e) => {
 // Transaction filters
 document.getElementById('tx-filter-type').addEventListener('change', filterTransactions);
 document.getElementById('tx-search').addEventListener('input', filterTransactions);
+
+const txSearch = document.getElementById('tx-search');
+const txSearchClear = document.getElementById('tx-search-clear');
+if (txSearch && txSearchClear) {
+  txSearchClear.addEventListener('click', () => {
+    txSearch.value = '';
+    txSearchClear.style.display = 'none';
+    filterTransactions();
+  });
+}
+
 document.getElementById('tx-date-start').addEventListener('change', filterTransactions);
 document.getElementById('tx-date-end').addEventListener('change', filterTransactions);
 document.getElementById('tx-amount-min').addEventListener('input', filterTransactions);
@@ -1501,6 +1602,17 @@ function init() {
 
   // Transactions
   filteredTx = allFlatTx;
+  
+  // Set date limits up to today (2026-05-21) on initial load
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+  
+  document.getElementById('tx-date-start').max = todayStr;
+  document.getElementById('tx-date-end').max = todayStr;
+
   renderTransactionsTable();
 
   // Setup hover tooltips

@@ -81,6 +81,10 @@
           <h3 class="table-title">Current Holdings</h3>
           <span class="badge" id="holdings-count">0</span>
           <div class="table-filter">
+            <div class="search-wrapper">
+              <input type="text" id="holdings-search" placeholder="Search company..." />
+              <button id="holdings-search-clear" class="search-clear-btn" type="button">&times;</button>
+            </div>
             <select id="holdings-sector-filter">
               <option value="all">All Sectors</option>
             </select>
@@ -133,7 +137,10 @@
           <h3 class="table-title">All Transactions</h3>
           <span class="badge" id="tx-count">0</span>
           <div class="table-filter">
-            <input type="text" id="tx-search" placeholder="Search company..." />
+            <div class="search-wrapper">
+              <input type="text" id="tx-search" placeholder="Search company..." />
+              <button id="tx-search-clear" class="search-clear-btn" type="button">&times;</button>
+            </div>
           </div>
         </div>
         <div class="table-wrapper">

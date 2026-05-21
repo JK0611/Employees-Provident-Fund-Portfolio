@@ -5,9 +5,18 @@
     "announced_date": "13 May 2026",
     "change_date": "08 May 2026",
     "transactions": [
-      {"type": "Disposed", "amount": 8241500},
-      {"type": "Disposed", "amount": 1000000},
-      {"type": "Disposed", "amount": 794500}
+      {
+        "type": "Disposed",
+        "amount": 8241500
+      },
+      {
+        "type": "Disposed",
+        "amount": 1000000
+      },
+      {
+        "type": "Disposed",
+        "amount": 794500
+      }
     ],
     "total_holding": 379885307,
     "percentage": 6.899
@@ -18,7 +27,10 @@
     "announced_date": "13 May 2026",
     "change_date": "08 May 2026",
     "transactions": [
-      {"type": "Acquired", "amount": 1500000}
+      {
+        "type": "Acquired",
+        "amount": 1500000
+      }
     ],
     "total_holding": 198723475,
     "percentage": 11.008
@@ -29,7 +41,10 @@
     "announced_date": "13 May 2026",
     "change_date": "08 May 2026",
     "transactions": [
-      {"type": "Acquired", "amount": 1500000}
+      {
+        "type": "Acquired",
+        "amount": 1500000
+      }
     ],
     "total_holding": 198723475,
     "percentage": 11.008
@@ -40,8 +55,14 @@
     "announced_date": "13 May 2026",
     "change_date": "08 May 2026",
     "transactions": [
-      {"type": "Disposed", "amount": 446300},
-      {"type": "Disposed", "amount": 27800}
+      {
+        "type": "Disposed",
+        "amount": 446300
+      },
+      {
+        "type": "Disposed",
+        "amount": 27800
+      }
     ],
     "total_holding": 118536741,
     "percentage": 14.647
@@ -52,7 +73,10 @@
     "announced_date": "13 May 2026",
     "change_date": "08 May 2026",
     "transactions": [
-      {"type": "Disposed", "amount": 1762000}
+      {
+        "type": "Disposed",
+        "amount": 1762000
+      }
     ],
     "total_holding": 197701350,
     "percentage": 12.654
