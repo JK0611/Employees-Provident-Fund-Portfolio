@@ -908,8 +908,12 @@ function flattenTransactions() {
       });
     });
   });
-  // Sort by date descending
-  list.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Sort exactly by announcement ID descending (newest first)
+  list.sort((a, b) => {
+    const idA = a.url ? parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
+    const idB = b.url ? parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
+    return idB - idA;
+  });
   return list;
 }
 

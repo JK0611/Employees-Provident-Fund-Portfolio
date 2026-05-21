@@ -301,8 +301,12 @@ async function processData() {
   // Sort holdings by value (total securities)
   holdings.sort((a, b) => b.total_securities - a.total_securities);
 
-  // Group transactions in reverse chronological order for dashboard timeline
-  allTransactions.reverse();
+  // Sort transactions exactly by announcement ID in descending order (newest first)
+  allTransactions.sort((a, b) => {
+    const idA = a.url ? parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
+    const idB = b.url ? parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10) : 0;
+    return idB - idA;
+  });
 
   // Construct final dataset
   const finalDataset = {
