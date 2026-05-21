@@ -8,6 +8,11 @@ echo "Date: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 git config --global user.name "render-bot"
 git config --global user.email "render-bot@users.noreply.github.com"
 
+# Set authenticated remote for push (Render clones without push access)
+if [ -n "$GITHUB_TOKEN" ]; then
+  git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/JK0611/Employees-Provident-Fund-Portfolio.git"
+fi
+
 # Pull latest changes (in case another run pushed recently)
 git pull --rebase origin main || true
 
