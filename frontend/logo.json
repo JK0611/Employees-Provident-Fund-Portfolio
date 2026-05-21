@@ -16,7 +16,7 @@
         "logo_url": "https://s3-symbol-logo.tradingview.com/axiata-group-berhad--big.svg"
     },
     {
-        "company": "Rhb",
+        "company": "RHB",
         "logo_url": "https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg"
     },
     {
@@ -28,11 +28,11 @@
         "logo_url": "https://s3-symbol-logo.tradingview.com/tenaga-nasional--big.svg"
     },
     {
-        "company": "Ytl",
+        "company": "YTL",
         "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg"
     },
     {
-        "company": "Cbd",
+        "company": "CBD",
         "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg"
     },
     {
@@ -44,7 +44,7 @@
         "logo_url": "https://s3-symbol-logo.tradingview.com/dialog-group--big.svg"
     },
     {
-        "company": "Ihh",
+        "company": "IHH",
         "logo_url": "https://s3-symbol-logo.tradingview.com/ihh--big.svg"
     },
     {
@@ -56,7 +56,7 @@
         "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-bhd--big.svg"
     },
     {
-        "company": "Sdg",
+        "company": "SDG",
         "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-plantation-berhad--big.svg"
     },
     {
@@ -64,11 +64,287 @@
         "logo_url": "https://s3-symbol-logo.tradingview.com/maxis-berhad--big.svg"
     },
     {
-        "company": "Mrdiy",
+        "company": "MRDIY",
         "logo_url": "https://s3-symbol-logo.tradingview.com/mr-d-i-y-group-m-berhad--big.svg"
     },
     {
-        "company": "Ioicorp",
+        "company": "IOICORP",
         "logo_url": "https://s3-symbol-logo.tradingview.com/ioi-corporation-bhd--big.svg"
+    },
+    {
+        "company": "YTLPower",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-power-international-bhd--big.svg"
+    },
+    {
+        "company": "PCHEM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-chemicals-group-bhd--big.svg"
+    },
+    {
+        "company": "MALAKOF",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/malakoff-corporation-berhad--big.svg"
+    },
+    {
+        "company": "TM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/telekom-malaysia-bhd--big.svg"
+    },
+    {
+        "company": "KPJ",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/kpj-healthcare-bhd--big.svg"
+    },
+    {
+        "company": "PMETAL",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/press-metal-aluminium--big.svg"
+    },
+    {
+        "company": "SUNWAY",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-berhad--big.svg"
+    },
+    {
+        "company": "IJM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ijm-corporation-bhd--big.svg"
+    },
+    {
+        "company": "AHEALTH",
+        "logo_url": "https://apexhealthcare.com.my/wp-content/uploads/2023/06/APEX_WEB_LOGO1.png"
+    },
+    {
+        "company": "SPSETIA",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sp-setia--big.svg"
+    },
+    {
+        "company": "MISC",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/misc-bhd--big.svg"
+    },
+    {
+        "company": "SUNMED",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-healthcare-berhad--big.svg"
+    },
+    {
+        "company": "CLMT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/capitamall-trust--big.svg"
+    },
+    {
+        "company": "99SMART",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/99-speed-mart-retail-berhad--big.svg"
+    },
+    {
+        "company": "INARI",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/inari-amertron-berhad--big.svg"
+    },
+    {
+        "company": "AMBANK",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ammb-holdings-bhd--big.svg"
+    },
+    {
+        "company": "SUNREIT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-real-estate-invt-trust--big.svg"
+    },
+    {
+        "company": "PAVREIT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/pavilion-real-estate-inv-trust--big.svg"
+    },
+    {
+        "company": "CTOS",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ctos-digital--big.svg"
+    },
+    {
+        "company": "AXREIT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/axis-reits--big.svg"
+    },
+    {
+        "company": "IGBREIT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/igb-real-estate-inv-trust--big.svg"
+    },
+    {
+        "company": "UOADEV",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/uoa-development-berhad--big.svg"
+    },
+    {
+        "company": "BIMB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/bank-islam-malaysia-berhad--big.svg"
+    },
+    {
+        "company": "IOIPG",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ioi-properties-group-berhad--big.svg"
+    },
+    {
+        "company": "FFB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/farm-fresh-berhad--big.svg"
+    },
+    {
+        "company": "FRONTKN",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/frontken--big.svg"
+    },
+    {
+        "company": "TIMECOM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/time-dotcom-bhd--big.svg"
+    },
+    {
+        "company": "PETGAS",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-gas-bhd--big.svg"
+    },
+    {
+        "company": "PPB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ppb-group-bhd--big.svg"
+    },
+    {
+        "company": "JPG",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/johor-plantations-berhad--big.svg"
+    },
+    {
+        "company": "WPRTS",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/westports-holdings-berhad--big.svg"
+    },
+    {
+        "company": "KLK",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/kuala-lumpur-kepong-bhd--big.svg"
+    },
+    {
+        "company": "KLCC",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/klcc-propandreits-stapled-sec--big.svg"
+    },
+    {
+        "company": "HLBANK",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/hong-leong-bank-bhd--big.svg"
+    },
+    {
+        "company": "SKPRES",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/skp-resources-bhd--big.svg"
+    },
+    {
+        "company": "E&O",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/eastern-and-oriental-bhd--big.svg"
+    },
+    {
+        "company": "ATECH",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/aurelius-technologies-berhad--big.svg"
+    },
+    {
+        "company": "TAKAFUL",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/syarikat-takaful-malaysia-keluarga-berhad--big.svg"
+    },
+    {
+        "company": "DRBHCOM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/drb-hicom-bhd--big.svg"
+    },
+    {
+        "company": "DAYANG",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/dayang-enterprise-bhd--big.svg"
+    },
+    {
+        "company": "ABMB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/alliance-bank-malaysia-berhad--big.svg"
+    },
+    {
+        "company": "KOSSAN",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/kossan-rubber-industries--big.svg"
+    },
+    {
+        "company": "GENP",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/genting-plantations-berhad--big.svg"
+    },
+    {
+        "company": "PARADIGM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/paradigm-real-estate-investment-trust--big.svg"
+    },
+    {
+        "company": "PETDAG",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-dagangan-bhd--big.svg"
+    },
+    {
+        "company": "BURSA",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/bursa-malaysia-bhd--big.svg"
+    },
+    {
+        "company": "MFCB",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/mega-first-corporation-bhd--big.svg"
+    },
+    {
+        "company": "PENTA",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/pentamaster--big.svg"
+    },
+    {
+        "company": "AEON",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/aeon-co-m-bhd--big.svg"
+    },
+    {
+        "company": "PADINI",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/padini-holdings-bhd--big.svg"
+    },
+    {
+        "company": "SCGBHD",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/southern-cable-berhad--big.svg"
+    },
+    {
+        "company": "PLINTAS",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/prolintas-infra-business-trust--big.svg"
+    },
+    {
+        "company": "DPHARMA",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/duopharma-biotech-berhad--big.svg"
+    },
+    {
+        "company": "HLFG",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/hong-leong-financial-group-bhd--big.svg"
+    },
+    {
+        "company": "ECONBHD",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/econpile-bhd--big.svg"
+    },
+    {
+        "company": "BAUTO",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/bermaz-auto-berhad--big.svg"
+    },
+    {
+        "company": "SCOMNET",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/supercomnet-technologies--big.svg"
+    },
+    {
+        "company": "ORKIM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/orkim-bhd--big.svg"
+    },
+    {
+        "company": "UWC",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/uwc--big.svg"
+    },
+    {
+        "company": "D&O",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/d-and-o-green-technologies--big.svg"
+    },
+    {
+        "company": "F&n",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/fraser-and-neave-holdings-bhd--big.svg"
+    },
+    {
+        "company": "WASCO",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/wah-seong-bhd--big.svg"
+    },
+    {
+        "company": "UTDPLT",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/united-plantations-bhd--big.svg"
+    },
+    {
+        "company": "SAM",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/sam-engineering-and-equipment--big.svg"
+    },
+    {
+        "company": "AME",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/ame-real-estate-investment-trust--big.svg"
+    },
+    {
+        "company": "NESTLE",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/nestle--big.svg"
+    },
+    {
+        "company": "MPI",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/malaysian-pacific-industries--big.svg"
+    },
+    {
+        "company": "ALLIANZ",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/allianz--big.svg"
+    },
+    {
+        "company": "PANAMY",
+        "logo_url": "https://s3-symbol-logo.tradingview.com/panasonic-manufacturing-msia--big.svg"
     }
 ]
