@@ -65,72 +65,104 @@ async function run() {
     let hasNextPage = true;
     let newLinksAdded = 0;
 
+    let apiReachable = false;
+
     while (hasNextPage) {
         console.log(`    Querying API page ${pageNum}...`);
-        try {
-            const res = await gotScraping({
-                url: 'https://www.bursamalaysia.com/api/v1/announcements/search',
-                searchParams: {
-                    ann_type: 'company',
-                    keyword: KEYWORD,
-                    dt_ht: FROM_DATE,
-                    dt_lt: TO_DATE,
-                    page: pageNum,
-                },
-                headers: {
-                    'Referer': 'https://www.bursamalaysia.com/market_information/announcements/company_announcement',
-                },
-                headerGeneratorOptions: {
-                    browsers: ['chrome'],
-                    operatingSystems: ['windows'],
-                },
-            });
+        let retries = 3;
+        let res = null;
 
-            if (res.statusCode !== 200) {
-                console.log(`    [✗] Non-200 status code: ${res.statusCode}`);
-                hasNextPage = false;
-                break;
-            }
-
-            const data = JSON.parse(res.body);
-            const items = data.data || [];
-            
-            if (items.length === 0) {
-                hasNextPage = false;
-                break;
-            }
-
-            for (const item of items) {
-                const $title = cheerio.load(item[3]);
-                const relativeLink = $title('a').attr('href');
-                if (relativeLink) {
-                    const fullLink = 'https://www.bursamalaysia.com' + relativeLink;
-                    if (!links.includes(fullLink)) {
-                        links.push(fullLink);
-                        newLinksAdded++;
-                    }
+        while (retries > 0) {
+            try {
+                res = await gotScraping({
+                    url: 'https://www.bursamalaysia.com/api/v1/announcements/search',
+                    searchParams: {
+                        ann_type: 'company',
+                        keyword: KEYWORD,
+                        dt_ht: FROM_DATE,
+                        dt_lt: TO_DATE,
+                        page: pageNum,
+                    },
+                    headers: {
+                        'Referer': 'https://www.bursamalaysia.com/market_information/announcements/company_announcement',
+                    },
+                    headerGeneratorOptions: {
+                        browsers: ['chrome'],
+                        operatingSystems: ['windows'],
+                    },
+                    timeout: { request: 30000 },
+                });
+                break; // success
+            } catch (e) {
+                retries--;
+                console.log(`    [✗] Request error (${retries} retries left): ${e.message}`);
+                if (retries > 0) {
+                    await new Promise(r => setTimeout(r, 3000));
                 }
             }
-
-            const totalFiltered = parseInt(data.recordsFiltered, 10) || 0;
-            console.log(`    Processed page ${pageNum} (${items.length} items). Total database matched: ${totalFiltered}`);
-            
-            // Check if we have processed all filtered results
-            const currentTotalMatchingLinks = links.filter(l => {
-                const id = l.match(/ann_id=(\d+)/)?.[1];
-                return id && !scrapedIds.has(id); // Count only unscraped ones if we want to be exact
-            }).length;
-
-            if (items.length < 20) {
-                hasNextPage = false;
-            } else {
-                pageNum++;
-                await new Promise(r => setTimeout(r, 1000));
-            }
-        } catch (e) {
-            console.log(`    [✗] Error querying page ${pageNum}: ${e.message}`);
-            hasNextPage = false;
         }
+
+        if (!res) {
+            console.log(`    [✗] Failed to reach API after retries on page ${pageNum}`);
+            hasNextPage = false;
+            break;
+        }
+
+        if (res.statusCode !== 200) {
+            console.log(`    [✗] Non-200 status code: ${res.statusCode}`);
+            // Check for Cloudflare challenge
+            if (res.body && (res.body.includes('Just a moment') || res.body.includes('cf-browser-verification'))) {
+                console.log('    [✗] Cloudflare challenge detected — API is blocking this IP');
+            }
+            hasNextPage = false;
+            break;
+        }
+
+        // Verify response is valid JSON (not an HTML challenge page)
+        let data;
+        try {
+            data = JSON.parse(res.body);
+        } catch (e) {
+            console.log(`    [✗] Response is not valid JSON — likely a Cloudflare/WAF block`);
+            console.log(`    [✗] Response preview: ${res.body.substring(0, 200)}`);
+            hasNextPage = false;
+            break;
+        }
+
+        apiReachable = true;
+        const items = data.data || [];
+            
+        if (items.length === 0) {
+            hasNextPage = false;
+            break;
+        }
+
+        for (const item of items) {
+            const $title = cheerio.load(item[3]);
+            const relativeLink = $title('a').attr('href');
+            if (relativeLink) {
+                const fullLink = 'https://www.bursamalaysia.com' + relativeLink;
+                if (!links.includes(fullLink)) {
+                    links.push(fullLink);
+                    newLinksAdded++;
+                }
+            }
+        }
+
+        const totalFiltered = parseInt(data.recordsFiltered, 10) || 0;
+        console.log(`    Processed page ${pageNum} (${items.length} items). Total database matched: ${totalFiltered}`);
+            
+        if (items.length < 20) {
+            hasNextPage = false;
+        } else {
+            pageNum++;
+            await new Promise(r => setTimeout(r, 1000));
+        }
+    }
+
+    if (!apiReachable) {
+        console.error('\n[✗] FATAL: Could not reach Bursa API — exiting with error');
+        process.exit(1);
     }
 
     fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
