@@ -33,10 +33,11 @@ async function run() {
     // Dynamic Date Calculation:
     // If we have previous results, look back 7 days to check for new announcements.
     // Otherwise, perform a full backfill from 01/01/2026.
-    const TO_DATE = '21/05/2026';
+    const now = new Date();
+    const TO_DATE = getFormattedDate(now);
     const FROM_DATE = existingResults.length > 0
         ? (() => {
-            const d = new Date('2026-05-21');
+            const d = new Date(now);
             d.setDate(d.getDate() - 7);
             return getFormattedDate(d);
           })()
