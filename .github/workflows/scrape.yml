@@ -1,11 +1,14 @@
 name: Daily Bursa EPF Scrape
+run-name: EPF scrape (${{ github.event_name == 'schedule' && github.event.schedule || 'manual' }})
 
 on:
   schedule:
-    # Weekdays at 12:45 PM Malaysian Time (04:45 UTC)
-    - cron: '45 4 * * 1-5'
-    # Weekdays at 5:15 PM Malaysian Time (09:15 UTC)
-    - cron: '15 9 * * 1-5'
+    # Weekdays at 12:45 PM Malaysian Time
+    - cron: '45 12 * * 1-5'
+      timezone: "Asia/Kuala_Lumpur"
+    # Weekdays at 5:15 PM Malaysian Time
+    - cron: '15 17 * * 1-5'
+      timezone: "Asia/Kuala_Lumpur"
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 permissions:
@@ -15,10 +18,22 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: scrape-${{ github.workflow }}
+      cancel-in-progress: false
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Show schedule context
+        env:
+          TRIGGER_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "Schedule: ${TRIGGER_SCHEDULE:-manual}"
+          echo "Runner UTC time: $(date -u '+%Y-%m-%d %H:%M:%S %Z')"
+          echo "Malaysia time: $(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d %H:%M:%S %Z')"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -54,4 +69,3 @@ jobs:
           else
             echo "Scraper completed successfully"
           fi
-
