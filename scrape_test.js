@@ -8,6 +8,8 @@ const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
 const BURSA_ANNOUNCEMENT_API = 'https://www.bursamalaysia.com/api/v1/announcements/search';
 const BURSA_ANNOUNCEMENT_REFERER = 'https://www.bursamalaysia.com/market_information/announcements/company_announcement';
 const BROWSER_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+const DETAIL_403_RETRY_ATTEMPTS = 1;
+const DETAIL_403_RETRY_DELAY_MS = 30000;
 
 let browserFallback = null;
 let browserFallbackPage = null;
@@ -41,6 +43,8 @@ const hasCompleteDetails = (record) => {
         hasRequiredTotal
     );
 };
+
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function launchBrowserFallback(puppeteer) {
     const options = {
@@ -139,6 +143,35 @@ async function fetchDetailPageWithBrowser(detailUrl) {
     }
 
     return body;
+}
+
+async function fetchDetailWithFallback(gotScraping, detailUrl) {
+    let res = await gotScraping({
+        url: detailUrl,
+        headers: {
+            'Referer': 'https://www.bursamalaysia.com/',
+        },
+        headerGeneratorOptions: {
+            browsers: ['chrome'],
+            operatingSystems: ['windows'],
+        },
+    });
+
+    if (res.statusCode === 403) {
+        console.log('  [!] Detail page returned 403; trying browser fallback...');
+        try {
+            res = {
+                ...res,
+                statusCode: 200,
+                body: await fetchDetailPageWithBrowser(detailUrl),
+            };
+            console.log('  [ok] Browser fallback recovered detail page');
+        } catch (fallbackError) {
+            console.log(`  [x] Browser fallback failed: ${fallbackError.message}`);
+        }
+    }
+
+    return res;
 }
 
 async function closeBrowserFallback() {
@@ -413,31 +446,13 @@ async function run() {
 
         try {
             const detailUrl = `https://disclosure.bursamalaysia.com/FileAccess/viewHtml?e=${annId}`;
-            let res = await gotScraping({
-                url: detailUrl,
-                headers: {
-                    'Referer': 'https://www.bursamalaysia.com/',
-                },
-                headerGeneratorOptions: {
-                    browsers: ['chrome'],
-                    operatingSystems: ['windows'],
-                },
-            });
+            let res = await fetchDetailWithFallback(gotScraping, detailUrl);
 
-            if (res.statusCode !== 200) {
-                if (res.statusCode === 403) {
-                    console.log('  [!] Detail page returned 403; trying browser fallback...');
-                    try {
-                        res = {
-                            ...res,
-                            statusCode: 200,
-                            body: await fetchDetailPageWithBrowser(detailUrl),
-                        };
-                        console.log('  [ok] Browser fallback recovered detail page');
-                    } catch (fallbackError) {
-                        console.log(`  [x] Browser fallback failed: ${fallbackError.message}`);
-                    }
-                }
+            for (let attempt = 1; res.statusCode === 403 && attempt <= DETAIL_403_RETRY_ATTEMPTS; attempt++) {
+                console.log(`  [!] Detail page still 403; waiting ${DETAIL_403_RETRY_DELAY_MS / 1000}s before retry ${attempt}/${DETAIL_403_RETRY_ATTEMPTS}...`);
+                await closeBrowserFallback();
+                await wait(DETAIL_403_RETRY_DELAY_MS);
+                res = await fetchDetailWithFallback(gotScraping, detailUrl);
             }
 
             if (res.statusCode !== 200) {
