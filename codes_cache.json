@@ -387,32 +387,32 @@
   "PPB": {
     "code": null,
     "sector": "Others",
-    "domain": "pbebank.com"
+    "domain": null
   },
   "PARADIGM": {
     "code": null,
     "sector": "Others",
-    "domain": "paradigmmall.com.my"
+    "domain": null
   },
   "NESTLE": {
     "code": null,
     "sector": "Others",
-    "domain": "nestle.com.my"
+    "domain": null
   },
   "BURSA": {
-    "code": null,
+    "code": "0820EA",
     "sector": "Others",
     "domain": "bursamalaysia.com"
   },
   "AEON": {
     "code": null,
     "sector": "Others",
-    "domain": "myaeon2go.com"
+    "domain": null
   },
   "AHEALTH": {
     "code": null,
     "sector": "Others",
-    "domain": "ea.com"
+    "domain": null
   },
   "MPI": {
     "code": "3867",
