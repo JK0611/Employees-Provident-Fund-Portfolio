@@ -1719,6 +1719,13 @@ function init() {
 
   // Transactions
   filteredTx = allFlatTx;
+  if (allFlatTx && allFlatTx.length > 0) {
+    const latestDate = allFlatTx[0].date;
+    const lastUpdateEl = document.getElementById('tx-last-update');
+    if (lastUpdateEl) {
+      lastUpdateEl.textContent = `Last update: ${latestDate}`;
+    }
+  }
   
   // Set date limits up to today (2026-05-21) on initial load
   const today = new Date();
