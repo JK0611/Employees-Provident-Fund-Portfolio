@@ -8,8 +8,6 @@ const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
 const BURSA_ANNOUNCEMENT_API = 'https://www.bursamalaysia.com/api/v1/announcements/search';
 const BURSA_ANNOUNCEMENT_REFERER = 'https://www.bursamalaysia.com/market_information/announcements/company_announcement';
 const BROWSER_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-const DETAIL_403_RETRY_ATTEMPTS = 1;
-const DETAIL_403_RETRY_DELAY_MS = 30000;
 
 let browserFallback = null;
 let browserFallbackPage = null;
@@ -44,7 +42,35 @@ const hasCompleteDetails = (record) => {
     );
 };
 
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const getRecordSortKey = (record) => {
+    const annId = Number(getAnnouncementId(record.url || '') || 0);
+    const date = new Date(record.date_announced || '');
+    const dateMs = Number.isNaN(date.getTime()) ? 0 : date.getTime();
+    return { dateMs, annId };
+};
+
+const getLatestCompleteRecord = (records) => records.reduce((latest, record) => {
+    if (!hasCompleteDetails(record)) {
+        return latest;
+    }
+
+    if (!latest) {
+        return record;
+    }
+
+    const currentKey = getRecordSortKey(record);
+    const latestKey = getRecordSortKey(latest);
+
+    if (currentKey.dateMs > latestKey.dateMs) {
+        return record;
+    }
+
+    if (currentKey.dateMs === latestKey.dateMs && currentKey.annId > latestKey.annId) {
+        return record;
+    }
+
+    return latest;
+}, null);
 
 async function launchBrowserFallback(puppeteer) {
     const options = {
@@ -220,6 +246,15 @@ async function run() {
     if (incompleteIds.size > 0) {
         console.log(`[i] Will retry ${incompleteIds.size} incomplete detail record(s): ${Array.from(incompleteIds).join(', ')}`);
         fs.writeFileSync(RESULTS_FILE, JSON.stringify(existingResults, null, 2));
+    }
+
+    const latestCompleteRecord = getLatestCompleteRecord(existingResults);
+    const latestCompleteAnnId = latestCompleteRecord
+        ? Number(getAnnouncementId(latestCompleteRecord.url || '') || 0)
+        : 0;
+
+    if (latestCompleteRecord) {
+        console.log(`[i] Latest complete announcement: ${latestCompleteAnnId} (${latestCompleteRecord.date_announced})`);
     }
 
     // Dynamic Date Calculation:
@@ -430,16 +465,22 @@ async function run() {
     // ==========================================
     console.log('\n--- Phase 2: Scraping Details ---');
 
-    for (let i = 0; i < links.length; i++) {
-        const url = links[i];
+    const detailLinks = latestCompleteAnnId > 0
+        ? links.filter(url => Number(getAnnouncementId(url) || 0) > latestCompleteAnnId)
+        : links;
+
+    console.log(`[i] ${detailLinks.length} detail link(s) newer than latest completed announcement`);
+
+    for (let i = 0; i < detailLinks.length; i++) {
+        const url = detailLinks[i];
         const annId = getAnnouncementId(url);
 
         if (annId && completeIds.has(annId)) {
-            console.log(`[${i + 1}/${links.length}] Skipping (already scraped): ${url}`);
+            console.log(`[${i + 1}/${detailLinks.length}] Skipping (already scraped): ${url}`);
             continue;
         }
 
-        console.log(`\n[${i + 1}/${links.length}] Scraping details for ID: ${annId}`);
+        console.log(`\n[${i + 1}/${detailLinks.length}] Scraping details for ID: ${annId}`);
 
         // Random polite delay
         await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
@@ -447,13 +488,6 @@ async function run() {
         try {
             const detailUrl = `https://disclosure.bursamalaysia.com/FileAccess/viewHtml?e=${annId}`;
             let res = await fetchDetailWithFallback(gotScraping, detailUrl);
-
-            for (let attempt = 1; res.statusCode === 403 && attempt <= DETAIL_403_RETRY_ATTEMPTS; attempt++) {
-                console.log(`  [!] Detail page still 403; waiting ${DETAIL_403_RETRY_DELAY_MS / 1000}s before retry ${attempt}/${DETAIL_403_RETRY_ATTEMPTS}...`);
-                await closeBrowserFallback();
-                await wait(DETAIL_403_RETRY_DELAY_MS);
-                res = await fetchDetailWithFallback(gotScraping, detailUrl);
-            }
 
             if (res.statusCode !== 200) {
                 console.log(`  [✗] Failed to fetch detail: status code ${res.statusCode}`);
