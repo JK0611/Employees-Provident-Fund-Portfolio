@@ -73,9 +73,9 @@ const EPF_DATA = {
     {
       "stock_name": "YTL",
       "company_name": "YTL CORPORATION BERHAD",
-      "direct_percent": 11.485,
-      "total_securities": 1334966071,
-      "date": "21 May 2026",
+      "direct_percent": 11.539,
+      "total_securities": 1341158071,
+      "date": "22 May 2026",
       "stock_code": "5109",
       "sector": "Property",
       "domain": "ytl.com"
@@ -183,9 +183,9 @@ const EPF_DATA = {
     {
       "stock_name": "YTLPOWR",
       "company_name": "YTL POWER INTERNATIONAL BHD",
-      "direct_percent": 12.048,
-      "total_securities": 1041719897,
-      "date": "21 May 2026",
+      "direct_percent": 12.109,
+      "total_securities": 1047019897,
+      "date": "22 May 2026",
       "stock_code": "6742",
       "sector": "Utilities",
       "domain": "ytl.com"
@@ -373,9 +373,9 @@ const EPF_DATA = {
     {
       "stock_name": "AXREIT",
       "company_name": "AXIS REAL ESTATE INVESTMENT TRUST",
-      "direct_percent": 21.537,
-      "total_securities": 436093597,
-      "date": "20 May 2026",
+      "direct_percent": 21.51,
+      "total_securities": 435561097,
+      "date": "22 May 2026",
       "stock_code": "5106",
       "sector": "Property",
       "domain": "axis.com"
@@ -413,9 +413,9 @@ const EPF_DATA = {
     {
       "stock_name": "IOIPG",
       "company_name": "IOI PROPERTIES GROUP BERHAD",
-      "direct_percent": 6.636,
-      "total_securities": 365410057,
-      "date": "21 May 2026",
+      "direct_percent": 6.627,
+      "total_securities": 364882457,
+      "date": "22 May 2026",
       "stock_code": "5249",
       "sector": "Property",
       "domain": "ioicitymall.com.my"
@@ -608,7 +608,7 @@ const EPF_DATA = {
       "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "zhuanlan.zhihu.com"
+      "domain": "paradigmmall.com.my"
     },
     {
       "stock_name": "GENP",
@@ -1435,9 +1435,75 @@ const EPF_DATA = {
       "disposed": 25156085,
       "net": 124825544,
       "count": 52
+    },
+    "22 May 2026": {
+      "acquired": 11492000,
+      "disposed": 1060100,
+      "net": 10431900,
+      "count": 4
     }
   },
   "transactions": [
+    {
+      "stock": "YTLPOWR",
+      "company": "YTL POWER INTERNATIONAL BHD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3668601",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 5300000
+        }
+      ],
+      "percent": 12.109,
+      "total": 1047019897
+    },
+    {
+      "stock": "YTL",
+      "company": "YTL CORPORATION BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3668599",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 6192000
+        }
+      ],
+      "percent": 11.539,
+      "total": 1341158071
+    },
+    {
+      "stock": "AXREIT",
+      "company": "AXIS REAL ESTATE INVESTMENT TRUST",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3668595",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 532500
+        }
+      ],
+      "percent": 21.51,
+      "total": 435561097
+    },
+    {
+      "stock": "IOIPG",
+      "company": "IOI PROPERTIES GROUP BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3668566",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 328600
+        },
+        {
+          "type": "Disposed",
+          "amount": 199000
+        }
+      ],
+      "percent": 6.627,
+      "total": 364882457
+    },
     {
       "stock": "AXIATA",
       "company": "AXIATA GROUP BERHAD",
@@ -14254,7 +14320,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.059,
-      "total": 0
+      "total": 52419700
     },
     {
       "stock": "WPRTS",
@@ -21408,7 +21474,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.017,
-      "total": 0
+      "total": 576993478
     },
     {
       "stock": "BURSA",
@@ -23514,7 +23580,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.048,
-      "total": 0
+      "total": 52298000
     },
     {
       "stock": "SUNREIT",
@@ -33170,7 +33236,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.169,
-      "total": 0
+      "total": 177619763
     },
     {
       "stock": "SUNMED",
@@ -39632,7 +39698,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.13,
-      "total": 0
+      "total": 589814078
     },
     {
       "stock": "CIMB",
@@ -39912,7 +39978,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.04,
-      "total": 0
+      "total": 52202400
     },
     {
       "stock": "CLMT",
@@ -49464,7 +49530,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.005,
-      "total": 0
+      "total": 51835000
     },
     {
       "stock": "99SMART",
@@ -58240,7 +58306,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.006,
-      "total": 0
+      "total": 420499500
     },
     {
       "stock": "KPJ",
@@ -63562,7 +63628,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.194,
-      "total": 0
+      "total": 89859267
     },
     {
       "stock": "CLMT",
@@ -66746,7 +66812,7 @@ const EPF_DATA = {
         }
       ],
       "percent": 5.021,
-      "total": 0
+      "total": 86887767
     },
     {
       "stock": "PBBANK",
@@ -86433,8 +86499,8 @@ const EPF_DATA = {
     "MALAYSIAN PACIFIC INDUSTRIES BERHAD": "malaysiaairlines.com",
     "BAUTO": "bauto.com.my",
     "BERMAZ AUTO BERHAD": "bauto.com.my",
-    "PARADIGM": "zhuanlan.zhihu.com",
-    "PARADIGM REAL ESTATE INVESTMENT TRUST": "zhuanlan.zhihu.com",
+    "PARADIGM": "paradigmmall.com.my",
+    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
     "CLMT": "capitaland.com",
     "CAPITALAND MALAYSIA TRUST": "capitaland.com",
     "KLK": "theendlesstravellers.com",

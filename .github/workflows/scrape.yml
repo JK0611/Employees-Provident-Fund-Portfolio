@@ -46,15 +46,22 @@ jobs:
 
       - name: Run Scraper
         id: scraper
-        continue-on-error: true
-        run: node scrape_test.js
+        run: |
+          set -o pipefail
+          node scrape_test.js 2>&1 | tee scraper.log
+
+      - name: Upload scraper failure log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-failure-log
+          path: scraper.log
+          if-no-files-found: ignore
 
       - name: Process Data
-        if: steps.scraper.outcome == 'success'
         run: node process_data.js
 
       - name: Commit and Push Changes
-        if: steps.scraper.outcome == 'success'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -64,8 +71,5 @@ jobs:
       - name: Report scraper status
         if: always()
         run: |
-          if [ "${{ steps.scraper.outcome }}" == "failure" ]; then
-            echo "::warning::Scraper failed but workflow kept alive to preserve schedule"
-          else
-            echo "Scraper completed successfully"
-          fi
+          echo "Scraper outcome: ${{ steps.scraper.outcome }}"
+          echo "Workflow conclusion is no longer masked; a scraper failure fails this run."

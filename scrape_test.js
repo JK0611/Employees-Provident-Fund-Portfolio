@@ -14,6 +14,28 @@ const getFormattedDate = (date) => {
     return `${day}/${month}/${year}`;
 };
 
+const getAnnouncementId = (url) => {
+    const match = url.match(/ann_id=(\d+)/);
+    return match ? match[1] : null;
+};
+
+const hasCompleteDetails = (record) => {
+    if (!record) {
+        return false;
+    }
+
+    const hasRequiredTotal = Number(record.direct_percent || 0) === 0 || Number(record.total_securities_after_change || 0) > 0;
+
+    return Boolean(
+        record.company_name &&
+        record.stock_name &&
+        record.date_announced &&
+        Array.isArray(record.transactions) &&
+        record.transactions.length > 0 &&
+        hasRequiredTotal
+    );
+};
+
 async function run() {
     // Load existing results for checkpointing
     let existingResults = [];
@@ -25,10 +47,27 @@ async function run() {
             console.log('[!] Error parsing existing results, starting fresh.');
         }
     }
-    const scrapedIds = new Set(existingResults.map(r => {
-        const match = r.url.match(/ann_id=(\d+)/);
-        return match ? match[1] : null;
-    }).filter(Boolean));
+    const completeIds = new Set();
+    const incompleteIds = new Set();
+    existingResults = existingResults.filter(record => {
+        const annId = getAnnouncementId(record.url || '');
+        if (!annId) {
+            return true;
+        }
+
+        if (hasCompleteDetails(record)) {
+            completeIds.add(annId);
+            return true;
+        }
+
+        incompleteIds.add(annId);
+        return false;
+    });
+
+    if (incompleteIds.size > 0) {
+        console.log(`[i] Will retry ${incompleteIds.size} incomplete detail record(s): ${Array.from(incompleteIds).join(', ')}`);
+        fs.writeFileSync(RESULTS_FILE, JSON.stringify(existingResults, null, 2));
+    }
 
     // Dynamic Date Calculation:
     // If we have previous results, find the latest announcement date in the database
@@ -187,10 +226,9 @@ async function run() {
 
     for (let i = 0; i < links.length; i++) {
         const url = links[i];
-        const match = url.match(/ann_id=(\d+)/);
-        const annId = match ? match[1] : null;
+        const annId = getAnnouncementId(url);
 
-        if (annId && scrapedIds.has(annId)) {
+        if (annId && completeIds.has(annId)) {
             console.log(`[${i + 1}/${links.length}] Skipping (already scraped): ${url}`);
             continue;
         }
@@ -232,6 +270,11 @@ async function run() {
                     td = tds.filter((idx, el) => $(el).text().trim().includes(text));
                 }
                 return td.length > 0 ? td.first().next().text().trim() : '';
+            };
+
+            const parseNumber = (value) => {
+                const parsed = parseInt(String(value || '').replace(/[^\d-]/g, ''), 10);
+                return Number.isNaN(parsed) ? 0 : parsed;
             };
 
             const companyName = getValueNextTo('Company Name') || $('h3').first().text().trim() || '';
@@ -309,7 +352,17 @@ async function run() {
             }
 
             const totalSecuritiesStr = getValueNextTo('Total no of securities after change');
-            const totalSecurities = parseInt(totalSecuritiesStr.replace(/,/g, ''), 10) || 0;
+            let totalSecurities = parseNumber(totalSecuritiesStr);
+
+            if (totalSecurities === 0) {
+                const directUnits = parseNumber(getValueNextTo('Direct (units)'));
+                const indirectUnits = parseNumber(
+                    getValueNextTo('Indirect/deemed interest (units)') ||
+                    getValueNextTo('Indirect (units)') ||
+                    getValueNextTo('Deemed (units)')
+                );
+                totalSecurities = directUnits + indirectUnits;
+            }
 
             const data = {
                 company_name: companyName,
@@ -321,9 +374,17 @@ async function run() {
             };
 
             const resultObj = { url, ...data };
+            if (!hasCompleteDetails(resultObj)) {
+                console.log(`  [!] Incomplete detail data for ID ${annId}; leaving it unsaved for retry`);
+                console.log(`      company="${data.company_name}", stock="${data.stock_name}", date="${data.date_announced}", transactions=${data.transactions.length}`);
+                continue;
+            }
             console.log(`  [✓] ${data.company_name} (${data.stock_name}) — ${data.transactions.length} transaction(s)`);
 
             existingResults.push(resultObj);
+            if (annId) {
+                completeIds.add(annId);
+            }
             
             // Checkpoint: Save instantly
             fs.writeFileSync(RESULTS_FILE, JSON.stringify(existingResults, null, 2));
