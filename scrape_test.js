@@ -270,8 +270,23 @@ async function run() {
             if (res.body && (res.body.includes('Just a moment') || res.body.includes('cf-browser-verification'))) {
                 console.log('    [✗] Cloudflare challenge detected — API is blocking this IP');
             }
-            hasNextPage = false;
-            break;
+            console.log(`    [!] Trying browser fallback for page ${pageNum} after status ${res.statusCode}...`);
+            try {
+                const body = await fetchAnnouncementApiWithBrowser({
+                    fromDate: FROM_DATE,
+                    toDate: TO_DATE,
+                    pageNum,
+                });
+                res = {
+                    statusCode: 200,
+                    body,
+                };
+                console.log(`    [ok] Browser fallback recovered API page ${pageNum}`);
+            } catch (e) {
+                console.log(`    [x] Browser fallback failed: ${e.message}`);
+                hasNextPage = false;
+                break;
+            }
         }
 
         if (!String(res.body || '').trim().startsWith('{')) {
