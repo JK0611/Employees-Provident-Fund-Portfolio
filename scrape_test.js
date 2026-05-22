@@ -108,6 +108,39 @@ async function fetchAnnouncementApiWithBrowser({ fromDate, toDate, pageNum }) {
     return body;
 }
 
+async function fetchDetailPageWithBrowser(detailUrl) {
+    const puppeteer = require('rebrowser-puppeteer');
+
+    if (!browserFallback) {
+        console.log('  [i] Starting browser fallback session...');
+        browserFallback = await launchBrowserFallback(puppeteer);
+        browserFallbackPage = await browserFallback.newPage();
+        await browserFallbackPage.setViewport({ width: 1365, height: 768 });
+        await browserFallbackPage.setUserAgent(BROWSER_USER_AGENT);
+        await browserFallbackPage.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9',
+        });
+    }
+
+    const response = await browserFallbackPage.goto(detailUrl, {
+        waitUntil: 'networkidle2',
+        timeout: 30000,
+        referer: 'https://www.bursamalaysia.com/',
+    });
+    const status = response ? response.status() : 0;
+    const body = await browserFallbackPage.content();
+
+    if (status !== 200) {
+        throw new Error(`browser fallback returned status ${status}`);
+    }
+
+    if (body.includes('Just a moment') || body.includes('cf-browser-verification')) {
+        throw new Error('browser fallback still received Cloudflare challenge');
+    }
+
+    return body;
+}
+
 async function closeBrowserFallback() {
     if (!browserFallback) {
         return;
@@ -380,7 +413,7 @@ async function run() {
 
         try {
             const detailUrl = `https://disclosure.bursamalaysia.com/FileAccess/viewHtml?e=${annId}`;
-            const res = await gotScraping({
+            let res = await gotScraping({
                 url: detailUrl,
                 headers: {
                     'Referer': 'https://www.bursamalaysia.com/',
@@ -390,6 +423,22 @@ async function run() {
                     operatingSystems: ['windows'],
                 },
             });
+
+            if (res.statusCode !== 200) {
+                if (res.statusCode === 403) {
+                    console.log('  [!] Detail page returned 403; trying browser fallback...');
+                    try {
+                        res = {
+                            ...res,
+                            statusCode: 200,
+                            body: await fetchDetailPageWithBrowser(detailUrl),
+                        };
+                        console.log('  [ok] Browser fallback recovered detail page');
+                    } catch (fallbackError) {
+                        console.log(`  [x] Browser fallback failed: ${fallbackError.message}`);
+                    }
+                }
+            }
 
             if (res.statusCode !== 200) {
                 console.log(`  [✗] Failed to fetch detail: status code ${res.statusCode}`);
@@ -533,6 +582,8 @@ async function run() {
             console.log(`  [✗] Error scraping detail page: ${e.message}`);
         }
     }
+
+    await closeBrowserFallback();
 
     console.log('\n--- Done! ---');
     console.log(`Total records: ${existingResults.length}`);
