@@ -5,6 +5,12 @@ const cheerio = require('cheerio');
 const KEYWORD = 'Employees Provident Fund';
 const LINKS_FILE = path.join(__dirname, 'links.json');
 const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
+const BURSA_ANNOUNCEMENT_API = 'https://www.bursamalaysia.com/api/v1/announcements/search';
+const BURSA_ANNOUNCEMENT_REFERER = 'https://www.bursamalaysia.com/market_information/announcements/company_announcement';
+const BROWSER_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
+let browserFallback = null;
+let browserFallbackPage = null;
 
 const getFormattedDate = (date) => {
     const d = new Date(date);
@@ -35,6 +41,87 @@ const hasCompleteDetails = (record) => {
         hasRequiredTotal
     );
 };
+
+async function launchBrowserFallback(puppeteer) {
+    const options = {
+        headless: 'new',
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+        ],
+        timeout: 30000,
+    };
+
+    try {
+        return await puppeteer.launch(options);
+    } catch (error) {
+        const message = String(error && error.message ? error.message : error);
+        if (!/Could not find Chrome|executable/i.test(message)) {
+            throw error;
+        }
+
+        return puppeteer.launch({
+            ...options,
+            channel: 'chrome',
+        });
+    }
+}
+
+async function fetchAnnouncementApiWithBrowser({ fromDate, toDate, pageNum }) {
+    const puppeteer = require('rebrowser-puppeteer');
+
+    if (!browserFallback) {
+        console.log('    [i] Starting browser fallback session...');
+        browserFallback = await launchBrowserFallback(puppeteer);
+        browserFallbackPage = await browserFallback.newPage();
+        await browserFallbackPage.setViewport({ width: 1365, height: 768 });
+        await browserFallbackPage.setUserAgent(BROWSER_USER_AGENT);
+        await browserFallbackPage.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9',
+        });
+    }
+
+    const url = new URL(BURSA_ANNOUNCEMENT_API);
+    url.searchParams.set('ann_type', 'company');
+    url.searchParams.set('keyword', KEYWORD);
+    url.searchParams.set('dt_ht', fromDate);
+    url.searchParams.set('dt_lt', toDate);
+    url.searchParams.set('page', String(pageNum));
+
+    const response = await browserFallbackPage.goto(url.toString(), {
+        waitUntil: 'networkidle2',
+        timeout: 30000,
+        referer: BURSA_ANNOUNCEMENT_REFERER,
+    });
+    const status = response ? response.status() : 0;
+    const body = await browserFallbackPage.evaluate(() => document.body.innerText || document.body.textContent || '');
+
+    if (status !== 200) {
+        throw new Error(`browser fallback returned status ${status}`);
+    }
+
+    if (!body.trim().startsWith('{')) {
+        throw new Error(`browser fallback returned non-JSON response: ${body.substring(0, 120)}`);
+    }
+
+    return body;
+}
+
+async function closeBrowserFallback() {
+    if (!browserFallback) {
+        return;
+    }
+
+    try {
+        await browserFallback.close();
+    } catch (error) {
+        console.log(`[!] Error closing browser fallback: ${error.message}`);
+    } finally {
+        browserFallback = null;
+        browserFallbackPage = null;
+    }
+}
 
 async function run() {
     // Load existing results for checkpointing
@@ -126,7 +213,7 @@ async function run() {
         while (retries > 0) {
             try {
                 res = await gotScraping({
-                    url: 'https://www.bursamalaysia.com/api/v1/announcements/search',
+                    url: BURSA_ANNOUNCEMENT_API,
                     searchParams: {
                         ann_type: 'company',
                         keyword: KEYWORD,
@@ -135,7 +222,7 @@ async function run() {
                         page: pageNum,
                     },
                     headers: {
-                        'Referer': 'https://www.bursamalaysia.com/market_information/announcements/company_announcement',
+                        'Referer': BURSA_ANNOUNCEMENT_REFERER,
                     },
                     headerGeneratorOptions: {
                         browsers: ['chrome'],
@@ -154,6 +241,24 @@ async function run() {
         }
 
         if (!res) {
+            console.log(`    [!] Primary API request failed after retries on page ${pageNum}; trying browser fallback...`);
+            try {
+                const body = await fetchAnnouncementApiWithBrowser({
+                    fromDate: FROM_DATE,
+                    toDate: TO_DATE,
+                    pageNum,
+                });
+                res = {
+                    statusCode: 200,
+                    body,
+                };
+                console.log(`    [ok] Browser fallback reached API page ${pageNum}`);
+            } catch (e) {
+                console.log(`    [x] Browser fallback failed: ${e.message}`);
+            }
+        }
+
+        if (!res) {
             console.log(`    [✗] Failed to reach API after retries on page ${pageNum}`);
             hasNextPage = false;
             break;
@@ -167,6 +272,24 @@ async function run() {
             }
             hasNextPage = false;
             break;
+        }
+
+        if (!String(res.body || '').trim().startsWith('{')) {
+            console.log(`    [!] Primary API response was not JSON; trying browser fallback for page ${pageNum}...`);
+            try {
+                const body = await fetchAnnouncementApiWithBrowser({
+                    fromDate: FROM_DATE,
+                    toDate: TO_DATE,
+                    pageNum,
+                });
+                res = {
+                    statusCode: 200,
+                    body,
+                };
+                console.log(`    [ok] Browser fallback returned JSON for page ${pageNum}`);
+            } catch (e) {
+                console.log(`    [x] Browser fallback failed: ${e.message}`);
+            }
         }
 
         // Verify response is valid JSON (not an HTML challenge page)
@@ -210,6 +333,8 @@ async function run() {
             await new Promise(r => setTimeout(r, 1000));
         }
     }
+
+    await closeBrowserFallback();
 
     if (!apiReachable) {
         console.error('\n[✗] FATAL: Could not reach Bursa API — exiting with error');
