@@ -325,4 +325,11 @@ async function processData() {
   console.log(`[✓] Successfully processed and saved data to ${DATA_FILE}`);
 }
 
-processData();
+if (require.main === module) {
+  processData().catch((error) => {
+    console.error('Failed to process data:', error);
+    process.exit(1);
+  });
+}
+
+module.exports = { processData };

@@ -58,9 +58,6 @@ jobs:
           path: scraper.log
           if-no-files-found: ignore
 
-      - name: Process Data
-        run: node process_data.js
-
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"

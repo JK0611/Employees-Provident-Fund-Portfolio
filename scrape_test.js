@@ -636,6 +636,10 @@ async function run() {
 
     console.log('\n--- Done! ---');
     console.log(`Total records: ${existingResults.length}`);
+
+    console.log('\n--- Processing Data for Frontend ---');
+    const { processData } = require('./process_data');
+    await processData();
 }
 
 run();
