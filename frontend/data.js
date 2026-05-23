@@ -224,8 +224,8 @@ const EPF_DATA = {
       "stock_name": "KPJ",
       "company_name": "KPJ HEALTHCARE BERHAD",
       "direct_percent": 0,
-      "total_securities": 822928005,
-      "date": "21 May 2026",
+      "total_securities": 828480005,
+      "date": "22 May 2026",
       "stock_code": "5878",
       "sector": "Healthcare",
       "domain": "kpjhealth.com.my"
@@ -278,7 +278,7 @@ const EPF_DATA = {
       "date": "07 Jan 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": null
+      "domain": "ea.com"
     },
     {
       "stock_name": "MISC",
@@ -293,9 +293,9 @@ const EPF_DATA = {
     {
       "stock_name": "SUNMED",
       "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
-      "direct_percent": 5.304,
-      "total_securities": 610013844,
-      "date": "21 May 2026",
+      "direct_percent": 5.348,
+      "total_securities": 615013844,
+      "date": "22 May 2026",
       "stock_code": "5555",
       "sector": "Healthcare",
       "domain": "sunway.com.my"
@@ -363,9 +363,9 @@ const EPF_DATA = {
     {
       "stock_name": "CTOS",
       "company_name": "CTOS DIGITAL BERHAD",
-      "direct_percent": 22.412,
-      "total_securities": 509886963,
-      "date": "21 May 2026",
+      "direct_percent": 22.411,
+      "total_securities": 509864863,
+      "date": "22 May 2026",
       "stock_code": "5301",
       "sector": "Banking",
       "domain": "ctoscredit.com.my"
@@ -468,7 +468,7 @@ const EPF_DATA = {
       "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": null
+      "domain": "incometax.gov.in"
     },
     {
       "stock_name": "JPG",
@@ -608,7 +608,7 @@ const EPF_DATA = {
       "date": "22 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": null
+      "domain": "paradigmmall.com.my"
     },
     {
       "stock_name": "GENP",
@@ -658,7 +658,7 @@ const EPF_DATA = {
       "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": null
+      "domain": "aeonretail.com.my"
     },
     {
       "stock_name": "PENTA",
@@ -683,9 +683,9 @@ const EPF_DATA = {
     {
       "stock_name": "SCGBHD",
       "company_name": "SOUTHERN CABLE GROUP BERHAD",
-      "direct_percent": 8.694,
-      "total_securities": 99068000,
-      "date": "21 May 2026",
+      "direct_percent": 8.707,
+      "total_securities": 99209600,
+      "date": "22 May 2026",
       "stock_code": "0225",
       "sector": "Industrial",
       "domain": "southern.edu.my"
@@ -838,7 +838,7 @@ const EPF_DATA = {
       "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": null
+      "domain": "nestle.com.my"
     },
     {
       "stock_name": "MPI",
@@ -1437,13 +1437,81 @@ const EPF_DATA = {
       "count": 52
     },
     "22 May 2026": {
-      "acquired": 91141900,
-      "disposed": 29403097,
-      "net": 61738803,
-      "count": 48
+      "acquired": 100835500,
+      "disposed": 29425197,
+      "net": 71410303,
+      "count": 52
     }
   },
   "transactions": [
+    {
+      "stock": "KPJ",
+      "company": "KPJ HEALTHCARE BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669100",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 1802000
+        },
+        {
+          "type": "Acquired",
+          "amount": 2750000
+        }
+      ],
+      "percent": 0,
+      "total": 828480005
+    },
+    {
+      "stock": "CTOS",
+      "company": "CTOS DIGITAL BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669087",
+      "transactions": [
+        {
+          "type": "Disposed",
+          "amount": 22100
+        }
+      ],
+      "percent": 22.411,
+      "total": 509864863
+    },
+    {
+      "stock": "SCGBHD",
+      "company": "SOUTHERN CABLE GROUP BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669082",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 57000
+        },
+        {
+          "type": "Acquired",
+          "amount": 70600
+        },
+        {
+          "type": "Acquired",
+          "amount": 14000
+        }
+      ],
+      "percent": 8.707,
+      "total": 99209600
+    },
+    {
+      "stock": "SUNMED",
+      "company": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+      "date": "22 May 2026",
+      "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669077",
+      "transactions": [
+        {
+          "type": "Acquired",
+          "amount": 5000000
+        }
+      ],
+      "percent": 5.348,
+      "total": 615013844
+    },
     {
       "stock": "SIMEPROP",
       "company": "SIME DARBY PROPERTY BERHAD",
@@ -87217,6 +87285,8 @@ const EPF_DATA = {
     "PETRONAS CHEMICALS GROUP BERHAD": "petronas.com",
     "SUNWAY": "sunway.com.my",
     "SUNWAY BERHAD": "sunway.com.my",
+    "AHEALTH": "ea.com",
+    "APEX HEALTHCARE BERHAD": "ea.com",
     "CDB": "celcomdigi.com",
     "CELCOMDIGI BERHAD": "celcomdigi.com",
     "IOIPG": "ioicitymall.com.my",
@@ -87241,6 +87311,8 @@ const EPF_DATA = {
     "MALAYSIAN PACIFIC INDUSTRIES BERHAD": "malaysiaairlines.com",
     "BAUTO": "bauto.com.my",
     "BERMAZ AUTO BERHAD": "bauto.com.my",
+    "PARADIGM": "paradigmmall.com.my",
+    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
     "CLMT": "capitaland.com",
     "CAPITALAND MALAYSIA TRUST": "capitaland.com",
     "KLK": "theendlesstravellers.com",
@@ -87259,6 +87331,8 @@ const EPF_DATA = {
     "ORKIM BERHAD": "chatgpt.com",
     "HLFG": "hongleongconnect.my",
     "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
+    "PPB": "incometax.gov.in",
+    "PPB GROUP BERHAD": "incometax.gov.in",
     "CTOS": "ctoscredit.com.my",
     "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
     "MRDIY": "vocaberry.com",
@@ -87279,6 +87353,8 @@ const EPF_DATA = {
     "AXIATA GROUP BERHAD": "axiata.com",
     "PETGAS": "petronas.com",
     "PETRONAS GAS BERHAD": "petronas.com",
+    "NESTLE": "nestle.com.my",
+    "NESTLE (MALAYSIA) BERHAD": "nestle.com.my",
     "YTL": "ytl.com",
     "YTL CORPORATION BERHAD": "ytl.com",
     "SPSETIA": "google.com",
@@ -87317,6 +87393,8 @@ const EPF_DATA = {
     "AURELIUS TECHNOLOGIES BERHAD": "aureliushealth.com",
     "WASCO": "wascoenergy.com",
     "WASCO BERHAD": "wascoenergy.com",
+    "AEON": "aeonretail.com.my",
+    "AEON CO. (M) BHD": "aeonretail.com.my",
     "MBSB": "mbsb.com",
     "MBSB BERHAD": "mbsb.com",
     "DPHARMA": "duopharmabiotech.com",

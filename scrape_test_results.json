@@ -85724,5 +85724,73 @@
     ],
     "direct_percent": 19.532,
     "total_securities_after_change": 217516020
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669100",
+    "company_name": "KPJ HEALTHCARE BERHAD",
+    "stock_name": "KPJ",
+    "date_announced": "22 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 1802000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 2750000
+      }
+    ],
+    "direct_percent": 0,
+    "total_securities_after_change": 828480005
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669087",
+    "company_name": "CTOS DIGITAL BERHAD",
+    "stock_name": "CTOS",
+    "date_announced": "22 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Disposed",
+        "no_of_securities": 22100
+      }
+    ],
+    "direct_percent": 22.411,
+    "total_securities_after_change": 509864863
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669082",
+    "company_name": "SOUTHERN CABLE GROUP BERHAD",
+    "stock_name": "SCGBHD",
+    "date_announced": "22 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 57000
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 70600
+      },
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 14000
+      }
+    ],
+    "direct_percent": 8.707,
+    "total_securities_after_change": 99209600
+  },
+  {
+    "url": "https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=3669077",
+    "company_name": "SUNWAY HEALTHCARE HOLDINGS BERHAD",
+    "stock_name": "SUNMED",
+    "date_announced": "22 May 2026",
+    "transactions": [
+      {
+        "type_of_transaction": "Acquired",
+        "no_of_securities": 5000000
+      }
+    ],
+    "direct_percent": 5.348,
+    "total_securities_after_change": 615013844
   }
 ]
