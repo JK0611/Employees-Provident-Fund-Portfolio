@@ -447,15 +447,42 @@ function getLogoUrl(companyName, stockName) {
 // ============================================
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(`panel-${btn.dataset.tab}`).classList.add('active');
+    // 1. Reset all tab buttons classes
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
+      b.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
+    });
+    
+    // 2. Set active button class
+    btn.classList.add('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
+    btn.classList.remove('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
+    
+    // 3. Hide all panels
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.add('hidden');
+      p.classList.remove('active');
+    });
+    
+    // 4. Show target panel
+    const panel = document.getElementById(`panel-${btn.dataset.tab}`);
+    if (panel) {
+      panel.classList.remove('hidden');
+      panel.classList.add('active');
+    }
 
-    // Redraw charts that were hidden (canvas needs visible dimensions)
+    // 5. Redraw charts that were hidden (canvas needs visible dimensions)
     if (btn.dataset.tab === 'returns') {
       requestAnimationFrame(() => {
         drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+      });
+    } else if (btn.dataset.tab === 'holdings') {
+      requestAnimationFrame(() => {
+        const pieData = getPieData(currentPieMode);
+        drawPieChart('pie-canvas', pieData, currentPieMode);
+      });
+    } else if (btn.dataset.tab === 'dashboard') {
+      requestAnimationFrame(() => {
+        drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange));
       });
     }
   });
@@ -611,8 +638,12 @@ function getPortfolioTimeSeries(range) {
   const now = dates[dates.length - 1]?.date || new Date();
   let cutoff;
   switch (range) {
+    case '1D': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 1); break;
+    case '1W': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 7); break;
     case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
     case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
+    case '6M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 6); break;
+    case 'YTD': cutoff = new Date(now.getFullYear(), 0, 1); break;
     case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
     default: cutoff = new Date(0);
   }
@@ -631,9 +662,11 @@ let lineChartAnimId = null;
 
 function drawLineChart(canvasId, data, color = '#8b5cf6') {
   const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.parentElement.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) return;
 
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
@@ -857,10 +890,12 @@ let pieChartAnimId = null;
 function drawPieChart(canvasId, data, mode) {
   currentPieModeForDraw = mode || 'company';
   const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const container = canvas.parentElement;
   const size = Math.min(container.clientWidth, container.clientHeight);
+  if (size <= 0) return;
 
   canvas.width = size * dpr;
   canvas.height = size * dpr;
@@ -974,9 +1009,11 @@ function getReturnsData(view) {
 
 function drawBarChart(canvasId, data, color = '#8b5cf6') {
   const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.parentElement.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) return;
 
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
@@ -1699,6 +1736,183 @@ document.getElementById('tx-percent-max').addEventListener('input', filterTransa
 
 // Initial render
 function init() {
+  // Calculate and populate Bento Metrics
+  const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
+  document.getElementById('dashboard-total-value').textContent = totalSecurities.toLocaleString() + ' shares';
+  
+  // Top Sector Allocation
+  const sectorMap = {};
+  EPF_DATA.holdings.forEach(h => {
+    sectorMap[h.sector] = (sectorMap[h.sector] || 0) + h.total_securities;
+  });
+  const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
+  if (sortedSectors.length > 0) {
+    const topSector = sortedSectors[0];
+    const pct = ((topSector[1] / totalSecurities) * 100).toFixed(1);
+    document.getElementById('bento-sector-name').textContent = topSector[0];
+    document.getElementById('bento-sector-val').textContent = formatCompact(topSector[1]) + ' shares';
+    document.getElementById('bento-sector-pct').textContent = pct + '%';
+    document.getElementById('bento-sector-progress').style.width = pct + '%';
+
+    // RENDER TOP SECTOR OVERLAPPING LOGOS
+    const sectorHoldings = EPF_DATA.holdings.filter(h => h.sector === topSector[0]);
+    sectorHoldings.sort((a, b) => b.total_securities - a.total_securities);
+    const top3 = sectorHoldings.slice(0, 3);
+    const sectorLogosEl = document.getElementById('bento-sector-logos');
+    if (sectorLogosEl) {
+      sectorLogosEl.innerHTML = top3.map((h, index) => {
+        const logoUrl = getLogoUrl(h.company_name, h.stock_name);
+        const zIndex = 30 - (index * 10);
+        const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
+        return `
+          <div class="relative w-8 h-8 rounded-full border border-[#25253a] bg-[#1a1a26] overflow-hidden flex items-center justify-center shadow-md shrink-0" style="z-index: ${zIndex}">
+            ${logoUrl ? `
+              <img src="${logoUrl}" 
+                   class="w-full h-full object-cover" 
+                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                   alt="${h.stock_name}">
+            ` : ''}
+            <div class="w-full h-full text-[9px] font-bold text-white flex items-center justify-center" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+  
+  // Top Holding
+  const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => b.total_securities - a.total_securities);
+  if (sortedHoldings.length > 0) {
+    const topHolding = sortedHoldings[0];
+    document.getElementById('bento-holding-symbol').textContent = topHolding.stock_name;
+    document.getElementById('bento-holding-name').textContent = topHolding.company_name;
+    document.getElementById('bento-holding-val').textContent = topHolding.total_securities.toLocaleString() + ' shares';
+    document.getElementById('bento-holding-pct').innerHTML = `<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span>${topHolding.direct_percent.toFixed(3)}% in company`;
+
+    // RENDER TOP HOLDING LOGO DYNAMICALLY
+    const holdingLogoContainer = document.getElementById('bento-holding-logo-container');
+    if (holdingLogoContainer) {
+      const logoUrl = getLogoUrl(topHolding.company_name, topHolding.stock_name);
+      const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
+      holdingLogoContainer.innerHTML = `
+        ${logoUrl ? `
+          <img src="${logoUrl}" 
+               class="w-full h-full object-cover" 
+               onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+               alt="${topHolding.stock_name}">
+        ` : ''}
+        <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(topHolding.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${topHolding.stock_name.slice(0, 2)}</div>
+      `;
+    }
+  }
+  
+  // Active Positions
+  document.getElementById('bento-active-count').textContent = EPF_DATA.holdings.length + ' positions';
+  document.getElementById('bento-unique-count').textContent = `${EPF_DATA.uniqueStocks} unique stocks across ${sortedSectors.length} sectors`;
+
+  // Recent Announcements Feed
+  const latestTx = allFlatTx.slice(0, 4);
+  const activityFeed = document.getElementById('bento-activity-feed');
+  if (activityFeed) {
+    activityFeed.innerHTML = latestTx.map(tx => {
+      const logoUrl = getLogoUrl(tx.company, tx.stock);
+      const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
+      const isBuy = tx.type === 'Acquired';
+      const actionIcon = isBuy ? 'shopping_cart' : tx.type === 'Dividend' ? 'payments' : 'sell';
+      const iconColor = isBuy ? 'text-primary' : tx.type === 'Dividend' ? 'text-tertiary' : 'text-error';
+      return `
+        <div class="flex gap-3 items-start p-2 rounded-lg hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" onclick="openTxModal(${allFlatTx.indexOf(tx)})">
+          <div class="h-8 w-8 rounded-full border border-[#25253a] bg-[#1a1a26] overflow-hidden flex items-center justify-center mt-0.5 shrink-0 shadow-sm relative">
+            ${logoUrl ? `
+              <img src="${logoUrl}" 
+                   class="w-full h-full object-cover" 
+                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                   alt="${tx.stock}">
+            ` : ''}
+            <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
+            <!-- Small indicator badge for action type on bottom right -->
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16161f] border border-[#25253a] flex items-center justify-center text-[8px] ${iconColor}">
+              <span class="material-symbols-outlined text-[9px]">${actionIcon}</span>
+            </span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-baseline gap-2">
+              <span class="font-semibold text-xs text-on-surface truncate">${tx.type} ${tx.stock}</span>
+              <span class="text-[9px] text-outline shrink-0">${tx.date}</span>
+            </div>
+            <div class="text-[11px] text-on-surface-variant truncate mt-0.5">
+              ${tx.company} — ${tx.amount.toLocaleString()} units
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Hook global search
+  const globalSearch = document.getElementById('global-search-input');
+  if (globalSearch) {
+    globalSearch.addEventListener('input', () => {
+      const val = globalSearch.value;
+      
+      // Copy to holdings search
+      const hs = document.getElementById('holdings-search');
+      if (hs) {
+        hs.value = val;
+        const hsc = document.getElementById('holdings-search-clear');
+        if (hsc) hsc.style.display = val ? 'flex' : 'none';
+        renderHoldingsTable();
+      }
+      
+      // Copy to transactions search
+      const ts = document.getElementById('tx-search');
+      if (ts) {
+        ts.value = val;
+        const tsc = document.getElementById('tx-search-clear');
+        if (tsc) tsc.style.display = val ? 'flex' : 'none';
+        filterTransactions();
+      }
+    });
+  }
+
+  // Set up Bento card clicks (tab jumps & smart filters)
+  const bentoActiveCard = document.getElementById('bento-active-card');
+  if (bentoActiveCard) {
+    bentoActiveCard.addEventListener('click', () => {
+      const tabHoldings = document.getElementById('tab-holdings');
+      if (tabHoldings) tabHoldings.click();
+    });
+  }
+
+  const bentoSectorCard = document.getElementById('bento-sector-card');
+  if (bentoSectorCard) {
+    bentoSectorCard.addEventListener('click', () => {
+      const topSectorName = document.getElementById('bento-sector-name').textContent;
+      const sectorFilter = document.getElementById('holdings-sector-filter');
+      if (sectorFilter && topSectorName !== 'Loading...') {
+        sectorFilter.value = topSectorName;
+        renderHoldingsTable();
+      }
+      const tabHoldings = document.getElementById('tab-holdings');
+      if (tabHoldings) tabHoldings.click();
+    });
+  }
+
+  const bentoHoldingCard = document.getElementById('bento-holding-card');
+  if (bentoHoldingCard) {
+    bentoHoldingCard.addEventListener('click', () => {
+      const topHoldingSymbol = document.getElementById('bento-holding-symbol').textContent;
+      const searchInput = document.getElementById('holdings-search');
+      if (searchInput && topHoldingSymbol !== 'Loading...') {
+        searchInput.value = topHoldingSymbol;
+        const searchClear = document.getElementById('holdings-search-clear');
+        if (searchClear) searchClear.style.display = 'flex';
+        renderHoldingsTable();
+      }
+      const tabHoldings = document.getElementById('tab-holdings');
+      if (tabHoldings) tabHoldings.click();
+    });
+  }
+
   // Holdings
   renderHoldingsTable();
 

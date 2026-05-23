@@ -1,233 +1,482 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EPFTracker - Employees Provident Fund Portfolio Dashboard. Track holdings, returns, and transactions.">
-  <title>EPFTracker — Portfolio Dashboard</title>
+  <meta name="description" content="EPFTracker — Employees Provident Fund Portfolio Dashboard. Track holdings, returns, and transactions.">
+  <title>EPF Invest — Institutional Portfolio Dashboard</title>
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#111224",
+            "surface": "#111224",
+            "surface-container-lowest": "#0b0c1f",
+            "surface-container-low": "#191a2d",
+            "surface-container": "#1d1e31",
+            "surface-container-high": "#27283c",
+            "surface-container-highest": "#323347",
+            "primary": "#8b5cf6",
+            "primary-hover": "#7c3aed",
+            "primary-container": "#a078ff",
+            "primary-fixed": "#d0bcff",
+            "primary-fixed-dim": "#b8a0ff",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#340080",
+            "secondary": "#4cd7f6",
+            "on-secondary": "#003640",
+            "secondary-container": "#03b5d3",
+            "tertiary": "#4ae176",
+            "on-tertiary": "#003915",
+            "tertiary-container": "#00a74b",
+            "error": "#ffb4ab",
+            "on-error": "#690005",
+            "error-container": "#93000a",
+            "on-error-container": "#ffdad6",
+            "on-surface": "#e1e0fb",
+            "on-surface-variant": "#cbc3d7",
+            "outline": "#958ea0",
+            "outline-variant": "#494454"
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom CSS for specific chart/scrollbar elements -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Header -->
-  <header id="app-header">
-    <div class="header-inner">
-      <h1 class="logo"><span class="logo-epf">EPF</span><span class="logo-tracker">Tracker</span></h1>
-    </div>
-  </header>
+<body class="bg-background text-on-surface font-sans antialiased flex selection:bg-primary selection:text-on-primary min-h-screen">
 
-  <!-- Main Content -->
-  <main id="app-main">
-    <!-- Page Title -->
-    <div class="page-title-row">
-      <h2 class="page-title">Dashboard</h2>
+  <!-- Left Sidebar Nav / Bottom Nav on Mobile -->
+  <aside class="h-16 md:h-screen w-full md:w-64 fixed bottom-0 md:bottom-auto md:top-0 left-0 bg-surface-container-lowest border-t md:border-t-0 md:border-r border-outline-variant flex flex-row md:flex-col py-1 md:py-8 px-2 md:px-4 z-50 justify-around md:justify-start items-center md:items-stretch">
+    <!-- Brand Area (Desktop Only) -->
+    <div class="hidden md:flex items-center gap-3 mb-8 px-3">
+      <h1 class="font-extrabold text-xl text-primary-fixed tracking-tight leading-tight"><span class="text-primary">EPF</span>Invest</h1>
     </div>
-
-    <!-- Tab Navigation -->
-    <nav id="tab-nav" class="tab-nav">
-      <button class="tab-btn active" data-tab="holdings" id="tab-holdings">Holdings</button>
-      <button class="tab-btn" data-tab="returns" id="tab-returns">Returns</button>
-      <button class="tab-btn" data-tab="transactions" id="tab-transactions">Transactions</button>
+    
+    <!-- Navigation Links -->
+    <nav class="flex flex-row md:flex-col gap-1 md:gap-1.5 w-full md:w-auto justify-around md:justify-start" id="tab-nav">
+      <!-- Dashboard Link -->
+      <button class="tab-btn flex flex-col md:flex-row items-center gap-1 md:gap-3 px-3 py-1 md:px-4 md:py-3 rounded-lg text-center md:text-left text-on-surface font-semibold bg-surface-container-highest transition-all duration-150 active:translate-x-1" data-tab="dashboard" id="tab-dashboard">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+        <span class="text-[9px] md:text-sm">Dashboard</span>
+      </button>
+      
+      <!-- Holdings Link -->
+      <button class="tab-btn flex flex-col md:flex-row items-center gap-1 md:gap-3 px-3 py-1 md:px-4 md:py-3 rounded-lg text-center md:text-left text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all duration-150 active:translate-x-1" data-tab="holdings" id="tab-holdings">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+        <span class="text-[9px] md:text-sm">Holdings</span>
+      </button>
+      
+      <!-- Returns Link -->
+      <button class="tab-btn flex flex-col md:flex-row items-center gap-1 md:gap-3 px-3 py-1 md:px-4 md:py-3 rounded-lg text-center md:text-left text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all duration-150 active:translate-x-1" data-tab="returns" id="tab-returns">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+        <span class="text-[9px] md:text-sm">Returns</span>
+      </button>
+      
+      <!-- Transactions Link -->
+      <button class="tab-btn flex flex-col md:flex-row items-center gap-1 md:gap-3 px-3 py-1 md:px-4 md:py-3 rounded-lg text-center md:text-left text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all duration-150 active:translate-x-1" data-tab="transactions" id="tab-transactions">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+        <span class="text-[9px] md:text-sm">Transactions</span>
+      </button>
     </nav>
+  </aside>
 
-    <!-- Holdings Tab Content -->
-    <section id="panel-holdings" class="tab-panel active">
-      <!-- Charts Row -->
-      <div class="charts-row">
-        <!-- Portfolio Value Chart -->
-        <div class="chart-card" id="portfolio-chart-card">
-          <div class="chart-header">
-            <h3 class="chart-title">Portfolio Value</h3>
-            <div class="chart-toggle-group" id="time-toggle">
-              <button class="chart-toggle active" data-range="1M">1M</button>
-              <button class="chart-toggle" data-range="3M">3M</button>
-              <button class="chart-toggle" data-range="1Y">1Y</button>
-              <button class="chart-toggle" data-range="ALL">All Time</button>
+  <!-- Main Content Wrapper -->
+  <div class="ml-0 md:ml-64 flex-1 flex flex-col min-h-screen pb-16 md:pb-0 w-full min-w-0 overflow-hidden">
+    
+    <!-- TopAppBar -->
+    <header class="h-16 w-full sticky top-0 z-40 bg-surface/80 border-b border-outline-variant flex justify-between items-center px-4 md:px-8 shadow-sm backdrop-blur-md">
+      <!-- Left Spacer (replacing Search) -->
+      <div class="flex items-center">
+      </div>
+      
+      <!-- Right Actions -->
+      <div class="flex items-center gap-2 md:gap-4">
+        <div class="hidden sm:block font-extrabold text-primary-fixed mr-2 md:mr-4 tracking-tight">
+          EPF Invest
+        </div>
+        <button class="h-9 w-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all cursor-pointer active:scale-95 duration-200 relative">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full bg-error border border-surface"></span>
+        </button>
+        <button class="h-9 w-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all cursor-pointer active:scale-95 duration-200">
+          <span class="material-symbols-outlined text-[20px]">help</span>
+        </button>
+        <div class="h-8 w-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden ml-1">
+          <img alt="User profile avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBihdc7bpyfiLo-14pJ-GaXW1aGkTUAazyqFsszoOFubOBdvKib1DKCicMBvQ80XrhJqd0_4GDT4LXFm_DvmGlT7v1ejzCklBePq1eG_zKLXCTujf-6p2kWZF9ZoZXjSdXwfY_rCyKAdUvVBGBPRaCkkO9m-EFP_KT7jP5LjE5cfjxCiArCtnHrVnAgIbGI2vEZV7R3vG4t7yP2l0qEjO9yhH2WZXqQLXGyCNw-EEb17fuDHoFQEGdP3EIRADUuNjH4BryZNN3jLIc"/>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main id="app-main" class="flex-1 p-4 md:p-8 mx-auto w-full max-w-[1400px] flex flex-col gap-6">
+      
+      <!-- ============================================ -->
+      <!-- PANEL 1: DASHBOARD (Overview) -->
+      <!-- ============================================ -->
+      <section id="panel-dashboard" class="tab-panel active flex flex-col gap-6 w-full min-w-0">
+        <!-- Dashboard Header -->
+        <div class="flex justify-between items-end mb-2">
+          <div>
+            <h2 class="text-sm font-semibold text-on-surface-variant mb-1">Portfolio Overview</h2>
+            <div class="text-3xl font-extrabold text-on-surface flex items-baseline gap-2">
+              <span id="dashboard-total-value">RM 0</span>
+              <span class="text-sm font-bold text-tertiary flex items-center bg-tertiary/10 px-1.5 py-0.5 rounded">
+                <span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span>
+                +2.4%
+              </span>
             </div>
-          </div>
-          <div class="chart-body">
-            <canvas id="portfolio-canvas"></canvas>
-          </div>
-          <div class="chart-footer">
-            <div class="chart-legend-item">
-              <span class="legend-line"></span>
-              <span class="legend-label">Portfolio Value</span>
-            </div>
-            <div class="chart-value" id="portfolio-value-display">RM 0</div>
           </div>
         </div>
 
-        <!-- Pie Chart -->
-        <div class="chart-card" id="pie-chart-card">
-          <div class="chart-header">
-            <h3 class="chart-title">Allocation</h3>
-            <div class="chart-toggle-group" id="pie-toggle">
-              <button class="chart-toggle active" data-mode="company">By Company</button>
-              <button class="chart-toggle" data-mode="sector">By Sector</button>
+        <!-- Metrics Bento Grid (Narrowness fixed via my-8) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+          <!-- Top Sector -->
+          <div id="bento-sector-card" class="bg-[#16161f] border border-outline-variant rounded-xl p-6 glow-hover transition-all flex flex-col justify-between min-h-[140px] cursor-pointer hover:border-primary">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Top Sector Allocation</span>
+              <div class="flex items-center -space-x-2.5 shrink-0" id="bento-sector-logos"></div>
+            </div>
+            <div>
+              <div class="text-base font-semibold text-on-surface" id="bento-sector-name">Loading...</div>
+              <div class="text-xs text-outline mt-1 flex justify-between">
+                <span id="bento-sector-val">RM 0</span>
+                <span class="text-on-surface" id="bento-sector-pct">0%</span>
+              </div>
+              <div class="w-full bg-surface-container-high h-1.5 rounded-full mt-2 overflow-hidden">
+                <div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 0%;" id="bento-sector-progress"></div>
+              </div>
             </div>
           </div>
-          <div class="chart-body pie-body">
+          
+          <!-- Top Holding -->
+          <div id="bento-holding-card" class="bg-[#16161f] border border-outline-variant rounded-xl p-6 glow-hover transition-all flex flex-col justify-between min-h-[140px] cursor-pointer hover:border-primary">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Top Holding</span>
+              <div class="w-8 h-8 rounded-full border border-[#25253a] bg-[#1a1a26] overflow-hidden flex items-center justify-center shrink-0 shadow-md" id="bento-holding-logo-container"></div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-base font-semibold text-on-surface" id="bento-holding-symbol">Loading...</span>
+                <span class="text-xs text-outline font-medium truncate max-w-[150px]" id="bento-holding-name">Loading...</span>
+              </div>
+              <div class="text-xs mt-1 flex justify-between items-center">
+                <span class="text-on-surface" id="bento-holding-val">RM 0</span>
+                <span class="text-tertiary flex items-center font-semibold" id="bento-holding-pct"><span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span>0%</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Active Positions -->
+          <div id="bento-active-card" class="bg-[#16161f] border border-[#25253a] rounded-xl p-6 glow-hover transition-all flex flex-col justify-between min-h-[140px] cursor-pointer hover:border-primary">
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Active Positions</span>
+              <span class="material-symbols-outlined text-outline-variant text-[20px]">payments</span>
+            </div>
+            <div>
+              <div class="text-lg font-bold text-on-surface" id="bento-active-count">0 positions</div>
+              <div class="text-xs text-outline mt-1" id="bento-unique-count">0 unique stocks across all sectors</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Chart & Feed Bento Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Cumulative Portfolio Value Chart -->
+          <div class="lg:col-span-2 bg-[#16161f] border border-outline-variant rounded-xl p-6 glow-hover transition-all flex flex-col min-h-[380px]">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-sm font-semibold text-on-surface">Portfolio Cumulative Trend</h3>
+              
+              <!-- Original Range Toggle embedded seamlessly! -->
+              <div class="chart-toggle-group flex gap-0.5 bg-[#1a1a26] p-1 rounded-lg border border-outline-variant" id="time-toggle">
+                <button class="chart-toggle active px-3 py-1 rounded text-[11px] font-semibold transition-all active" data-range="1M">1M</button>
+                <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-range="3M">3M</button>
+                <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-range="1Y">1Y</button>
+                <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-range="ALL">All Time</button>
+              </div>
+            </div>
+            <div class="chart-body flex-1 relative min-h-[220px]">
+              <canvas id="portfolio-canvas"></canvas>
+            </div>
+            <div class="chart-footer mt-4 flex items-center justify-between border-t border-[#25253a] pt-4">
+              <div class="chart-legend-item flex items-center gap-2">
+                <span class="legend-line w-5 h-0.5 bg-primary rounded"></span>
+                <span class="legend-label text-xs text-outline">Net Shareholdings Trend</span>
+              </div>
+              <div class="chart-value text-sm font-bold text-on-surface" id="portfolio-value-display">RM 0</div>
+            </div>
+          </div>
+          
+          <!-- Recent Activity Feed -->
+          <div class="bg-[#16161f] border border-[#25253a] rounded-xl p-6 glow-hover transition-all flex flex-col min-h-[380px]">
+            <div class="flex justify-between items-center mb-4 border-b border-[#25253a] pb-3">
+              <h3 class="text-sm font-semibold text-on-surface">Recent Announcements</h3>
+              <span class="material-symbols-outlined text-outline-variant text-[18px]">history</span>
+            </div>
+            <div class="flex-1 overflow-y-auto pr-1 space-y-4 custom-scrollbar" id="bento-activity-feed">
+              <!-- Items loaded dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- PANEL 2: HOLDINGS -->
+      <!-- ============================================ -->
+      <section id="panel-holdings" class="tab-panel hidden flex flex-col gap-6 w-full min-w-0">
+        
+        <!-- Allocation Pie/Donut Chart Card (Placed Above) -->
+        <div class="chart-card bg-[#16161f] border border-[#25253a] rounded-xl p-4 md:p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden" id="pie-chart-card">
+          <div class="chart-header flex justify-between items-center mb-4">
+            <h3 class="chart-title text-sm font-semibold text-on-surface">Allocation Analysis</h3>
+            <div class="chart-toggle-group flex gap-0.5 bg-[#1a1a26] p-1 rounded-lg border border-outline-variant" id="pie-toggle">
+              <button class="chart-toggle active px-3 py-1 rounded text-[11px] font-semibold transition-all active" data-mode="company">By Company</button>
+              <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-mode="sector">By Sector</button>
+            </div>
+          </div>
+          <div class="chart-body pie-body flex-1 relative min-h-[200px] flex items-center justify-center">
             <canvas id="pie-canvas"></canvas>
           </div>
-          <div class="chart-footer" id="pie-legend"></div>
-        </div>
-      </div>
-
-      <!-- Holdings Table -->
-      <div class="table-section">
-        <div class="table-header-row">
-          <h3 class="table-title">Current Holdings</h3>
-          <span class="badge" id="holdings-count">0</span>
-          <div class="table-filter">
-            <div class="search-wrapper">
-              <input type="text" id="holdings-search" placeholder="Search company..." />
-              <button id="holdings-search-clear" class="search-clear-btn" type="button">&times;</button>
-            </div>
-            <select id="holdings-sector-filter">
-              <option value="all">All Sectors</option>
-            </select>
+          <div class="chart-footer mt-4 border-t border-[#25253a] pt-4" id="pie-legend">
+            <!-- Dynamically populated -->
           </div>
         </div>
-        <div class="table-wrapper">
-          <table id="holdings-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Symbol</th>
-                <th>Company</th>
-                <th>Sector</th>
-                <th class="sortable align-right" data-sort="shares">No. of Shares Holdings <svg class="sort-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-                <th class="sortable align-right" data-sort="percent_company">Percentage in Company <svg class="sort-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-                <th class="sortable align-right" data-sort="percent_portfolio">Percentage in Portfolio <svg class="sort-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              </tr>
-            </thead>
-            <tbody id="holdings-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
 
-    <!-- Returns Tab Content -->
-    <section id="panel-returns" class="tab-panel">
-      <div class="charts-row">
-        <div class="chart-card full-width">
-          <div class="chart-header">
-            <h3 class="chart-title">Net Activity by Date</h3>
-            <div class="chart-toggle-group" id="returns-toggle">
-              <button class="chart-toggle active" data-view="net">Net</button>
-              <button class="chart-toggle" data-view="acquired">Acquired</button>
-              <button class="chart-toggle" data-view="disposed">Disposed</button>
+        <!-- Holdings table segment (Placed Below) -->
+        <div class="bg-[#16161f] border border-[#25253a] rounded-xl p-4 md:p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
+          <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-semibold text-on-surface">Domestic Positions</h3>
+              <span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full" id="holdings-count">0</span>
+            </div>
+            <div class="flex gap-2">
+              <div class="relative">
+                <input type="text" id="holdings-search" class="w-48 pl-8 pr-8 py-1.5 bg-[#1a1a26] border border-[#25253a] rounded-lg text-xs text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="Search symbol/company..." />
+                <button id="holdings-search-clear" class="absolute right-2 top-1/2 -translate-y-1/2 text-outline-variant hover:text-on-surface hidden text-base" type="button">&times;</button>
+              </div>
+              <select id="holdings-sector-filter" class="bg-[#1a1a26] border border-[#25253a] rounded-lg px-3 py-1.5 text-xs text-on-surface outline-none focus:border-primary color-scheme-dark">
+                <option value="all">All Sectors</option>
+              </select>
             </div>
           </div>
-          <div class="chart-body chart-body-tall">
+
+          <!-- Holdings Table Grid -->
+          <div class="overflow-x-auto">
+            <table id="holdings-table" class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#25253a]">
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider w-12">#</th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider">Symbol</th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider">Company</th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider">Sector</th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider sortable text-right" data-sort="shares">No. of Shares Holdings <span class="material-symbols-outlined text-[12px] inline-block align-middle ml-0.5">swap_vert</span></th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider sortable text-right" data-sort="percent_company">Percentage in Company <span class="material-symbols-outlined text-[12px] inline-block align-middle ml-0.5">swap_vert</span></th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider sortable text-right" data-sort="percent_portfolio">Percentage in Portfolio <span class="material-symbols-outlined text-[12px] inline-block align-middle ml-0.5">swap_vert</span></th>
+                </tr>
+              </thead>
+              <tbody id="holdings-tbody" class="divide-y divide-[#25253a]/40">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- PANEL 3: RETURNS -->
+      <!-- ============================================ -->
+      <section id="panel-returns" class="tab-panel hidden flex flex-col gap-6 w-full min-w-0">
+        <!-- Main Net Activity Chart Card -->
+        <div class="bg-[#16161f] border border-[#25253a] rounded-xl p-4 md:p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden min-h-[420px]">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-sm font-semibold text-on-surface">Net Activity by Date</h3>
+            <div class="chart-toggle-group flex gap-0.5 bg-[#1a1a26] p-1 rounded-lg border border-outline-variant" id="returns-toggle">
+              <button class="chart-toggle active px-3 py-1 rounded text-[11px] font-semibold transition-all active" data-view="net">Net</button>
+              <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-view="acquired">Acquired</button>
+              <button class="chart-toggle px-3 py-1 rounded text-[11px] font-semibold transition-all" data-view="disposed">Disposed</button>
+            </div>
+          </div>
+          <div class="chart-body chart-body-tall flex-1 relative min-h-[320px]">
             <canvas id="returns-canvas"></canvas>
           </div>
         </div>
-      </div>
-      <!-- Summary Cards -->
-      <div class="summary-cards" id="returns-summary"></div>
-    </section>
 
-    <!-- Transactions Tab Content -->
-    <section id="panel-transactions" class="tab-panel">
-      <div class="table-section">
-        <div class="table-header-row">
-          <h3 class="table-title">All Transactions</h3>
-          <span class="badge" id="tx-count">0</span>
-          <span class="last-update-text" id="tx-last-update" style="color: var(--text-muted); font-size: 0.8125rem; margin-left: 0.5rem; font-weight: 500;">Last update: --</span>
-          <div class="table-filter">
-            <div class="search-wrapper">
-              <input type="text" id="tx-search" placeholder="Search company..." />
-              <button id="tx-search-clear" class="search-clear-btn" type="button">&times;</button>
+        <!-- Summary Cards Grid -->
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" id="returns-summary">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- PANEL 4: TRANSACTIONS -->
+      <!-- ============================================ -->
+      <section id="panel-transactions" class="tab-panel hidden flex flex-col gap-6 w-full min-w-0">
+        <div class="bg-[#16161f] border border-[#25253a] rounded-xl p-4 md:p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
+          <!-- Table Controls -->
+          <div class="flex justify-between items-center mb-4 flex-wrap gap-4 border-b border-[#25253a] pb-4">
+            <div class="flex items-center gap-3">
+              <h3 class="text-sm font-semibold text-on-surface">All Announcements</h3>
+              <span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full" id="tx-count">0</span>
+              <span class="text-xs text-outline font-medium" id="tx-last-update">Last update: --</span>
+            </div>
+            
+            <div class="flex gap-2">
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline-variant text-[16px]">search</span>
+                <input type="text" id="tx-search" class="w-48 pl-8 pr-8 py-1.5 bg-[#1a1a26] border border-[#25253a] rounded-lg text-xs text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="Search company/symbol..." />
+                <button id="tx-search-clear" class="absolute right-2 top-1/2 -translate-y-1/2 text-outline-variant hover:text-on-surface hidden text-base" type="button">&times;</button>
+              </div>
             </div>
           </div>
+
+          <!-- Transaction Table Grid with Popups -->
+          <div class="overflow-x-auto">
+            <table id="tx-table" class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[#25253a]">
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider w-12">#</th>
+                  
+                  <!-- Filter Date -->
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider has-filter">
+                    <div class="th-content flex items-center gap-1 cursor-default select-none py-1">
+                      Date
+                      <span class="material-symbols-outlined text-[14px] col-filter-icon text-outline-variant cursor-pointer hover:text-primary transition-colors" onclick="togglePopup(event, this, 'date-popup')">filter_alt</span>
+                      <!-- Popup -->
+                      <div class="filter-popup absolute top-full left-0 mt-2 bg-[#16161f] border border-[#25253a] rounded-lg p-3 shadow-2xl z-50 min-w-[200px] gap-2 font-normal text-xs text-on-surface cursor-default" id="date-popup" onclick="event.stopPropagation()">
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">From</label>
+                          <input type="date" id="tx-date-start" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">To</label>
+                          <input type="date" id="tx-date-end" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <button class="w-full py-1 bg-primary text-white font-semibold rounded mt-1 text-center" onclick="clearFilter('date')">Clear</button>
+                      </div>
+                    </div>
+                  </th>
+                  
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider">Symbol</th>
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider">Company</th>
+                  
+                  <!-- Filter Type -->
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider has-filter">
+                    <div class="th-content flex items-center gap-1 cursor-default select-none py-1">
+                      Type
+                      <span class="material-symbols-outlined text-[14px] col-filter-icon text-outline-variant cursor-pointer hover:text-primary transition-colors" onclick="togglePopup(event, this, 'type-popup')">filter_alt</span>
+                      <!-- Popup -->
+                      <div class="filter-popup absolute top-full left-0 mt-2 bg-[#16161f] border border-[#25253a] rounded-lg p-3 shadow-2xl z-50 min-w-[150px] gap-2 font-normal text-xs text-on-surface cursor-default" id="type-popup" onclick="event.stopPropagation()">
+                        <select id="tx-filter-type" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface w-full">
+                          <option value="all">All Types</option>
+                          <option value="Acquired">Acquired</option>
+                          <option value="Disposed">Disposed</option>
+                          <option value="Divestment">Divestment</option>
+                        </select>
+                        <button class="w-full py-1 bg-primary text-white font-semibold rounded mt-1 text-center" onclick="clearFilter('type')">Clear</button>
+                      </div>
+                    </div>
+                  </th>
+                  
+                  <!-- Filter Amount -->
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider has-filter text-right">
+                    <div class="th-content flex items-center justify-end gap-1 cursor-default select-none py-1">
+                      Amount
+                      <span class="material-symbols-outlined text-[14px] col-filter-icon text-outline-variant cursor-pointer hover:text-primary transition-colors" onclick="togglePopup(event, this, 'amount-popup')">filter_alt</span>
+                      <!-- Popup -->
+                      <div class="filter-popup absolute top-full right-0 mt-2 bg-[#16161f] border border-[#25253a] rounded-lg p-3 shadow-2xl z-50 min-w-[180px] gap-2 font-normal text-xs text-on-surface cursor-default" id="amount-popup" onclick="event.stopPropagation()">
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">Min</label>
+                          <input type="number" id="tx-amount-min" placeholder="Min" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">Max</label>
+                          <input type="number" id="tx-amount-max" placeholder="Max" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <button class="w-full py-1 bg-primary text-white font-semibold rounded mt-1 text-center" onclick="clearFilter('amount')">Clear</button>
+                      </div>
+                    </div>
+                  </th>
+                  
+                  <!-- Filter % in Company -->
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider has-filter text-right">
+                    <div class="th-content flex items-center justify-end gap-1 cursor-default select-none py-1">
+                      % in Company
+                      <span class="material-symbols-outlined text-[14px] col-filter-icon text-outline-variant cursor-pointer hover:text-primary transition-colors" onclick="togglePopup(event, this, 'pct-popup')">filter_alt</span>
+                      <!-- Popup -->
+                      <div class="filter-popup absolute top-full right-0 mt-2 bg-[#16161f] border border-[#25253a] rounded-lg p-3 shadow-2xl z-50 min-w-[180px] gap-2 font-normal text-xs text-on-surface cursor-default" id="pct-popup" onclick="event.stopPropagation()">
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">Min %</label>
+                          <input type="number" id="tx-percent-min" placeholder="Min %" step="0.01" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                          <label class="text-[10px] font-bold text-outline uppercase">Max %</label>
+                          <input type="number" id="tx-percent-max" placeholder="Max %" step="0.01" class="bg-[#1a1a26] border border-[#25253a] rounded-lg p-1.5 text-xs text-on-surface outline-none w-full" />
+                        </div>
+                        <button class="w-full py-1 bg-primary text-white font-semibold rounded mt-1 text-center" onclick="clearFilter('pct')">Clear</button>
+                      </div>
+                    </div>
+                  </th>
+                  
+                  <th class="py-2.5 px-4 text-[10px] font-bold text-outline uppercase tracking-wider text-right">Total After Change</th>
+                </tr>
+              </thead>
+              <tbody id="tx-tbody" class="divide-y divide-[#25253a]/40">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer Pagination -->
+          <div class="pagination flex items-center justify-center gap-1.5 mt-6" id="tx-pagination">
+            <!-- Dynamically populated -->
+          </div>
         </div>
-        <div class="table-wrapper">
-          <table id="tx-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th class="has-filter">
-                  <div class="th-content" onclick="togglePopup(event, this.querySelector('.col-filter-icon'), 'date-popup')">
-                    Date
-                    <svg class="col-filter-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <div class="filter-popup" id="date-popup" onclick="event.stopPropagation()">
-                      <label>From</label>
-                      <input type="date" id="tx-date-start" />
-                      <label>To</label>
-                      <input type="date" id="tx-date-end" />
-                      <button class="clear-filter-btn" onclick="clearFilter('date')">Clear</button>
-                    </div>
-                  </div>
-                </th>
-                <th>Symbol</th>
-                <th>Company</th>
-                <th class="has-filter">
-                  <div class="th-content" onclick="togglePopup(event, this.querySelector('.col-filter-icon'), 'type-popup')">
-                    Type
-                    <svg class="col-filter-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <div class="filter-popup" id="type-popup" onclick="event.stopPropagation()">
-                      <select id="tx-filter-type">
-                        <option value="all">All Types</option>
-                        <option value="Acquired">Acquired</option>
-                        <option value="Disposed">Disposed</option>
-                        <option value="Divestment">Divestment</option>
-                      </select>
-                      <button class="clear-filter-btn" onclick="clearFilter('type')">Clear</button>
-                    </div>
-                  </div>
-                </th>
-                <th class="has-filter align-right">
-                  <div class="th-content" onclick="togglePopup(event, this.querySelector('.col-filter-icon'), 'amount-popup')">
-                    Amount
-                    <svg class="col-filter-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <div class="filter-popup" id="amount-popup" onclick="event.stopPropagation()">
-                      <input type="number" id="tx-amount-min" placeholder="Min" />
-                      <input type="number" id="tx-amount-max" placeholder="Max" />
-                      <button class="clear-filter-btn" onclick="clearFilter('amount')">Clear</button>
-                    </div>
-                  </div>
-                </th>
-                <th class="has-filter align-right">
-                  <div class="th-content" onclick="togglePopup(event, this.querySelector('.col-filter-icon'), 'pct-popup')">
-                    % in Company
-                    <svg class="col-filter-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <div class="filter-popup" id="pct-popup" onclick="event.stopPropagation()">
-                      <input type="number" id="tx-percent-min" placeholder="Min %" step="0.01" />
-                      <input type="number" id="tx-percent-max" placeholder="Max %" step="0.01" />
-                      <button class="clear-filter-btn" onclick="clearFilter('pct')">Clear</button>
-                    </div>
-                  </div>
-                </th>
-                <th class="align-right">Total After Change</th>
-              </tr>
-            </thead>
-            <tbody id="tx-tbody"></tbody>
-          </table>
-        </div>
-        <div class="pagination" id="tx-pagination"></div>
-      </div>
-    </section>
-  </main>
+      </section>
+      
+    </main>
+  </div>
 
   <!-- Transaction Details Modal -->
-  <div id="tx-modal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Announcement Details</h3>
-        <button class="modal-close" onclick="closeTxModal()">&times;</button>
+  <div id="tx-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="modal-card w-full max-w-lg bg-[#16161f] border border-[#25253a] rounded-xl overflow-hidden shadow-2xl transform scale-95 transition-all duration-300">
+      <div class="modal-header flex justify-between items-center p-5 border-b border-[#25253a]">
+        <h3 class="modal-title font-bold text-base text-on-surface" id="modal-title">Announcement Details</h3>
+        <button class="modal-close text-outline hover:text-on-surface text-xl line-none" onclick="closeTxModal()">&times;</button>
       </div>
-      <div class="modal-body" id="modal-body">
+      <div class="modal-body p-6 flex flex-col gap-6" id="modal-body">
         <!-- Content will be injected dynamically -->
       </div>
     </div>
   </div>
 
   <!-- Tooltip -->
-  <div id="chart-tooltip" class="chart-tooltip"></div>
+  <div id="chart-tooltip" class="chart-tooltip absolute hidden p-3 rounded-lg border bg-[#16161f] border-[#25253a] text-xs pointer-events-none shadow-xl z-50 flex flex-col gap-1 text-on-surface font-sans"></div>
 
+  <!-- Data and Application Script Bundles -->
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
