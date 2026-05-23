@@ -478,11 +478,13 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     } else if (btn.dataset.tab === 'holdings') {
       requestAnimationFrame(() => {
         const pieData = getPieData(currentPieMode);
-        drawPieChart('pie-canvas', pieData, currentPieMode);
+        drawPieChart('pie-canvas', pieData, currentPieMode, !pieChartDrawn);
+        pieChartDrawn = true;
       });
     } else if (btn.dataset.tab === 'dashboard') {
       requestAnimationFrame(() => {
-        drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange));
+        drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), '#8b5cf6', !lineChartDrawn);
+        lineChartDrawn = true;
       });
     }
   });
@@ -660,7 +662,7 @@ function getPortfolioTimeSeries(range) {
 
 let lineChartAnimId = null;
 
-function drawLineChart(canvasId, data, color = '#8b5cf6') {
+function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -728,7 +730,9 @@ function drawLineChart(canvasId, data, color = '#8b5cf6') {
     // X-axis labels
     ctx.fillStyle = '#555570';
     ctx.textAlign = 'center';
-    const labelStep = Math.max(1, Math.floor(data.length / 6));
+    const isMobile = window.innerWidth < 768;
+    const maxLabels = isMobile ? 3 : 6;
+    const labelStep = Math.max(1, Math.floor(data.length / maxLabels));
     for (let i = 0; i < data.length; i += labelStep) {
       const x = pad.left + (plotW * i / (data.length - 1));
       const parts = data[i].label.split(' ');
@@ -845,7 +849,12 @@ function drawLineChart(canvasId, data, color = '#8b5cf6') {
   }
 
   // Start animation
-  lineChartAnimId = requestAnimationFrame(animate);
+  if (!animateChart) {
+    startTime = performance.now();
+    animate(startTime + DURATION);
+  } else {
+    lineChartAnimId = requestAnimationFrame(animate);
+  }
 }
 
 // ============================================
@@ -887,7 +896,7 @@ function getPieData(mode) {
 
 let currentPieModeForDraw = 'company';
 let pieChartAnimId = null;
-function drawPieChart(canvasId, data, mode) {
+function drawPieChart(canvasId, data, mode, animateChart = true) {
   currentPieModeForDraw = mode || 'company';
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
@@ -976,7 +985,12 @@ function drawPieChart(canvasId, data, mode) {
   }
 
   // Start animation
-  pieChartAnimId = requestAnimationFrame(animate);
+  if (!animateChart) {
+    startTime = performance.now();
+    animate(startTime + DURATION);
+  } else {
+    pieChartAnimId = requestAnimationFrame(animate);
+  }
 }
 
 function renderPieLegend(data) {
@@ -1083,7 +1097,9 @@ function drawBarChart(canvasId, data, color = '#8b5cf6') {
   // X-axis labels
   ctx.fillStyle = '#555570';
   ctx.textAlign = 'center';
-  const step = Math.max(1, Math.floor(data.length / 8));
+  const isMobile = window.innerWidth < 768;
+  const maxLabels = isMobile ? 4 : 8;
+  const step = Math.max(1, Math.floor(data.length / maxLabels));
   for (let i = 0; i < data.length; i += step) {
     const x = pad.left + (plotW * i / data.length) + barW / 2;
     const parts = data[i].label.split(' ');
@@ -1675,6 +1691,10 @@ function setupBarChartHover() {
 // Event Bindings & Initial Render
 // ============================================
 
+let lineChartDrawn = false;
+let pieChartDrawn = false;
+let barChartDrawn = false;
+
 // Time range toggle for portfolio chart
 let currentRange = '1M';
 document.getElementById('time-toggle').addEventListener('click', (e) => {
@@ -1684,7 +1704,7 @@ document.getElementById('time-toggle').addEventListener('click', (e) => {
   btn.classList.add('active');
   currentRange = btn.dataset.range;
   const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series);
+  drawLineChart('portfolio-canvas', series, '#8b5cf6', true);
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
 });
@@ -1698,7 +1718,7 @@ document.getElementById('pie-toggle').addEventListener('click', (e) => {
   btn.classList.add('active');
   currentPieMode = btn.dataset.mode;
   const pieData = getPieData(currentPieMode);
-  drawPieChart('pie-canvas', pieData, currentPieMode);
+  drawPieChart('pie-canvas', pieData, currentPieMode, true);
   renderPieLegend(pieData);
 });
 
@@ -1810,7 +1830,7 @@ function init() {
   document.getElementById('bento-unique-count').textContent = `${EPF_DATA.uniqueStocks} unique stocks across ${sortedSectors.length} sectors`;
 
   // Recent Announcements Feed
-  const latestTx = allFlatTx.slice(0, 4);
+  const latestTx = allFlatTx.slice(0, 8);
   const activityFeed = document.getElementById('bento-activity-feed');
   if (activityFeed) {
     activityFeed.innerHTML = latestTx.map(tx => {
@@ -1919,12 +1939,14 @@ function init() {
   // Portfolio chart
   const series = getPortfolioTimeSeries(currentRange);
   drawLineChart('portfolio-canvas', series);
+  lineChartDrawn = true;
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
 
   // Pie chart
   const pieData = getPieData(currentPieMode);
   drawPieChart('pie-canvas', pieData, currentPieMode);
+  pieChartDrawn = true;
   renderPieLegend(pieData);
 
   // Returns
@@ -2012,12 +2034,16 @@ document.addEventListener('click', (event) => {
 
 // Handle resize
 let resizeTimeout;
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
+  if (window.innerWidth === lastWidth) return; // Prevent address-bar scroll toggles from restarting animation!
+  lastWidth = window.innerWidth;
+  
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange));
+    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), '#8b5cf6', false);
     const pieData = getPieData(currentPieMode);
-    drawPieChart('pie-canvas', pieData, currentPieMode);
+    drawPieChart('pie-canvas', pieData, currentPieMode, false);
     drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
   }, 200);
 });
