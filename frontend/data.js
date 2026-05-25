@@ -278,7 +278,7 @@ const EPF_DATA = {
       "date": "07 Jan 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "ea.com"
+      "domain": null
     },
     {
       "stock_name": "MISC",
@@ -468,7 +468,7 @@ const EPF_DATA = {
       "date": "20 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "incometax.gov.in"
+      "domain": null
     },
     {
       "stock_name": "JPG",
@@ -608,7 +608,7 @@ const EPF_DATA = {
       "date": "22 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "paradigmmall.com.my"
+      "domain": null
     },
     {
       "stock_name": "GENP",
@@ -658,7 +658,7 @@ const EPF_DATA = {
       "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "aeonretail.com.my"
+      "domain": null
     },
     {
       "stock_name": "PENTA",
@@ -838,7 +838,7 @@ const EPF_DATA = {
       "date": "21 May 2026",
       "stock_code": null,
       "sector": "Others",
-      "domain": "nestle.com.my"
+      "domain": null
     },
     {
       "stock_name": "MPI",
@@ -87285,8 +87285,6 @@ const EPF_DATA = {
     "PETRONAS CHEMICALS GROUP BERHAD": "petronas.com",
     "SUNWAY": "sunway.com.my",
     "SUNWAY BERHAD": "sunway.com.my",
-    "AHEALTH": "ea.com",
-    "APEX HEALTHCARE BERHAD": "ea.com",
     "CDB": "celcomdigi.com",
     "CELCOMDIGI BERHAD": "celcomdigi.com",
     "IOIPG": "ioicitymall.com.my",
@@ -87311,8 +87309,6 @@ const EPF_DATA = {
     "MALAYSIAN PACIFIC INDUSTRIES BERHAD": "malaysiaairlines.com",
     "BAUTO": "bauto.com.my",
     "BERMAZ AUTO BERHAD": "bauto.com.my",
-    "PARADIGM": "paradigmmall.com.my",
-    "PARADIGM REAL ESTATE INVESTMENT TRUST": "paradigmmall.com.my",
     "CLMT": "capitaland.com",
     "CAPITALAND MALAYSIA TRUST": "capitaland.com",
     "KLK": "theendlesstravellers.com",
@@ -87331,8 +87327,6 @@ const EPF_DATA = {
     "ORKIM BERHAD": "chatgpt.com",
     "HLFG": "hongleongconnect.my",
     "HONG LEONG FINANCIAL GROUP BERHAD": "hongleongconnect.my",
-    "PPB": "incometax.gov.in",
-    "PPB GROUP BERHAD": "incometax.gov.in",
     "CTOS": "ctoscredit.com.my",
     "CTOS DIGITAL BERHAD": "ctoscredit.com.my",
     "MRDIY": "vocaberry.com",
@@ -87353,8 +87347,6 @@ const EPF_DATA = {
     "AXIATA GROUP BERHAD": "axiata.com",
     "PETGAS": "petronas.com",
     "PETRONAS GAS BERHAD": "petronas.com",
-    "NESTLE": "nestle.com.my",
-    "NESTLE (MALAYSIA) BERHAD": "nestle.com.my",
     "YTL": "ytl.com",
     "YTL CORPORATION BERHAD": "ytl.com",
     "SPSETIA": "google.com",
@@ -87393,8 +87385,6 @@ const EPF_DATA = {
     "AURELIUS TECHNOLOGIES BERHAD": "aureliushealth.com",
     "WASCO": "wascoenergy.com",
     "WASCO BERHAD": "wascoenergy.com",
-    "AEON": "aeonretail.com.my",
-    "AEON CO. (M) BHD": "aeonretail.com.my",
     "MBSB": "mbsb.com",
     "MBSB BERHAD": "mbsb.com",
     "DPHARMA": "duopharmabiotech.com",
