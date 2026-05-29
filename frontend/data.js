@@ -656,8 +656,8 @@ const EPF_DATA = {
       "direct_percent": 7.61,
       "total_securities": 106849800,
       "date": "21 May 2026",
-      "stock_code": null,
-      "sector": "Others",
+      "stock_code": "5139",
+      "sector": "Banking",
       "domain": null
     },
     {
