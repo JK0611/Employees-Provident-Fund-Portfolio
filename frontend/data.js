@@ -466,8 +466,8 @@ const EPF_DATA = {
       "direct_percent": 18.992,
       "total_securities": 270181354,
       "date": "20 May 2026",
-      "stock_code": null,
-      "sector": "Others",
+      "stock_code": "4065",
+      "sector": "Consumer",
       "domain": null
     },
     {
@@ -606,8 +606,8 @@ const EPF_DATA = {
       "direct_percent": 8.747,
       "total_securities": 140199300,
       "date": "22 May 2026",
-      "stock_code": null,
-      "sector": "Others",
+      "stock_code": "5338",
+      "sector": "Property",
       "domain": null
     },
     {
@@ -836,8 +836,8 @@ const EPF_DATA = {
       "direct_percent": 13.514,
       "total_securities": 31691000,
       "date": "21 May 2026",
-      "stock_code": null,
-      "sector": "Others",
+      "stock_code": "4707",
+      "sector": "Consumer",
       "domain": null
     },
     {
