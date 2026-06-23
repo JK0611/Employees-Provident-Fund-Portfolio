@@ -385,13 +385,13 @@
     "domain": "ameconstruction.com.my"
   },
   "PPB": {
-    "code": null,
-    "sector": "Others",
-    "domain": "incometax.gov.in"
+    "code": "4065",
+    "sector": "Consumer",
+    "domain": "pbebank.com"
   },
   "PARADIGM": {
-    "code": null,
-    "sector": "Others",
+    "code": "5338",
+    "sector": "Property",
     "domain": "paradigmmall.com.my"
   },
   "NESTLE": {
@@ -405,8 +405,8 @@
     "domain": "bursamalaysia.com"
   },
   "AEON": {
-    "code": null,
-    "sector": "Others",
+    "code": "5139",
+    "sector": "Banking",
     "domain": "aeonretail.com.my"
   },
   "AHEALTH": {
@@ -433,5 +433,885 @@
     "code": "7148",
     "sector": "Healthcare",
     "domain": "duopharmabiotech.com"
+  },
+  "ITMAX": {
+    "code": "5309",
+    "sector": "Industrial",
+    "domain": "itmax.com.my"
+  },
+  "QL": {
+    "code": "7084",
+    "sector": "Consumer",
+    "domain": "ql.com.my"
+  },
+  "SUNCON": {
+    "code": "5263",
+    "sector": "Industrial",
+    "domain": "sunway.com.my"
+  },
+  "SUNTECH": {
+    "code": null,
+    "sector": "Others",
+    "domain": "suntech-power.com"
+  },
+  "LKT IND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "cdn1.get-qr.com"
+  },
+  "PFB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "pbebank.com"
+  },
+  "HLPB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "hongleongconnect.my"
+  },
+  "THBIND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "xe.com"
+  },
+  "PILECON": {
+    "code": null,
+    "sector": "Others",
+    "domain": "support.microsoft.com"
+  },
+  "PPAB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "klfoodie.com"
+  },
+  "CAPE": {
+    "code": "5311",
+    "sector": "Technology",
+    "domain": "microsoft.com"
+  },
+  "COMMERZ": {
+    "code": null,
+    "sector": "Others",
+    "domain": "investopedia.com"
+  },
+  "CHHB": {
+    "code": "5738",
+    "sector": "Consumer",
+    "domain": "worldometers.info"
+  },
+  "WTK": {
+    "code": "4243",
+    "sector": "Industrial",
+    "domain": "wtkholdings.com"
+  },
+  "S.BANK": {
+    "code": null,
+    "sector": "Others",
+    "domain": "southernbank.com"
+  },
+  "RPB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ril.com"
+  },
+  "AMTEL": {
+    "code": "7031",
+    "sector": "Technology",
+    "domain": "amtelnet.com"
+  },
+  "IOIPB": {
+    "code": "5249",
+    "sector": "Property",
+    "domain": "ioicitymall.com.my"
+  },
+  "PHILEO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "chatgpt.com"
+  },
+  "APM": {
+    "code": "5015",
+    "sector": "Consumer",
+    "domain": "civildefence.gov.my"
+  },
+  "FUJITSU": {
+    "code": null,
+    "sector": "Others",
+    "domain": "global.fujitsu"
+  },
+  "HIRO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "vietnam.travel"
+  },
+  "BREM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "support.microsoft.com"
+  },
+  "MFLOUR": {
+    "code": "3662",
+    "sector": "Consumer",
+    "domain": "maybank2u.com.my"
+  },
+  "RANHILL": {
+    "code": "5272",
+    "sector": "Utilities",
+    "domain": "ranhillsaj.com.my"
+  },
+  "PBFIN": {
+    "code": null,
+    "sector": "Others",
+    "domain": "pbebank.com"
+  },
+  "JOHPORT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "johorport.com.my"
+  },
+  "ANALABS": {
+    "code": "7083",
+    "sector": "Industrial",
+    "domain": "reddit.com"
+  },
+  "PHARMA": {
+    "code": "7081",
+    "sector": "Healthcare",
+    "domain": "pharmaniaga.com"
+  },
+  "FFM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ffmb.com.my"
+  },
+  "TRI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "britannica.com"
+  },
+  "LKT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "cdn1.get-qr.com"
+  },
+  "AIC": {
+    "code": null,
+    "sector": "Others",
+    "domain": "aicsemicon.com"
+  },
+  "PBA": {
+    "code": "5041",
+    "sector": "Utilities",
+    "domain": "x.com"
+  },
+  "WARISAN": {
+    "code": "5016",
+    "sector": "Industrial",
+    "domain": "heritage.gov.my"
+  },
+  "TRACTOR": {
+    "code": null,
+    "sector": "Others",
+    "domain": "tractors.com.my"
+  },
+  "IOIPROP": {
+    "code": "5249",
+    "sector": "Property",
+    "domain": "ioicitymall.com.my"
+  },
+  "MNRB": {
+    "code": "6459",
+    "sector": "Banking",
+    "domain": "malaysian-re.com.my"
+  },
+  "TRANMIL": {
+    "code": null,
+    "sector": "Others",
+    "domain": "web.whatsapp.com"
+  },
+  "HAISAN": {
+    "code": null,
+    "sector": "Others",
+    "domain": "support.microsoft.com"
+  },
+  "JTIASA": {
+    "code": "4383",
+    "sector": "Consumer",
+    "domain": "jayagrocer.com"
+  },
+  "CELCOM": {
+    "code": "6947",
+    "sector": "Telecom",
+    "domain": "celcomdigi.com"
+  },
+  "GLOMAC": {
+    "code": "5020",
+    "sector": "Property",
+    "domain": "speedtest.net"
+  },
+  "BANENG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "amazon.com"
+  },
+  "OYL": {
+    "code": null,
+    "sector": "Others",
+    "domain": "rome-tourism.org"
+  },
+  "MWATA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "zhihu.com"
+  },
+  "AKN": {
+    "code": null,
+    "sector": "Others",
+    "domain": "akngroup.com.my"
+  },
+  "SYMPHNY": {
+    "code": null,
+    "sector": "Others",
+    "domain": "symphony-eng.com.my"
+  },
+  "MTDINFR": {
+    "code": null,
+    "sector": "Others",
+    "domain": "mtdgroup.com.my"
+  },
+  "LATITUD": {
+    "code": null,
+    "sector": "Others",
+    "domain": "latlong.net"
+  },
+  "HALIM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "firsttechfed.com"
+  },
+  "PJI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "nejm.org"
+  },
+  "MEGAN": {
+    "code": null,
+    "sector": "Others",
+    "domain": "justwatch.com"
+  },
+  "UCHITEC": {
+    "code": "7100",
+    "sector": "Technology",
+    "domain": "archivo-olavarria.iib.unam.mx"
+  },
+  "MSNIAGA": {
+    "code": "5011",
+    "sector": "Technology",
+    "domain": "mesiniaga.com.my"
+  },
+  "MUTIARA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "e-mutiara.com.my"
+  },
+  "ATIS": {
+    "code": null,
+    "sector": "Others",
+    "domain": "safety.army.mil"
+  },
+  "COURTS": {
+    "code": null,
+    "sector": "Others",
+    "domain": "courts.com.my"
+  },
+  "EPMB": {
+    "code": "7773",
+    "sector": "Consumer",
+    "domain": "eperolehan.gov.my"
+  },
+  "AKNMTEC": {
+    "code": null,
+    "sector": "Others",
+    "domain": "akngroup.com.my"
+  },
+  "ULICORP": {
+    "code": "7133",
+    "sector": "Industrial",
+    "domain": "united.com"
+  },
+  "HTPADU": {
+    "code": "5028",
+    "sector": "Technology",
+    "domain": "heitech.com.my"
+  },
+  "ENGTEX": {
+    "code": "5056",
+    "sector": "Industrial",
+    "domain": "engtex.com.my"
+  },
+  "CRESBLD": {
+    "code": "8591",
+    "sector": "Industrial",
+    "domain": "crest.my"
+  },
+  "KPS": {
+    "code": "5843",
+    "sector": "Industrial",
+    "domain": "kwsp.gov.my"
+  },
+  "DIGI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "digi.com.my"
+  },
+  "PJBUMI": {
+    "code": "7163",
+    "sector": "Industrial",
+    "domain": "cidb.gov.my"
+  },
+  "DBIOTEC": {
+    "code": "7148",
+    "sector": "Healthcare",
+    "domain": "duopharmabiotech.com"
+  },
+  "PATIMAS": {
+    "code": null,
+    "sector": "Others",
+    "domain": "india.com"
+  },
+  "CREST": {
+    "code": "8591",
+    "sector": "Industrial",
+    "domain": "crest.my"
+  },
+  "WEIDA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "weida.com.my"
+  },
+  "HDBS": {
+    "code": null,
+    "sector": "Others",
+    "domain": "fifa.com"
+  },
+  "EOX": {
+    "code": null,
+    "sector": "Others",
+    "domain": "comunidad.movistar.es"
+  },
+  "YLI": {
+    "code": "7014",
+    "sector": "Industrial",
+    "domain": "zhihu.com"
+  },
+  "YTLLAND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ytl.com"
+  },
+  "SBANK": {
+    "code": null,
+    "sector": "Others",
+    "domain": "southernbank.com"
+  },
+  "INTEGRA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "integrax.com.my"
+  },
+  "CHINWEL": {
+    "code": "5007",
+    "sector": "Industrial",
+    "domain": "oxfordlearnersdictionaries.com"
+  },
+  "ISYODA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "bagitekno.net"
+  },
+  "PETRA": {
+    "code": "5133",
+    "sector": "Industrial",
+    "domain": "petra.gov.my"
+  },
+  "SUPERMX": {
+    "code": "7106",
+    "sector": "Healthcare",
+    "domain": "github.com"
+  },
+  "XIANLNG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "travelchinaguide.com"
+  },
+  "POHUAT": {
+    "code": "7088",
+    "sector": "Consumer",
+    "domain": "quote-vault.jp"
+  },
+  "INTI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "newinti.edu.my"
+  },
+  "AJIYA": {
+    "code": "7609",
+    "sector": "Industrial",
+    "domain": "ajiya.com"
+  },
+  "EQUINE": {
+    "code": null,
+    "sector": "Others",
+    "domain": "24vids.com"
+  },
+  "HBJCORP": {
+    "code": null,
+    "sector": "Others",
+    "domain": "hyundai.com"
+  },
+  "DEGEM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "degemdiamond.com"
+  },
+  "TECHVEN": {
+    "code": null,
+    "sector": "Others",
+    "domain": "taiwaninfo.nat.gov.tw"
+  },
+  "LONBISC": {
+    "code": null,
+    "sector": "Others",
+    "domain": "visitlondon.com"
+  },
+  "HSL": {
+    "code": null,
+    "sector": "Others",
+    "domain": "zhidao.baidu.com"
+  },
+  "NAIM": {
+    "code": "5073",
+    "sector": "Industrial",
+    "domain": "naim.com.my"
+  },
+  "BERNAS": {
+    "code": null,
+    "sector": "Others",
+    "domain": "lemonde.fr"
+  },
+  "KOBAY": {
+    "code": "6971",
+    "sector": "Industrial",
+    "domain": "kobaytech.com"
+  },
+  "SAMUDRA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ukm.my"
+  },
+  "SUNRISE": {
+    "code": null,
+    "sector": "Others",
+    "domain": "sunrise.am"
+  },
+  "ENG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "translate.google.com"
+  },
+  "JUSCO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "jayagrocer.com"
+  },
+  "EONCAP": {
+    "code": null,
+    "sector": "Others",
+    "domain": "support.google.com"
+  },
+  "TAMCORP": {
+    "code": null,
+    "sector": "Others",
+    "domain": "zhidao.baidu.com"
+  },
+  "KLCCP": {
+    "code": "5235SS",
+    "sector": "Property",
+    "domain": "suriaklcc.com.my"
+  },
+  "SCOMI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "scomigroup.com.my"
+  },
+  "SAFEGAD": {
+    "code": null,
+    "sector": "Others",
+    "domain": "safeguards.com.my"
+  },
+  "MUDA": {
+    "code": "3883",
+    "sector": "Industrial",
+    "domain": "mudah.my"
+  },
+  "ENGKAH": {
+    "code": "7149",
+    "sector": "Consumer",
+    "domain": "translate.google.com"
+  },
+  "YNHB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "play.google.com"
+  },
+  "YILAI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "yitechnology.com"
+  },
+  "EKSONS": {
+    "code": "9016",
+    "sector": "Industrial",
+    "domain": "zhihu.com"
+  },
+  "TALAM": {
+    "code": "2259",
+    "sector": "Property",
+    "domain": "ttransform.com.my"
+  },
+  "SAPCRES": {
+    "code": null,
+    "sector": "Others",
+    "domain": "vtvgo.vn"
+  },
+  "I&P": {
+    "code": null,
+    "sector": "Others",
+    "domain": "trustedmalaysia.com"
+  },
+  "NEXTNAT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "timeanddate.com"
+  },
+  "SUIWAH": {
+    "code": null,
+    "sector": "Others",
+    "domain": "blogs.microsoft.com"
+  },
+  "RHBCAP": {
+    "code": null,
+    "sector": "Others",
+    "domain": "onlinebanking.rhbgroup.com"
+  },
+  "MANULFE": {
+    "code": "1058",
+    "sector": "Banking",
+    "domain": "manulife.com.my"
+  },
+  "POSHLDG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "pos.com.my"
+  },
+  "SCOMIMR": {
+    "code": null,
+    "sector": "Others",
+    "domain": "bomamarketing.com"
+  },
+  "ASIAPAC": {
+    "code": "4057",
+    "sector": "Property",
+    "domain": "britannica.com"
+  },
+  "GPERAK": {
+    "code": null,
+    "sector": "Others",
+    "domain": "bbc.com"
+  },
+  "GLOBALC": {
+    "code": null,
+    "sector": "Others",
+    "domain": "globle-game.com"
+  },
+  "KILHALL": {
+    "code": null,
+    "sector": "Others",
+    "domain": "play.google.com"
+  },
+  "SIMEENG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "sime.com"
+  },
+  "WLDWIDE": {
+    "code": null,
+    "sector": "Others",
+    "domain": "worldwide.com.my"
+  },
+  "SIMEPTY": {
+    "code": null,
+    "sector": "Others",
+    "domain": "simedarbyproperty.com"
+  },
+  "ASIATIC": {
+    "code": null,
+    "sector": "Others",
+    "domain": "weathernews.jp"
+  },
+  "WCTLAND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "visithatta.com"
+  },
+  "HEXAGON": {
+    "code": null,
+    "sector": "Others",
+    "domain": "hexagon.com"
+  },
+  "MEASAT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "measat.com"
+  },
+  "PPEDANA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "malaysiauncovered.com"
+  },
+  "ZELAN": {
+    "code": "2283",
+    "sector": "Industrial",
+    "domain": "speedtest.mybroadband.co.za"
+  },
+  "MAYBULK": {
+    "code": "5077",
+    "sector": "Industrial",
+    "domain": "maybulk.com.my"
+  },
+  "YNHPROP": {
+    "code": "3158",
+    "sector": "Property",
+    "domain": "support.google.com"
+  },
+  "TMI": {
+    "code": null,
+    "sector": "Others",
+    "domain": "tm.com.my"
+  },
+  "ICP": {
+    "code": null,
+    "sector": "Others",
+    "domain": "mp.gov.my"
+  },
+  "IJMLAND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "kupidonia.com"
+  },
+  "UEMWRLD": {
+    "code": null,
+    "sector": "Others",
+    "domain": "support.microsoft.com"
+  },
+  "KENCANA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "gadingkencana.com.my"
+  },
+  "KINSTEL": {
+    "code": null,
+    "sector": "Others",
+    "domain": "bchrt.com"
+  },
+  "KULIM": {
+    "code": null,
+    "sector": "Others",
+    "domain": "melancong.com.my"
+  },
+  "SPB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "selangor.gov.my"
+  },
+  "QSR": {
+    "code": null,
+    "sector": "Others",
+    "domain": "qsrbrands.com"
+  },
+  "SARAWAK": {
+    "code": "9237",
+    "sector": "Industrial",
+    "domain": "sarawakenergy.com"
+  },
+  "UEMLAND": {
+    "code": null,
+    "sector": "Others",
+    "domain": "chat.google.com"
+  },
+  "PERWAJA": {
+    "code": null,
+    "sector": "Others",
+    "domain": "vclock.com"
+  },
+  "CMMT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "capitaland.com"
+  },
+  "LITRAK": {
+    "code": null,
+    "sector": "Others",
+    "domain": "litrak.com.my"
+  },
+  "KEURO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "kwsp.gov.my"
+  },
+  "IVORY": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ivory.com.my"
+  },
+  "YTLCMT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ytl.com"
+  },
+  "TWSPLNT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "tpb.com.my"
+  },
+  "BAT": {
+    "code": "4162",
+    "sector": "Consumer",
+    "domain": "britishcouncil.my"
+  },
+  "HARTA": {
+    "code": "0359",
+    "sector": "Industrial",
+    "domain": "hartalega.com.my"
+  },
+  "PRESBHD": {
+    "code": null,
+    "sector": "Others",
+    "domain": "x.com"
+  },
+  "PERDANA": {
+    "code": "7108",
+    "sector": "Industrial",
+    "domain": "4dyes3.com"
+  },
+  "YINSON": {
+    "code": "7293",
+    "sector": "Industrial",
+    "domain": "yinson.com"
+  },
+  "BJAUTO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "berjaya.com"
+  },
+  "FABER": {
+    "code": null,
+    "sector": "Others",
+    "domain": "faber.my"
+  },
+  "UOAREIT": {
+    "code": "5110",
+    "sector": "Property",
+    "domain": "auckland.ac.nz"
+  },
+  "AIRPORT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "malaysiaairports.com.my"
+  },
+  "AFG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "alliancebank.com.my"
+  },
+  "SKPETRO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "zhihu.com"
+  },
+  "ALAQAR": {
+    "code": "5116",
+    "sector": "Property",
+    "domain": "chatgpt.com"
+  },
+  "UMWOG": {
+    "code": null,
+    "sector": "Others",
+    "domain": "local.turkeyturism.com"
+  },
+  "TAMBUN": {
+    "code": "5191",
+    "sector": "Property",
+    "domain": "sunwaylostworldoftambun.com"
+  },
+  "CCB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "cyclecarriage.com.my"
+  },
+  "MRCB": {
+    "code": "1651",
+    "sector": "Industrial",
+    "domain": "mrcb.com.my"
+  },
+  "AMWAY": {
+    "code": "6351",
+    "sector": "Consumer",
+    "domain": "amwayglobal.com"
+  },
+  "MQREIT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "mrcb.com.my"
+  },
+  "SENERGY": {
+    "code": null,
+    "sector": "Others",
+    "domain": "vantrisenergy.com"
+  },
+  "SIMEPLT": {
+    "code": null,
+    "sector": "Others",
+    "domain": "sime.com"
+  },
+  "FFHB": {
+    "code": null,
+    "sector": "Others",
+    "domain": "federalpaint.com.my"
+  },
+  "CCMDBIO": {
+    "code": null,
+    "sector": "Others",
+    "domain": "ssm-einfo.my"
+  },
+  "DLADY": {
+    "code": "3026",
+    "sector": "Consumer",
+    "domain": "dutchlady.com.my"
+  },
+  "BSTEAD": {
+    "code": "8133",
+    "sector": "Industrial",
+    "domain": "boustead.com.my"
+  },
+  "SENTRAL": {
+    "code": "5123",
+    "sector": "Property",
+    "domain": "genius.com"
+  },
+  "VANTNRG": {
+    "code": "5218",
+    "sector": "Industrial",
+    "domain": "sapuraenergy.com"
   }
 }

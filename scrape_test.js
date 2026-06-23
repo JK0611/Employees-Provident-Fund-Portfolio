@@ -5,9 +5,13 @@ const cheerio = require('cheerio');
 const KEYWORD = 'Employees Provident Fund';
 const LINKS_FILE = path.join(__dirname, 'links.json');
 const RESULTS_FILE = path.join(__dirname, 'scrape_test_results.json');
+const SKIPPED_FILE = path.join(__dirname, 'skipped_ids.json');
+const SQL_FILE = path.join(__dirname, 'scrape_results.sql');
 const BURSA_ANNOUNCEMENT_API = 'https://www.bursamalaysia.com/api/v1/announcements/search';
 const BURSA_ANNOUNCEMENT_REFERER = 'https://www.bursamalaysia.com/market_information/announcements/company_announcement';
 const BROWSER_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
+
 
 let browserFallback = null;
 let browserFallbackPage = null;
@@ -153,8 +157,8 @@ async function fetchDetailPageWithBrowser(detailUrl) {
     }
 
     const response = await browserFallbackPage.goto(detailUrl, {
-        waitUntil: 'networkidle2',
-        timeout: 30000,
+        waitUntil: 'domcontentloaded',
+        timeout: 15000,
         referer: 'https://www.bursamalaysia.com/',
     });
     const status = response ? response.status() : 0;
@@ -194,6 +198,7 @@ async function fetchDetailWithFallback(gotScraping, detailUrl) {
             console.log('  [ok] Browser fallback recovered detail page');
         } catch (fallbackError) {
             console.log(`  [x] Browser fallback failed: ${fallbackError.message}`);
+            await closeBrowserFallback();
         }
     }
 
@@ -216,6 +221,8 @@ async function closeBrowserFallback() {
 }
 
 async function run() {
+    const scrapeStartTime = Date.now();
+
     // Load existing results for checkpointing
     let existingResults = [];
     if (fs.existsSync(RESULTS_FILE)) {
@@ -226,6 +233,17 @@ async function run() {
             console.log('[!] Error parsing existing results, starting fresh.');
         }
     }
+    
+    let skippedIds = [];
+    if (fs.existsSync(SKIPPED_FILE)) {
+        try {
+            skippedIds = JSON.parse(fs.readFileSync(SKIPPED_FILE, 'utf-8'));
+            console.log(`[i] Loaded ${skippedIds.length} skipped non-transaction record IDs`);
+        } catch (e) {
+            console.log('[!] Error parsing skipped results.');
+        }
+    }
+    const skippedSet = new Set(skippedIds);
     const completeIds = new Set();
     const incompleteIds = new Set();
     existingResults = existingResults.filter(record => {
@@ -257,34 +275,15 @@ async function run() {
         console.log(`[i] Latest complete announcement: ${latestCompleteAnnId} (${latestCompleteRecord.date_announced})`);
     }
 
-    // Dynamic Date Calculation:
-    // If we have previous results, find the latest announcement date in the database
-    // and look back from that date (with a 3-day safety buffer) to bridge any gaps.
-    // Otherwise, perform a full backfill from 01/01/2026.
+    // Full historical backfill from 01/01/2000 to today
     const now = new Date();
     const TO_DATE = getFormattedDate(now);
-    const FROM_DATE = existingResults.length > 0
-        ? (() => {
-            let latest = new Date('2026-01-01');
-            for (const r of existingResults) {
-                if (r.date_announced) {
-                    const d = new Date(r.date_announced);
-                    if (!isNaN(d.getTime()) && d > latest) {
-                        latest = d;
-                    }
-                }
-            }
-            // Subtract 3 days safety buffer to capture overlapping announcements on the same day
-            latest.setDate(latest.getDate() - 3);
-            const limit = new Date('2026-01-01');
-            const target = latest < limit ? limit : latest;
-            return getFormattedDate(target);
-          })()
-        : '01/01/2026';
+    const FROM_DATE = '01/01/2000';
 
     console.log('--- Starting EPF Announcement Scrape ---');
     console.log(`Keyword: ${KEYWORD}`);
-    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}\n`);
+    console.log(`Date Range: ${FROM_DATE} - ${TO_DATE}`);
+
 
     let links = [];
     if (fs.existsSync(LINKS_FILE)) {
@@ -294,182 +293,211 @@ async function run() {
         } catch(e) {}
     }
 
-    // ==========================================
-    // Phase 1: Pagination & Link Collection
-    // ==========================================
-    console.log('\n--- Phase 1: Collecting Links ---');
+    // Gracefully handle SIGINT to save collected links
+    process.on('SIGINT', () => {
+        console.log('\n[SIGINT] Interrupted! Saving links checkpoint...');
+        try {
+            fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
+            console.log(`[✓] Gracefully saved ${links.length} links to ${LINKS_FILE}`);
+        } catch (err) {
+            console.error(`[✗] Failed to save links: ${err.message}`);
+        }
+        process.exit(0);
+    });
+
+    const skipPhase1 = process.argv.includes('--phase2');
     const { gotScraping } = await import('got-scraping');
 
-    let pageNum = 1;
-    let hasNextPage = true;
-    let newLinksAdded = 0;
+    if (skipPhase1) {
+        console.log('\n[i] --phase2 flag detected, skipping Phase 1 (using cached links)');
+    } else {
+        // ==========================================
+        // Phase 1: Pagination & Link Collection
+        // ==========================================
+        console.log('\n--- Phase 1: Collecting Links ---');
 
-    let apiReachable = false;
+        // Use a Set for O(1) duplicate checking instead of Array.includes O(n)
+        const existingLinksSet = new Set(links);
+        console.log(`[i] ${existingLinksSet.size} links already cached — will skip known pages`);
 
-    while (hasNextPage) {
-        console.log(`    Querying API page ${pageNum}...`);
-        let retries = 3;
-        let res = null;
+        let pageNum = 1;
+        let hasNextPage = true;
+        let newLinksAdded = 0;
 
-        while (retries > 0) {
-            try {
-                res = await gotScraping({
-                    url: BURSA_ANNOUNCEMENT_API,
-                    searchParams: {
-                        ann_type: 'company',
-                        keyword: KEYWORD,
-                        dt_ht: FROM_DATE,
-                        dt_lt: TO_DATE,
-                        page: pageNum,
-                    },
-                    headers: {
-                        'Referer': BURSA_ANNOUNCEMENT_REFERER,
-                    },
-                    headerGeneratorOptions: {
-                        browsers: ['chrome'],
-                        operatingSystems: ['windows'],
-                    },
-                    timeout: { request: 30000 },
-                });
-                break; // success
-            } catch (e) {
-                retries--;
-                console.log(`    [✗] Request error (${retries} retries left): ${e.message}`);
-                if (retries > 0) {
-                    await new Promise(r => setTimeout(r, 3000));
+        let apiReachable = false;
+
+        while (hasNextPage) {
+            console.log(`    Querying API page ${pageNum}...`);
+            let retries = 3;
+            let res = null;
+
+            while (retries > 0) {
+                try {
+                    res = await gotScraping({
+                        url: BURSA_ANNOUNCEMENT_API,
+                        searchParams: {
+                            ann_type: 'company',
+                            keyword: KEYWORD,
+                            dt_ht: FROM_DATE,
+                            dt_lt: TO_DATE,
+                            page: pageNum,
+                        },
+                        headers: {
+                            'Referer': BURSA_ANNOUNCEMENT_REFERER,
+                        },
+                        headerGeneratorOptions: {
+                            browsers: ['chrome'],
+                            operatingSystems: ['windows'],
+                        },
+                        timeout: { request: 30000 },
+                    });
+                    break; // success
+                } catch (e) {
+                    retries--;
+                    console.log(`    [✗] Request error (${retries} retries left): ${e.message}`);
+                    if (retries > 0) {
+                        await new Promise(r => setTimeout(r, 3000));
+                    }
                 }
             }
-        }
 
-        if (!res) {
-            console.log(`    [!] Primary API request failed after retries on page ${pageNum}; trying browser fallback...`);
-            try {
-                const body = await fetchAnnouncementApiWithBrowser({
-                    fromDate: FROM_DATE,
-                    toDate: TO_DATE,
-                    pageNum,
-                });
-                res = {
-                    statusCode: 200,
-                    body,
-                };
-                console.log(`    [ok] Browser fallback reached API page ${pageNum}`);
-            } catch (e) {
-                console.log(`    [x] Browser fallback failed: ${e.message}`);
+            if (!res) {
+                console.log(`    [!] Primary API request failed after retries on page ${pageNum}; trying browser fallback...`);
+                try {
+                    const body = await fetchAnnouncementApiWithBrowser({
+                        fromDate: FROM_DATE,
+                        toDate: TO_DATE,
+                        pageNum,
+                    });
+                    res = {
+                        statusCode: 200,
+                        body,
+                    };
+                    console.log(`    [ok] Browser fallback reached API page ${pageNum}`);
+                } catch (e) {
+                    console.log(`    [x] Browser fallback failed: ${e.message}`);
+                }
             }
-        }
 
-        if (!res) {
-            console.log(`    [✗] Failed to reach API after retries on page ${pageNum}`);
-            hasNextPage = false;
-            break;
-        }
-
-        if (res.statusCode !== 200) {
-            console.log(`    [✗] Non-200 status code: ${res.statusCode}`);
-            // Check for Cloudflare challenge
-            if (res.body && (res.body.includes('Just a moment') || res.body.includes('cf-browser-verification'))) {
-                console.log('    [✗] Cloudflare challenge detected — API is blocking this IP');
-            }
-            console.log(`    [!] Trying browser fallback for page ${pageNum} after status ${res.statusCode}...`);
-            try {
-                const body = await fetchAnnouncementApiWithBrowser({
-                    fromDate: FROM_DATE,
-                    toDate: TO_DATE,
-                    pageNum,
-                });
-                res = {
-                    statusCode: 200,
-                    body,
-                };
-                console.log(`    [ok] Browser fallback recovered API page ${pageNum}`);
-            } catch (e) {
-                console.log(`    [x] Browser fallback failed: ${e.message}`);
+            if (!res) {
+                console.log(`    [✗] Failed to reach API after retries on page ${pageNum}`);
                 hasNextPage = false;
                 break;
             }
-        }
 
-        if (!String(res.body || '').trim().startsWith('{')) {
-            console.log(`    [!] Primary API response was not JSON; trying browser fallback for page ${pageNum}...`);
-            try {
-                const body = await fetchAnnouncementApiWithBrowser({
-                    fromDate: FROM_DATE,
-                    toDate: TO_DATE,
-                    pageNum,
-                });
-                res = {
-                    statusCode: 200,
-                    body,
-                };
-                console.log(`    [ok] Browser fallback returned JSON for page ${pageNum}`);
-            } catch (e) {
-                console.log(`    [x] Browser fallback failed: ${e.message}`);
-            }
-        }
-
-        // Verify response is valid JSON (not an HTML challenge page)
-        let data;
-        try {
-            data = JSON.parse(res.body);
-        } catch (e) {
-            console.log(`    [✗] Response is not valid JSON — likely a Cloudflare/WAF block`);
-            console.log(`    [✗] Response preview: ${res.body.substring(0, 200)}`);
-            hasNextPage = false;
-            break;
-        }
-
-        apiReachable = true;
-        const items = data.data || [];
-            
-        if (items.length === 0) {
-            hasNextPage = false;
-            break;
-        }
-
-        for (const item of items) {
-            const $title = cheerio.load(item[3]);
-            const relativeLink = $title('a').attr('href');
-            if (relativeLink) {
-                const fullLink = 'https://www.bursamalaysia.com' + relativeLink;
-                if (!links.includes(fullLink)) {
-                    links.push(fullLink);
-                    newLinksAdded++;
+            if (res.statusCode !== 200) {
+                console.log(`    [✗] Non-200 status code: ${res.statusCode}`);
+                if (res.body && (res.body.includes('Just a moment') || res.body.includes('cf-browser-verification'))) {
+                    console.log('    [✗] Cloudflare challenge detected — API is blocking this IP');
+                }
+                console.log(`    [!] Trying browser fallback for page ${pageNum} after status ${res.statusCode}...`);
+                try {
+                    const body = await fetchAnnouncementApiWithBrowser({
+                        fromDate: FROM_DATE,
+                        toDate: TO_DATE,
+                        pageNum,
+                    });
+                    res = {
+                        statusCode: 200,
+                        body,
+                    };
+                    console.log(`    [ok] Browser fallback recovered API page ${pageNum}`);
+                } catch (e) {
+                    console.log(`    [x] Browser fallback failed: ${e.message}`);
+                    hasNextPage = false;
+                    break;
                 }
             }
+
+            if (!String(res.body || '').trim().startsWith('{')) {
+                console.log(`    [!] Primary API response was not JSON; trying browser fallback for page ${pageNum}...`);
+                try {
+                    const body = await fetchAnnouncementApiWithBrowser({
+                        fromDate: FROM_DATE,
+                        toDate: TO_DATE,
+                        pageNum,
+                    });
+                    res = {
+                        statusCode: 200,
+                        body,
+                    };
+                    console.log(`    [ok] Browser fallback returned JSON for page ${pageNum}`);
+                } catch (e) {
+                    console.log(`    [x] Browser fallback failed: ${e.message}`);
+                }
+            }
+
+            let data;
+            try {
+                data = JSON.parse(res.body);
+            } catch (e) {
+                console.log(`    [✗] Response is not valid JSON — likely a Cloudflare/WAF block`);
+                console.log(`    [✗] Response preview: ${res.body.substring(0, 200)}`);
+                hasNextPage = false;
+                break;
+            }
+
+            apiReachable = true;
+            const items = data.data || [];
+                
+            if (items.length === 0) {
+                hasNextPage = false;
+                break;
+            }
+
+            let pageNewLinks = 0;
+            for (const item of items) {
+                const $title = cheerio.load(item[3]);
+                const relativeLink = $title('a').attr('href');
+                if (relativeLink) {
+                    const fullLink = 'https://www.bursamalaysia.com' + relativeLink;
+                    if (!existingLinksSet.has(fullLink)) {
+                        existingLinksSet.add(fullLink);
+                        links.push(fullLink);
+                        newLinksAdded++;
+                        pageNewLinks++;
+                    }
+                }
+            }
+
+            const totalFiltered = parseInt(data.recordsFiltered, 10) || 0;
+            console.log(`    Processed page ${pageNum} (+${pageNewLinks} new). Total database matched: ${totalFiltered}`);
+
+            if (pageNum % 10 === 0) {
+                fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
+                console.log(`    [Checkpoint] Saved ${links.length} total links to links.json`);
+            }
+                
+            if (items.length < 20) {
+                hasNextPage = false;
+            } else {
+                pageNum++;
+                await new Promise(r => setTimeout(r, 1000));
+            }
         }
 
-        const totalFiltered = parseInt(data.recordsFiltered, 10) || 0;
-        console.log(`    Processed page ${pageNum} (${items.length} items). Total database matched: ${totalFiltered}`);
-            
-        if (items.length < 20) {
-            hasNextPage = false;
-        } else {
-            pageNum++;
-            await new Promise(r => setTimeout(r, 1000));
+        await closeBrowserFallback();
+
+        if (!apiReachable) {
+            console.error('\n[✗] FATAL: Could not reach Bursa API — exiting with error');
+            process.exit(1);
         }
+
+        fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
+        console.log(`[✓] Saved ${links.length} unique links (added ${newLinksAdded} new) to ${LINKS_FILE}`);
     }
-
-    await closeBrowserFallback();
-
-    if (!apiReachable) {
-        console.error('\n[✗] FATAL: Could not reach Bursa API — exiting with error');
-        process.exit(1);
-    }
-
-    fs.writeFileSync(LINKS_FILE, JSON.stringify(links, null, 2));
-    console.log(`[✓] Saved ${links.length} unique links (added ${newLinksAdded} new) to ${LINKS_FILE}`);
 
     // ==========================================
     // Phase 2: Detail Scraping with Checkpointing
     // ==========================================
     console.log('\n--- Phase 2: Scraping Details ---');
 
-    const detailLinks = latestCompleteAnnId > 0
-        ? links.filter(url => Number(getAnnouncementId(url) || 0) > latestCompleteAnnId)
-        : links;
+    const detailLinks = links.filter(url => {
+        const annId = getAnnouncementId(url);
+        return annId && !completeIds.has(annId) && !skippedSet.has(annId);
+    });
 
-    console.log(`[i] ${detailLinks.length} detail link(s) newer than latest completed announcement`);
+    console.log(`[i] ${detailLinks.length} detail link(s) missing details (${completeIds.size} complete, ${skippedSet.size} skipped)`);
 
     for (let i = 0; i < detailLinks.length; i++) {
         const url = detailLinks[i];
@@ -480,7 +508,13 @@ async function run() {
             continue;
         }
 
+        if (annId && skippedSet.has(annId)) {
+            continue;
+        }
+
         console.log(`\n[${i + 1}/${detailLinks.length}] Scraping details for ID: ${annId}`);
+
+
 
         // Random polite delay
         await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
@@ -615,6 +649,10 @@ async function run() {
             if (!hasCompleteDetails(resultObj)) {
                 console.log(`  [!] Incomplete detail data for ID ${annId}; leaving it unsaved for retry`);
                 console.log(`      company="${data.company_name}", stock="${data.stock_name}", date="${data.date_announced}", transactions=${data.transactions.length}`);
+                if (annId) {
+                    skippedSet.add(annId);
+                    fs.writeFileSync(SKIPPED_FILE, JSON.stringify(Array.from(skippedSet), null, 2));
+                }
                 continue;
             }
             console.log(`  [✓] ${data.company_name} (${data.stock_name}) — ${data.transactions.length} transaction(s)`);
@@ -634,12 +672,63 @@ async function run() {
 
     await closeBrowserFallback();
 
+    // --- Phase 3: Convert JSON to SQL ---
+    console.log('\n--- Phase 3: Converting JSON to SQL ---');
+    convertJsonToSql(existingResults);
+
+    const elapsed = ((Date.now() - scrapeStartTime) / 1000 / 60).toFixed(1);
     console.log('\n--- Done! ---');
     console.log(`Total records: ${existingResults.length}`);
+    console.log(`Total time: ${elapsed} minutes`);
 
     console.log('\n--- Processing Data for Frontend ---');
     const { processData } = require('./process_data');
     await processData();
+}
+
+function convertJsonToSql(results) {
+    const esc = (str) => String(str || '').replace(/'/g, "''");
+
+    let sql = '-- EPF Announcement Scrape Results\n';
+    sql += '-- Generated: ' + new Date().toISOString() + '\n';
+    sql += '-- Total records: ' + results.length + '\n\n';
+
+    sql += 'CREATE TABLE IF NOT EXISTS epf_announcements (\n';
+    sql += '    id INTEGER PRIMARY KEY AUTOINCREMENT,\n';
+    sql += '    url TEXT,\n';
+    sql += '    company_name TEXT,\n';
+    sql += '    stock_name TEXT,\n';
+    sql += '    date_announced TEXT,\n';
+    sql += '    direct_percent REAL,\n';
+    sql += '    total_securities_after_change INTEGER\n';
+    sql += ');\n\n';
+
+    sql += 'CREATE TABLE IF NOT EXISTS epf_transactions (\n';
+    sql += '    id INTEGER PRIMARY KEY AUTOINCREMENT,\n';
+    sql += '    announcement_id INTEGER,\n';
+    sql += '    type_of_transaction TEXT,\n';
+    sql += '    no_of_securities INTEGER,\n';
+    sql += '    FOREIGN KEY (announcement_id) REFERENCES epf_announcements(id)\n';
+    sql += ');\n\n';
+
+    for (let i = 0; i < results.length; i++) {
+        const r = results[i];
+        const annIdx = i + 1;
+        sql += 'INSERT INTO epf_announcements (id, url, company_name, stock_name, date_announced, direct_percent, total_securities_after_change) VALUES (';
+        sql += annIdx + ', \'' + esc(r.url) + '\', \'' + esc(r.company_name) + '\', \'' + esc(r.stock_name) + '\', \'' + esc(r.date_announced) + '\', ' + (r.direct_percent || 0) + ', ' + (r.total_securities_after_change || 0);
+        sql += ');\n';
+
+        if (r.transactions) {
+            for (const tx of r.transactions) {
+                sql += 'INSERT INTO epf_transactions (announcement_id, type_of_transaction, no_of_securities) VALUES (';
+                sql += annIdx + ', \'' + esc(tx.type_of_transaction) + '\', ' + (tx.no_of_securities || 0);
+                sql += ');\n';
+            }
+        }
+    }
+
+    fs.writeFileSync(SQL_FILE, sql);
+    console.log('[✓] SQL file saved to ' + SQL_FILE + ' (' + results.length + ' records)');
 }
 
 run();
