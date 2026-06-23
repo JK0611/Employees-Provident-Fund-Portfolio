@@ -496,10 +496,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 // Compute portfolio totals
 const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
+const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
 
 // Pre-calculate portfolio percentage for each holding
 EPF_DATA.holdings.forEach(h => {
-  h.percent_portfolio = (h.total_securities / totalSecurities) * 100;
+  h.percent_portfolio = totalMarketValue > 0 ? ((h.market_value || 0) / totalMarketValue) * 100 : 0;
   h.percent_company = h.direct_percent; // alias for sorting
   h.shares = h.total_securities; // alias for sorting
 });
@@ -533,8 +534,8 @@ if (holdingsSearch && holdingsSearchClear) {
 }
 
 // Setup sorting
-let holdingsSortCol = null;
-let holdingsSortAsc = true;
+let holdingsSortCol = 'market_value';
+let holdingsSortAsc = false;
 
 document.querySelectorAll('#holdings-table th.sortable').forEach(th => {
   th.addEventListener('click', () => {
@@ -589,7 +590,6 @@ function renderHoldingsTable() {
   }
 
   tbody.innerHTML = data.map((h, i) => {
-    const pctPortfolio = ((h.total_securities / totalSecurities) * 100).toFixed(2);
     const logoUrl = getLogoUrl(h.company_name, h.stock_name);
     let domain = '';
     if (EPF_DATA.companyDomains && EPF_DATA.companyDomains[h.stock_name]) {
@@ -598,6 +598,9 @@ function renderHoldingsTable() {
       const match = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/) : null;
       if (match) domain = match[1];
     }
+
+    const priceText = h.price ? `RM ${h.price.toFixed(2)}` : 'RM 0.00';
+    const valueText = h.market_value ? `RM ${h.market_value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'RM 0.00';
 
     return `<tr>
       <td>${i + 1}</td>
@@ -617,9 +620,11 @@ function renderHoldingsTable() {
       </td>
       <td>${h.company_name}</td>
       <td>${h.sector}</td>
+      <td class="align-right font-medium">${priceText}</td>
       <td class="align-right">${h.total_securities.toLocaleString()}</td>
+      <td class="align-right font-semibold text-primary-fixed-dim">${valueText}</td>
       <td class="align-right">${h.direct_percent.toFixed(3)}%</td>
-      <td class="align-right">${h.percent_portfolio.toFixed(3)}%</td>
+      <td class="align-right font-medium">${h.percent_portfolio.toFixed(3)}%</td>
     </tr>`;
   }).join('');
 }
@@ -865,7 +870,7 @@ function getPieData(mode) {
   const map = {};
   EPF_DATA.holdings.forEach(h => {
     const key = mode === 'sector' ? h.sector : h.stock_name;
-    map[key] = (map[key] || 0) + h.total_securities;
+    map[key] = (map[key] || 0) + (h.market_value || 0);
   });
 
   const sorted = Object.entries(map).sort((a, b) => b[1] - a[1]);
@@ -1758,25 +1763,26 @@ document.getElementById('tx-percent-max').addEventListener('input', filterTransa
 function init() {
   // Calculate and populate Bento Metrics
   const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
-  document.getElementById('dashboard-total-value').textContent = totalSecurities.toLocaleString() + ' shares';
+  const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+  document.getElementById('dashboard-total-value').textContent = 'RM ' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   
   // Top Sector Allocation
   const sectorMap = {};
   EPF_DATA.holdings.forEach(h => {
-    sectorMap[h.sector] = (sectorMap[h.sector] || 0) + h.total_securities;
+    sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0);
   });
   const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
   if (sortedSectors.length > 0) {
     const topSector = sortedSectors[0];
-    const pct = ((topSector[1] / totalSecurities) * 100).toFixed(1);
+    const pct = totalMarketValue > 0 ? ((topSector[1] / totalMarketValue) * 100).toFixed(1) : '0.0';
     document.getElementById('bento-sector-name').textContent = topSector[0];
-    document.getElementById('bento-sector-val').textContent = formatCompact(topSector[1]) + ' shares';
+    document.getElementById('bento-sector-val').textContent = 'RM ' + formatCompact(topSector[1]);
     document.getElementById('bento-sector-pct').textContent = pct + '%';
     document.getElementById('bento-sector-progress').style.width = pct + '%';
 
     // RENDER TOP SECTOR OVERLAPPING LOGOS
     const sectorHoldings = EPF_DATA.holdings.filter(h => h.sector === topSector[0]);
-    sectorHoldings.sort((a, b) => b.total_securities - a.total_securities);
+    sectorHoldings.sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
     const top3 = sectorHoldings.slice(0, 3);
     const sectorLogosEl = document.getElementById('bento-sector-logos');
     if (sectorLogosEl) {
@@ -1800,12 +1806,12 @@ function init() {
   }
   
   // Top Holding
-  const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => b.total_securities - a.total_securities);
+  const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
   if (sortedHoldings.length > 0) {
     const topHolding = sortedHoldings[0];
     document.getElementById('bento-holding-symbol').textContent = topHolding.stock_name;
     document.getElementById('bento-holding-name').textContent = topHolding.company_name;
-    document.getElementById('bento-holding-val').textContent = topHolding.total_securities.toLocaleString() + ' shares';
+    document.getElementById('bento-holding-val').textContent = 'RM ' + (topHolding.market_value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     document.getElementById('bento-holding-pct').innerHTML = `<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span>${topHolding.direct_percent.toFixed(3)}% in company`;
 
     // RENDER TOP HOLDING LOGO DYNAMICALLY

@@ -37,6 +37,13 @@ let cache = {};
 if (fs.existsSync(CACHE_FILE)) {
   try {
     cache = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf-8'));
+    // Clean up cache of any corrupted prices (delisted timestamps)
+    for (const key of Object.keys(cache)) {
+      if (cache[key].price && cache[key].price > 100000) {
+        console.log(`[Cache Cleanup] Resetting invalid price ${cache[key].price} for ${key}`);
+        cache[key].price = 0;
+      }
+    }
   } catch (e) {
     console.log('Error reading cache:', e.message);
   }
@@ -305,8 +312,92 @@ async function processData() {
     }
   }
 
-  // Sort holdings by value (total securities)
-  holdings.sort((a, b) => b.total_securities - a.total_securities);
+  // Fetch prices in batches of 50 from Yahoo Spark API
+  console.log(`[Price Update] Fetching market prices for ${holdings.length} holdings from Yahoo Spark API...`);
+  const symbolMap = {};
+  const symbols = [];
+  
+  for (const h of holdings) {
+    let symbol = '';
+    if (h.stock_code && h.stock_code.trim()) {
+      symbol = `${h.stock_code.trim()}.KL`;
+    } else {
+      symbol = `${h.stock_name.trim()}.KL`;
+    }
+    symbols.push(symbol);
+    symbolMap[symbol] = h;
+  }
+
+  const BATCH_SIZE = 20;
+  for (let i = 0; i < symbols.length; i += BATCH_SIZE) {
+    const batch = symbols.slice(i, i + BATCH_SIZE);
+    const query = batch.join(',');
+    
+    try {
+      console.log(`[Price Update] Querying price batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(symbols.length / BATCH_SIZE)}...`);
+      const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/spark?symbols=${batch.map(encodeURIComponent).join(',')}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        const results = data.spark?.result || [];
+        
+        for (const res of results) {
+          const symbol = res.symbol;
+          const meta = res.response?.[0]?.meta;
+          const price = meta?.regularMarketPrice;
+          const currency = meta?.currency;
+          
+          if (price !== undefined && price !== null) {
+            const h = symbolMap[symbol];
+            if (h) {
+              // Sanity check: must be in MYR and not unreasonably high (delisted return timestamps)
+              if (currency === 'MYR' && price < 100000) {
+                h.price = price;
+                if (cache[h.stock_name]) {
+                  cache[h.stock_name].price = price;
+                  cache[h.stock_name].price_updated_at = new Date().toISOString();
+                }
+              } else {
+                console.log(`[Price Update] Ignoring invalid/delisted price ${price} (currency: ${currency}) for ${symbol}`);
+                h.price = 0;
+                if (cache[h.stock_name]) {
+                  cache[h.stock_name].price = 0;
+                  cache[h.stock_name].price_updated_at = new Date().toISOString();
+                }
+              }
+            }
+          }
+        }
+      } else {
+        console.warn(`[Price Update] Failed to fetch price batch: status ${response.status}`);
+      }
+    } catch (e) {
+      console.error(`[Price Update] Error querying batch:`, e.message);
+    }
+    
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  // Save updated cache
+  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+
+  // Compute market value for each holding using price
+  for (const h of holdings) {
+    if (h.price === undefined || h.price === null) {
+      if (cache[h.stock_name] && cache[h.stock_name].price) {
+        h.price = cache[h.stock_name].price;
+      } else {
+        h.price = 0;
+      }
+    }
+    // Final safety check for bad cached values
+    if (h.price > 100000) {
+      h.price = 0;
+    }
+    h.market_value = h.total_securities * h.price;
+  }
+
+  // Sort holdings by market value descending (ranking by portfolio value)
+  holdings.sort((a, b) => b.market_value - a.market_value);
 
   // Group transactions in reverse chronological order for dashboard timeline
   allTransactions.reverse();

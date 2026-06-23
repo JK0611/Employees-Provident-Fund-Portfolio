@@ -2,112 +2,156 @@
   "PETGAS": {
     "code": "6033",
     "sector": "Industrial",
-    "domain": "petronas.com"
+    "domain": "petronas.com",
+    "price": 17.4,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "AXIATA": {
     "code": "6888",
     "sector": "Telecom",
-    "domain": "axiata.com"
+    "domain": "axiata.com",
+    "price": 1.98,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "SKPRES": {
     "code": "7155",
     "sector": "Industrial",
-    "domain": "skpres.com"
+    "domain": "skpres.com",
+    "price": 0.3,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "GAMUDA": {
     "code": "5398",
     "sector": "Industrial",
-    "domain": "gamuda.com"
+    "domain": "gamuda.com",
+    "price": 4.34,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "MAYBANK": {
     "code": "1155",
     "sector": "Banking",
-    "domain": "smart-ex.jp"
+    "domain": "smart-ex.jp",
+    "price": 10.84,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "MRDIY": {
     "code": "5296",
     "sector": "Consumer",
-    "domain": "vocaberry.com"
+    "domain": "vocaberry.com",
+    "price": 1.63,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "CTOS": {
     "code": "5301",
     "sector": "Banking",
-    "domain": "ctoscredit.com.my"
+    "domain": "ctoscredit.com.my",
+    "price": 0.695,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "HLFG": {
     "code": "1082",
     "sector": "Banking",
-    "domain": "hongleongconnect.my"
+    "domain": "hongleongconnect.my",
+    "price": 18.32,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "ORKIM": {
     "code": "5348",
     "sector": "Industrial",
-    "domain": "chatgpt.com"
+    "domain": "chatgpt.com",
+    "price": 0.87,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "TIMECOM": {
     "code": "5031",
     "sector": "Telecom",
-    "domain": "time.io"
+    "domain": "time.io",
+    "price": 6,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "IHH": {
     "code": "5225",
     "sector": "Healthcare",
-    "domain": "ihhhealthcare.com"
+    "domain": "ihhhealthcare.com",
+    "price": 8.56,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "PAVREIT": {
     "code": "5212",
     "sector": "Property",
-    "domain": "pavilion-kl.com"
+    "domain": "pavilion-kl.com",
+    "price": 1.72,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "KOSSAN": {
     "code": "7153",
     "sector": "Healthcare",
-    "domain": "kossan.com.my"
+    "domain": "kossan.com.my",
+    "price": 1.04,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "KLK": {
     "code": "2445",
     "sector": "Industrial",
-    "domain": "theendlesstravellers.com"
+    "domain": "theendlesstravellers.com",
+    "price": 21.6,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "BAUTO": {
     "code": "5248",
     "sector": "Consumer",
-    "domain": "bauto.com.my"
+    "domain": "bauto.com.my",
+    "price": 1.01,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "YTLPOWR": {
     "code": "6742",
     "sector": "Utilities",
-    "domain": "ytl.com"
+    "domain": "ytl.com",
+    "price": 4.12,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "SUNREIT": {
     "code": "5176",
     "sector": "Property",
-    "domain": "sunway.com.my"
+    "domain": "sunway.com.my",
+    "price": 2.23,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "DIALOG": {
     "code": "7277",
     "sector": "Industrial",
-    "domain": "dialogasia.com"
+    "domain": "dialogasia.com",
+    "price": 1.86,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "MALAKOF": {
     "code": "5264",
     "sector": "Utilities",
-    "domain": "malakoff.com.my"
+    "domain": "malakoff.com.my",
+    "price": 0.87,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "FFB": {
     "code": "5306",
     "sector": "Consumer",
-    "domain": "kamifarming.com"
+    "domain": "kamifarming.com",
+    "price": 2.28,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "IOIPG": {
     "code": "5249",
     "sector": "Property",
-    "domain": "ioicitymall.com.my"
+    "domain": "ioicitymall.com.my",
+    "price": 4.03,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "CDB": {
     "code": "6947",
     "sector": "Telecom",
-    "domain": "celcomdigi.com"
+    "domain": "celcomdigi.com",
+    "price": 2.65,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "SUNWAY": {
     "code": "5263",
@@ -117,122 +161,170 @@
   "PCHEM": {
     "code": "5183",
     "sector": "Industrial",
-    "domain": "petronas.com"
+    "domain": "petronas.com",
+    "price": 4.06,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "MFCB": {
     "code": "3069",
     "sector": "Utilities",
-    "domain": "mega.nz"
+    "domain": "mega.nz",
+    "price": 2.9,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "SIMEPROP": {
     "code": "5288",
     "sector": "Property",
-    "domain": "baike.baidu.com"
+    "domain": "baike.baidu.com",
+    "price": 1.41,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "AMBANK": {
     "code": "1015",
     "sector": "Banking",
-    "domain": "ambankgroup.com"
+    "domain": "ambankgroup.com",
+    "price": 6.46,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "HLBANK": {
     "code": "5819",
     "sector": "Banking",
-    "domain": "hongleongconnect.my"
+    "domain": "hongleongconnect.my",
+    "price": 21.72,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "KLCC": {
     "code": "5235SS",
     "sector": "Property",
-    "domain": "suriaklcc.com.my"
+    "domain": "suriaklcc.com.my",
+    "price": 9.02,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "PBBANK": {
     "code": "1295",
     "sector": "Banking",
-    "domain": "pbebank.com"
+    "domain": "pbebank.com",
+    "price": 4.85,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "INARI": {
     "code": "0166",
     "sector": "Technology",
-    "domain": "inari-amertron.com"
+    "domain": "inari-amertron.com",
+    "price": 2.18,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "PETDAG": {
     "code": "5681",
     "sector": "Industrial",
-    "domain": "petronas.com"
+    "domain": "petronas.com",
+    "price": 18.72,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "PMETAL": {
     "code": "8869",
     "sector": "Industrial",
-    "domain": "chinapress.com.my"
+    "domain": "chinapress.com.my",
+    "price": 8.29,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "TENAGA": {
     "code": "5347",
     "sector": "Utilities",
-    "domain": "mytnb.com.my"
+    "domain": "mytnb.com.my",
+    "price": 14.4,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "UTDPLT": {
     "code": "2089",
     "sector": "Consumer",
-    "domain": "united.com"
+    "domain": "united.com",
+    "price": 32.96,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "RHBBANK": {
     "code": "1066",
     "sector": "Banking",
-    "domain": "onlinebanking.rhbgroup.com"
+    "domain": "onlinebanking.rhbgroup.com",
+    "price": 8.35,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "MAXIS": {
     "code": "6012",
     "sector": "Telecom",
-    "domain": "maxis.com.my"
+    "domain": "maxis.com.my",
+    "price": 3.24,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "UOADEV": {
     "code": "5200",
     "sector": "Property",
-    "domain": "k5learning.com"
+    "domain": "k5learning.com",
+    "price": 1.82,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "IGBREIT": {
     "code": "5227",
     "sector": "Property",
-    "domain": "igbbhd.com"
+    "domain": "igbbhd.com",
+    "price": 2.74,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "IOICORP": {
     "code": "1961",
     "sector": "Consumer",
-    "domain": "ioicitymall.com.my"
+    "domain": "ioicitymall.com.my",
+    "price": 4.3,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "BIMB": {
     "code": "5258",
     "sector": "Banking",
-    "domain": "bankislam.com"
+    "domain": "bankislam.com",
+    "price": 2.14,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "SCGBHD": {
     "code": "0225",
     "sector": "Industrial",
-    "domain": "southern.edu.my"
+    "domain": "southern.edu.my",
+    "price": 2.15,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "MISC": {
     "code": "3816",
     "sector": "Industrial",
-    "domain": "miscgroup.com"
+    "domain": "miscgroup.com",
+    "price": 8.1,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "IJM": {
     "code": "3336",
     "sector": "Industrial",
-    "domain": "ijm.com"
+    "domain": "ijm.com",
+    "price": 2.3,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "SCOMNET": {
     "code": "0001",
     "sector": "Industrial",
-    "domain": "developer.mozilla.org"
+    "domain": "developer.mozilla.org",
+    "price": 0.475,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "DRBHCOM": {
     "code": "1619",
     "sector": "Consumer",
-    "domain": "drb-hicom.com"
+    "domain": "drb-hicom.com",
+    "price": 1.05,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "PADINI": {
     "code": "7052",
     "sector": "Consumer",
-    "domain": "padini.com"
+    "domain": "padini.com",
+    "price": 1.43,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "UWC": {
     "code": "5292",
@@ -242,72 +334,100 @@
   "SPSETIA": {
     "code": "8664PC",
     "sector": "Property",
-    "domain": "google.com"
+    "domain": "google.com",
+    "price": 0.45,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "YTL": {
     "code": "5109",
     "sector": "Property",
-    "domain": "ytl.com"
+    "domain": "ytl.com",
+    "price": 1,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "JPG": {
     "code": "5323",
     "sector": "Consumer",
-    "domain": "tourism.johor.gov.my"
+    "domain": "tourism.johor.gov.my",
+    "price": 1.84,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "AXREIT": {
     "code": "5106",
     "sector": "Property",
-    "domain": "axis.com"
+    "domain": "axis.com",
+    "price": 2,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "DAYANG": {
     "code": "5141",
     "sector": "Industrial",
-    "domain": "translate.google.com"
+    "domain": "translate.google.com",
+    "price": 1.69,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "FRONTKN": {
     "code": "0128",
     "sector": "Industrial",
-    "domain": "frontken.com"
+    "domain": "frontken.com",
+    "price": 4.9,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "PANAMY": {
     "code": "3719",
     "sector": "Consumer",
-    "domain": "panasonic.com"
+    "domain": "panasonic.com",
+    "price": 6.33,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "ATECH": {
     "code": "5302",
     "sector": "Technology",
-    "domain": "aureliushealth.com"
+    "domain": "aureliushealth.com",
+    "price": 0.64,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "WASCO": {
     "code": "5142",
     "sector": "Industrial",
-    "domain": "wascoenergy.com"
+    "domain": "wascoenergy.com",
+    "price": 0.75,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "MBSB": {
     "code": "1171",
     "sector": "Banking",
-    "domain": "mbsb.com"
+    "domain": "mbsb.com",
+    "price": 0.64,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "ABMB": {
     "code": "2488",
     "sector": "Banking",
-    "domain": "alliancebank.com.my"
+    "domain": "alliancebank.com.my",
+    "price": 4.83,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "TAKAFUL": {
     "code": "6139",
     "sector": "Banking",
-    "domain": "ssm.com.my"
+    "domain": "ssm.com.my",
+    "price": 3.24,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "99SMART": {
     "code": "5326",
     "sector": "Consumer",
-    "domain": "99bulksales.my"
+    "domain": "99bulksales.my",
+    "price": 3.6,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "PLINTAS": {
     "code": "5320",
     "sector": "Industrial",
-    "domain": "prolintas.com.my"
+    "domain": "prolintas.com.my",
+    "price": 0.91,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "ECONBHD": {
     "code": "5253",
@@ -317,32 +437,44 @@
   "SUNMED": {
     "code": "5555",
     "sector": "Healthcare",
-    "domain": "sunway.com.my"
+    "domain": "sunway.com.my",
+    "price": 1.82,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "WPRTS": {
     "code": "5246",
     "sector": "Industrial",
-    "domain": "westportsholdings.com"
+    "domain": "westportsholdings.com",
+    "price": 6,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "SIME": {
     "code": "4197",
     "sector": "Consumer",
-    "domain": "zhidao.baidu.com"
+    "domain": "zhidao.baidu.com",
+    "price": 2.13,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "TM": {
     "code": "4863",
     "sector": "Telecom",
-    "domain": "tm.com.my"
+    "domain": "tm.com.my",
+    "price": 7.38,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "CLMT": {
     "code": "5180",
     "sector": "Property",
-    "domain": "capitaland.com"
+    "domain": "capitaland.com",
+    "price": 0.61,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "ALLIANZ": {
     "code": "1163",
     "sector": "Banking",
-    "domain": "allianz.com.my"
+    "domain": "allianz.com.my",
+    "price": 20.98,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "D&O": {
     "code": "7204",
@@ -352,62 +484,86 @@
   "CIMB": {
     "code": "1023",
     "sector": "Banking",
-    "domain": "cimbclicks.com.my"
+    "domain": "cimbclicks.com.my",
+    "price": 7.48,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "SDG": {
     "code": "5285",
     "sector": "Consumer",
-    "domain": "sdgroup.com.my"
+    "domain": "sdgroup.com.my",
+    "price": 6.08,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "E&O": {
     "code": "3417",
     "sector": "Property",
-    "domain": "easterncineplex.com.my"
+    "domain": "easterncineplex.com.my",
+    "price": 0.715,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "F&N": {
     "code": "3689",
     "sector": "Consumer",
-    "domain": "support.microsoft.com"
+    "domain": "support.microsoft.com",
+    "price": 27.9,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "GENP": {
     "code": "2291",
     "sector": "Consumer",
-    "domain": "rwgenting.com"
+    "domain": "rwgenting.com",
+    "price": 5.2,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "SAM": {
     "code": "9822",
     "sector": "Industrial",
-    "domain": "sam-malaysia.com"
+    "domain": "sam-malaysia.com",
+    "price": 4.83,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "AME": {
     "code": "5293",
     "sector": "Industrial",
-    "domain": "ameconstruction.com.my"
+    "domain": "ameconstruction.com.my",
+    "price": 1.41,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "PPB": {
     "code": "4065",
     "sector": "Consumer",
-    "domain": "pbebank.com"
+    "domain": "pbebank.com",
+    "price": 9.41,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "PARADIGM": {
     "code": "5338",
     "sector": "Property",
-    "domain": "paradigmmall.com.my"
+    "domain": "paradigmmall.com.my",
+    "price": 0.945,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "NESTLE": {
     "code": "4707",
     "sector": "Consumer",
-    "domain": "nestle.com.my"
+    "domain": "nestle.com.my",
+    "price": 95,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "BURSA": {
     "code": "0820EA",
     "sector": "Others",
-    "domain": "bursamalaysia.com"
+    "domain": "bursamalaysia.com",
+    "price": 1.84,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "AEON": {
     "code": "5139",
     "sector": "Banking",
-    "domain": "aeonretail.com.my"
+    "domain": "aeonretail.com.my",
+    "price": 5.86,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "AHEALTH": {
     "code": null,
@@ -417,37 +573,51 @@
   "MPI": {
     "code": "3867",
     "sector": "Technology",
-    "domain": "malaysiaairlines.com"
+    "domain": "malaysiaairlines.com",
+    "price": 46.5,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "PENTA": {
     "code": "7160",
     "sector": "Industrial",
-    "domain": "pentamaster.com"
+    "domain": "pentamaster.com",
+    "price": 4.78,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "KPJ": {
     "code": "5878",
     "sector": "Healthcare",
-    "domain": "kpjhealth.com.my"
+    "domain": "kpjhealth.com.my",
+    "price": 3.2,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "DPHARMA": {
     "code": "7148",
     "sector": "Healthcare",
-    "domain": "duopharmabiotech.com"
+    "domain": "duopharmabiotech.com",
+    "price": 1.22,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "ITMAX": {
     "code": "5309",
     "sector": "Industrial",
-    "domain": "itmax.com.my"
+    "domain": "itmax.com.my",
+    "price": 4.79,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   },
   "QL": {
     "code": "7084",
     "sector": "Consumer",
-    "domain": "ql.com.my"
+    "domain": "ql.com.my",
+    "price": 3.78,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "SUNCON": {
     "code": "5263",
     "sector": "Industrial",
-    "domain": "sunway.com.my"
+    "domain": "sunway.com.my",
+    "price": 7.5,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "SUNTECH": {
     "code": null,
@@ -457,7 +627,7 @@
   "LKT IND": {
     "code": null,
     "sector": "Others",
-    "domain": "support.google.com"
+    "domain": "mail.google.com"
   },
   "PFB": {
     "code": null,
@@ -467,7 +637,7 @@
   "HLPB": {
     "code": null,
     "sector": "Others",
-    "domain": "microsoft.com"
+    "domain": "netflix.com"
   },
   "THBIND": {
     "code": null,
@@ -477,7 +647,7 @@
   "PILECON": {
     "code": null,
     "sector": "Others",
-    "domain": "play.google.com"
+    "domain": "space.bilibili.com"
   },
   "PPAB": {
     "code": null,
@@ -487,7 +657,9 @@
   "CAPE": {
     "code": "5311",
     "sector": "Technology",
-    "domain": "microsoft.com"
+    "domain": "microsoft.com",
+    "price": 0.27,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "COMMERZ": {
     "code": null,
@@ -497,12 +669,16 @@
   "CHHB": {
     "code": "5738",
     "sector": "Consumer",
-    "domain": "worldometers.info"
+    "domain": "worldometers.info",
+    "price": 0.16,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "WTK": {
     "code": "4243",
     "sector": "Industrial",
-    "domain": "wtkholdings.com"
+    "domain": "wtkholdings.com",
+    "price": 0.77,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "S.BANK": {
     "code": null,
@@ -517,7 +693,9 @@
   "AMTEL": {
     "code": "7031",
     "sector": "Technology",
-    "domain": "amtelnet.com"
+    "domain": "amtelnet.com",
+    "price": 0.38,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "IOIPB": {
     "code": "5249",
@@ -527,12 +705,14 @@
   "PHILEO": {
     "code": null,
     "sector": "Others",
-    "domain": "investing.com"
+    "domain": "idfood.co.id"
   },
   "APM": {
     "code": "5015",
     "sector": "Consumer",
-    "domain": "civildefence.gov.my"
+    "domain": "civildefence.gov.my",
+    "price": 3,
+    "price_updated_at": "2026-06-23T15:37:01.126Z"
   },
   "FUJITSU": {
     "code": null,
@@ -542,22 +722,26 @@
   "HIRO": {
     "code": null,
     "sector": "Others",
-    "domain": "positivepsychology.com"
+    "domain": "priorityhonda.com"
   },
   "BREM": {
     "code": null,
     "sector": "Others",
-    "domain": "lex.infosysapps.com"
+    "domain": "game8.jp"
   },
   "MFLOUR": {
     "code": "3662",
     "sector": "Consumer",
-    "domain": "maybank2u.com.my"
+    "domain": "maybank2u.com.my",
+    "price": 0.545,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "RANHILL": {
     "code": "5272",
     "sector": "Utilities",
-    "domain": "ranhillsaj.com.my"
+    "domain": "ranhillsaj.com.my",
+    "price": 1.98,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "PBFIN": {
     "code": null,
@@ -572,12 +756,16 @@
   "ANALABS": {
     "code": "7083",
     "sector": "Industrial",
-    "domain": "reddit.com"
+    "domain": "reddit.com",
+    "price": 1.7,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "PHARMA": {
     "code": "7081",
     "sector": "Healthcare",
-    "domain": "pharmaniaga.com"
+    "domain": "pharmaniaga.com",
+    "price": 1.19,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "FFM": {
     "code": null,
@@ -592,7 +780,7 @@
   "LKT": {
     "code": null,
     "sector": "Others",
-    "domain": "play.google.com"
+    "domain": "idfood.co.id"
   },
   "AIC": {
     "code": null,
@@ -602,12 +790,16 @@
   "PBA": {
     "code": "5041",
     "sector": "Utilities",
-    "domain": "x.com"
+    "domain": "x.com",
+    "price": 1.97,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "WARISAN": {
     "code": "5016",
     "sector": "Industrial",
-    "domain": "heritage.gov.my"
+    "domain": "heritage.gov.my",
+    "price": 0.65,
+    "price_updated_at": "2026-06-23T15:37:01.398Z"
   },
   "TRACTOR": {
     "code": null,
@@ -622,22 +814,26 @@
   "MNRB": {
     "code": "6459",
     "sector": "Banking",
-    "domain": "malaysian-re.com.my"
+    "domain": "malaysian-re.com.my",
+    "price": 2.64,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "TRANMIL": {
     "code": null,
     "sector": "Others",
-    "domain": "web.whatsapp.com"
+    "domain": "bokepmami.com"
   },
   "HAISAN": {
     "code": null,
     "sector": "Others",
-    "domain": "torisedo.com"
+    "domain": "gimyai.tw"
   },
   "JTIASA": {
     "code": "4383",
     "sector": "Consumer",
-    "domain": "jayagrocer.com"
+    "domain": "jayagrocer.com",
+    "price": 1.07,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "CELCOM": {
     "code": "6947",
@@ -647,12 +843,14 @@
   "GLOMAC": {
     "code": "5020",
     "sector": "Property",
-    "domain": "speedtest.net"
+    "domain": "speedtest.net",
+    "price": 0.325,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "BANENG": {
     "code": null,
     "sector": "Others",
-    "domain": "q.cnblogs.com"
+    "domain": "reddit.com"
   },
   "OYL": {
     "code": null,
@@ -662,7 +860,7 @@
   "MWATA": {
     "code": null,
     "sector": "Others",
-    "domain": "1mg.com"
+    "domain": "jingyan.baidu.com"
   },
   "AKN": {
     "code": null,
@@ -687,12 +885,12 @@
   "HALIM": {
     "code": null,
     "sector": "Others",
-    "domain": "tinhte.vn"
+    "domain": "support.microsoft.com"
   },
   "PJI": {
     "code": null,
     "sector": "Others",
-    "domain": "mail.google.com"
+    "domain": "support.microsoft.com"
   },
   "MEGAN": {
     "code": null,
@@ -702,12 +900,16 @@
   "UCHITEC": {
     "code": "7100",
     "sector": "Technology",
-    "domain": "archivo-olavarria.iib.unam.mx"
+    "domain": "archivo-olavarria.iib.unam.mx",
+    "price": 2.86,
+    "price_updated_at": "2026-06-23T15:37:01.662Z"
   },
   "MSNIAGA": {
     "code": "5011",
     "sector": "Technology",
-    "domain": "mesiniaga.com.my"
+    "domain": "mesiniaga.com.my",
+    "price": 1.13,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "MUTIARA": {
     "code": null,
@@ -727,7 +929,9 @@
   "EPMB": {
     "code": "7773",
     "sector": "Consumer",
-    "domain": "eperolehan.gov.my"
+    "domain": "eperolehan.gov.my",
+    "price": 0.44,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "AKNMTEC": {
     "code": null,
@@ -737,17 +941,23 @@
   "ULICORP": {
     "code": "7133",
     "sector": "Industrial",
-    "domain": "united.com"
+    "domain": "united.com",
+    "price": 1.39,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "HTPADU": {
     "code": "5028",
     "sector": "Technology",
-    "domain": "heitech.com.my"
+    "domain": "heitech.com.my",
+    "price": 1.29,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "ENGTEX": {
     "code": "5056",
     "sector": "Industrial",
-    "domain": "engtex.com.my"
+    "domain": "engtex.com.my",
+    "price": 0.415,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "CRESBLD": {
     "code": "8591",
@@ -757,17 +967,23 @@
   "KPS": {
     "code": "5843",
     "sector": "Industrial",
-    "domain": "kwsp.gov.my"
+    "domain": "kwsp.gov.my",
+    "price": 0.51,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "DIGI": {
     "code": null,
     "sector": "Others",
-    "domain": "digi.com.my"
+    "domain": "digi.com.my",
+    "price": 0,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "PJBUMI": {
     "code": "7163",
     "sector": "Industrial",
-    "domain": "cidb.gov.my"
+    "domain": "cidb.gov.my",
+    "price": 3.91,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "DBIOTEC": {
     "code": "7148",
@@ -777,12 +993,14 @@
   "PATIMAS": {
     "code": null,
     "sector": "Others",
-    "domain": "bbs.ruliweb.com"
+    "domain": "play.google.com"
   },
   "CREST": {
     "code": "8591",
     "sector": "Industrial",
-    "domain": "crest.my"
+    "domain": "crest.my",
+    "price": 0.47,
+    "price_updated_at": "2026-06-23T15:37:01.936Z"
   },
   "WEIDA": {
     "code": null,
@@ -792,17 +1010,19 @@
   "HDBS": {
     "code": null,
     "sector": "Others",
-    "domain": "bing.com"
+    "domain": "zhihu.com"
   },
   "EOX": {
     "code": null,
     "sector": "Others",
-    "domain": "dallascowboys.com"
+    "domain": "web.whatsapp.com"
   },
   "YLI": {
     "code": "7014",
     "sector": "Industrial",
-    "domain": "zhihu.com"
+    "domain": "zhihu.com",
+    "price": 0.23,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "YTLLAND": {
     "code": null,
@@ -817,27 +1037,33 @@
   "INTEGRA": {
     "code": null,
     "sector": "Others",
-    "domain": "anydesk.com"
+    "domain": "cnyes.com"
   },
   "CHINWEL": {
     "code": "5007",
     "sector": "Industrial",
-    "domain": "oxfordlearnersdictionaries.com"
+    "domain": "oxfordlearnersdictionaries.com",
+    "price": 0.83,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "ISYODA": {
     "code": null,
     "sector": "Others",
-    "domain": "idfood.co.id"
+    "domain": "nexttoppers.com"
   },
   "PETRA": {
     "code": "5133",
     "sector": "Industrial",
-    "domain": "petra.gov.my"
+    "domain": "petra.gov.my",
+    "price": 0.68,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "SUPERMX": {
     "code": "7106",
     "sector": "Healthcare",
-    "domain": "github.com"
+    "domain": "github.com",
+    "price": 0.27,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "XIANLNG": {
     "code": null,
@@ -847,7 +1073,9 @@
   "POHUAT": {
     "code": "7088",
     "sector": "Consumer",
-    "domain": "quote-vault.jp"
+    "domain": "quote-vault.jp",
+    "price": 0.68,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "INTI": {
     "code": null,
@@ -857,7 +1085,9 @@
   "AJIYA": {
     "code": "7609",
     "sector": "Industrial",
-    "domain": "ajiya.com"
+    "domain": "ajiya.com",
+    "price": 1,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "EQUINE": {
     "code": null,
@@ -872,12 +1102,12 @@
   "DEGEM": {
     "code": null,
     "sector": "Others",
-    "domain": "support.microsoft.com"
+    "domain": "zillow.com"
   },
   "TECHVEN": {
     "code": null,
     "sector": "Others",
-    "domain": "ads.google.com"
+    "domain": "stackoverflow.com"
   },
   "LONBISC": {
     "code": null,
@@ -892,27 +1122,33 @@
   "NAIM": {
     "code": "5073",
     "sector": "Industrial",
-    "domain": "naim.com.my"
+    "domain": "naim.com.my",
+    "price": 0.755,
+    "price_updated_at": "2026-06-23T15:37:02.190Z"
   },
   "BERNAS": {
     "code": null,
     "sector": "Others",
-    "domain": "game8.jp"
+    "domain": "support.google.com"
   },
   "KOBAY": {
     "code": "6971",
     "sector": "Industrial",
-    "domain": "kobaytech.com"
+    "domain": "kobaytech.com",
+    "price": 2.3,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "SAMUDRA": {
     "code": null,
     "sector": "Others",
-    "domain": "web.whatsapp.com"
+    "domain": "forum.lowyat.net"
   },
   "SUNRISE": {
     "code": "5148",
     "sector": "Property",
-    "domain": "sunrise.am"
+    "domain": "sunrise.am",
+    "price": 0.585,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "ENG": {
     "code": null,
@@ -952,12 +1188,16 @@
   "MUDA": {
     "code": "3883",
     "sector": "Industrial",
-    "domain": "mudah.my"
+    "domain": "mudah.my",
+    "price": 0.815,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "ENGKAH": {
     "code": "7149",
     "sector": "Consumer",
-    "domain": "translate.google.com"
+    "domain": "translate.google.com",
+    "price": 0.205,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "YNHB": {
     "code": null,
@@ -972,42 +1212,48 @@
   "EKSONS": {
     "code": "9016",
     "sector": "Industrial",
-    "domain": "zhihu.com"
+    "domain": "zhihu.com",
+    "price": 0.4,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "TALAM": {
     "code": "2259",
     "sector": "Property",
-    "domain": "ttransform.com.my"
+    "domain": "ttransform.com.my",
+    "price": 0.08,
+    "price_updated_at": "2026-06-23T15:37:02.453Z"
   },
   "SAPCRES": {
     "code": null,
     "sector": "Others",
-    "domain": "play.google.com"
+    "domain": "translate.google.com.vn"
   },
   "I&P": {
     "code": null,
     "sector": "Others",
-    "domain": "zhihu.com"
+    "domain": "traveltriangle.com"
   },
   "NEXTNAT": {
     "code": null,
     "sector": "Others",
-    "domain": "mathway.com"
+    "domain": "yaḥoo.com"
   },
   "SUIWAH": {
     "code": null,
     "sector": "Others",
-    "domain": "answers.microsoft.com"
+    "domain": "vulms.vu.edu.pk"
   },
   "RHBCAP": {
     "code": null,
     "sector": "Others",
-    "domain": "onlinebanking.rhbgroup.com"
+    "domain": "rhbgroup.com"
   },
   "MANULFE": {
     "code": "1058",
     "sector": "Banking",
-    "domain": "manulife.com.my"
+    "domain": "manulife.com.my",
+    "price": 2.35,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "POSHLDG": {
     "code": null,
@@ -1022,7 +1268,9 @@
   "ASIAPAC": {
     "code": "4057",
     "sector": "Property",
-    "domain": "britannica.com"
+    "domain": "britannica.com",
+    "price": 0.12,
+    "price_updated_at": "2026-06-23T15:37:02.707Z"
   },
   "GPERAK": {
     "code": null,
@@ -1032,12 +1280,12 @@
   "GLOBALC": {
     "code": null,
     "sector": "Others",
-    "domain": "globle-game.com"
+    "domain": "kaigojob.com"
   },
   "KILHALL": {
     "code": null,
     "sector": "Others",
-    "domain": "support.microsoft.com"
+    "domain": "stackoverflow.com"
   },
   "SIMEENG": {
     "code": null,
@@ -1047,7 +1295,7 @@
   "WLDWIDE": {
     "code": null,
     "sector": "Others",
-    "domain": "net54baseball.com"
+    "domain": "zhihu.com"
   },
   "SIMEPTY": {
     "code": null,
@@ -1057,7 +1305,7 @@
   "ASIATIC": {
     "code": null,
     "sector": "Others",
-    "domain": "microsoft.com"
+    "domain": "google.co.id"
   },
   "WCTLAND": {
     "code": null,
@@ -1082,17 +1330,23 @@
   "ZELAN": {
     "code": "2283",
     "sector": "Industrial",
-    "domain": "speedtest.mybroadband.co.za"
+    "domain": "speedtest.mybroadband.co.za",
+    "price": 0.08,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "MAYBULK": {
     "code": "5077",
     "sector": "Industrial",
-    "domain": "maybulk.com.my"
+    "domain": "maybulk.com.my",
+    "price": 0.35,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "YNHPROP": {
     "code": "3158",
     "sector": "Property",
-    "domain": "support.google.com"
+    "domain": "support.google.com",
+    "price": 0.22,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "TMI": {
     "code": null,
@@ -1117,7 +1371,7 @@
   "KENCANA": {
     "code": null,
     "sector": "Others",
-    "domain": "play.google.com"
+    "domain": "coze.cn"
   },
   "KINSTEL": {
     "code": null,
@@ -1132,7 +1386,9 @@
   "SPB": {
     "code": null,
     "sector": "Others",
-    "domain": "selangor.gov.my"
+    "domain": "selangor.gov.my",
+    "price": 0,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "QSR": {
     "code": null,
@@ -1142,7 +1398,9 @@
   "SARAWAK": {
     "code": "9237",
     "sector": "Industrial",
-    "domain": "sarawakenergy.com"
+    "domain": "sarawakenergy.com",
+    "price": 0.125,
+    "price_updated_at": "2026-06-23T15:37:02.964Z"
   },
   "UEMLAND": {
     "code": null,
@@ -1187,32 +1445,40 @@
   "BAT": {
     "code": "4162",
     "sector": "Consumer",
-    "domain": "britishcouncil.my"
+    "domain": "britishcouncil.my",
+    "price": 5.14,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "HARTA": {
     "code": "0359",
     "sector": "Industrial",
-    "domain": "hartalega.com.my"
+    "domain": "hartalega.com.my",
+    "price": 0.675,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "PRESBHD": {
     "code": null,
     "sector": "Others",
-    "domain": "speedtest.net"
+    "domain": "support.microsoft.com"
   },
   "PERDANA": {
     "code": "7108",
     "sector": "Industrial",
-    "domain": "4dyes3.com"
+    "domain": "4dyes3.com",
+    "price": 0.165,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "YINSON": {
     "code": "7293",
     "sector": "Industrial",
-    "domain": "yinson.com"
+    "domain": "yinson.com",
+    "price": 1.94,
+    "price_updated_at": "2026-06-23T15:37:03.232Z"
   },
   "BJAUTO": {
     "code": null,
     "sector": "Others",
-    "domain": "berjaya.com"
+    "domain": "support.google.com"
   },
   "FABER": {
     "code": null,
@@ -1222,12 +1488,16 @@
   "UOAREIT": {
     "code": "5110",
     "sector": "Property",
-    "domain": "auckland.ac.nz"
+    "domain": "auckland.ac.nz",
+    "price": 0.8,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "AIRPORT": {
     "code": null,
     "sector": "Others",
-    "domain": "malaysiaairports.com.my"
+    "domain": "malaysiaairports.com.my",
+    "price": 0,
+    "price_updated_at": "2026-06-23T15:37:03.544Z"
   },
   "AFG": {
     "code": null,
@@ -1237,12 +1507,14 @@
   "SKPETRO": {
     "code": null,
     "sector": "Others",
-    "domain": "netflix.com"
+    "domain": "zhihu.com"
   },
   "ALAQAR": {
     "code": "5116",
     "sector": "Property",
-    "domain": "chatgpt.com"
+    "domain": "chatgpt.com",
+    "price": 1.16,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "UMWOG": {
     "code": null,
@@ -1252,22 +1524,28 @@
   "TAMBUN": {
     "code": "5191",
     "sector": "Property",
-    "domain": "sunwaylostworldoftambun.com"
+    "domain": "sunwaylostworldoftambun.com",
+    "price": 0.76,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "CCB": {
     "code": null,
     "sector": "Others",
-    "domain": "ocbccycle.my"
+    "domain": "flipkart.com"
   },
   "MRCB": {
     "code": "1651",
     "sector": "Industrial",
-    "domain": "mrcb.com.my"
+    "domain": "mrcb.com.my",
+    "price": 0.33,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "AMWAY": {
     "code": "6351",
     "sector": "Consumer",
-    "domain": "amwayglobal.com"
+    "domain": "amwayglobal.com",
+    "price": 4.59,
+    "price_updated_at": "2026-06-23T15:37:03.823Z"
   },
   "MQREIT": {
     "code": null,
@@ -1282,12 +1560,14 @@
   "SIMEPLT": {
     "code": null,
     "sector": "Others",
-    "domain": "sime.com"
+    "domain": "sime.com",
+    "price": 0,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "FFHB": {
     "code": null,
     "sector": "Others",
-    "domain": "controlabo.com"
+    "domain": "stackoverflow.com"
   },
   "CCMDBIO": {
     "code": null,
@@ -1297,21 +1577,29 @@
   "DLADY": {
     "code": "3026",
     "sector": "Consumer",
-    "domain": "dutchlady.com.my"
+    "domain": "dutchlady.com.my",
+    "price": 32.5,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "BSTEAD": {
     "code": "8133",
     "sector": "Industrial",
-    "domain": "boustead.com.my"
+    "domain": "boustead.com.my",
+    "price": 0.47,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "SENTRAL": {
     "code": "5123",
     "sector": "Property",
-    "domain": "genius.com"
+    "domain": "genius.com",
+    "price": 0.705,
+    "price_updated_at": "2026-06-23T15:37:04.101Z"
   },
   "VANTNRG": {
     "code": "5218",
     "sector": "Industrial",
-    "domain": "sapuraenergy.com"
+    "domain": "sapuraenergy.com",
+    "price": 0.315,
+    "price_updated_at": "2026-06-23T15:37:04.389Z"
   }
 }
