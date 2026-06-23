@@ -395,8 +395,8 @@
     "domain": "paradigmmall.com.my"
   },
   "NESTLE": {
-    "code": null,
-    "sector": "Others",
+    "code": "4707",
+    "sector": "Consumer",
     "domain": "nestle.com.my"
   },
   "BURSA": {
@@ -457,7 +457,7 @@
   "LKT IND": {
     "code": null,
     "sector": "Others",
-    "domain": "cdn1.get-qr.com"
+    "domain": "github.com"
   },
   "PFB": {
     "code": null,
@@ -467,7 +467,7 @@
   "HLPB": {
     "code": null,
     "sector": "Others",
-    "domain": "hongleongconnect.my"
+    "domain": "eplus.jp"
   },
   "THBIND": {
     "code": null,
@@ -482,7 +482,7 @@
   "PPAB": {
     "code": null,
     "sector": "Others",
-    "domain": "klfoodie.com"
+    "domain": "pmcorporation.com.my"
   },
   "CAPE": {
     "code": "5311",
@@ -492,7 +492,7 @@
   "COMMERZ": {
     "code": null,
     "sector": "Others",
-    "domain": "investopedia.com"
+    "domain": "commercedc.com.my"
   },
   "CHHB": {
     "code": "5738",
@@ -527,7 +527,7 @@
   "PHILEO": {
     "code": null,
     "sector": "Others",
-    "domain": "chatgpt.com"
+    "domain": "tools.usps.com"
   },
   "APM": {
     "code": "5015",
@@ -542,12 +542,12 @@
   "HIRO": {
     "code": null,
     "sector": "Others",
-    "domain": "vietnam.travel"
+    "domain": "support.google.com"
   },
   "BREM": {
     "code": null,
     "sector": "Others",
-    "domain": "support.microsoft.com"
+    "domain": "tacloban.gov.ph"
   },
   "MFLOUR": {
     "code": "3662",
@@ -592,7 +592,7 @@
   "LKT": {
     "code": null,
     "sector": "Others",
-    "domain": "cdn1.get-qr.com"
+    "domain": "apixel.hk"
   },
   "AIC": {
     "code": null,
@@ -627,7 +627,7 @@
   "TRANMIL": {
     "code": null,
     "sector": "Others",
-    "domain": "web.whatsapp.com"
+    "domain": "arahpena.com"
   },
   "HAISAN": {
     "code": null,
@@ -652,17 +652,17 @@
   "BANENG": {
     "code": null,
     "sector": "Others",
-    "domain": "amazon.com"
+    "domain": "justdial.com"
   },
   "OYL": {
     "code": null,
     "sector": "Others",
-    "domain": "rome-tourism.org"
+    "domain": "britannica.com"
   },
   "MWATA": {
     "code": null,
     "sector": "Others",
-    "domain": "zhihu.com"
+    "domain": "vanguard.com"
   },
   "AKN": {
     "code": null,
@@ -672,7 +672,7 @@
   "SYMPHNY": {
     "code": null,
     "sector": "Others",
-    "domain": "symphony-eng.com.my"
+    "domain": "mpo.com.my"
   },
   "MTDINFR": {
     "code": null,
@@ -687,12 +687,12 @@
   "HALIM": {
     "code": null,
     "sector": "Others",
-    "domain": "firsttechfed.com"
+    "domain": "idfood.co.id"
   },
   "PJI": {
     "code": null,
     "sector": "Others",
-    "domain": "nejm.org"
+    "domain": "zhihu.com"
   },
   "MEGAN": {
     "code": null,
@@ -717,7 +717,7 @@
   "ATIS": {
     "code": null,
     "sector": "Others",
-    "domain": "safety.army.mil"
+    "domain": "mysti.gov.my"
   },
   "COURTS": {
     "code": null,
@@ -777,7 +777,7 @@
   "PATIMAS": {
     "code": null,
     "sector": "Others",
-    "domain": "india.com"
+    "domain": "support.microsoft.com"
   },
   "CREST": {
     "code": "8591",
@@ -792,12 +792,12 @@
   "HDBS": {
     "code": null,
     "sector": "Others",
-    "domain": "fifa.com"
+    "domain": "allevents.in"
   },
   "EOX": {
     "code": null,
     "sector": "Others",
-    "domain": "comunidad.movistar.es"
+    "domain": "soso-forum.tistory.com"
   },
   "YLI": {
     "code": "7014",
@@ -817,7 +817,7 @@
   "INTEGRA": {
     "code": null,
     "sector": "Others",
-    "domain": "integrax.com.my"
+    "domain": "tenforums.com"
   },
   "CHINWEL": {
     "code": "5007",
@@ -827,7 +827,7 @@
   "ISYODA": {
     "code": null,
     "sector": "Others",
-    "domain": "bagitekno.net"
+    "domain": "bbs.pubg.game.daum.net"
   },
   "PETRA": {
     "code": "5133",
@@ -862,7 +862,7 @@
   "EQUINE": {
     "code": null,
     "sector": "Others",
-    "domain": "24vids.com"
+    "domain": "animalwised.com"
   },
   "HBJCORP": {
     "code": null,
@@ -872,12 +872,12 @@
   "DEGEM": {
     "code": null,
     "sector": "Others",
-    "domain": "degemdiamond.com"
+    "domain": "support.microsoft.com"
   },
   "TECHVEN": {
     "code": null,
     "sector": "Others",
-    "domain": "taiwaninfo.nat.gov.tw"
+    "domain": "zhihu.com"
   },
   "LONBISC": {
     "code": null,
@@ -887,7 +887,7 @@
   "HSL": {
     "code": null,
     "sector": "Others",
-    "domain": "zhidao.baidu.com"
+    "domain": "hockinternational.com"
   },
   "NAIM": {
     "code": "5073",
@@ -897,7 +897,7 @@
   "BERNAS": {
     "code": null,
     "sector": "Others",
-    "domain": "lemonde.fr"
+    "domain": "google.com"
   },
   "KOBAY": {
     "code": "6971",
@@ -907,17 +907,17 @@
   "SAMUDRA": {
     "code": null,
     "sector": "Others",
-    "domain": "ukm.my"
+    "domain": "support.google.com"
   },
   "SUNRISE": {
-    "code": null,
-    "sector": "Others",
+    "code": "5148",
+    "sector": "Property",
     "domain": "sunrise.am"
   },
   "ENG": {
     "code": null,
     "sector": "Others",
-    "domain": "translate.google.com"
+    "domain": "translate.google.com.my"
   },
   "JUSCO": {
     "code": null,
@@ -927,12 +927,12 @@
   "EONCAP": {
     "code": null,
     "sector": "Others",
-    "domain": "support.google.com"
+    "domain": "eon.com.my"
   },
   "TAMCORP": {
     "code": null,
     "sector": "Others",
-    "domain": "zhidao.baidu.com"
+    "domain": "tamco.com.my"
   },
   "KLCCP": {
     "code": "5235SS",
@@ -982,22 +982,22 @@
   "SAPCRES": {
     "code": null,
     "sector": "Others",
-    "domain": "vtvgo.vn"
+    "domain": "walmart.com"
   },
   "I&P": {
     "code": null,
     "sector": "Others",
-    "domain": "trustedmalaysia.com"
+    "domain": "traveltriangle.com"
   },
   "NEXTNAT": {
     "code": null,
     "sector": "Others",
-    "domain": "timeanddate.com"
+    "domain": "zhihu.com"
   },
   "SUIWAH": {
     "code": null,
     "sector": "Others",
-    "domain": "blogs.microsoft.com"
+    "domain": "whatsapp.com"
   },
   "RHBCAP": {
     "code": null,
@@ -1017,7 +1017,7 @@
   "SCOMIMR": {
     "code": null,
     "sector": "Others",
-    "domain": "bomamarketing.com"
+    "domain": "scomigroup.com.my"
   },
   "ASIAPAC": {
     "code": "4057",
@@ -1027,7 +1027,7 @@
   "GPERAK": {
     "code": null,
     "sector": "Others",
-    "domain": "bbc.com"
+    "domain": "gulamelaka.my"
   },
   "GLOBALC": {
     "code": null,
@@ -1037,7 +1037,7 @@
   "KILHALL": {
     "code": null,
     "sector": "Others",
-    "domain": "play.google.com"
+    "domain": "faq.jal.co.jp"
   },
   "SIMEENG": {
     "code": null,
@@ -1047,7 +1047,7 @@
   "WLDWIDE": {
     "code": null,
     "sector": "Others",
-    "domain": "worldwide.com.my"
+    "domain": "imdb.com"
   },
   "SIMEPTY": {
     "code": null,
@@ -1057,12 +1057,12 @@
   "ASIATIC": {
     "code": null,
     "sector": "Others",
-    "domain": "weathernews.jp"
+    "domain": "m.me"
   },
   "WCTLAND": {
     "code": null,
     "sector": "Others",
-    "domain": "visithatta.com"
+    "domain": "wct.com.my"
   },
   "HEXAGON": {
     "code": null,
@@ -1107,22 +1107,22 @@
   "IJMLAND": {
     "code": null,
     "sector": "Others",
-    "domain": "kupidonia.com"
+    "domain": "ijm.com"
   },
   "UEMWRLD": {
     "code": null,
     "sector": "Others",
-    "domain": "support.microsoft.com"
+    "domain": "uem.com.my"
   },
   "KENCANA": {
     "code": null,
     "sector": "Others",
-    "domain": "gadingkencana.com.my"
+    "domain": "support.microsoft.com"
   },
   "KINSTEL": {
     "code": null,
     "sector": "Others",
-    "domain": "bchrt.com"
+    "domain": "marketscreener.com"
   },
   "KULIM": {
     "code": null,
@@ -1147,12 +1147,12 @@
   "UEMLAND": {
     "code": null,
     "sector": "Others",
-    "domain": "chat.google.com"
+    "domain": "kuaillanvpn.com"
   },
   "PERWAJA": {
     "code": null,
     "sector": "Others",
-    "domain": "vclock.com"
+    "domain": "lotto.arclink.com.tw"
   },
   "CMMT": {
     "code": null,
@@ -1167,7 +1167,7 @@
   "KEURO": {
     "code": null,
     "sector": "Others",
-    "domain": "kwsp.gov.my"
+    "domain": "kumpulan.com.sg"
   },
   "IVORY": {
     "code": null,
@@ -1182,7 +1182,7 @@
   "TWSPLNT": {
     "code": null,
     "sector": "Others",
-    "domain": "tpb.com.my"
+    "domain": "tradewindsnews.com"
   },
   "BAT": {
     "code": "4162",
@@ -1197,7 +1197,7 @@
   "PRESBHD": {
     "code": null,
     "sector": "Others",
-    "domain": "x.com"
+    "domain": "claude.com"
   },
   "PERDANA": {
     "code": "7108",
@@ -1237,7 +1237,7 @@
   "SKPETRO": {
     "code": null,
     "sector": "Others",
-    "domain": "zhihu.com"
+    "domain": "000webhost.com"
   },
   "ALAQAR": {
     "code": "5116",
@@ -1247,7 +1247,7 @@
   "UMWOG": {
     "code": null,
     "sector": "Others",
-    "domain": "local.turkeyturism.com"
+    "domain": "simeumw.com"
   },
   "TAMBUN": {
     "code": "5191",
@@ -1257,7 +1257,7 @@
   "CCB": {
     "code": null,
     "sector": "Others",
-    "domain": "cyclecarriage.com.my"
+    "domain": "ocbccycle.my"
   },
   "MRCB": {
     "code": "1651",
@@ -1287,12 +1287,12 @@
   "FFHB": {
     "code": null,
     "sector": "Others",
-    "domain": "federalpaint.com.my"
+    "domain": "capcut.cn"
   },
   "CCMDBIO": {
     "code": null,
     "sector": "Others",
-    "domain": "ssm-einfo.my"
+    "domain": "ccmberhad.com"
   },
   "DLADY": {
     "code": "3026",
