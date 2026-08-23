@@ -8,9 +8,6 @@ A full-stack data pipeline and interactive Web UI for tracking and analyzing Emp
 
 ```
 Employees-Provident-Fund-Portfolio/
-├── .agents/                        # AI Agent Skill Configurations
-│   └── skills/
-│       └── website-studio/         # End-to-End UI Design & Theme System Skill
 ├── assets/                         # Media Assets & Branding Specifications
 │   └── logo/                       # Corporate Logos & Document Specifications
 ├── data/                           # Scraped Datasets, SQL Dumps & Cache

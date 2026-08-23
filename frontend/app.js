@@ -442,52 +442,29 @@ function getLogoUrl(companyName, stockName) {
   return `https://logo.clearbit.com/${clean}.com`;
 }
 
+// Global Clean Stock Avatar Renderer (Single Element Guarantee)
+function renderStockLogo(stock, company, size = 32) {
+  const logoUrl = getLogoUrl(company, stock);
+  const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
+  if (logoUrl) {
+    return `<img src="${logoUrl}" 
+                 class="stock-icon-img" 
+                 style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; border-radius:9999px; object-fit:cover; display:inline-block; flex-shrink:0;" 
+                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(stock)}&background=1e1b4b&color=a5b4fc&bold=true&size=128'; }" 
+                 alt="${stock}">`;
+  }
+  return `<div class="stock-icon fallback-icon" style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; background:${stockColor(stock)}; border-radius:9999px; display:inline-flex; align-items:center; justify-content:center; font-size:${Math.round(size * 0.35)}px; font-weight:700; color:#fff; flex-shrink:0;">${stock.slice(0, 2)}</div>`;
+}
+
 // ============================================
-// Tab System
+// Tab System Hook (Unified Controller)
 // ============================================
 document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    // 1. Reset all tab buttons classes
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      b.classList.remove('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
-      b.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
-    });
-
-    // 2. Set active button class
-    btn.classList.add('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
-    btn.classList.remove('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
-
-    // 3. Hide all panels
-    document.querySelectorAll('.tab-panel').forEach(p => {
-      p.classList.add('hidden');
-      p.classList.remove('active');
-    });
-
-    // 4. Show target panel
-    const panel = document.getElementById(`panel-${btn.dataset.tab}`);
-    if (panel) {
-      panel.classList.remove('hidden');
-      panel.classList.add('active');
-    }
-
-    // 5. Redraw charts that were hidden (canvas needs visible dimensions)
-    if (btn.dataset.tab === 'returns') {
-      requestAnimationFrame(() => {
-        drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
-      });
-    } else if (btn.dataset.tab === 'holdings') {
-      requestAnimationFrame(() => {
-        const companyData = getPieData('company');
-        const sectorData = getPieData('sector');
-        drawPieChart('pie-company-canvas', companyData, 'company', !pieChartDrawn);
-        drawPieChart('pie-sector-canvas', sectorData, 'sector', !pieChartDrawn);
-        pieChartDrawn = true;
-      });
-    } else if (btn.dataset.tab === 'dashboard') {
-      requestAnimationFrame(() => {
-        drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), '#8b5cf6', !lineChartDrawn);
-        lineChartDrawn = true;
-      });
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tabName = btn.dataset.tab;
+    if (tabName && typeof switchTab === 'function') {
+      switchTab(tabName);
     }
   });
 });
@@ -592,41 +569,26 @@ function renderHoldingsTable() {
   }
 
   tbody.innerHTML = data.map((h, i) => {
-    const logoUrl = getLogoUrl(h.company_name, h.stock_name);
-    let domain = '';
-    if (EPF_DATA.companyDomains && EPF_DATA.companyDomains[h.stock_name]) {
-      domain = EPF_DATA.companyDomains[h.stock_name];
-    } else {
-      const match = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/) : null;
-      if (match) domain = match[1];
-    }
-
     const priceText = h.price ? `RM ${h.price.toFixed(2)}` : 'RM 0.00';
     const valueText = h.market_value ? `RM ${h.market_value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'RM 0.00';
 
     return `<tr>
-      <td>${i + 1}</td>
+      <td class="font-mono text-outline font-medium text-xs">${i + 1}</td>
       <td>
-        <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="stock-symbol-link" title="View ${h.stock_name} on KLSE Screener">
-          <div class="stock-symbol">
-            ${logoUrl ? `
-              <img src="${logoUrl}" 
-                   class="stock-icon-img" 
-                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                   alt="${h.stock_name}">
-            ` : ''}
-            <div class="stock-icon fallback-icon" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
-            <span class="stock-name">${h.stock_name}</span>
+        <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="stock-symbol-link group" title="View ${h.stock_name} on KLSE Screener">
+          <div class="stock-symbol flex items-center gap-3">
+            ${renderStockLogo(h.stock_name, h.company_name, 32)}
+            <span class="stock-name group-hover:text-primary transition-colors text-xs font-bold">${h.stock_name}</span>
           </div>
         </a>
       </td>
-      <td>${h.company_name}</td>
-      <td>${h.sector}</td>
-      <td class="align-right font-medium">${priceText}</td>
-      <td class="align-right">${h.total_securities.toLocaleString()}</td>
-      <td class="align-right font-semibold text-primary-fixed-dim">${valueText}</td>
-      <td class="align-right">${h.direct_percent.toFixed(3)}%</td>
-      <td class="align-right font-medium">${h.percent_portfolio.toFixed(3)}%</td>
+      <td class="font-semibold text-on-surface text-xs">${h.company_name}</td>
+      <td><span class="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-outline font-medium whitespace-nowrap">${h.sector}</span></td>
+      <td class="text-right font-mono-numeric font-medium text-xs">${priceText}</td>
+      <td class="text-right font-mono-numeric text-on-surface-variant text-xs">${h.total_securities.toLocaleString()}</td>
+      <td class="text-right font-mono-numeric font-bold text-on-surface text-xs">${valueText}</td>
+      <td class="text-right font-mono-numeric font-medium text-outline text-xs">${h.direct_percent.toFixed(3)}%</td>
+      <td class="text-right font-mono-numeric font-semibold text-primary-fixed text-xs">${h.percent_portfolio.toFixed(3)}%</td>
     </tr>`;
   }).join('');
 }
@@ -669,13 +631,17 @@ function getPortfolioTimeSeries(range) {
 
 let lineChartAnimId = null;
 
-function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
+function drawLineChart(canvasId, data, color = null, animateChart = true) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.parentElement.getBoundingClientRect();
   if (rect.width <= 0 || rect.height <= 0) return;
+
+  const dynamicColor = color || (getComputedStyle(document.documentElement).getPropertyValue('--chart-primary').trim() || '#6366f1');
+  const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#64748b';
+  const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255, 255, 255, 0.07)';
 
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
@@ -690,8 +656,8 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
   ctx.clearRect(0, 0, w, h);
 
   if (data.length < 2) {
-    ctx.fillStyle = '#958ea0';
-    ctx.font = '13px Inter, sans-serif';
+    ctx.fillStyle = textColor;
+    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Not enough data for this range', w / 2, h / 2);
     return;
@@ -718,15 +684,15 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     ctx.clearRect(0, 0, w, h);
 
     // Y-axis labels
-    ctx.fillStyle = '#958ea0';
-    ctx.font = '10px Inter, sans-serif';
+    ctx.fillStyle = textColor;
+    ctx.font = '10px "JetBrains Mono", monospace';
     ctx.textAlign = 'right';
     for (let i = 0; i <= 4; i++) {
       const val = minV + (range * i / 4);
       const y = pad.top + plotH - (plotH * i / 4);
       ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
       // Grid line
-      ctx.strokeStyle = 'rgba(37, 37, 58, 0.5)';
+      ctx.strokeStyle = gridColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(pad.left, y);
@@ -735,8 +701,8 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     }
 
     // X-axis labels
-    ctx.fillStyle = '#958ea0';
-    ctx.font = '10px Inter, sans-serif';
+    ctx.fillStyle = textColor;
+    ctx.font = '10px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
 
     let formatLabel = (labelStr) => {
@@ -799,8 +765,9 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
 
     // Gradient fill
     const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
-    gradient.addColorStop(0, color + '30');
-    gradient.addColorStop(1, color + '00');
+    gradient.addColorStop(0, dynamicColor + '40');
+    gradient.addColorStop(0.5, dynamicColor + '15');
+    gradient.addColorStop(1, dynamicColor + '00');
 
     // Calculate how many points to draw based on progress
     const maxDrawIndex = (data.length - 1) * easeProgress;
@@ -847,6 +814,7 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     ctx.restore();
 
     // Stroke line
+    ctx.save();
     ctx.beginPath();
     data.forEach((d, i) => {
       if (i > Math.ceil(maxDrawIndex)) return;
@@ -867,10 +835,13 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
       else ctx.lineTo(x, y);
     });
 
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+    ctx.shadowColor = dynamicColor;
+    ctx.shadowBlur = 10;
+    ctx.strokeStyle = dynamicColor;
+    ctx.lineWidth = 2.5;
     ctx.lineJoin = 'round';
     ctx.stroke();
+    ctx.restore();
 
     // Dots on the moving end point
     if (easeProgress > 0) {
@@ -1058,9 +1029,12 @@ function renderPieLegend(elementId, data) {
   const el = document.getElementById(elementId);
   if (!el) return;
   el.innerHTML = data.map(d => `
-    <div class="pie-legend-item">
-      <span class="pie-legend-dot" style="background:${d.color}"></span>
-      <span>${d.label} <span style="color:var(--text-muted)">${d.pct}%</span></span>
+    <div class="pie-legend-chip">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="pie-legend-dot" style="background:${d.color}; box-shadow: 0 0 6px ${d.color}99;"></span>
+        <span class="text-xs font-semibold text-on-surface truncate" title="${d.label}">${d.label}</span>
+      </div>
+      <span class="text-xs font-bold font-mono text-outline shrink-0 pl-1.5">${d.pct}%</span>
     </div>
   `).join('');
 }
@@ -1233,29 +1207,100 @@ function renderReturnsSummary() {
   const totalTx = dates.reduce((s, d) => s + d.count, 0);
 
   document.getElementById('returns-summary').innerHTML = `
-    <div class="summary-card">
-      <div class="summary-card-label">Total Acquired</div>
-      <div class="summary-card-value positive">${formatCompact(totalAcquired)}</div>
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
+        <div class="h-8 w-8 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">trending_up</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold text-emerald-400 font-mono-numeric tracking-tight">+${formatCompact(totalAcquired)}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <span>Accumulation volume</span>
+      </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Total Disposed</div>
-      <div class="summary-card-value negative">${formatCompact(totalDisposed)}</div>
+
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
+        <div class="h-8 w-8 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">trending_down</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold text-rose-400 font-mono-numeric tracking-tight">-${formatCompact(totalDisposed)}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+        <span>Divestment volume</span>
+      </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Net Activity</div>
-      <div class="summary-card-value ${totalNet >= 0 ? 'positive' : 'negative'}">${formatCompact(totalNet)}</div>
+
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
+        <div class="h-8 w-8 rounded-xl ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'} flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">account_balance</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric tracking-tight">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full ${totalNet >= 0 ? 'bg-emerald-400' : 'bg-rose-400'}"></span>
+        <span>Net shares flow</span>
+      </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Total Announcements</div>
-      <div class="summary-card-value">${totalTx.toLocaleString()}</div>
+
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
+        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">receipt_long</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${totalTx.toLocaleString()}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span>Recorded filings</span>
+      </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Unique Stocks</div>
-      <div class="summary-card-value">${EPF_DATA.uniqueStocks}</div>
+
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Equities</span>
+        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">category</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${EPF_DATA.uniqueStocks}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span>Bursa listed stocks</span>
+      </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Trading Days</div>
-      <div class="summary-card-value">${Object.keys(EPF_DATA.txByDate).length}</div>
+
+    <div class="returns-stat-card">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trading Sessions</span>
+        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[17px]">calendar_month</span>
+        </div>
+      </div>
+      <div class="my-2">
+        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${Object.keys(EPF_DATA.txByDate).length}</div>
+      </div>
+      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        <span>Active trade days</span>
+      </div>
     </div>
   `;
 }
@@ -1410,49 +1455,30 @@ function renderTransactionsTable() {
   document.getElementById('tx-count').textContent = filteredTx.length.toLocaleString();
 
   tbody.innerHTML = pageData.map((tx, i) => {
-    const logoUrl = getLogoUrl(tx.company, tx.stock);
-    let domain = '';
-    if (EPF_DATA.companyDomains && EPF_DATA.companyDomains[tx.stock]) {
-      domain = EPF_DATA.companyDomains[tx.stock];
-    } else {
-      const match = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/) : null;
-      if (match) domain = match[1];
-    }
-
     return `<tr>
-      <td>${start + i + 1}</td>
+      <td class="font-mono text-outline font-medium text-xs">${start + i + 1}</td>
+      <td class="font-mono text-outline font-medium text-xs whitespace-nowrap">${tx.date}</td>
       <td>
-        ${tx.date}
-      </td>
-      <td>
-        <a href="${getKlseLink(tx.stock, tx.company)}" target="_blank" class="stock-symbol-link" title="View ${tx.stock} on KLSE Screener">
-          <div class="stock-symbol">
-            ${logoUrl ? `
-              <img src="${logoUrl}" 
-                   class="stock-icon-img" 
-                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                   alt="${tx.stock}">
-            ` : ''}
-            <div class="stock-icon fallback-icon" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
-            <span class="stock-name">${tx.stock}</span>
+        <a href="${getKlseLink(tx.stock, tx.company)}" target="_blank" class="stock-symbol-link group" title="View ${tx.stock} on KLSE Screener">
+          <div class="stock-symbol flex items-center gap-3">
+            ${renderStockLogo(tx.stock, tx.company, 32)}
+            <span class="stock-name group-hover:text-primary transition-colors text-xs font-bold">${tx.stock}</span>
           </div>
         </a>
       </td>
-      <td>${tx.company}</td>
+      <td class="font-semibold text-on-surface text-xs">${tx.company}</td>
       <td>
         <span class="tx-type ${tx.type.toLowerCase()}" 
               onclick="openTxModal(${start + i})"
-              style="cursor:pointer; display:inline-flex; align-items:center; gap:0.25rem; transition:transform var(--transition);"
-              onmouseover="this.style.transform='scale(1.05)'"
-              onmouseout="this.style.transform='scale(1)'"
+              style="cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem;"
               title="Click to view all transactions">
           ${tx.type}${tx.isNet ? ' (Net)' : ''}
           <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.75;"><path d="M12 5v14M5 12h14"/></svg>
         </span>
       </td>
-      <td class="align-right">${tx.amount.toLocaleString()}</td>
-      <td class="align-right">${tx.percent}%</td>
-      <td class="align-right">${tx.total.toLocaleString()}</td>
+      <td class="text-right font-mono-numeric font-semibold text-on-surface text-xs">${tx.amount.toLocaleString()}</td>
+      <td class="text-right font-mono-numeric font-medium text-outline text-xs">${tx.percent}%</td>
+      <td class="text-right font-mono-numeric font-bold text-on-surface text-xs">${tx.total.toLocaleString()}</td>
     </tr>`;
   }).join('');
 
@@ -1587,8 +1613,10 @@ function setupLineChartHover() {
     const px = pad.left + (plotW * clampedIdx / (data.length - 1));
     const py = pad.top + plotH - ((d.value - minV) / range * plotH);
 
+    const themeAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6366f1';
+
     // Vertical crosshair
-    ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
+    ctx.strokeStyle = themeAccent + '66';
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 3]);
     ctx.beginPath();
@@ -1600,11 +1628,11 @@ function setupLineChartHover() {
     // Highlight dot
     ctx.beginPath();
     ctx.arc(px, py, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#8b5cf6';
+    ctx.fillStyle = themeAccent;
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(px, py, 9, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(139, 92, 246, 0.25)';
+    ctx.arc(px, py, 10, 0, Math.PI * 2);
+    ctx.fillStyle = themeAccent + '33';
     ctx.fill();
     ctx.restore();
 
@@ -1921,18 +1949,10 @@ function init() {
     const sectorLogosEl = document.getElementById('bento-sector-logos');
     if (sectorLogosEl) {
       sectorLogosEl.innerHTML = top3.map((h, index) => {
-        const logoUrl = getLogoUrl(h.company_name, h.stock_name);
         const zIndex = 30 - (index * 10);
-        const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
         return `
-          <div class="relative w-8 h-8 rounded-full border border-[#25253a] bg-[#1a1a26] overflow-hidden flex items-center justify-center shadow-md shrink-0" style="z-index: ${zIndex}">
-            ${logoUrl ? `
-              <img src="${logoUrl}" 
-                   class="w-full h-full object-cover" 
-                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                   alt="${h.stock_name}">
-            ` : ''}
-            <div class="w-full h-full text-[9px] font-bold text-white flex items-center justify-center" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${h.stock_name.slice(0, 2)}</div>
+          <div class="relative w-8 h-8 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-2 first:ml-0" style="z-index: ${zIndex}">
+            ${renderStockLogo(h.stock_name, h.company_name, 32)}
           </div>
         `;
       }).join('');
@@ -1951,17 +1971,7 @@ function init() {
     // RENDER TOP HOLDING LOGO DYNAMICALLY
     const holdingLogoContainer = document.getElementById('bento-holding-logo-container');
     if (holdingLogoContainer) {
-      const logoUrl = getLogoUrl(topHolding.company_name, topHolding.stock_name);
-      const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
-      holdingLogoContainer.innerHTML = `
-        ${logoUrl ? `
-          <img src="${logoUrl}" 
-               class="w-full h-full object-cover" 
-               onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-               alt="${topHolding.stock_name}">
-        ` : ''}
-        <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(topHolding.stock_name)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${topHolding.stock_name.slice(0, 2)}</div>
-      `;
+      holdingLogoContainer.innerHTML = renderStockLogo(topHolding.stock_name, topHolding.company_name, 38);
     }
   }
 
@@ -1974,33 +1984,24 @@ function init() {
   const activityFeed = document.getElementById('bento-activity-feed');
   if (activityFeed) {
     activityFeed.innerHTML = latestTx.map(tx => {
-      const logoUrl = getLogoUrl(tx.company, tx.stock);
-      const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
       const isBuy = tx.type === 'Acquired';
       const actionIcon = isBuy ? 'shopping_cart' : tx.type === 'Dividend' ? 'payments' : 'sell';
       const iconColor = isBuy ? 'text-primary' : tx.type === 'Dividend' ? 'text-tertiary' : 'text-error';
       return `
-        <div class="flex gap-3 items-start p-2 rounded-lg hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" onclick="openTxModal(${allFlatTx.indexOf(tx)})">
-          <div class="h-8 w-8 rounded-full border border-[#25253a] bg-[#1a1a26] overflow-hidden flex items-center justify-center mt-0.5 shrink-0 shadow-sm relative">
-            ${logoUrl ? `
-              <img src="${logoUrl}" 
-                   class="w-full h-full object-cover" 
-                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                   alt="${tx.stock}">
-            ` : ''}
-            <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${tx.stock.slice(0, 2)}</div>
-            <!-- Small indicator badge for action type on bottom right -->
-            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16161f] border border-[#25253a] flex items-center justify-center text-[8px] ${iconColor}">
-              <span class="material-symbols-outlined text-[9px]">${actionIcon}</span>
+        <div class="flex gap-3 items-center p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer" onclick="openTxModal(${allFlatTx.indexOf(tx)})">
+          <div class="relative shrink-0">
+            ${renderStockLogo(tx.stock, tx.company, 32)}
+            <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#08090e] border border-white/20 flex items-center justify-center text-[8px] ${iconColor}">
+              <span class="material-symbols-outlined text-[10px]">${actionIcon}</span>
             </span>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-baseline gap-2">
-              <span class="font-semibold text-xs text-on-surface truncate">${tx.type} ${tx.stock}</span>
-              <span class="text-[9px] text-outline shrink-0">${tx.date}</span>
+              <span class="font-bold text-xs text-on-surface truncate">${tx.type} ${tx.stock}</span>
+              <span class="text-[10px] text-outline font-mono shrink-0">${tx.date}</span>
             </div>
-            <div class="text-[11px] text-on-surface-variant truncate mt-0.5">
-              ${tx.company} — ${tx.amount.toLocaleString()} units
+            <div class="text-[11px] text-outline truncate mt-0.5 font-medium">
+              ${tx.company} — <span class="font-mono text-on-surface-variant font-semibold">${tx.amount.toLocaleString()}</span> units
             </div>
           </div>
         </div>
@@ -2245,6 +2246,14 @@ function switchTab(tabName) {
     });
 
   } else if (tabName === 'holdings') {
+    const companyData = getPieData('company');
+    const sectorData = getPieData('sector');
+    drawPieChart('pie-company-canvas', companyData, 'company', true);
+    drawPieChart('pie-sector-canvas', sectorData, 'sector', true);
+    renderPieLegend('pie-company-legend', companyData);
+    renderPieLegend('pie-sector-legend', sectorData);
+    renderHoldingsTable();
+
     // Holdings Badge Counter Ticker
     const countBadge = { val: 0 };
     anime({
@@ -2269,6 +2278,9 @@ function switchTab(tabName) {
     });
 
   } else if (tabName === 'returns') {
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+    renderReturnsSummary();
+
     // Summary Cards Entrance
     anime({
       targets: '#returns-summary > div',
@@ -2280,9 +2292,9 @@ function switchTab(tabName) {
       easing: 'easeOutBack'
     });
 
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
-
   } else if (tabName === 'transactions') {
+    renderTransactionsTable();
+
     // Transactions Badge Counter Ticker
     const txCountObj = { val: 0 };
     const txTarget = filteredTx ? filteredTx.length : 0;
@@ -2482,5 +2494,21 @@ document.addEventListener('keydown', (e) => {
     closeTxModal();
   }
 });
+
+// Redraw active canvas chart dynamically on theme change
+window.redrawCurrentActiveChart = function () {
+  const activePanel = document.querySelector('.tab-panel.active');
+  if (!activePanel) return;
+  if (activePanel.id === 'panel-dashboard') {
+    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), null, false);
+  } else if (activePanel.id === 'panel-holdings') {
+    const companyData = getPieData('company');
+    const sectorData = getPieData('sector');
+    drawPieChart('pie-company-canvas', companyData, 'company', false);
+    drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
+  } else if (activePanel.id === 'panel-returns') {
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+  }
+};
 
 init();
