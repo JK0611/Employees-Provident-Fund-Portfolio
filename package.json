@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:schedule": "node scripts/verify-scrape-schedule.js",
+    "process": "node scripts/process_data.js",
+    "scrape": "node scripts/scrape_test.js",
     "dev": "npx http-server frontend -p 3000"
   },
   "repository": {
@@ -21,6 +23,7 @@
   },
   "homepage": "https://github.com/JK0611/Employees-Provident-Fund-Portfolio#readme",
   "dependencies": {
+    "animejs": "^4.5.0",
     "axios": "^1.16.1",
     "cheerio": "^1.2.0",
     "crawlee": "^3.16.0",

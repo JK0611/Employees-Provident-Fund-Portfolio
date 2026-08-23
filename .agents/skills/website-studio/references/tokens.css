@@ -1,0 +1,286 @@
+/* ============================================================================
+   Token skeleton — Tailwind v4, dual theme, shadcn interop.
+   Copy into app/globals.css and replace every value with one measured off the
+   reference. Structure matters more than the placeholder values here.
+
+   Layout:
+     1. @theme            — geometry + font stacks (theme-invariant)
+     2. :root             — default theme colour ramp (here: dark)
+     3. [data-theme=…]    — the other theme, redeclaring EVERY colour token
+     4. @theme inline     — shadcn name mapping, so its primitives inherit
+     5. base rules        — body, selection, focus, scrollbars
+   Nothing outside this file may declare a colour.
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* ── 1. Geometry — identical in both themes ─────────────────────────────── */
+@theme {
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-var), ui-monospace, "JetBrains Mono", monospace;
+
+  --radius-pill: 999px;
+  --radius-panel: 16px;
+  --radius-card: 12px;
+  --radius-control: 10px;
+  --radius-input: 10px;
+
+  /* 4px base. Applications: page gutter 16, panel gap 16, panel padding 20–24. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  --text-display: 40px;   /* 600 / -0.02em */
+  --text-xl: 20px;        /* 600 / -0.015em */
+  --text-lg: 15px;        /* 600 / -0.01em  — panel titles */
+  --text-base: 14px;      /* 500 */
+  --text-sm: 13px;        /* 400 — table cells */
+  --text-xs: 12px;        /* 400 — deltas, meta */
+  --label-size: 11px;     /* 600 / +0.06em UPPERCASE — the signature micro-label */
+  --label-weight: 600;
+  --label-tracking: 0.06em;
+
+  --sidebar-w: 230px;
+  --nav-h: 38px;
+
+  /* Motion — one vocabulary, project-wide. */
+  --dur-press: 0.12s;
+  --dur-hover: 0.15s;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── 2. Default theme ramp (dark) ───────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces — one step apart; hierarchy comes from this, not from shadows. */
+  --surface-page: oklch(0.145 0 0);
+  --surface-panel: oklch(0.19 0 0);
+  --surface-raised: oklch(0.235 0 0);
+  --surface-hover: oklch(0.27 0 0);
+  --surface-active: oklch(0.31 0 0);
+
+  --border-subtle: oklch(0.24 0 0);
+  --border: oklch(0.28 0 0);
+  --border-strong: oklch(0.36 0 0);   /* interactive bounds — must pass 3:1 */
+
+  --text-primary: oklch(0.985 0 0);
+  --text-secondary: oklch(0.68 0 0);
+  --text-tertiary: oklch(0.50 0 0);   /* decorative only — never sole carrier of info */
+
+  /* ONE accent. Count its uses in the reference and keep to that budget. */
+  --accent: oklch(0.65 0.19 252);
+  --accent-ink: var(--accent);        /* text/icon use — diverges on light */
+  --accent-contrast: oklch(0.145 0 0);/* text ON an accent fill */
+  --accent-wash: color-mix(in oklch, var(--accent) 12%, transparent);
+  --accent-hover: oklch(0.71 0.18 252);
+
+  --success: oklch(0.72 0.16 156);
+  --warning: oklch(0.78 0.13 80);
+  --danger: oklch(0.68 0.19 25);
+  --info: oklch(0.72 0.14 250);
+  --success-wash: color-mix(in oklch, var(--success) 14%, var(--surface-panel));
+  --warning-wash: color-mix(in oklch, var(--warning) 14%, var(--surface-panel));
+  --danger-wash: color-mix(in oklch, var(--danger) 14%, var(--surface-panel));
+  --info-wash: color-mix(in oklch, var(--info) 14%, var(--surface-panel));
+
+  /* Tone sets — drive Pill/Badge from these, never per-component colours.
+     Add a status by adding a tone; never by adding a colour in a component. */
+  --tone-success-bg: var(--success-wash);
+  --tone-success-border: color-mix(in oklch, var(--success) 30%, transparent);
+  --tone-success-text: var(--success);
+  --tone-danger-bg: var(--danger-wash);
+  --tone-danger-border: color-mix(in oklch, var(--danger) 30%, transparent);
+  --tone-danger-text: var(--danger);
+  --tone-warning-bg: var(--warning-wash);
+  --tone-warning-border: color-mix(in oklch, var(--warning) 30%, transparent);
+  --tone-warning-text: var(--warning);
+  --tone-info-bg: var(--info-wash);
+  --tone-info-border: color-mix(in oklch, var(--info) 30%, transparent);
+  --tone-info-text: var(--info);
+  --tone-draft-bg: var(--surface-raised);
+  --tone-draft-border: var(--border);
+  --tone-draft-text: var(--text-secondary);
+
+  --chart-bar: oklch(0.30 0 0);
+  --chart-bar-hover: oklch(0.36 0 0);
+  --chart-bar-active: var(--accent);
+  --chart-axis: var(--text-tertiary);
+  --chart-grid: var(--border-subtle);
+  /* Heat ramp: dark → bright on dark. Direction inverts on light. */
+  --heat-0: oklch(0.24 0 0);
+  --heat-1: oklch(0.36 0 0);
+  --heat-2: oklch(0.55 0 0);
+  --heat-3: oklch(0.78 0 0);
+  --heat-4: oklch(1 0 0);
+
+  --focus-ring: var(--accent);
+  --scrim: rgb(0 0 0 / 55%);
+  --overlay-hover: rgb(255 255 255 / 6%);
+  --overlay-press: rgb(255 255 255 / 10%);
+  /* The only shadow in the system: floating surfaces that must detach. */
+  --shadow-pop: 0 16px 40px -16px rgb(0 0 0 / 45%);
+}
+
+/* ── 3. Derived theme (light) — same geometry, inverted neutrals ─────────
+   Every colour token above is redeclared. A token defined in only one theme
+   is a future invisible-text bug. */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --surface-page: oklch(0.975 0.002 95);
+  --surface-panel: oklch(1 0 0);
+  --surface-raised: oklch(0.965 0.002 95);
+  --surface-hover: oklch(0.94 0.003 95);
+  --surface-active: oklch(0.91 0.004 95);
+
+  --border-subtle: oklch(0.955 0.003 95);
+  --border: oklch(0.915 0.004 95);
+  --border-strong: oklch(0.85 0.005 95);
+
+  --text-primary: oklch(0.18 0.006 280);
+  --text-secondary: oklch(0.50 0.006 280);
+  --text-tertiary: oklch(0.68 0.006 280);
+
+  /* Accent keeps its bright value for FILLS; text/icons darken to clear AA. */
+  --accent: oklch(0.65 0.19 252);
+  --accent-ink: oklch(0.52 0.19 252);
+  --accent-contrast: oklch(0.99 0 0);
+  --accent-wash: color-mix(in oklch, var(--accent) 10%, transparent);
+  --accent-hover: oklch(0.58 0.20 252);
+
+  --success: oklch(0.52 0.14 156);
+  --warning: oklch(0.56 0.13 76);
+  --danger: oklch(0.53 0.19 25);
+  --info: oklch(0.53 0.15 250);
+  --success-wash: color-mix(in oklch, var(--success) 10%, white);
+  --warning-wash: color-mix(in oklch, var(--warning) 10%, white);
+  --danger-wash: color-mix(in oklch, var(--danger) 10%, white);
+  --info-wash: color-mix(in oklch, var(--info) 10%, white);
+
+  --tone-success-bg: var(--success-wash);
+  --tone-success-border: color-mix(in oklch, var(--success) 22%, transparent);
+  --tone-success-text: var(--success);
+  --tone-danger-bg: var(--danger-wash);
+  --tone-danger-border: color-mix(in oklch, var(--danger) 22%, transparent);
+  --tone-danger-text: var(--danger);
+  --tone-warning-bg: var(--warning-wash);
+  --tone-warning-border: color-mix(in oklch, var(--warning) 22%, transparent);
+  --tone-warning-text: var(--warning);
+  --tone-info-bg: var(--info-wash);
+  --tone-info-border: color-mix(in oklch, var(--info) 22%, transparent);
+  --tone-info-text: var(--info);
+  --tone-draft-bg: var(--surface-raised);
+  --tone-draft-border: var(--border);
+  --tone-draft-text: var(--text-secondary);
+
+  --chart-bar: oklch(0.90 0.003 95);
+  --chart-bar-hover: oklch(0.85 0.004 95);
+  --chart-bar-active: var(--accent);
+  --chart-axis: var(--text-tertiary);
+  --chart-grid: var(--border-subtle);
+  /* Ramp direction flips: light → dark, so "more" still reads as "more". */
+  --heat-0: oklch(0.965 0.002 95);
+  --heat-1: oklch(0.88 0.02 252);
+  --heat-2: oklch(0.75 0.09 252);
+  --heat-3: oklch(0.62 0.16 252);
+  --heat-4: oklch(0.45 0.18 252);
+
+  --focus-ring: var(--accent-ink);
+  /* Warm-grey, not black — black turns a white surface muddy rather than dim. */
+  --scrim: rgb(30 27 20 / 32%);
+  --overlay-hover: rgb(15 13 10 / 4%);
+  --overlay-press: rgb(15 13 10 / 8%);
+  /* Softer on light: a near-black drop shadow on white reads as grime. */
+  --shadow-pop: 0 24px 48px -16px rgb(30 27 20 / 18%);
+}
+
+/* ── 4. shadcn interop — its primitives inherit the system for free ─────── */
+@theme inline {
+  --color-background: var(--surface-page);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--surface-panel);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--surface-panel);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-contrast);
+  --color-secondary: var(--surface-raised);
+  --color-secondary-foreground: var(--text-primary);
+  --color-muted: var(--surface-raised);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent: var(--surface-hover);
+  --color-accent-foreground: var(--text-primary);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--accent-contrast);
+  --color-border: var(--border);
+  --color-input: var(--border-strong);
+  --color-ring: var(--focus-ring);
+  --color-sidebar: var(--surface-panel);
+  --color-sidebar-foreground: var(--text-primary);
+  --color-sidebar-accent: var(--surface-hover);
+  --color-sidebar-border: var(--border);
+  --color-sidebar-ring: var(--focus-ring);
+}
+
+/* ── 5. Base ────────────────────────────────────────────────────────────── */
+@layer base {
+  * { box-sizing: border-box; border-color: var(--border); }
+
+  html, body {
+    min-height: 100dvh;              /* never 100vh — iOS address-bar jump */
+    margin: 0;
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--accent) 35%, transparent);
+    color: var(--text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Tabular figures wherever numbers are compared down a column. */
+  .num, [data-num] { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  .label {
+    font-size: var(--label-size);
+    font-weight: var(--label-weight);
+    letter-spacing: var(--label-tracking);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Floating-surface entrances. Radix delays unmount only while an *animation*
+   runs — an exit written as a transition is skipped entirely.
+   Animate scale/opacity ONLY: Tailwind centres dialogs with the independent
+   `translate` property, and a translate() here double-shifts them. */
+@keyframes overlayFadeIn  { from { opacity: 0 } to { opacity: 1 } }
+@keyframes overlayFadeOut { from { opacity: 1 } to { opacity: 0 } }
+@keyframes dialogIn  { from { opacity: 0; transform: scale(0.96) } to { opacity: 1; transform: scale(1) } }
+@keyframes dialogOut { from { opacity: 1; transform: scale(1) } to { opacity: 0; transform: scale(0.96) } }

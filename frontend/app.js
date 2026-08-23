@@ -237,16 +237,16 @@ function getLogoUrl(companyName, stockName) {
   // 1. Check TradingView Logo mappings from logo.json (cached or fallback)
   const map = { ...fallbackTvLogos, ...tvLogoMap };
   if (ticker && map[ticker]) return map[ticker];
-  
+
   for (const [key, url] of Object.entries(map)) {
     const upperKey = key.toUpperCase().trim();
     if (ticker === upperKey) return url;
-    
+
     // Check specific custom aliases
     if (upperKey === 'CBD' && (ticker === 'CDB' || ticker === 'CELCOMDIGI')) return url;
     if (upperKey === 'RHB' && (ticker === 'RHBBANK' || ticker === 'RHB')) return url;
     if (upperKey === 'DIALOG GROUP' && (ticker === 'DIALOG' || name.includes('DIALOG'))) return url;
-    
+
     // Check substring matches
     if (ticker && (ticker.includes(upperKey) || upperKey.includes(ticker))) return url;
     if (name && (name.includes(upperKey) || upperKey.includes(name))) return url;
@@ -432,7 +432,7 @@ function getLogoUrl(companyName, stockName) {
   if (domain) {
     return `https://logo.clearbit.com/${domain}`;
   }
-  
+
   // Fallback slug generation
   const clean = name
     .replace(/\b(BERHAD|BHD|CORPORATION|GROUP|HOLDINGS|CO|M)\b/g, '')
@@ -452,17 +452,17 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       b.classList.remove('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
       b.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
     });
-    
+
     // 2. Set active button class
     btn.classList.add('bg-surface-container-highest', 'text-on-surface', 'font-semibold');
     btn.classList.remove('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-low');
-    
+
     // 3. Hide all panels
     document.querySelectorAll('.tab-panel').forEach(p => {
       p.classList.add('hidden');
       p.classList.remove('active');
     });
-    
+
     // 4. Show target panel
     const panel = document.getElementById(`panel-${btn.dataset.tab}`);
     if (panel) {
@@ -477,8 +477,10 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       });
     } else if (btn.dataset.tab === 'holdings') {
       requestAnimationFrame(() => {
-        const pieData = getPieData(currentPieMode);
-        drawPieChart('pie-canvas', pieData, currentPieMode, !pieChartDrawn);
+        const companyData = getPieData('company');
+        const sectorData = getPieData('sector');
+        drawPieChart('pie-company-canvas', companyData, 'company', !pieChartDrawn);
+        drawPieChart('pie-sector-canvas', sectorData, 'sector', !pieChartDrawn);
         pieChartDrawn = true;
       });
     } else if (btn.dataset.tab === 'dashboard') {
@@ -546,23 +548,23 @@ document.querySelectorAll('#holdings-table th.sortable').forEach(th => {
       holdingsSortCol = col;
       holdingsSortAsc = true; // Default to ascending on first click
     }
-    
+
     // Update UI headers
     document.querySelectorAll('#holdings-table th.sortable').forEach(h => {
       h.classList.remove('active', 'desc');
     });
-    
+
     if (holdingsSortAsc) {
       th.classList.add('active');
     }
-    
+
     renderHoldingsTable();
   });
 });
 
 function renderHoldingsTable() {
   const tbody = document.getElementById('holdings-tbody');
-  
+
   // 1. Filter
   const filterVal = sectorFilter ? sectorFilter.value : 'all';
   const holdingsSearchVal = holdingsSearch ? holdingsSearch.value.toLowerCase().trim() : '';
@@ -572,7 +574,7 @@ function renderHoldingsTable() {
     const matchSearch = !holdingsSearchVal || h.company_name.toLowerCase().includes(holdingsSearchVal) || h.stock_name.toLowerCase().includes(holdingsSearchVal);
     return matchSector && matchSearch;
   });
-  
+
   // 2. Sort
   if (holdingsSortCol) {
     data.sort((a, b) => {
@@ -688,7 +690,7 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
   ctx.clearRect(0, 0, w, h);
 
   if (data.length < 2) {
-    ctx.fillStyle = '#555570';
+    ctx.fillStyle = '#958ea0';
     ctx.font = '13px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Not enough data for this range', w / 2, h / 2);
@@ -709,14 +711,14 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
     const progress = Math.min(elapsed / DURATION, 1);
-    
+
     // Easing function (easeOutQuart)
     const easeProgress = 1 - Math.pow(1 - progress, 4);
 
     ctx.clearRect(0, 0, w, h);
 
     // Y-axis labels
-    ctx.fillStyle = '#555570';
+    ctx.fillStyle = '#958ea0';
     ctx.font = '10px Inter, sans-serif';
     ctx.textAlign = 'right';
     for (let i = 0; i <= 4; i++) {
@@ -733,16 +735,67 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     }
 
     // X-axis labels
-    ctx.fillStyle = '#555570';
+    ctx.fillStyle = '#958ea0';
+    ctx.font = '10px Inter, sans-serif';
     ctx.textAlign = 'center';
+
+    let formatLabel = (labelStr) => {
+      const parts = labelStr.split(' ');
+      return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+    };
+
+    if (data.length >= 2) {
+      const parseDate = (str) => {
+        const parts = str.split(' ');
+        const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+        return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+      };
+      const startDate = parseDate(data[0].label);
+      const endDate = parseDate(data[data.length - 1].label);
+      const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+      if (diffDays > 365 * 1.5) {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 3 ? parts[2] : labelStr;
+        };
+      } else if (diffDays > 45) {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
+        };
+      } else {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+        };
+      }
+    }
+
     const isMobile = window.innerWidth < 768;
     const maxLabels = isMobile ? 3 : 6;
-    const labelStep = Math.max(1, Math.floor(data.length / maxLabels));
-    for (let i = 0; i < data.length; i += labelStep) {
-      const x = pad.left + (plotW * i / (data.length - 1));
-      const parts = data[i].label.split(' ');
-      ctx.fillText(`${parts[0]} ${parts[1]}`, x, h - 5);
+    const indicesToDraw = [];
+    if (data.length > 0) {
+      indicesToDraw.push(0);
+      if (data.length > 1) {
+        const step = (data.length - 1) / (maxLabels - 1);
+        for (let i = 1; i < maxLabels - 1; i++) {
+          const idx = Math.round(i * step);
+          if (!indicesToDraw.includes(idx)) {
+            indicesToDraw.push(idx);
+          }
+        }
+        if (!indicesToDraw.includes(data.length - 1)) {
+          indicesToDraw.push(data.length - 1);
+        }
+      }
     }
+    indicesToDraw.sort((a, b) => a - b);
+
+    indicesToDraw.forEach(i => {
+      const x = pad.left + (plotW * i / (data.length - 1));
+      ctx.fillText(formatLabel(data[i].label), x, h - 10);
+    });
 
     // Gradient fill
     const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
@@ -751,43 +804,43 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
 
     // Calculate how many points to draw based on progress
     const maxDrawIndex = (data.length - 1) * easeProgress;
-    
+
     // Fill area
     const fillPath = new Path2D();
     data.forEach((d, i) => {
       if (i > Math.ceil(maxDrawIndex)) return;
-      
+
       let x = pad.left + (plotW * i / (data.length - 1));
       let y = pad.top + plotH - ((d.value - minV) / range * plotH);
-      
+
       // Interpolate the last point for smooth animation
       if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-        const prev = data[i-1];
-        const prevX = pad.left + (plotW * (i-1) / (data.length - 1));
+        const prev = data[i - 1];
+        const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
         const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
         const fraction = maxDrawIndex % 1;
         x = prevX + (x - prevX) * fraction;
         y = prevY + (y - prevY) * fraction;
       }
-      
+
       if (i === 0) fillPath.moveTo(x, y);
       else fillPath.lineTo(x, y);
     });
-    
+
     // Complete the fill path down to the x-axis
     const lastDrawnIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
     let finalX = pad.left + (plotW * lastDrawnIdx / (data.length - 1));
     if (maxDrawIndex % 1 !== 0 && lastDrawnIdx > 0) {
-        const prev = data[lastDrawnIdx-1];
-        const prevX = pad.left + (plotW * (lastDrawnIdx-1) / (data.length - 1));
-        const fraction = maxDrawIndex % 1;
-        finalX = prevX + (finalX - prevX) * fraction;
+      const prev = data[lastDrawnIdx - 1];
+      const prevX = pad.left + (plotW * (lastDrawnIdx - 1) / (data.length - 1));
+      const fraction = maxDrawIndex % 1;
+      finalX = prevX + (finalX - prevX) * fraction;
     }
-    
+
     fillPath.lineTo(finalX, pad.top + plotH);
     fillPath.lineTo(pad.left, pad.top + plotH);
     fillPath.closePath();
-    
+
     ctx.save();
     ctx.fillStyle = gradient;
     ctx.fill(fillPath);
@@ -797,23 +850,23 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
     ctx.beginPath();
     data.forEach((d, i) => {
       if (i > Math.ceil(maxDrawIndex)) return;
-      
+
       let x = pad.left + (plotW * i / (data.length - 1));
       let y = pad.top + plotH - ((d.value - minV) / range * plotH);
-      
+
       if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-        const prev = data[i-1];
-        const prevX = pad.left + (plotW * (i-1) / (data.length - 1));
+        const prev = data[i - 1];
+        const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
         const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
         const fraction = maxDrawIndex % 1;
         x = prevX + (x - prevX) * fraction;
         y = prevY + (y - prevY) * fraction;
       }
-      
+
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     });
-    
+
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
     ctx.lineJoin = 'round';
@@ -821,27 +874,27 @@ function drawLineChart(canvasId, data, color = '#8b5cf6', animateChart = true) {
 
     // Dots on the moving end point
     if (easeProgress > 0) {
-        const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
-        let currX = pad.left + (plotW * lastIdx / (data.length - 1));
-        let currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
-        
-        if (maxDrawIndex % 1 !== 0 && lastIdx > 0) {
-            const prev = data[lastIdx-1];
-            const prevX = pad.left + (plotW * (lastIdx-1) / (data.length - 1));
-            const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-            const fraction = maxDrawIndex % 1;
-            currX = prevX + (currX - prevX) * fraction;
-            currY = prevY + (currY - prevY) * fraction;
-        }
+      const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
+      let currX = pad.left + (plotW * lastIdx / (data.length - 1));
+      let currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
 
-        ctx.beginPath();
-        ctx.arc(currX, currY, 4, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(currX, currY, 8, 0, Math.PI * 2);
-        ctx.fillStyle = color + '30';
-        ctx.fill();
+      if (maxDrawIndex % 1 !== 0 && lastIdx > 0) {
+        const prev = data[lastIdx - 1];
+        const prevX = pad.left + (plotW * (lastIdx - 1) / (data.length - 1));
+        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+        const fraction = maxDrawIndex % 1;
+        currX = prevX + (currX - prevX) * fraction;
+        currY = prevY + (currY - prevY) * fraction;
+      }
+
+      ctx.beginPath();
+      ctx.arc(currX, currY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(currX, currY, 8, 0, Math.PI * 2);
+      ctx.fillStyle = color + '30';
+      ctx.fill();
     }
 
     if (progress < 1) {
@@ -899,10 +952,7 @@ function getPieData(mode) {
   return result;
 }
 
-let currentPieModeForDraw = 'company';
-let pieChartAnimId = null;
 function drawPieChart(canvasId, data, mode, animateChart = true) {
-  currentPieModeForDraw = mode || 'company';
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -923,7 +973,7 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
   const innerRadius = radius * 0.45;
   const total = data.reduce((s, d) => s + d.value, 0);
 
-  if (pieChartAnimId) cancelAnimationFrame(pieChartAnimId);
+  if (canvas._animId) cancelAnimationFrame(canvas._animId);
 
   let startTime = null;
   const DURATION = 1000; // 1 second animation
@@ -932,7 +982,7 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
     const progress = Math.min(elapsed / DURATION, 1);
-    
+
     // Easing function (easeOutCubic)
     const easeProgress = 1 - Math.pow(1 - progress, 3);
     const maxRevealAngle = -Math.PI / 2 + (Math.PI * 2 * easeProgress);
@@ -954,19 +1004,25 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
       ctx.fillStyle = d.color;
       ctx.fill();
 
-      // Slight gap
-      ctx.strokeStyle = '#16161f';
+      // Transparent slice gaps for glassmorphism
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = '#000000';
       ctx.lineWidth = 2;
       ctx.stroke();
+      ctx.restore();
 
       startAngle = trueEndAngle;
     });
 
-    // Inner circle (donut)
+    // Inner circle (donut) - transparent punch-hole for glassmorphism
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#16161f';
+    ctx.fillStyle = '#000000';
     ctx.fill();
+    ctx.restore();
 
     // Center text - fade in
     ctx.globalAlpha = easeProgress;
@@ -982,10 +1038,10 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
     ctx.globalAlpha = 1.0;
 
     if (progress < 1) {
-      pieChartAnimId = requestAnimationFrame(animate);
+      canvas._animId = requestAnimationFrame(animate);
     } else {
-      // Store metadata for hover
-      pieChartMeta = { data, cx, cy, radius, innerRadius, total };
+      // Store metadata for hover on the canvas object
+      canvas._chartMeta = { data, cx, cy, radius, innerRadius, total };
     }
   }
 
@@ -994,12 +1050,13 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
     startTime = performance.now();
     animate(startTime + DURATION);
   } else {
-    pieChartAnimId = requestAnimationFrame(animate);
+    canvas._animId = requestAnimationFrame(animate);
   }
 }
 
-function renderPieLegend(data) {
-  const el = document.getElementById('pie-legend');
+function renderPieLegend(elementId, data) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
   el.innerHTML = data.map(d => `
     <div class="pie-legend-item">
       <span class="pie-legend-dot" style="background:${d.color}"></span>
@@ -1057,7 +1114,7 @@ function drawBarChart(canvasId, data, color = '#8b5cf6') {
   const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
 
   // Grid + Y axis
-  ctx.fillStyle = '#555570';
+  ctx.fillStyle = '#958ea0';
   ctx.font = '10px Inter, sans-serif';
   ctx.textAlign = 'right';
   for (let i = 0; i <= 4; i++) {
@@ -1100,16 +1157,67 @@ function drawBarChart(canvasId, data, color = '#8b5cf6') {
   });
 
   // X-axis labels
-  ctx.fillStyle = '#555570';
+  ctx.fillStyle = '#958ea0';
+  ctx.font = '10px Inter, sans-serif';
   ctx.textAlign = 'center';
   const isMobile = window.innerWidth < 768;
   const maxLabels = isMobile ? 4 : 8;
-  const step = Math.max(1, Math.floor(data.length / maxLabels));
-  for (let i = 0; i < data.length; i += step) {
-    const x = pad.left + (plotW * i / data.length) + barW / 2;
-    const parts = data[i].label.split(' ');
-    ctx.fillText(`${parts[0]} ${parts[1]}`, x, h - 5);
+
+  let formatLabel = (labelStr) => {
+    const parts = labelStr.split(' ');
+    return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+  };
+
+  if (data.length >= 2) {
+    const parseDate = (str) => {
+      const parts = str.split(' ');
+      const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+      return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+    };
+    const startDate = parseDate(data[0].label);
+    const endDate = parseDate(data[data.length - 1].label);
+    const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+    if (diffDays > 365 * 1.5) {
+      formatLabel = (labelStr) => {
+        const parts = labelStr.split(' ');
+        return parts.length >= 3 ? parts[2] : labelStr;
+      };
+    } else if (diffDays > 45) {
+      formatLabel = (labelStr) => {
+        const parts = labelStr.split(' ');
+        return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
+      };
+    } else {
+      formatLabel = (labelStr) => {
+        const parts = labelStr.split(' ');
+        return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+      };
+    }
   }
+
+  const indicesToDraw = [];
+  if (data.length > 0) {
+    indicesToDraw.push(0);
+    if (data.length > 1) {
+      const step = (data.length - 1) / (maxLabels - 1);
+      for (let i = 1; i < maxLabels - 1; i++) {
+        const idx = Math.round(i * step);
+        if (!indicesToDraw.includes(idx)) {
+          indicesToDraw.push(idx);
+        }
+      }
+      if (!indicesToDraw.includes(data.length - 1)) {
+        indicesToDraw.push(data.length - 1);
+      }
+    }
+  }
+  indicesToDraw.sort((a, b) => a - b);
+
+  indicesToDraw.forEach(i => {
+    const x = pad.left + (plotW * i / data.length) + barW / 2;
+    ctx.fillText(formatLabel(data[i].label), x, h - 10);
+  });
 
   // Store metadata for hover
   barChartMeta = { data, pad, plotW, plotH, minV, range, barW };
@@ -1212,7 +1320,7 @@ const allFlatTx = flattenTransactions();
 function filterTransactions() {
   const typeFilter = document.getElementById('tx-filter-type').value;
   const search = document.getElementById('tx-search').value.toLowerCase().trim();
-  
+
   const txSearchClear = document.getElementById('tx-search-clear');
   if (txSearchClear) {
     txSearchClear.style.display = search ? 'flex' : 'none';
@@ -1236,7 +1344,7 @@ function filterTransactions() {
       }
     }
   };
-  
+
   toggleHeader('date-popup', dateStart || dateEnd);
   toggleHeader('type-popup', typeFilter !== 'all');
   toggleHeader('amount-popup', amountMin !== '' || amountMax !== '');
@@ -1258,7 +1366,7 @@ function filterTransactions() {
     const [y, m, d] = dateStart.split('-');
     startT = new Date(y, m - 1, d).getTime();
   }
-  
+
   let endT = Infinity;
   if (dateEnd) {
     const [y, m, d] = dateEnd.split('-');
@@ -1268,7 +1376,7 @@ function filterTransactions() {
   filteredTx = allFlatTx.filter(tx => {
     if (typeFilter !== 'all' && tx.type !== typeFilter) return false;
     if (search && !tx.company.toLowerCase().includes(search) && !tx.stock.toLowerCase().includes(search)) return false;
-    
+
     // tx.date is like "07 May 2026", new Date() parses it in local time midnight
     const tTime = new Date(tx.date).getTime();
     if (tTime < startT || tTime >= endT) return false;
@@ -1435,7 +1543,6 @@ function hideTooltip() {
 // Store chart metadata for hover detection
 let lineChartMeta = null;
 let barChartMeta = null;
-let pieChartMeta = null;
 let isHoverRedraw = false;
 
 // --- Line Chart Tooltip ---
@@ -1519,12 +1626,14 @@ function setupLineChartHover() {
 }
 
 // --- Pie Chart Tooltip ---
-function setupPieChartHover() {
-  const canvas = document.getElementById('pie-canvas');
+function setupPieChartHover(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
 
   canvas.addEventListener('mousemove', (e) => {
-    if (!pieChartMeta) return;
-    const { data, cx, cy, radius, innerRadius, total } = pieChartMeta;
+    const meta = canvas._chartMeta;
+    if (!meta) return;
+    const { data, cx, cy, radius, innerRadius, total } = meta;
 
     const canvasRect = canvas.getBoundingClientRect();
     // Account for CSS vs canvas coordinate scaling
@@ -1680,7 +1789,7 @@ function setupBarChartHover() {
       document.getElementById('tx-date-start').value = yyyymmdd;
       document.getElementById('tx-date-end').value = yyyymmdd;
       filterTransactions();
-      
+
       // Programmatically switch to Transactions tab
       const tabBtn = document.getElementById('tab-transactions');
       if (tabBtn) tabBtn.click();
@@ -1714,18 +1823,7 @@ document.getElementById('time-toggle').addEventListener('click', (e) => {
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
 });
 
-// Pie chart toggle
-let currentPieMode = 'company';
-document.getElementById('pie-toggle').addEventListener('click', (e) => {
-  const btn = e.target.closest('.chart-toggle');
-  if (!btn) return;
-  document.querySelectorAll('#pie-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentPieMode = btn.dataset.mode;
-  const pieData = getPieData(currentPieMode);
-  drawPieChart('pie-canvas', pieData, currentPieMode, true);
-  renderPieLegend(pieData);
-});
+
 
 // Returns toggle
 let currentReturnsView = 'net';
@@ -1764,8 +1862,33 @@ function init() {
   // Calculate and populate Bento Metrics
   const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
   const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
-  document.getElementById('dashboard-total-value').textContent = 'RM ' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   
+  // Smooth Anime.js counter ticker
+  if (typeof anime !== 'undefined') {
+    const counterObj = { val: 0 };
+    anime({
+      targets: counterObj,
+      val: totalMarketValue,
+      duration: 1600,
+      easing: 'easeOutExpo',
+      update: function() {
+        document.getElementById('dashboard-total-value').textContent = 'RM ' + counterObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    });
+
+    // Staggered Bento Cards Entrance
+    anime({
+      targets: '#panel-dashboard .grid > div',
+      opacity: [0, 1],
+      translateY: [20, 0],
+      delay: anime.stagger(100),
+      duration: 750,
+      easing: 'easeOutCubic'
+    });
+  } else {
+    document.getElementById('dashboard-total-value').textContent = 'RM ' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   // Top Sector Allocation
   const sectorMap = {};
   EPF_DATA.holdings.forEach(h => {
@@ -1778,7 +1901,18 @@ function init() {
     document.getElementById('bento-sector-name').textContent = topSector[0];
     document.getElementById('bento-sector-val').textContent = 'RM ' + formatCompact(topSector[1]);
     document.getElementById('bento-sector-pct').textContent = pct + '%';
-    document.getElementById('bento-sector-progress').style.width = pct + '%';
+    
+    // Anime.js progress bar width animation
+    if (typeof anime !== 'undefined') {
+      anime({
+        targets: '#bento-sector-progress',
+        width: ['0%', pct + '%'],
+        duration: 1200,
+        easing: 'easeOutQuad'
+      });
+    } else {
+      document.getElementById('bento-sector-progress').style.width = pct + '%';
+    }
 
     // RENDER TOP SECTOR OVERLAPPING LOGOS
     const sectorHoldings = EPF_DATA.holdings.filter(h => h.sector === topSector[0]);
@@ -1798,13 +1932,13 @@ function init() {
                    onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
                    alt="${h.stock_name}">
             ` : ''}
-            <div class="w-full h-full text-[9px] font-bold text-white flex items-center justify-center" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${h.stock_name.slice(0, 2)}</div>
+            <div class="w-full h-full text-[9px] font-bold text-white flex items-center justify-center" style="background:${stockColor(h.stock_name)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${h.stock_name.slice(0, 2)}</div>
           </div>
         `;
       }).join('');
     }
   }
-  
+
   // Top Holding
   const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
   if (sortedHoldings.length > 0) {
@@ -1826,11 +1960,11 @@ function init() {
                onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
                alt="${topHolding.stock_name}">
         ` : ''}
-        <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(topHolding.stock_name)}; ${logoUrl ? 'display:none;' : ''}">${topHolding.stock_name.slice(0, 2)}</div>
+        <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(topHolding.stock_name)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${topHolding.stock_name.slice(0, 2)}</div>
       `;
     }
   }
-  
+
   // Active Positions
   document.getElementById('bento-active-count').textContent = EPF_DATA.holdings.length + ' positions';
   document.getElementById('bento-unique-count').textContent = `${EPF_DATA.uniqueStocks} unique stocks across ${sortedSectors.length} sectors`;
@@ -1854,7 +1988,7 @@ function init() {
                    onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
                    alt="${tx.stock}">
             ` : ''}
-            <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}">${tx.stock.slice(0, 2)}</div>
+            <div class="w-full h-full text-[10px] font-bold text-white flex items-center justify-center" style="background:${stockColor(tx.stock)}; ${logoUrl ? 'display:none;' : ''}"><!-- theme-hardcode-ok: dynamic avatar fallback text -->${tx.stock.slice(0, 2)}</div>
             <!-- Small indicator badge for action type on bottom right -->
             <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16161f] border border-[#25253a] flex items-center justify-center text-[8px] ${iconColor}">
               <span class="material-symbols-outlined text-[9px]">${actionIcon}</span>
@@ -1879,7 +2013,7 @@ function init() {
   if (globalSearch) {
     globalSearch.addEventListener('input', () => {
       const val = globalSearch.value;
-      
+
       // Copy to holdings search
       const hs = document.getElementById('holdings-search');
       if (hs) {
@@ -1888,7 +2022,7 @@ function init() {
         if (hsc) hsc.style.display = val ? 'flex' : 'none';
         renderHoldingsTable();
       }
-      
+
       // Copy to transactions search
       const ts = document.getElementById('tx-search');
       if (ts) {
@@ -1949,11 +2083,14 @@ function init() {
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
 
-  // Pie chart
-  const pieData = getPieData(currentPieMode);
-  drawPieChart('pie-canvas', pieData, currentPieMode);
+  // Pie charts (Company & Sector)
+  const companyData = getPieData('company');
+  const sectorData = getPieData('sector');
+  drawPieChart('pie-company-canvas', companyData, 'company');
+  drawPieChart('pie-sector-canvas', sectorData, 'sector');
   pieChartDrawn = true;
-  renderPieLegend(pieData);
+  renderPieLegend('pie-company-legend', companyData);
+  renderPieLegend('pie-sector-legend', sectorData);
 
   // Returns
   drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
@@ -1968,14 +2105,14 @@ function init() {
       lastUpdateEl.textContent = `Last update: ${latestDate}`;
     }
   }
-  
+
   // Set date limits up to today (2026-05-21) on initial load
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const dd = String(today.getDate()).padStart(2, '0');
   const todayStr = `${yyyy}-${mm}-${dd}`;
-  
+
   document.getElementById('tx-date-start').max = todayStr;
   document.getElementById('tx-date-end').max = todayStr;
 
@@ -1983,21 +2120,206 @@ function init() {
 
   // Setup hover tooltips
   setupLineChartHover();
-  setupPieChartHover();
+  setupPieChartHover('pie-company-canvas');
+  setupPieChartHover('pie-sector-canvas');
   setupBarChartHover();
+
+  // Bind tab navigation click events
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tabName = btn.dataset.tab;
+      if (tabName) switchTab(tabName);
+    });
+  });
+
+  // Trigger initial tab animation for Dashboard on load
+  switchTab('dashboard');
+}
+
+// Dedicated Tab Switching & Micro-Animation Controller (Triggered strictly on tab click, never on scroll)
+function switchTab(tabName) {
+  const allBtns = document.querySelectorAll('.tab-btn');
+  const allPanels = document.querySelectorAll('.tab-panel');
+
+  allBtns.forEach(btn => {
+    if (btn.dataset.tab === tabName) {
+      btn.classList.add('active', 'bg-surface-container-highest', 'text-on-surface');
+      btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+    } else {
+      btn.classList.remove('active', 'bg-surface-container-highest', 'text-on-surface');
+      btn.classList.add('text-on-surface-variant');
+    }
+  });
+
+  allPanels.forEach(panel => {
+    if (panel.id === `panel-${tabName}`) {
+      panel.classList.add('active');
+      panel.classList.remove('hidden');
+    } else {
+      panel.classList.remove('active');
+      panel.classList.add('hidden');
+    }
+  });
+
+  // Trigger Anime.js Animations ONLY ON TAB SWITCH
+  if (typeof anime === 'undefined') return;
+
+  if (tabName === 'dashboard') {
+    // 1. Total Valuation Counter Ticker
+    const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+    const countVal = { val: 0 };
+    anime({
+      targets: countVal,
+      val: totalMarketValue,
+      duration: 1300,
+      easing: 'easeOutExpo',
+      update: function() {
+        document.getElementById('dashboard-total-value').textContent = 'RM ' + countVal.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    });
+
+    // 2. Top Sector Valuation Counter Ticker
+    const sectorMap = {};
+    EPF_DATA.holdings.forEach(h => { sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0); });
+    const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
+    if (sortedSectors.length > 0) {
+      const topSectorVal = sortedSectors[0][1];
+      const sectorObj = { val: 0 };
+      anime({
+        targets: sectorObj,
+        val: topSectorVal,
+        duration: 1100,
+        easing: 'easeOutExpo',
+        update: function() {
+          document.getElementById('bento-sector-val').textContent = 'RM ' + formatCompact(sectorObj.val);
+        }
+      });
+
+      const pct = totalMarketValue > 0 ? ((topSectorVal / totalMarketValue) * 100).toFixed(1) : '0.0';
+      anime({
+        targets: '#bento-sector-progress',
+        width: ['0%', pct + '%'],
+        duration: 1000,
+        easing: 'easeOutQuad'
+      });
+    }
+
+    // 3. Top Holding Valuation Counter Ticker
+    const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
+    if (sortedHoldings.length > 0) {
+      const topHoldingVal = sortedHoldings[0].market_value || 0;
+      const holdingCountObj = { val: 0 };
+      anime({
+        targets: holdingCountObj,
+        val: topHoldingVal,
+        duration: 1200,
+        easing: 'easeOutExpo',
+        update: function() {
+          document.getElementById('bento-holding-val').textContent = 'RM ' + holdingCountObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+      });
+    }
+
+    // 4. Active Positions Counter Ticker
+    const posObj = { val: 0 };
+    anime({
+      targets: posObj,
+      val: EPF_DATA.holdings.length,
+      duration: 900,
+      easing: 'easeOutQuart',
+      round: 1,
+      update: function() {
+        document.getElementById('bento-active-count').textContent = posObj.val + ' positions';
+      }
+    });
+
+    // 5. Staggered Bento Cards Reveal Entrance
+    anime({
+      targets: '#panel-dashboard .grid > div',
+      opacity: [0, 1],
+      translateY: [18, 0],
+      delay: anime.stagger(80),
+      duration: 600,
+      easing: 'easeOutCubic'
+    });
+
+  } else if (tabName === 'holdings') {
+    // Holdings Badge Counter Ticker
+    const countBadge = { val: 0 };
+    anime({
+      targets: countBadge,
+      val: EPF_DATA.holdings.length,
+      duration: 1000,
+      easing: 'easeOutExpo',
+      round: 1,
+      update: function() {
+        document.getElementById('holdings-count').textContent = countBadge.val;
+      }
+    });
+
+    // Staggered Table Rows Entrance
+    anime({
+      targets: '#holdings-tbody tr',
+      opacity: [0, 1],
+      translateY: [12, 0],
+      delay: anime.stagger(14, { start: 30 }),
+      duration: 400,
+      easing: 'easeOutQuad'
+    });
+
+  } else if (tabName === 'returns') {
+    // Summary Cards Entrance
+    anime({
+      targets: '#returns-summary > div',
+      opacity: [0, 1],
+      scale: [0.94, 1],
+      translateY: [12, 0],
+      delay: anime.stagger(60),
+      duration: 500,
+      easing: 'easeOutBack'
+    });
+
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+
+  } else if (tabName === 'transactions') {
+    // Transactions Badge Counter Ticker
+    const txCountObj = { val: 0 };
+    const txTarget = filteredTx ? filteredTx.length : 0;
+    anime({
+      targets: txCountObj,
+      val: txTarget,
+      duration: 1000,
+      easing: 'easeOutExpo',
+      round: 1,
+      update: function() {
+        document.getElementById('tx-count').textContent = txCountObj.val;
+      }
+    });
+
+    // Staggered Transactions Table Entrance
+    anime({
+      targets: '#tx-tbody tr',
+      opacity: [0, 1],
+      translateY: [10, 0],
+      delay: anime.stagger(12, { start: 30 }),
+      duration: 380,
+      easing: 'easeOutQuad'
+    });
+  }
 }
 
 // ============================================
 // Filter Popups Logic
 // ============================================
-window.togglePopup = function(event, element, popupId) {
+window.togglePopup = function (event, element, popupId) {
   event.stopPropagation();
   const popup = document.getElementById(popupId);
   const isShowing = popup.classList.contains('show');
-  
+
   // Close all other popups
   document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
-  
+
   if (!isShowing) {
     popup.classList.add('show');
     // Set active state on the icon for styling
@@ -2008,7 +2330,7 @@ window.togglePopup = function(event, element, popupId) {
   }
 };
 
-window.clearFilter = function(type) {
+window.clearFilter = function (type) {
   if (type === 'date') {
     document.getElementById('tx-date-start').value = '';
     document.getElementById('tx-date-end').value = '';
@@ -2021,18 +2343,18 @@ window.clearFilter = function(type) {
     document.getElementById('tx-percent-min').value = '';
     document.getElementById('tx-percent-max').value = '';
   }
-  
+
   // Close all popups and remove active state from icons
   document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
   document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
-  
+
   filterTransactions();
 };
 
 document.addEventListener('click', (event) => {
   // If click is inside a popup, do nothing
   if (event.target.closest('.filter-popup')) return;
-  
+
   // Otherwise close all popups and remove active state from icons
   document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
   document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
@@ -2044,12 +2366,14 @@ let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
   if (window.innerWidth === lastWidth) return; // Prevent address-bar scroll toggles from restarting animation!
   lastWidth = window.innerWidth;
-  
+
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
     drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), '#8b5cf6', false);
-    const pieData = getPieData(currentPieMode);
-    drawPieChart('pie-canvas', pieData, currentPieMode, false);
+    const companyData = getPieData('company');
+    const sectorData = getPieData('sector');
+    drawPieChart('pie-company-canvas', companyData, 'company', false);
+    drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
     drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
   }, 200);
 });
@@ -2076,14 +2400,14 @@ fetch('logo.json')
 // ============================================
 // Transaction Details Modal
 // ============================================
-window.openTxModal = function(index) {
+window.openTxModal = function (index) {
   const tx = filteredTx[index];
   if (!tx) return;
 
   document.getElementById('modal-title').textContent = tx.company;
-  
+
   const netBadge = tx.isNet ? `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">Net ${tx.type}</span>` : `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">${tx.type}</span>`;
-  
+
   let txRows = '';
   tx.rawTransactions.forEach(t => {
     txRows += `
@@ -2141,7 +2465,7 @@ window.openTxModal = function(index) {
   document.getElementById('tx-modal').classList.add('show');
 };
 
-window.closeTxModal = function() {
+window.closeTxModal = function () {
   document.getElementById('tx-modal').classList.remove('show');
 };
 
