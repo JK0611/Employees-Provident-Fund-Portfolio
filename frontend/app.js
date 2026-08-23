@@ -1,3 +1,20 @@
+
+// ============================================
+// Iconstack SVG Icon Repository
+// ============================================
+const ICONSTACK = {
+  trending_up: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /> </svg>`,
+  trending_down: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 17h6v-6" /> <path d="m22 17-8.5-8.5-5 5L2 7" /> </svg>`,
+  account_balance: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 18v-7" /> <path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z" /> <path d="M14 18v-7" /> <path d="M18 18v-7" /> <path d="M3 22h18" /> <path d="M6 18v-7" /> </svg>`,
+  receipt_long: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" /> <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /> <path d="M12 17.5v-11" /> </svg>`,
+  category: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z" /> <rect x="3" y="14" width="7" height="7" rx="1" /> <circle cx="17.5" cy="17.5" r="3.5" /> </svg>`,
+  calendar_month: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v4" /> <path d="M16 2v4" /> <rect width="18" height="18" x="3" y="4" rx="2" /> <path d="M3 10h18" /> </svg>`,
+  arrow_upward: `<svg class="w-3 h-3 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m5 12 7-7 7 7" /> <path d="M12 19V5" /> </svg>`,
+  arrow_downward: `<svg class="w-3 h-3 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 17h6v-6" /> <path d="m22 17-8.5-8.5-5 5L2 7" /> </svg>`,
+  search: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /> </svg>`,
+  history: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /> </svg>`
+};
+
 /* ============================================
    EPFTracker — Application Logic
    ============================================ */
@@ -598,14 +615,12 @@ function renderHoldingsTable() {
 // ============================================
 
 function getPortfolioTimeSeries(range) {
-  // Parse dates and sort chronologically
   const dates = Object.keys(EPF_DATA.txByDate).map(d => ({
     label: d,
     date: new Date(d),
     ...EPF_DATA.txByDate[d]
   })).sort((a, b) => a.date - b.date);
 
-  // Filter by range
   const now = dates[dates.length - 1]?.date || new Date();
   let cutoff;
   switch (range) {
@@ -843,8 +858,8 @@ function drawLineChart(canvasId, data, color = null, animateChart = true) {
     ctx.stroke();
     ctx.restore();
 
-    // Dots on the moving end point
-    if (easeProgress > 0) {
+    // Dots on the moving head during animation only
+    if (easeProgress > 0 && progress < 1) {
       const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
       let currX = pad.left + (plotW * lastIdx / (data.length - 1));
       let currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
@@ -860,20 +875,26 @@ function drawLineChart(canvasId, data, color = null, animateChart = true) {
 
       ctx.beginPath();
       ctx.arc(currX, currY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = color;
+      ctx.fillStyle = dynamicColor;
       ctx.fill();
       ctx.beginPath();
       ctx.arc(currX, currY, 8, 0, Math.PI * 2);
-      ctx.fillStyle = color + '30';
+      ctx.fillStyle = dynamicColor + '30';
       ctx.fill();
     }
 
     if (progress < 1) {
       lineChartAnimId = requestAnimationFrame(animate);
     } else {
-      // Animation complete, save state for hover interactions
-      lineChartMeta = { data, pad, plotW, plotH, minV, range, rect };
-      if (window._lineSaveCanvas) window._lineSaveCanvas();
+      // Animation complete: save clean state (no dots) for hover overlays
+      lineChartMeta = { data, pad, plotW, plotH, minV, range, rect, dynamicColor };
+      if (window._lineSaveCleanCanvas) {
+        window._lineSaveCleanCanvas();
+      }
+      // Draw single resting end dot
+      if (window._drawEndDot) {
+        window._drawEndDot();
+      }
     }
   }
 
@@ -929,7 +950,9 @@ function drawPieChart(canvasId, data, mode, animateChart = true) {
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const container = canvas.parentElement;
-  const size = Math.min(container.clientWidth, container.clientHeight);
+  const availW = container.clientWidth > 0 ? container.clientWidth : 240;
+  const availH = container.clientHeight > 0 ? container.clientHeight : 220;
+  const size = Math.min(availW, availH, 220);
   if (size <= 0) return;
 
   canvas.width = size * dpr;
@@ -1043,14 +1066,32 @@ function renderPieLegend(elementId, data) {
 // Returns Tab — Bar Chart
 // ============================================
 
-function getReturnsData(view) {
+let currentReturnsRange = 'ALL';
+let currentReturnsView = 'net';
+
+function getReturnsData(view = currentReturnsView, range = currentReturnsRange) {
   const dates = Object.keys(EPF_DATA.txByDate).map(d => ({
     label: d,
     date: new Date(d),
     ...EPF_DATA.txByDate[d]
   })).sort((a, b) => a.date - b.date);
 
-  return dates.map(d => ({
+  const now = dates[dates.length - 1]?.date || new Date();
+  let cutoff;
+  switch (range) {
+    case '1D': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 1); break;
+    case '1W': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 7); break;
+    case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
+    case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
+    case '6M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 6); break;
+    case 'YTD': cutoff = new Date(now.getFullYear(), 0, 1); break;
+    case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
+    default: cutoff = new Date(0);
+  }
+
+  const filtered = dates.filter(d => d.date >= cutoff);
+
+  return filtered.map(d => ({
     label: d.label,
     value: view === 'net' ? d.net : view === 'acquired' ? d.acquired : -d.disposed,
     count: d.count
@@ -1211,7 +1252,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
         <div class="h-8 w-8 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">trending_up</span>
+          ${ICONSTACK.trending_up}
         </div>
       </div>
       <div class="my-2">
@@ -1227,7 +1268,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
         <div class="h-8 w-8 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">trending_down</span>
+          ${ICONSTACK.trending_down}
         </div>
       </div>
       <div class="my-2">
@@ -1243,7 +1284,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
         <div class="h-8 w-8 rounded-xl ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'} flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">account_balance</span>
+          ${ICONSTACK.account_balance}
         </div>
       </div>
       <div class="my-2">
@@ -1259,7 +1300,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
         <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">receipt_long</span>
+          ${ICONSTACK.receipt_long}
         </div>
       </div>
       <div class="my-2">
@@ -1275,7 +1316,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Equities</span>
         <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">category</span>
+          ${ICONSTACK.category}
         </div>
       </div>
       <div class="my-2">
@@ -1291,7 +1332,7 @@ function renderReturnsSummary() {
       <div class="flex items-center justify-between gap-2">
         <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trading Sessions</span>
         <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          <span class="material-symbols-outlined text-[17px]">calendar_month</span>
+          ${ICONSTACK.calendar_month}
         </div>
       </div>
       <div class="my-2">
@@ -1571,41 +1612,95 @@ let lineChartMeta = null;
 let barChartMeta = null;
 let isHoverRedraw = false;
 
-// --- Line Chart Tooltip ---
+// --- Line Chart Tooltip & Single-Dot Interactive Hover ---
 function setupLineChartHover() {
   const canvas = document.getElementById('portfolio-canvas');
-  let savedImage = null;
+  if (!canvas) return;
 
-  function saveCanvas() {
+  let savedCleanImage = null;
+
+  function saveCleanCanvas() {
     const ctx = canvas.getContext('2d');
-    savedImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    savedCleanImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
   }
 
-  function restoreCanvas() {
-    if (!savedImage) return;
+  function restoreCleanCanvas() {
+    if (!savedCleanImage) return;
     const ctx = canvas.getContext('2d');
-    ctx.putImageData(savedImage, 0, 0);
+    ctx.putImageData(savedCleanImage, 0, 0);
   }
 
-  // Register save function globally so drawLineChart can call it
-  window._lineSaveCanvas = saveCanvas;
+  function drawEndDot() {
+    if (!lineChartMeta || !lineChartMeta.data || lineChartMeta.data.length === 0) return;
+    const { data, pad, plotW, plotH, minV, range, dynamicColor } = lineChartMeta;
+    const lastIdx = data.length - 1;
+    const d = data[lastIdx];
+    const currX = pad.left + plotW;
+    const currY = pad.top + plotH - ((d.value - minV) / range * plotH);
+
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(currX, currY, 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = dynamicColor || '#c084fc';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(currX, currY, 9, 0, Math.PI * 2);
+    ctx.fillStyle = (dynamicColor || '#c084fc') + '35';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  window._lineSaveCleanCanvas = saveCleanCanvas;
+  window._drawEndDot = drawEndDot;
+
+  function formatHoverTimeLabel(labelStr, range) {
+    if (!labelStr) return '';
+    const parts = labelStr.trim().split(' ');
+    if (parts.length >= 3) {
+      const [day, month, year] = parts;
+      if (range === '1M' || range === '3M') {
+        return `${day} ${month}`;
+      } else if (range === '1Y') {
+        return `${month} ${year}`;
+      } else if (range === 'ALL') {
+        return `${month} '${year.slice(-2)}`;
+      }
+    }
+    return labelStr;
+  }
+
+  function resetPortfolioLegend() {
+    if (!lineChartMeta || !lineChartMeta.data || lineChartMeta.data.length === 0) return;
+    const lastVal = lineChartMeta.data[lineChartMeta.data.length - 1].value;
+    const valDisplay = document.getElementById('portfolio-value-display');
+    if (valDisplay) {
+      valDisplay.textContent = formatCompact(lastVal) + ' shares (net)';
+    }
+  }
 
   canvas.addEventListener('mousemove', (e) => {
     if (!lineChartMeta || lineChartMeta.data.length < 2) return;
-    const { data, pad, plotW, plotH, minV, range } = lineChartMeta;
+    const { data, pad, plotW, plotH, minV, range, dynamicColor } = lineChartMeta;
 
     const canvasRect = canvas.getBoundingClientRect();
     const mx = e.clientX - canvasRect.left;
 
     const relX = mx - pad.left;
-    if (relX < 0 || relX > plotW) { restoreCanvas(); hideTooltip(); return; }
+    if (relX < 0 || relX > plotW) {
+      restoreCleanCanvas();
+      drawEndDot();
+      hideTooltip();
+      resetPortfolioLegend();
+      return;
+    }
 
     const idx = Math.round((relX / plotW) * (data.length - 1));
     const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
     const d = data[clampedIdx];
 
-    // Restore clean chart then draw overlay
-    restoreCanvas();
+    // 1. Restore clean line (0 dots)
+    restoreCleanCanvas();
 
     const ctx = canvas.getContext('2d');
     ctx.save();
@@ -1613,10 +1708,10 @@ function setupLineChartHover() {
     const px = pad.left + (plotW * clampedIdx / (data.length - 1));
     const py = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-    const themeAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6366f1';
+    const themeAccent = dynamicColor || '#c084fc';
 
-    // Vertical crosshair
-    ctx.strokeStyle = themeAccent + '66';
+    // 2. Vertical dashed crosshair line
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
     ctx.lineWidth = 1;
     ctx.setLineDash([4, 3]);
     ctx.beginPath();
@@ -1625,32 +1720,72 @@ function setupLineChartHover() {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Highlight dot
+    // 2b. Floating X-Axis Time Badge directly below the vertical crosshair line
+    const timeText = formatHoverTimeLabel(d.label, currentRange);
+    ctx.font = '600 10.5px "JetBrains Mono", monospace';
+    const textWidth = ctx.measureText(timeText).width;
+    const badgeW = Math.max(textWidth + 14, 46);
+    const badgeH = 19;
+    let badgeX = px - (badgeW / 2);
+    // Clamp badge within plot area
+    const minBadgeX = pad.left - 4;
+    const maxBadgeX = pad.left + plotW - badgeW + 4;
+    badgeX = Math.max(minBadgeX, Math.min(maxBadgeX, badgeX));
+    const badgeY = pad.top + plotH + 5;
+
+    // Frosted Pill Container
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = 'rgba(18, 14, 28, 0.96)';
+    ctx.strokeStyle = themeAccent;
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    if (ctx.roundRect) {
+      ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 5);
+    } else {
+      ctx.rect(badgeX, badgeY, badgeW, badgeH);
+    }
+    ctx.fill();
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Time text inside capsule
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(timeText, badgeX + (badgeW / 2), badgeY + (badgeH / 2));
+
+    // 3. Highlight dot: EXACTLY ONE DOT on the whole canvas
+    ctx.beginPath();
+    ctx.arc(px, py, 4.5, 0, Math.PI * 2);
     ctx.fillStyle = themeAccent;
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(px, py, 10, 0, Math.PI * 2);
-    ctx.fillStyle = themeAccent + '33';
+    ctx.arc(px, py, 9, 0, Math.PI * 2);
+    ctx.fillStyle = themeAccent + '35';
     ctx.fill();
     ctx.restore();
 
+    // 4. Update the bottom-right valuation display
+    const valDisplay = document.getElementById('portfolio-value-display');
+    if (valDisplay) {
+      valDisplay.textContent = formatCompact(d.value) + ' shares (net)';
+    }
+
     const valClass = d.value >= 0 ? 'tt-positive' : 'tt-negative';
     showTooltip(e, `
-      <div class="tt-label">${d.label}</div>
-      <div class="tt-value ${valClass}">${formatCompact(d.value)} shares</div>
-      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count} announcements</div>
+      <div class="tt-label" style="font-weight:700; color:#fff;">📅 ${d.label}</div>
+      <div class="tt-value ${valClass}" style="margin-top:2px;">${formatCompact(d.value)} shares</div>
+      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count || 0} announcements</div>
     `);
   });
 
   canvas.addEventListener('mouseleave', () => {
-    restoreCanvas();
+    restoreCleanCanvas();
+    drawEndDot();
     hideTooltip();
+    resetPortfolioLegend();
   });
-
-  // Initial save after first draw
-  requestAnimationFrame(() => saveCanvas());
 }
 
 // --- Pie Chart Tooltip ---
@@ -1853,16 +1988,31 @@ document.getElementById('time-toggle').addEventListener('click', (e) => {
 
 
 
-// Returns toggle
-let currentReturnsView = 'net';
-document.getElementById('returns-toggle').addEventListener('click', (e) => {
-  const btn = e.target.closest('.chart-toggle');
-  if (!btn) return;
-  document.querySelectorAll('#returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentReturnsView = btn.dataset.view;
-  drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
-});
+// Returns timeframe toggle
+const returnsTimeToggle = document.getElementById('returns-time-toggle');
+if (returnsTimeToggle) {
+  returnsTimeToggle.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chart-toggle');
+    if (!btn) return;
+    document.querySelectorAll('#returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentReturnsRange = btn.dataset.range;
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
+  });
+}
+
+// Returns flow view toggle (Net / Acquired / Disposed)
+const returnsToggle = document.getElementById('returns-toggle');
+if (returnsToggle) {
+  returnsToggle.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chart-toggle');
+    if (!btn) return;
+    document.querySelectorAll('#returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentReturnsView = btn.dataset.view;
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
+  });
+}
 
 // Transaction filters
 document.getElementById('tx-filter-type').addEventListener('change', filterTransactions);
@@ -1900,7 +2050,7 @@ function init() {
       duration: 1600,
       easing: 'easeOutExpo',
       update: function() {
-        document.getElementById('dashboard-total-value').textContent = 'RM ' + counterObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + counterObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     });
 
@@ -1914,7 +2064,7 @@ function init() {
       easing: 'easeOutCubic'
     });
   } else {
-    document.getElementById('dashboard-total-value').textContent = 'RM ' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   // Top Sector Allocation
@@ -1966,7 +2116,7 @@ function init() {
     document.getElementById('bento-holding-symbol').textContent = topHolding.stock_name;
     document.getElementById('bento-holding-name').textContent = topHolding.company_name;
     document.getElementById('bento-holding-val').textContent = 'RM ' + (topHolding.market_value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('bento-holding-pct').innerHTML = `<span class="material-symbols-outlined text-[12px] mr-0.5">arrow_upward</span>${topHolding.direct_percent.toFixed(3)}% in company`;
+    document.getElementById('bento-holding-pct').innerHTML = `${ICONSTACK.arrow_upward}${topHolding.direct_percent.toFixed(3)}% in company`;
 
     // RENDER TOP HOLDING LOGO DYNAMICALLY
     const holdingLogoContainer = document.getElementById('bento-holding-logo-container');
@@ -1992,7 +2142,7 @@ function init() {
           <div class="relative shrink-0">
             ${renderStockLogo(tx.stock, tx.company, 32)}
             <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#08090e] border border-white/20 flex items-center justify-center text-[8px] ${iconColor}">
-              <span class="material-symbols-outlined text-[10px]">${actionIcon}</span>
+              ${actionIcon === "trending_up" ? ICONSTACK.trending_up : ICONSTACK.trending_down}
             </span>
           </div>
           <div class="flex-1 min-w-0">
@@ -2079,10 +2229,24 @@ function init() {
 
   // Portfolio chart
   const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series);
+  drawLineChart('portfolio-canvas', series, '#8b5cf6', true);
   lineChartDrawn = true;
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
+
+  // Setup ResizeObserver on portfolio chart container for instant full-height responsive stretching
+  const portfolioChartBody = document.querySelector('.portfolio-trend-card .chart-body');
+  if (portfolioChartBody && window.ResizeObserver) {
+    let resizeTimeout = null;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const s = getPortfolioTimeSeries(currentRange);
+        drawLineChart('portfolio-canvas', s, '#8b5cf6', false);
+      }, 40);
+    });
+    ro.observe(portfolioChartBody);
+  }
 
   // Pie charts (Company & Sector)
   const companyData = getPieData('company');
@@ -2176,7 +2340,7 @@ function switchTab(tabName) {
       duration: 1300,
       easing: 'easeOutExpo',
       update: function() {
-        document.getElementById('dashboard-total-value').textContent = 'RM ' + countVal.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + countVal.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     });
 
@@ -2507,7 +2671,7 @@ window.redrawCurrentActiveChart = function () {
     drawPieChart('pie-company-canvas', companyData, 'company', false);
     drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
   } else if (activePanel.id === 'panel-returns') {
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
   }
 };
 
