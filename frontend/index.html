@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="EPFTracker — Employees Provident Fund Portfolio Dashboard. Track holdings, returns, and transactions.">
-  <title>EPF Invest — Institutional Portfolio Dashboard</title>
+    content="EPFTrack — Employees Provident Fund (KWSP) Institutional Portfolio Dashboard. Real-time Malaysian equity holdings, transactions, and performance analytics.">
+  <title>EPFTrack — Institutional Portfolio Dashboard</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +60,7 @@
   </script>
 
   <!-- Custom Design System CSS -->
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 
 <body
@@ -78,16 +79,13 @@
     
     <div>
       <!-- Brand Area (Desktop Only) -->
-      <div class="hidden md:flex items-center justify-between mb-8 px-3">
-        <div class="flex items-center gap-3">
-          <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 border border-white/20">
-            <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="m19 9-5 5-4-4-3 3" /> </svg>
-          </div>
+      <div class="hidden md:flex items-center justify-between mb-8 px-2">
+        <div class="flex items-center gap-3.5">
+          <img src="assets/logo.png" alt="EPF Tracker Logo" class="h-12 w-12 object-contain filter drop-shadow-[0_4px_16px_rgba(244,63,94,0.4)] shrink-0">
           <div>
-            <h1 class="font-extrabold text-lg text-on-surface tracking-tight leading-none flex items-center gap-1.5">
-              <span>EPF</span><span class="text-primary">Invest</span>
+            <h1 class="font-extrabold text-xl text-white tracking-tight leading-none flex items-center gap-1.5">
+              <span>EPF</span><span class="text-primary">Tracker</span>
             </h1>
-            <span class="text-[10px] font-semibold text-outline uppercase tracking-wider">Institutional</span>
           </div>
         </div>
       </div>
@@ -129,30 +127,6 @@
       </nav>
     </div>
 
-    <!-- Sidebar Bottom Promo / Insights Card (Desktop Only) -->
-    <div class="hidden md:flex flex-col gap-3">
-      <div class="luxury-cta-card p-4 relative">
-        <div class="flex items-center gap-2 mb-2">
-          <div class="h-6 w-6 rounded-lg bg-primary/20 flex items-center justify-center text-primary border border-primary/30">
-            <svg class="w-3.5 h-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /> </svg>
-          </div>
-          <span class="text-xs font-bold text-on-surface">Data Powered</span>
-        </div>
-        <p class="text-[11px] text-on-surface-variant leading-relaxed mb-3">
-          Real-time institutional flow & Bursa Malaysia substantial shareholder intelligence.
-        </p>
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-semibold text-emerald-400 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Verified
-          </span>
-          <span class="text-[10px] font-mono text-outline">v2.4 Pro</span>
-        </div>
-      </div>
-
-      <div class="text-[10px] text-outline text-center">
-        EPF Institutional Portfolio
-      </div>
-    </div>
   </aside>
 
   <!-- Main Content Wrapper -->
@@ -219,7 +193,7 @@
                 <svg title="Largest single company investment by market valuation" class="w-3.5 h-3.5 text-outline/60 cursor-help inline-block" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /> </svg>
               </div>
               <div
-                class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border border-primary/40 bg-white/5 shadow-md items-center justify-center p-1"
+                class="relative flex h-10 w-10 shrink-0 items-center justify-center"
                 id="bento-holding-logo-container"></div>
             </div>
             <div>
@@ -245,9 +219,9 @@
                 <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Active Positions</span>
                 <svg title="Total active equity positions tracked in Bursa Malaysia" class="w-3.5 h-3.5 text-outline/60 cursor-help inline-block" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /> </svg>
               </div>
-              <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary border border-primary/20 shadow-sm">
-                <svg class="w-5 h-5 text-indigo-400" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /> </svg>
-              </span>
+              <div class="flex items-center justify-center text-primary filter drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>
+              </div>
             </div>
             <div>
               <div class="text-3xl font-extrabold text-on-surface tracking-tight font-mono-numeric" id="bento-active-count">0 positions</div>
@@ -408,10 +382,10 @@
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
               <!-- Timeframe Selector -->
               <div class="chart-toggle-group flex gap-0.5" id="returns-time-toggle">
-                <button class="chart-toggle" data-range="1M">1M</button>
+                <button class="chart-toggle active" data-range="1M">1M</button>
                 <button class="chart-toggle" data-range="3M">3M</button>
                 <button class="chart-toggle" data-range="1Y">1Y</button>
-                <button class="chart-toggle active" data-range="ALL">All Time</button>
+                <button class="chart-toggle" data-range="ALL">All Time</button>
               </div>
               <!-- Flow View Selector -->
               <div class="chart-toggle-group flex gap-0.5" id="returns-toggle">

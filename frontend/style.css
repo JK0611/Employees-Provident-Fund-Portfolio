@@ -7,35 +7,35 @@
 
 :root,
 [data-theme="obsidian"] {
-  /* Surface Ramp (Obsidian Violet) */
+  /* Surface Ramp (Obsidian Crimson Luxury) */
   --bg-page: #08090e;
   --bg-surface: #0e1017;
   --bg-panel: rgba(14, 16, 26, 0.75);
-  --bg-panel-raised: rgba(22, 25, 40, 0.85);
-  --bg-card: rgba(18, 20, 34, 0.68);
-  --bg-card-hover: rgba(26, 30, 52, 0.88);
-  --bg-input: rgba(13, 15, 25, 0.85);
+  --bg-panel-raised: rgba(26, 18, 26, 0.85);
+  --bg-card: rgba(22, 16, 26, 0.68);
+  --bg-card-hover: rgba(36, 20, 34, 0.88);
+  --bg-input: rgba(16, 13, 20, 0.85);
   --bg-glass-highlight: rgba(255, 255, 255, 0.05);
 
   /* Borders & Hairlines */
   --border-subtle: rgba(255, 255, 255, 0.07);
   --border-base: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(129, 140, 248, 0.45);
-  --border-glow: rgba(99, 102, 241, 0.35);
+  --border-strong: rgba(244, 63, 94, 0.45);
+  --border-glow: rgba(244, 63, 94, 0.35);
   --border-highlight: rgba(255, 255, 255, 0.09);
 
   /* Typography Ramp */
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --text-accent: #a5b4fc;
+  --text-accent: #fda4af;
 
-  /* Accents & Signals */
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
-  --accent-secondary: #8b5cf6;
-  --accent-wash: rgba(99, 102, 241, 0.12);
-  --accent-glow: rgba(99, 102, 241, 0.35);
+  /* Accents & Signals (Hibiscus Bunga Raya Crimson Palette) */
+  --accent: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-secondary: #fb7185;
+  --accent-wash: rgba(244, 63, 94, 0.12);
+  --accent-glow: rgba(244, 63, 94, 0.35);
   
   --green: #10b981;
   --green-bg: rgba(16, 185, 129, 0.12);
@@ -46,11 +46,11 @@
   --amber: #f59e0b;
   --amber-bg: rgba(245, 158, 11, 0.12);
 
-  /* Ambient Mesh Gradients */
-  --smoke-1: rgba(99, 102, 241, 0.28);
-  --smoke-2: rgba(139, 92, 246, 0.22);
-  --smoke-bg: radial-gradient(circle at 50% 0%, #111228 0%, #06070c 100%);
-  --chart-primary: #6366f1;
+  /* Ambient Mesh Gradients (Luxury White / Moonlight Platinum Glow) */
+  --smoke-1: rgba(255, 255, 255, 0.12);
+  --smoke-2: rgba(255, 255, 255, 0.07);
+  --smoke-bg: radial-gradient(circle at 50% 0%, #151722 0%, #08090e 100%);
+  --chart-primary: #f43f5e;
 }
 
 /* Global Reset & Base */
@@ -234,9 +234,9 @@ aside#app-sidebar {
   z-index: 1;
 }
 
-/* --- Card Variant 1: Hero Spotlight (Fig 1 & 2 - Rising Magenta/Plum Bottom Dome) --- */
+/* --- Card Variant 1: Hero Spotlight (Rising Platinum White Bottom Dome) --- */
 #bento-holding-card {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(32, 24, 52, 0.65) 0%, rgba(15, 13, 26, 0.85) 50%, rgba(8, 8, 14, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 50% 0%, rgba(30, 32, 44, 0.65) 0%, rgba(14, 16, 24, 0.85) 50%, rgba(8, 8, 14, 0.96) 100%) !important;
 }
 
 #bento-holding-card::after {
@@ -247,7 +247,7 @@ aside#app-sidebar {
   transform: translateX(-50%);
   width: 85%;
   height: 95px;
-  background: radial-gradient(ellipse at 50% 100%, rgba(216, 110, 200, 0.42) 0%, rgba(168, 85, 247, 0.28) 40%, rgba(99, 102, 241, 0.12) 65%, transparent 80%) !important;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.04) 65%, transparent 80%) !important;
   filter: blur(22px) !important;
   pointer-events: none;
   border-radius: 50%;
@@ -256,7 +256,7 @@ aside#app-sidebar {
 
 /* --- Card Variant 2: Top-Left Ambient Sheen (Top Sector Card) --- */
 #bento-sector-card {
-  background: radial-gradient(120% 120% at 0% 0%, rgba(147, 51, 234, 0.2) 0%, rgba(26, 19, 44, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
+  background: radial-gradient(120% 120% at 0% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
 
 #bento-sector-card::before {
@@ -266,13 +266,13 @@ aside#app-sidebar {
   left: 0;
   width: 60%;
   height: 60%;
-  background: radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
+  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
-/* --- Card Variant 3: Top-Right Spark Indigo (Active Positions Card) --- */
+/* --- Card Variant 3: Top-Right Spark Titanium (Active Positions Card) --- */
 #bento-active-card {
-  background: radial-gradient(110% 110% at 100% 0%, rgba(99, 102, 241, 0.2) 0%, rgba(20, 17, 38, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
+  background: radial-gradient(110% 110% at 100% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
 
 #bento-active-card::before {
@@ -282,13 +282,13 @@ aside#app-sidebar {
   right: 0;
   width: 55%;
   height: 55%;
-  background: radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
 /* --- Card Variant 4: Panoramic Horizon Sheen (Portfolio Trend Card) --- */
 .portfolio-trend-card {
-  background: radial-gradient(160% 110% at 50% 0%, rgba(110, 75, 160, 0.18) 0%, rgba(20, 16, 36, 0.75) 45%, rgba(8, 8, 14, 0.95) 100%) !important;
+  background: radial-gradient(160% 110% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 45%, rgba(8, 8, 14, 0.95) 100%) !important;
 }
 
 .portfolio-trend-card::before {
@@ -298,13 +298,13 @@ aside#app-sidebar {
   left: 15%;
   right: 15%;
   height: 45%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(147, 51, 234, 0.14) 0%, transparent 75%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 75%);
   pointer-events: none;
 }
 
 /* --- Card Variant 5: Column Stream Frosted Glass (Recent Filings Card) --- */
 .recent-filings-card {
-  background: linear-gradient(180deg, rgba(30, 24, 52, 0.65) 0%, rgba(16, 14, 28, 0.8) 50%, rgba(9, 9, 16, 0.95) 100%) !important;
+  background: linear-gradient(180deg, rgba(22, 25, 36, 0.65) 0%, rgba(14, 16, 24, 0.8) 50%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
 
 .recent-filings-card::before {
@@ -314,55 +314,75 @@ aside#app-sidebar {
   left: 0;
   right: 0;
   height: 60px;
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
   pointer-events: none;
 }
 
-/* --- Card Variant 6: Doughnut Focal Violet (Allocation by Company) --- */
+/* --- Card Variant 6: Doughnut Focal Titanium (Allocation by Company) --- */
 #pie-company-card {
-  background: radial-gradient(circle at 50% 40%, rgba(147, 51, 234, 0.15) 0%, rgba(20, 17, 36, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
 }
 
-/* --- Card Variant 7: Macro Sector Indigo (Allocation by Sector) --- */
+/* --- Card Variant 7: Macro Sector Titanium (Allocation by Sector) --- */
 #pie-sector-card {
-  background: radial-gradient(120% 120% at 85% 15%, rgba(99, 102, 241, 0.16) 0%, rgba(20, 17, 36, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
+  background: radial-gradient(120% 120% at 85% 15%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
 }
 
 /* --- Card Variant 8: Clean Crisp Data Table (Holdings & Transactions) --- */
 .table-card {
-  background: linear-gradient(180deg, rgba(24, 20, 42, 0.72) 0%, rgba(13, 12, 24, 0.9) 100%) !important;
+  background: linear-gradient(180deg, rgba(20, 23, 34, 0.72) 0%, rgba(11, 13, 20, 0.9) 100%) !important;
 }
 
 /* Glass Card Interactive Hover Glow */
 .glass-card:hover {
-  border-color: rgba(165, 180, 252, 0.3) !important;
-  border-top-color: rgba(255, 255, 255, 0.35) !important;
-  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.75), 0 0 30px -5px rgba(139, 92, 246, 0.22), inset 0 1px 0 0 rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-top-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.75), 0 0 30px -5px rgba(255, 255, 255, 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.25) !important;
   transform: translateY(-2px);
 }
 
 /* ============================================================================
-   Navigation Buttons (Figure 4: Left-to-Right Silk Gradient, NO White Border)
+   Navigation Buttons (Left-to-Right Crimson Silk Gradient, Clean Borderless)
    ========================================================================== */
 .tab-btn {
+  position: relative !important;
+  overflow: hidden !important;
   border-radius: 12px !important;
   border: none !important;
   outline: none !important;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  color: #94a3b8;
-  font-weight: 500;
-  font-size: 13px;
-  background: transparent;
+  transition: color 0.22s ease !important;
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  background: transparent !important;
+  z-index: 1;
+}
+
+.tab-btn > * {
+  position: relative;
+  z-index: 2;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(244, 63, 94, 0.58) 0%, rgba(225, 29, 72, 0.42) 40%, rgba(159, 18, 57, 0.16) 80%, rgba(0, 0, 0, 0) 100%);
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .tab-btn:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: #f8fafc !important;
 }
 
-/* Active State (Figure 4: Left-to-Right Dusty Plum Gradient, Clean Borderless) */
+/* Active State (Left-to-Right Hibiscus Crimson Gradient Sweep) */
 .tab-btn.active {
-  background: linear-gradient(90deg, rgba(168, 120, 195, 0.55) 0%, rgba(135, 95, 165, 0.38) 40%, rgba(85, 55, 115, 0.12) 80%, rgba(0, 0, 0, 0) 100%) !important;
   color: #ffffff !important;
   font-weight: 600 !important;
   border: none !important;
@@ -370,9 +390,14 @@ aside#app-sidebar {
   box-shadow: none !important;
 }
 
-.tab-btn.active span.material-symbols-outlined {
+.tab-btn.active::before {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+.tab-btn.active svg {
   color: #ffffff !important;
-  filter: drop-shadow(0 0 6px rgba(216, 180, 254, 0.4));
+  filter: drop-shadow(0 0 6px rgba(251, 113, 133, 0.6));
 }
 
 .tab-panel {
@@ -391,10 +416,10 @@ aside#app-sidebar {
 }
 
 /* ============================================================================
-   Segmented Control / Time Toggles (Figure 3: Dusty Plum Gradient Pill)
+   Segmented Control / Time Toggles (Hibiscus Crimson Gradient Pill)
    ========================================================================== */
 .chart-toggle-group {
-  background: rgba(15, 13, 24, 0.8) !important;
+  background: rgba(18, 12, 18, 0.85) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 9999px !important;
   padding: 3px !important;
@@ -418,13 +443,13 @@ aside#app-sidebar {
   color: #ffffff !important;
 }
 
-/* Active State (Figure 3: Soft Dusty-Violet Silk Gradient Pill) */
+/* Active State (Soft Hibiscus Crimson Silk Gradient Pill) */
 .chart-toggle.active {
-  background: linear-gradient(135deg, rgba(168, 120, 195, 0.6) 0%, rgba(130, 90, 160, 0.5) 50%, rgba(95, 65, 125, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.85) 0%, rgba(225, 29, 72, 0.75) 50%, rgba(190, 18, 60, 0.7) 100%) !important;
   color: #ffffff !important;
   font-weight: 600 !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 2px 10px rgba(244, 63, 94, 0.4) !important;
 }
 
 /* Chart Canvas Responsive Containers */

@@ -134,9 +134,9 @@ function getKlseLink(stockSymbol, companyName) {
 
 // Chart color palette
 const COLORS = [
-  '#8b5cf6', '#06b6d4', '#f59e0b', '#ef4444', '#22c55e',
-  '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16',
-  '#a855f7', '#0ea5e9', '#eab308', '#f43f5e', '#10b981',
+  '#f43f5e', '#fb7185', '#e11d48', '#f59e0b', '#06b6d4',
+  '#8b5cf6', '#10b981', '#f97316', '#ec4899', '#14b8a6',
+  '#6366f1', '#84cc16', '#a855f7', '#0ea5e9', '#eab308',
   '#d946ef', '#2dd4bf', '#fb923c', '#818cf8', '#a3e635'
 ];
 
@@ -1063,11 +1063,12 @@ function renderPieLegend(elementId, data) {
 }
 
 // ============================================
-// Returns Tab — Bar Chart
+// Returns Tab — Bar Chart (Net Capital Activity)
 // ============================================
 
-let currentReturnsRange = 'ALL';
+let currentReturnsRange = '1M';
 let currentReturnsView = 'net';
+let barChartAnimId = null;
 
 function getReturnsData(view = currentReturnsView, range = currentReturnsRange) {
   const dates = Object.keys(EPF_DATA.txByDate).map(d => ({
@@ -1098,7 +1099,7 @@ function getReturnsData(view = currentReturnsView, range = currentReturnsRange) 
   }));
 }
 
-function drawBarChart(canvasId, data, color = '#8b5cf6') {
+function drawBarChart(canvasId, data, animateChart = true) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -1112,13 +1113,24 @@ function drawBarChart(canvasId, data, color = '#8b5cf6') {
 
   const w = rect.width;
   const h = rect.height;
-  const pad = { top: 20, right: 20, bottom: 30, left: 70 };
+  const pad = { top: 24, right: 24, bottom: 36, left: 70 };
   const plotW = w - pad.left - pad.right;
   const plotH = h - pad.top - pad.bottom;
 
+  if (barChartAnimId) {
+    cancelAnimationFrame(barChartAnimId);
+    barChartAnimId = null;
+  }
+
   ctx.clearRect(0, 0, w, h);
 
-  if (data.length === 0) return;
+  if (!data || data.length === 0) {
+    ctx.fillStyle = '#64748b';
+    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No capital flow activity in this timeframe', w / 2, h / 2);
+    return;
+  }
 
   const values = data.map(d => d.value);
   const maxV = Math.max(...values, 0);
@@ -1128,116 +1140,158 @@ function drawBarChart(canvasId, data, color = '#8b5cf6') {
   // Zero line position
   const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
 
-  // Grid + Y axis
-  ctx.fillStyle = '#958ea0';
-  ctx.font = '10px Inter, sans-serif';
-  ctx.textAlign = 'right';
-  for (let i = 0; i <= 4; i++) {
-    const val = minV + (range * i / 4);
-    const y = pad.top + plotH - (plotH * i / 4);
-    ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-    ctx.strokeStyle = 'rgba(37, 37, 58, 0.4)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(pad.left, y);
-    ctx.lineTo(w - pad.right, y);
-    ctx.stroke();
-  }
+  // Responsive bar width
+  const rawBarW = (plotW / data.length);
+  const barW = Math.max(3, rawBarW - (data.length > 60 ? 1 : data.length > 25 ? 3 : 6));
 
-  // Zero line
-  ctx.strokeStyle = 'rgba(136, 136, 160, 0.3)';
-  ctx.lineWidth = 1;
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath();
-  ctx.moveTo(pad.left, zeroY);
-  ctx.lineTo(w - pad.right, zeroY);
-  ctx.stroke();
-  ctx.setLineDash([]);
+  let startTime = null;
+  const DURATION = animateChart ? 700 : 0;
 
-  // Bars
-  const barW = Math.max(2, (plotW / data.length) - 2);
-  data.forEach((d, i) => {
-    const x = pad.left + (plotW * i / data.length) + 1;
-    const barH = (Math.abs(d.value) / range) * plotH;
-    const y = d.value >= 0 ? zeroY - barH : zeroY;
+  function renderFrame(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = DURATION > 0 ? Math.min(elapsed / DURATION, 1) : 1;
 
-    ctx.fillStyle = d.value >= 0 ? '#22c55e' : '#ef4444';
-    ctx.globalAlpha = 0.8;
-    ctx.beginPath();
-    // Rounded top
-    const r = Math.min(2, barW / 2);
-    ctx.roundRect(x, y, barW, barH, [r, r, 0, 0]);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  });
+    // Smooth cubic easing for growth
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
 
-  // X-axis labels
-  ctx.fillStyle = '#958ea0';
-  ctx.font = '10px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  const isMobile = window.innerWidth < 768;
-  const maxLabels = isMobile ? 4 : 8;
+    ctx.clearRect(0, 0, w, h);
 
-  let formatLabel = (labelStr) => {
-    const parts = labelStr.split(' ');
-    return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
-  };
-
-  if (data.length >= 2) {
-    const parseDate = (str) => {
-      const parts = str.split(' ');
-      const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
-      return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
-    };
-    const startDate = parseDate(data[0].label);
-    const endDate = parseDate(data[data.length - 1].label);
-    const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-
-    if (diffDays > 365 * 1.5) {
-      formatLabel = (labelStr) => {
-        const parts = labelStr.split(' ');
-        return parts.length >= 3 ? parts[2] : labelStr;
-      };
-    } else if (diffDays > 45) {
-      formatLabel = (labelStr) => {
-        const parts = labelStr.split(' ');
-        return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
-      };
-    } else {
-      formatLabel = (labelStr) => {
-        const parts = labelStr.split(' ');
-        return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
-      };
+    // 1. Grid lines + Y axis labels
+    ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+    ctx.font = '500 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 4; i++) {
+      const val = minV + (range * i / 4);
+      const y = pad.top + plotH - (plotH * i / 4);
+      ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(w - pad.right, y);
+      ctx.stroke();
     }
-  }
 
-  const indicesToDraw = [];
-  if (data.length > 0) {
-    indicesToDraw.push(0);
-    if (data.length > 1) {
-      const step = (data.length - 1) / (maxLabels - 1);
-      for (let i = 1; i < maxLabels - 1; i++) {
-        const idx = Math.round(i * step);
-        if (!indicesToDraw.includes(idx)) {
-          indicesToDraw.push(idx);
+    // 2. Zero baseline
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, zeroY);
+    ctx.lineTo(w - pad.right, zeroY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 3. Animated Bars (Growing smoothly from zero baseline)
+    data.forEach((d, i) => {
+      const x = pad.left + (plotW * i / data.length) + (plotW / data.length - barW) / 2;
+      const fullBarH = (Math.abs(d.value) / range) * plotH;
+      const currentBarH = fullBarH * easeProgress;
+      const y = d.value >= 0 ? zeroY - currentBarH : zeroY;
+
+      if (d.value >= 0) {
+        // Positive accumulation
+        const grad = ctx.createLinearGradient(0, y, 0, zeroY);
+        grad.addColorStop(0, '#10b981');
+        grad.addColorStop(1, '#059669');
+        ctx.fillStyle = grad;
+        ctx.shadowColor = 'rgba(16, 185, 129, 0.3)';
+        ctx.shadowBlur = 6;
+      } else {
+        // Negative divestment
+        const grad = ctx.createLinearGradient(0, zeroY, 0, y + currentBarH);
+        grad.addColorStop(0, '#e11d48');
+        grad.addColorStop(1, '#f43f5e');
+        ctx.fillStyle = grad;
+        ctx.shadowColor = 'rgba(244, 63, 94, 0.3)';
+        ctx.shadowBlur = 6;
+      }
+
+      ctx.beginPath();
+      const r = Math.min(3, barW / 2);
+      ctx.roundRect(x, y, barW, Math.max(1, currentBarH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    // 4. X-axis labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'center';
+    const isMobile = window.innerWidth < 768;
+    const maxLabels = isMobile ? 4 : 8;
+
+    let formatLabel = (labelStr) => {
+      const parts = labelStr.split(' ');
+      return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+    };
+
+    if (data.length >= 2) {
+      const parseDate = (str) => {
+        const parts = str.split(' ');
+        const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+        return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+      };
+      const startDate = parseDate(data[0].label);
+      const endDate = parseDate(data[data.length - 1].label);
+      const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+      if (diffDays > 365 * 1.5) {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 3 ? parts[2] : labelStr;
+        };
+      } else if (diffDays > 45) {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
+        };
+      } else {
+        formatLabel = (labelStr) => {
+          const parts = labelStr.split(' ');
+          return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+        };
+      }
+    }
+
+    const indicesToDraw = [];
+    if (data.length > 0) {
+      indicesToDraw.push(0);
+      if (data.length > 1) {
+        const step = (data.length - 1) / (maxLabels - 1);
+        for (let i = 1; i < maxLabels - 1; i++) {
+          const idx = Math.round(i * step);
+          if (!indicesToDraw.includes(idx)) {
+            indicesToDraw.push(idx);
+          }
+        }
+        if (!indicesToDraw.includes(data.length - 1)) {
+          indicesToDraw.push(data.length - 1);
         }
       }
-      if (!indicesToDraw.includes(data.length - 1)) {
-        indicesToDraw.push(data.length - 1);
-      }
+    }
+    indicesToDraw.sort((a, b) => a - b);
+
+    indicesToDraw.forEach(i => {
+      const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
+      ctx.fillText(formatLabel(data[i].label), x, h - 12);
+    });
+
+    if (progress < 1) {
+      barChartAnimId = requestAnimationFrame(renderFrame);
+    } else {
+      // Store metadata for hover overlay
+      barChartMeta = { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY };
+      if (window._barSaveCanvas) window._barSaveCanvas();
     }
   }
-  indicesToDraw.sort((a, b) => a - b);
 
-  indicesToDraw.forEach(i => {
-    const x = pad.left + (plotW * i / data.length) + barW / 2;
-    ctx.fillText(formatLabel(data[i].label), x, h - 10);
-  });
-
-  // Store metadata for hover
-  barChartMeta = { data, pad, plotW, plotH, minV, range, barW };
-  // Save canvas bitmap for hover overlay
-  if (window._barSaveCanvas) window._barSaveCanvas();
+  if (animateChart) {
+    barChartAnimId = requestAnimationFrame(renderFrame);
+  } else {
+    renderFrame(performance.now() + DURATION);
+  }
 }
 
 function renderReturnsSummary() {
@@ -1879,8 +1933,8 @@ function setupBarChartHover() {
   }
 
   canvas.addEventListener('mousemove', (e) => {
-    if (!barChartMeta || barChartMeta.data.length === 0) return;
-    const { data, pad, plotW, plotH, minV, range, barW } = barChartMeta;
+    if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0) return;
+    const { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY } = barChartMeta;
 
     const canvasRect = canvas.getBoundingClientRect();
     const mx = e.clientX - canvasRect.left;
@@ -1907,23 +1961,63 @@ function setupBarChartHover() {
       <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count} announcements</div>
     `);
 
-    // Highlight the hovered bar
+    // Restore clean canvas bitmap
     restoreCanvas();
+
     const ctx = canvas.getContext('2d');
     ctx.save();
-    const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
-    const barX = pad.left + (plotW * clampedIdx / data.length) + 1;
+
+    const barCenterX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length) / 2;
+    const barX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length - barW) / 2;
     const barH = (Math.abs(d.value) / range) * plotH;
     const barY = d.value >= 0 ? zeroY - barH : zeroY;
+    const r = Math.min(3, barW / 2);
 
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 1.5;
-    ctx.globalAlpha = 0.6;
-    const r = Math.min(2, barW / 2);
+    // 1. Vertical Dashed Guide Line Through Hovered Bar
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([4, 4]);
     ctx.beginPath();
-    ctx.roundRect(barX, barY, barW, barH, [r, r, 0, 0]);
+    ctx.moveTo(barCenterX, pad.top);
+    ctx.lineTo(barCenterX, pad.top + plotH);
     ctx.stroke();
-    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+
+    // 2. High-Contrast Hovered Bar Glow & Stroke
+    ctx.fillStyle = d.value >= 0 ? '#10b981' : '#f43f5e';
+    ctx.shadowColor = d.value >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(244, 63, 94, 0.8)';
+    ctx.shadowBlur = 14;
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, barW, Math.max(2, barH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // 3. Current Date Pill Badge at the bottom of the dashed line
+    ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+    const dateText = d.label;
+    const textW = ctx.measureText(dateText).width;
+    const pillW = textW + 16;
+    const pillH = 22;
+    const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, barCenterX - (pillW / 2)));
+    const pillY = h - 26;
+
+    ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
+
     ctx.restore();
   });
 
@@ -1981,7 +2075,7 @@ document.getElementById('time-toggle').addEventListener('click', (e) => {
   btn.classList.add('active');
   currentRange = btn.dataset.range;
   const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series, '#8b5cf6', true);
+  drawLineChart('portfolio-canvas', series, null, true);
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
 });
@@ -2229,7 +2323,7 @@ function init() {
 
   // Portfolio chart
   const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series, '#8b5cf6', true);
+  drawLineChart('portfolio-canvas', series, null, true);
   lineChartDrawn = true;
   const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
   document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
@@ -2242,7 +2336,7 @@ function init() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         const s = getPortfolioTimeSeries(currentRange);
-        drawLineChart('portfolio-canvas', s, '#8b5cf6', false);
+        drawLineChart('portfolio-canvas', s, null, false);
       }, 40);
     });
     ro.observe(portfolioChartBody);
@@ -2258,7 +2352,7 @@ function init() {
   renderPieLegend('pie-sector-legend', sectorData);
 
   // Returns
-  drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+  drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), false);
   renderReturnsSummary();
 
   // Transactions
@@ -2309,11 +2403,9 @@ function switchTab(tabName) {
 
   allBtns.forEach(btn => {
     if (btn.dataset.tab === tabName) {
-      btn.classList.add('active', 'bg-surface-container-highest', 'text-on-surface');
-      btn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+      btn.classList.add('active');
     } else {
-      btn.classList.remove('active', 'bg-surface-container-highest', 'text-on-surface');
-      btn.classList.add('text-on-surface-variant');
+      btn.classList.remove('active');
     }
   });
 
@@ -2442,7 +2534,7 @@ function switchTab(tabName) {
     });
 
   } else if (tabName === 'returns') {
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), true);
     renderReturnsSummary();
 
     // Summary Cards Entrance
@@ -2545,12 +2637,12 @@ window.addEventListener('resize', () => {
 
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), '#8b5cf6', false);
+    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), null, false);
     const companyData = getPieData('company');
     const sectorData = getPieData('sector');
     drawPieChart('pie-company-canvas', companyData, 'company', false);
     drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView));
+    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), false);
   }, 200);
 });
 
