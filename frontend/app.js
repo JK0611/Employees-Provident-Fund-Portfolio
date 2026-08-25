@@ -1,2770 +1,2287 @@
+/**
+ * EPF Tracker — Universal High-Performance Bundle
+ * Works seamlessly via both direct double-click (file://) and web server (http://)
+ * Modular Architecture with Set A (Desktop) and Set B (Mobile) full physical separation
+ */
 
-// ============================================
-// Iconstack SVG Icon Repository
-// ============================================
-const ICONSTACK = {
-  trending_up: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /> </svg>`,
-  trending_down: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 17h6v-6" /> <path d="m22 17-8.5-8.5-5 5L2 7" /> </svg>`,
-  account_balance: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 18v-7" /> <path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z" /> <path d="M14 18v-7" /> <path d="M18 18v-7" /> <path d="M3 22h18" /> <path d="M6 18v-7" /> </svg>`,
-  receipt_long: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" /> <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /> <path d="M12 17.5v-11" /> </svg>`,
-  category: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z" /> <rect x="3" y="14" width="7" height="7" rx="1" /> <circle cx="17.5" cy="17.5" r="3.5" /> </svg>`,
-  calendar_month: `<svg class="w-4 h-4 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v4" /> <path d="M16 2v4" /> <rect width="18" height="18" x="3" y="4" rx="2" /> <path d="M3 10h18" /> </svg>`,
-  arrow_upward: `<svg class="w-3 h-3 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m5 12 7-7 7 7" /> <path d="M12 19V5" /> </svg>`,
-  arrow_downward: `<svg class="w-3 h-3 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 17h6v-6" /> <path d="m22 17-8.5-8.5-5 5L2 7" /> </svg>`,
-  search: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /> </svg>`,
-  history: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /> </svg>`
-};
+(function () {
+  'use strict';
 
-/* ============================================
-   EPFTracker — Application Logic
-   ============================================ */
-
-// KLSE Screener stock codes lookup map
-const STOCK_CODES = {
-  "99SMART": "5326",
-  "ABMB": "2488",
-  "AEON": "6599",
-  "AHEALTH": "7090",
-  "ALLIANZ": "1163",
-  "AMBANK": "1015",
-  "AME": "5293",
-  "ATECH": "5302",
-  "AXIATA": "6888",
-  "AXREIT": "5106",
-  "BAUTO": "5248",
-  "BIMB": "5258",
-  "BURSA": "1818",
-  "CBD": "6947",
-  "CDB": "6947",
-  "CELCOMDIGI": "6947",
-  "CIMB": "1023",
-  "CLMT": "5180",
-  "CTOS": "5301",
-  "D&O": "7204",
-  "DAYANG": "5141",
-  "DIALOG": "7277",
-  "DPHARMA": "7148",
-  "DRBHCOM": "1619",
-  "E&O": "3417",
-  "ECONBHD": "5253",
-  "F&N": "3689",
-  "FFB": "5306",
-  "FRONTKN": "0128",
-  "GAMUDA": "5398",
-  "GENP": "2291",
-  "HLBANK": "5819",
-  "HLFG": "1082",
-  "IGBREIT": "5227",
-  "IHH": "5225",
-  "IJM": "3336",
-  "INARI": "0166",
-  "IOICORP": "1961",
-  "IOIPG": "5249",
-  "ITMAX": "5309",
-  "JPG": "5323",
-  "KGB": "0151",
-  "KLCC": "5235SS",
-  "KLK": "2445",
-  "KOSSAN": "7153",
-  "KPJ": "5878",
-  "MALAKOF": "5264",
-  "MAXIS": "6012",
-  "MAYBANK": "1155",
-  "MBSB": "1171",
-  "MFCB": "3069",
-  "MISC": "3816",
-  "MPI": "3867",
-  "MRDIY": "5296",
-  "NESTLE": "4707",
-  "ORKIM": "5348",
-  "PADINI": "7052",
-  "PANAMY": "3719",
-  "PARADIGM": "5187",
-  "PAVREIT": "5212",
-  "PBBANK": "1295",
-  "PCHEM": "5183",
-  "PENTA": "7160",
-  "PETDAG": "5681",
-  "PETGAS": "6033",
-  "PLINTAS": "5320",
-  "PMETAL": "8869",
-  "PPB": "4065",
-  "RHB": "1066",
-  "RHBBANK": "1066",
-  "SAM": "9822",
-  "SCGBHD": "0225",
-  "SCOMNET": "0001",
-  "SDG": "5285",
-  "SDS": "0212",
-  "SIME": "4197",
-  "SIMEPROP": "5288",
-  "SKPRES": "7155",
-  "SMRT": "0117",
-  "SPSETIA": "8664PC",
-  "SUNMED": "5555",
-  "SUNREIT": "5176",
-  "SUNWAY": "5263",
-  "TAKAFUL": "6139",
-  "TENAGA": "5347",
-  "TIMECOM": "5031",
-  "TM": "4863",
-  "UNISEM": "5005",
-  "UOADEV": "5200",
-  "UTDPLT": "2089",
-  "UWC": "5292",
-  "VELESTO": "5243",
-  "VS": "6963",
-  "WASCO": "5142",
-  "WPRTS": "5246",
-  "YTL": "5109",
-  "YTLPOWR": "6742",
-  "YTLPOWER": "6742"
-};
-
-// Generates correct KLSE Screener URLs with slugified company name
-function getKlseLink(stockSymbol, companyName) {
-  const code = STOCK_CODES[stockSymbol.toUpperCase().trim()] || '';
-  const slug = (companyName || stockSymbol).toLowerCase().trim()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-  return `https://www.klsescreener.com/v2/stocks/view/${code}/${slug}`;
-}
-
-// Chart color palette
-const COLORS = [
-  '#f43f5e', '#fb7185', '#e11d48', '#f59e0b', '#06b6d4',
-  '#8b5cf6', '#10b981', '#f97316', '#ec4899', '#14b8a6',
-  '#6366f1', '#84cc16', '#a855f7', '#0ea5e9', '#eab308',
-  '#d946ef', '#2dd4bf', '#fb923c', '#818cf8', '#a3e635'
-];
-
-// Generate a deterministic color for a stock symbol
-function stockColor(symbol) {
-  let hash = 0;
-  for (let i = 0; i < symbol.length; i++) hash = symbol.charCodeAt(i) + ((hash << 5) - hash);
-  const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 55%, 45%)`;
-}
-
-// Dynamic tradingview logos cache
-let tvLogoMap = {};
-
-// Hardcoded fallback map from logo.json for instant synchronous load
-const fallbackTvLogos = {
-  '99SMART': 'https://s3-symbol-logo.tradingview.com/99-speed-mart-retail-berhad--big.svg',
-  'ABMB': 'https://s3-symbol-logo.tradingview.com/alliance-bank-malaysia-berhad--big.svg',
-  'AEON': 'https://s3-symbol-logo.tradingview.com/aeon-co-m-bhd--big.svg',
-  'AHEALTH': 'https://apexhealthcare.com.my/wp-content/uploads/2023/06/APEX_WEB_LOGO1.png',
-  'ALLIANZ': 'https://s3-symbol-logo.tradingview.com/allianz--big.svg',
-  'AMBANK': 'https://s3-symbol-logo.tradingview.com/ammb-holdings-bhd--big.svg',
-  'AME': 'https://s3-symbol-logo.tradingview.com/ame-real-estate-investment-trust--big.svg',
-  'ATECH': 'https://s3-symbol-logo.tradingview.com/aurelius-technologies-berhad--big.svg',
-  'AXIATA': 'https://s3-symbol-logo.tradingview.com/axiata-group-berhad--big.svg',
-  'AXREIT': 'https://s3-symbol-logo.tradingview.com/axis-reits--big.svg',
-  'BAUTO': 'https://s3-symbol-logo.tradingview.com/bermaz-auto-berhad--big.svg',
-  'BIMB': 'https://s3-symbol-logo.tradingview.com/bank-islam-malaysia-berhad--big.svg',
-  'BURSA': 'https://s3-symbol-logo.tradingview.com/bursa-malaysia-bhd--big.svg',
-  'CBD': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
-  'CDB': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
-  'CELCOMDIGI': 'https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg',
-  'CIMB': 'https://s3-symbol-logo.tradingview.com/cimb-group-holdings-berhad--big.svg',
-  'CLMT': 'https://s3-symbol-logo.tradingview.com/capitamall-trust--big.svg',
-  'CTOS': 'https://s3-symbol-logo.tradingview.com/ctos-digital--big.svg',
-  'D&O': 'https://s3-symbol-logo.tradingview.com/d-and-o-green-technologies--big.svg',
-  'DAYANG': 'https://s3-symbol-logo.tradingview.com/dayang-enterprise-bhd--big.svg',
-  'DIALOG': 'https://s3-symbol-logo.tradingview.com/dialog-group--big.svg',
-  'DIALOG GROUP': 'https://s3-symbol-logo.tradingview.com/dialog-group--big.svg',
-  'DPHARMA': 'https://s3-symbol-logo.tradingview.com/duopharma-biotech-berhad--big.svg',
-  'DRBHCOM': 'https://s3-symbol-logo.tradingview.com/drb-hicom-bhd--big.svg',
-  'E&O': 'https://s3-symbol-logo.tradingview.com/eastern-and-oriental-bhd--big.svg',
-  'ECONBHD': 'https://s3-symbol-logo.tradingview.com/econpile-bhd--big.svg',
-  'F&N': 'https://s3-symbol-logo.tradingview.com/fraser-and-neave-holdings-bhd--big.svg',
-  'FFB': 'https://s3-symbol-logo.tradingview.com/farm-fresh-berhad--big.svg',
-  'FRONTKN': 'https://s3-symbol-logo.tradingview.com/frontken--big.svg',
-  'GAMUDA': 'https://s3-symbol-logo.tradingview.com/gamuda-bhd--big.svg',
-  'GENP': 'https://s3-symbol-logo.tradingview.com/genting-plantations-berhad--big.svg',
-  'HLBANK': 'https://s3-symbol-logo.tradingview.com/hong-leong-bank-bhd--big.svg',
-  'HLFG': 'https://s3-symbol-logo.tradingview.com/hong-leong-financial-group-bhd--big.svg',
-  'IGBREIT': 'https://s3-symbol-logo.tradingview.com/igb-real-estate-inv-trust--big.svg',
-  'IHH': 'https://s3-symbol-logo.tradingview.com/ihh--big.svg',
-  'IJM': 'https://s3-symbol-logo.tradingview.com/ijm-corporation-bhd--big.svg',
-  'INARI': 'https://s3-symbol-logo.tradingview.com/inari-amertron-berhad--big.svg',
-  'IOICORP': 'https://s3-symbol-logo.tradingview.com/ioi-corporation-bhd--big.svg',
-  'IOIPG': 'https://s3-symbol-logo.tradingview.com/ioi-properties-group-berhad--big.svg',
-  'JPG': 'https://s3-symbol-logo.tradingview.com/johor-plantations-berhad--big.svg',
-  'KLCC': 'https://s3-symbol-logo.tradingview.com/klcc-propandreits-stapled-sec--big.svg',
-  'KLK': 'https://s3-symbol-logo.tradingview.com/kuala-lumpur-kepong-bhd--big.svg',
-  'KOSSAN': 'https://s3-symbol-logo.tradingview.com/kossan-rubber-industries--big.svg',
-  'KPJ': 'https://s3-symbol-logo.tradingview.com/kpj-healthcare-bhd--big.svg',
-  'MALAKOF': 'https://s3-symbol-logo.tradingview.com/malakoff-corporation-berhad--big.svg',
-  'MAXIS': 'https://s3-symbol-logo.tradingview.com/maxis-berhad--big.svg',
-  'MAYBANK': 'https://s3-symbol-logo.tradingview.com/malayan-banking--big.svg',
-  'MBSB': 'https://s3-symbol-logo.tradingview.com/malaysia-building-society-bhd--big.svg',
-  'MFCB': 'https://s3-symbol-logo.tradingview.com/mega-first-corporation-bhd--big.svg',
-  'MISC': 'https://s3-symbol-logo.tradingview.com/misc-bhd--big.svg',
-  'MPI': 'https://s3-symbol-logo.tradingview.com/malaysian-pacific-industries--big.svg',
-  'MRDIY': 'https://s3-symbol-logo.tradingview.com/mr-d-i-y-group-m-berhad--big.svg',
-  'NESTLE': 'https://s3-symbol-logo.tradingview.com/nestle--big.svg',
-  'ORKIM': 'https://s3-symbol-logo.tradingview.com/orkim-bhd--big.svg',
-  'PADINI': 'https://s3-symbol-logo.tradingview.com/padini-holdings-bhd--big.svg',
-  'PANAMY': 'https://s3-symbol-logo.tradingview.com/panasonic-manufacturing-msia--big.svg',
-  'PARADIGM': 'https://s3-symbol-logo.tradingview.com/paradigm-real-estate-investment-trust--big.svg',
-  'PAVREIT': 'https://s3-symbol-logo.tradingview.com/pavilion-real-estate-inv-trust--big.svg',
-  'PBBANK': 'https://s3-symbol-logo.tradingview.com/public-bank--big.svg',
-  'PCHEM': 'https://s3-symbol-logo.tradingview.com/petronas-chemicals-group-bhd--big.svg',
-  'PENTA': 'https://s3-symbol-logo.tradingview.com/pentamaster--big.svg',
-  'PETDAG': 'https://s3-symbol-logo.tradingview.com/petronas-dagangan-bhd--big.svg',
-  'PETGAS': 'https://s3-symbol-logo.tradingview.com/petronas-gas-bhd--big.svg',
-  'PLINTAS': 'https://s3-symbol-logo.tradingview.com/prolintas-infra-business-trust--big.svg',
-  'PMETAL': 'https://s3-symbol-logo.tradingview.com/press-metal-aluminium--big.svg',
-  'PPB': 'https://s3-symbol-logo.tradingview.com/ppb-group-bhd--big.svg',
-  'RHB': 'https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg',
-  'RHBBANK': 'https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg',
-  'SAM': 'https://s3-symbol-logo.tradingview.com/sam-engineering-and-equipment--big.svg',
-  'SCGBHD': 'https://s3-symbol-logo.tradingview.com/southern-cable-berhad--big.svg',
-  'SCOMNET': 'https://s3-symbol-logo.tradingview.com/supercomnet-technologies--big.svg',
-  'SDG': 'https://s3-symbol-logo.tradingview.com/sime-darby-plantation-berhad--big.svg',
-  'SIME': 'https://s3-symbol-logo.tradingview.com/sime-darby-bhd--big.svg',
-  'SIMEPROP': 'https://s3-symbol-logo.tradingview.com/sime-darby-property-berhad--big.svg',
-  'SKPRES': 'https://s3-symbol-logo.tradingview.com/skp-resources-bhd--big.svg',
-  'SPSETIA': 'https://s3-symbol-logo.tradingview.com/sp-setia--big.svg',
-  'SUNMED': 'https://s3-symbol-logo.tradingview.com/sunway-healthcare-berhad--big.svg',
-  'SUNREIT': 'https://s3-symbol-logo.tradingview.com/sunway-real-estate-invt-trust--big.svg',
-  'SUNWAY': 'https://s3-symbol-logo.tradingview.com/sunway-berhad--big.svg',
-  'TAKAFUL': 'https://s3-symbol-logo.tradingview.com/syarikat-takaful-malaysia-keluarga-berhad--big.svg',
-  'TENAGA': 'https://s3-symbol-logo.tradingview.com/tenaga-nasional--big.svg',
-  'TIMECOM': 'https://s3-symbol-logo.tradingview.com/time-dotcom-bhd--big.svg',
-  'TM': 'https://s3-symbol-logo.tradingview.com/telekom-malaysia-bhd--big.svg',
-  'UOADEV': 'https://s3-symbol-logo.tradingview.com/uoa-development-berhad--big.svg',
-  'UTDPLT': 'https://s3-symbol-logo.tradingview.com/united-plantations-bhd--big.svg',
-  'UWC': 'https://s3-symbol-logo.tradingview.com/uwc--big.svg',
-  'WASCO': 'https://s3-symbol-logo.tradingview.com/wah-seong-bhd--big.svg',
-  'WPRTS': 'https://s3-symbol-logo.tradingview.com/westports-holdings-berhad--big.svg',
-  'YTL': 'https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg',
-  'YTLPOWER': 'https://s3-symbol-logo.tradingview.com/ytl-power-international-bhd--big.svg'
-};
-
-// Clearbit official company domain mapping for high-quality corporate logos
-function getLogoUrl(companyName, stockName) {
-  const name = companyName ? companyName.toUpperCase().trim() : '';
-  const ticker = stockName ? stockName.toUpperCase().trim() : '';
-
-  // 1. Check TradingView Logo mappings from logo.json (cached or fallback)
-  const map = { ...fallbackTvLogos, ...tvLogoMap };
-  if (ticker && map[ticker]) return map[ticker];
-
-  for (const [key, url] of Object.entries(map)) {
-    const upperKey = key.toUpperCase().trim();
-    if (ticker === upperKey) return url;
-
-    // Check specific custom aliases
-    if (upperKey === 'CBD' && (ticker === 'CDB' || ticker === 'CELCOMDIGI')) return url;
-    if (upperKey === 'RHB' && (ticker === 'RHBBANK' || ticker === 'RHB')) return url;
-    if (upperKey === 'DIALOG GROUP' && (ticker === 'DIALOG' || name.includes('DIALOG'))) return url;
-
-    // Check substring matches
-    if (ticker && (ticker.includes(upperKey) || upperKey.includes(ticker))) return url;
-    if (name && (name.includes(upperKey) || upperKey.includes(name))) return url;
-  }
-
-  let domain = null;
-
-  const symbolDomains = {
-    'MAYBANK': 'maybank.com',
-    'PBBANK': 'publicbank.com.my',
-    'CIMB': 'cimb.com',
-    'AXIATA': 'axiata.com',
-    'RHBBANK': 'rhbgroup.com',
-    'TENAGA': 'tnb.com.my',
-    'YTL': 'ytl.com',
-    'CELCOMDIGI': 'celcomdigi.com',
-    'DIALOG': 'dialogasia.com',
-    'GAMUDA': 'gamuda.com.my',
-    'IHH': 'ihhhealthcare.com',
-    'SIMEPROP': 'simedarbyproperty.com',
-    'SIME': 'simedarby.com',
-    'SDG': 'sdguthrie.com',
-    'MAXIS': 'maxis.com.my',
-    'MRDIY': 'mrdiy.com',
-    'IOICORP': 'ioigroup.com',
-    'PCHEM': 'petronaschemicals.com',
-    'YTLPOWR': 'ytlpower.com.my',
-    'MALAKOF': 'malakoff.com.my',
-    'TM': 'tm.com.my',
-    'PMETAL': 'pressmetal.com',
-    'SUNWAY': 'sunway.com.my',
-    'IJM': 'ijm.com',
-    'MISC': 'misc.com.my',
-    'SPSETIA': 'spsetia.com',
-    '99SMART': '99speedmart.com.my',
-    'INARI': 'inaricorp.com',
-    'AMBANK': 'ambankgroup.com',
-    'SUNREIT': 'sunwayreit.com',
-    'PAVREIT': 'pavilionreit.com',
-    'CTOS': 'ctosdigital.com',
-    'AXREIT': 'axisreit.com.my',
-    'IGBREIT': 'igbreit.com',
-    'UOADEV': 'uoa.com.my',
-    'IOIPG': 'ioiproperties.com.my',
-    'BIMB': 'bankislam.com',
-    'FFB': 'farmfresh.com.my',
-    'TIMECOM': 'time.com.my',
-    'FRONTKN': 'frontken.com',
-    'PETGAS': 'petronasgas.com',
-    'PPB': 'ppbgroup.com',
-    'JPG': 'johorplantations.com',
-    'WPRTS': 'westportsholdings.com',
-    'KLK': 'klk.com.my',
-    'HLBANK': 'hlb.com.my',
-    'KLCC': 'klcc.com.my',
-    'SKPRES': 'skpres.com',
-    'E&O': 'easternandoriental.com',
-    'ATECH': 'atechgroup.com.my',
-    'TAKAFUL': 'takaful-malaysia.com.my',
-    'DRBHCOM': 'drb-hicom.com',
-    'DAYANG': 'desb.net',
-    'ABMB': 'alliancebank.com.my',
-    'KOSSAN': 'kossan.com.my',
-    'GENP': 'gentingplantations.com',
-    'PETDAG': 'mymesra.com.my',
-    'BURSA': 'bursamalaysia.com',
-    'MFCB': 'megafirst.com',
-    'AEON': 'aeongroupmalaysia.com',
-    'PADINI': 'padini.com',
-    'SCGBHD': 'southerncable.com.my',
-    'PLINTAS': 'prolintas.com.my',
-    'HLFG': 'hlfg.com.my',
-    'ECONBHD': 'econpile.com',
-    'BAUTO': 'bauto.com.my',
-    'SCOMNET': 'supercomnet.com.my',
-    'ORKIM': 'orkim.com.my',
-    'UWC': 'uwcberhad.com.my',
-    'D&O': 'dogt.com.my',
-    'F&N': 'fn.com.my',
-    'WASCO': 'wascoenergy.com',
-    'UTDPLT': 'unitedplantations.com',
-    'SAM': 'sam-mfg.com.my',
-    'AME': 'ame-elite.com',
-    'NESTLE': 'nestle.com.my',
-    'ALLIANZ': 'allianz.com.my',
-    'PANAMY': 'panasonic.com.my'
+  // ----------------------------------------------------
+  // 1. CORE UTILITIES & ICONSTACK SVGS
+  // ----------------------------------------------------
+  const ICONSTACK = {
+    trending_up: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>`,
+    trending_down: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 17-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/></svg>`,
+    account_balance: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/></svg>`,
+    receipt_long: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>`,
+    category: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M14 4h7v7h-7z"/><path d="M14 15h7v7h-7z"/></svg>`,
+    calendar_month: `<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>`,
+    arrow_upward: `<svg class="w-3 h-3 text-emerald-400 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>`,
+    arrow_downward: `<svg class="w-3 h-3 text-rose-400 inline-block align-middle mr-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>`,
+    layout_grid: `<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/><path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/></svg>`
   };
 
-  const domains = {
-    'MALAYAN BANKING BERHAD': 'maybank.com',
-    'PUBLIC BANK BERHAD': 'publicbank.com.my',
-    'CIMB GROUP HOLDINGS BERHAD': 'cimb.com',
-    'AXIATA GROUP BERHAD': 'axiata.com',
-    'RHB BANK BERHAD': 'rhbgroup.com',
-    'TENAGA NASIONAL BHD': 'tnb.com.my',
-    'YTL CORPORATION BERHAD': 'ytl.com',
-    'CELCOMDIGI BERHAD': 'celcomdigi.com',
-    'DIALOG GROUP BERHAD': 'dialogasia.com',
-    'GAMUDA BERHAD': 'gamuda.com.my',
-    'IHH HEALTHCARE BERHAD': 'ihhhealthcare.com',
-    'SIME DARBY PROPERTY BERHAD': 'simedarbyproperty.com',
-    'SIME DARBY BERHAD': 'simedarby.com',
-    'SD GUTHRIE BERHAD': 'sdguthrie.com',
-    'MAXIS BERHAD': 'maxis.com.my',
-    'MR D.I.Y. GROUP (M) BERHAD': 'mrdiy.com',
-    'IOI CORPORATION BERHAD': 'ioigroup.com',
-    'PETRONAS CHEMICALS GROUP BERHAD': 'petronaschemicals.com',
-    'YTL POWER INTERNATIONAL BHD': 'ytlpower.com.my',
-    'MALAKOFF CORPORATION BERHAD': 'malakoff.com.my',
-    'TELEKOM MALAYSIA BERHAD': 'tm.com.my',
-    'PRESS METAL ALUMINIUM HOLDINGS BERHAD': 'pressmetal.com',
-    'SUNWAY BERHAD': 'sunway.com.my',
-    'IJM CORPORATION BERHAD': 'ijm.com',
-    'MISC BERHAD': 'misc.com.my',
-    'S P SETIA BERHAD': 'spsetia.com',
-    '99 SPEED MART RETAIL HOLDINGS BERHAD': '99speedmart.com.my',
-    'INARI AMERTRON BERHAD': 'inaricorp.com',
-    'AMMB HOLDINGS BERHAD': 'ambankgroup.com',
-    'SUNWAY REAL ESTATE INVESTMENT TRUST': 'sunwayreit.com',
-    'PAVILION REAL ESTATE INVESTMENT TRUST': 'pavilionreit.com',
-    'CTOS DIGITAL BERHAD': 'ctosdigital.com',
-    'AXIS REAL ESTATE INVESTMENT TRUST': 'axisreit.com.my',
-    'IGB REAL ESTATE INVESTMENT TRUST': 'igbreit.com',
-    'UOA DEVELOPMENT BHD': 'uoa.com.my',
-    'IOI PROPERTIES GROUP BERHAD': 'ioiproperties.com.my',
-    'BANK ISLAM MALAYSIA BERHAD': 'bankislam.com',
-    'FARM FRESH BERHAD': 'farmfresh.com.my',
-    'TIME DOTCOM BERHAD': 'time.com.my',
-    'FRONTKEN CORPORATION BERHAD': 'frontken.com',
-    'PETRONAS GAS BERHAD': 'petronasgas.com',
-    'PPB GROUP BERHAD': 'ppbgroup.com',
-    'JOHOR PLANTATIONS GROUP BERHAD': 'johorplantations.com',
-    'WESTPORTS HOLDINGS BERHAD': 'westportsholdings.com',
-    'KUALA LUMPUR KEPONG BERHAD': 'klk.com.my',
-    'HONG LEONG BANK BERHAD': 'hlb.com.my',
-    'KLCC PROPERTY HOLDINGS BERHAD': 'klcc.com.my',
-    'SKP RESOURCES BHD': 'skpres.com',
-    'EASTERN & ORIENTAL BERHAD': 'easternandoriental.com',
-    'AURELIUS TECHNOLOGIES BERHAD': 'atechgroup.com.my',
-    'SYARIKAT TAKAFUL MALAYSIA KELUARGA BERHAD': 'takaful-malaysia.com.my',
-    'DRB-HICOM BERHAD': 'drb-hicom.com',
-    'DAYANG ENTERPRISE HOLDINGS BERHAD': 'desb.net',
-    'ALLIANCE BANK MALAYSIA BERHAD': 'alliancebank.com.my',
-    'KOSSAN RUBBER INDUSTRIES BHD.': 'kossan.com.my',
-    'GENTING PLANTATIONS BERHAD': 'gentingplantations.com',
-    'PETRONAS DAGANGAN BHD': 'mymesra.com.my',
-    'BURSA MALAYSIA BERHAD': 'bursamalaysia.com',
-    'MEGA FIRST CORPORATION BERHAD': 'megafirst.com',
-    'AEON CO. (M) BHD': 'aeongroupmalaysia.com',
-    'PADINI HOLDINGS BERHAD': 'padini.com',
-    'SOUTHERN CABLE GROUP BERHAD': 'southerncable.com.my',
-    'PROLINTAS INFRA BUSINESS TRUST': 'prolintas.com.my',
-    'HONG LEONG FINANCIAL GROUP BERHAD': 'hlfg.com.my',
-    'ECONPILE HOLDINGS BERHAD': 'econpile.com',
-    'BERMAZ AUTO BERHAD': 'bauto.com.my',
-    'SUPERCOMNET TECHNOLOGIES BERHAD': 'supercomnet.com.my',
-    'ORKIM BERHAD': 'orkim.com.my',
-    'UWC BERHAD': 'uwcberhad.com.my',
-    'D & O GREEN TECHNOLOGIES BERHAD': 'dogt.com.my',
-    'FRASER & NEAVE HOLDINGS BHD': 'fn.com.my',
-    'WASCO BERHAD': 'wascoenergy.com',
-    'UNITED PLANTATIONS BERHAD': 'unitedplantations.com',
-    'SAM ENGINEERING & EQUIPMENT (M) BERHAD': 'sam-mfg.com.my',
-    'AME ELITE CONSORTIUM BERHAD': 'ame-elite.com',
-    'NESTLE (MALAYSIA) BERHAD': 'nestle.com.my',
-    'ALLIANZ MALAYSIA BERHAD': 'allianz.com.my',
-    'PANASONIC MANUFACTURING MALAYSIA BERHAD': 'panasonic.com.my'
-  };
-
-  domain = symbolDomains[ticker];
-  if (!domain) {
-    domain = domains[name];
+  function formatCompact(num) {
+    if (num === null || num === undefined || isNaN(num)) return '0';
+    const abs = Math.abs(num);
+    const sign = num < 0 ? '-' : '';
+    if (abs >= 1e12) return sign + (abs / 1e12).toFixed(2) + 'T';
+    if (abs >= 1e9) return sign + (abs / 1e9).toFixed(2) + 'B';
+    if (abs >= 1e6) return sign + (abs / 1e6).toFixed(2) + 'M';
+    if (abs >= 1e3) return sign + (abs / 1e3).toFixed(1) + 'K';
+    return sign + abs.toLocaleString('en-US');
   }
 
-  if (!domain && typeof EPF_DATA !== 'undefined' && EPF_DATA.companyDomains) {
-    if (stockName && EPF_DATA.companyDomains[stockName]) {
-      domain = EPF_DATA.companyDomains[stockName];
-    } else if (companyName && EPF_DATA.companyDomains[companyName]) {
-      domain = EPF_DATA.companyDomains[companyName];
-    }
-  }
-
-  if (domain) {
-    return `https://logo.clearbit.com/${domain}`;
-  }
-
-  // Fallback slug generation
-  const clean = name
-    .replace(/\b(BERHAD|BHD|CORPORATION|GROUP|HOLDINGS|CO|M)\b/g, '')
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '');
-  return `https://logo.clearbit.com/${clean}.com`;
-}
-
-// Global Clean Stock Avatar Renderer (Single Element Guarantee)
-function renderStockLogo(stock, company, size = 32) {
-  const logoUrl = getLogoUrl(company, stock);
-  const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
-  if (logoUrl) {
-    return `<img src="${logoUrl}" 
-                 class="stock-icon-img" 
-                 style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; border-radius:9999px; object-fit:cover; display:inline-block; flex-shrink:0;" 
-                 onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(stock)}&background=1e1b4b&color=a5b4fc&bold=true&size=128'; }" 
-                 alt="${stock}">`;
-  }
-  return `<div class="stock-icon fallback-icon" style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; background:${stockColor(stock)}; border-radius:9999px; display:inline-flex; align-items:center; justify-content:center; font-size:${Math.round(size * 0.35)}px; font-weight:700; color:#fff; flex-shrink:0;">${stock.slice(0, 2)}</div>`;
-}
-
-// ============================================
-// Tab System Hook (Unified Controller)
-// ============================================
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const tabName = btn.dataset.tab;
-    if (tabName && typeof switchTab === 'function') {
-      switchTab(tabName);
-    }
-  });
-});
-
-// ============================================
-// Holdings Tab
-// ============================================
-
-// Compute portfolio totals
-const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
-const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
-
-// Pre-calculate portfolio percentage for each holding
-EPF_DATA.holdings.forEach(h => {
-  h.percent_portfolio = totalMarketValue > 0 ? ((h.market_value || 0) / totalMarketValue) * 100 : 0;
-  h.percent_company = h.direct_percent; // alias for sorting
-  h.shares = h.total_securities; // alias for sorting
-});
-
-// Setup sector filter
-const sectors = [...new Set(EPF_DATA.holdings.map(h => h.sector))].sort();
-const sectorFilter = document.getElementById('holdings-sector-filter');
-if (sectorFilter) {
-  sectors.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s;
-    opt.textContent = s;
-    sectorFilter.appendChild(opt);
-  });
-  sectorFilter.addEventListener('change', renderHoldingsTable);
-}
-
-// Setup holdings search
-const holdingsSearch = document.getElementById('holdings-search');
-const holdingsSearchClear = document.getElementById('holdings-search-clear');
-if (holdingsSearch && holdingsSearchClear) {
-  holdingsSearch.addEventListener('input', () => {
-    holdingsSearchClear.style.display = holdingsSearch.value ? 'flex' : 'none';
-    renderHoldingsTable();
-  });
-  holdingsSearchClear.addEventListener('click', () => {
-    holdingsSearch.value = '';
-    holdingsSearchClear.style.display = 'none';
-    renderHoldingsTable();
-  });
-}
-
-// Setup sorting
-let holdingsSortCol = 'market_value';
-let holdingsSortAsc = false;
-
-document.querySelectorAll('#holdings-table th.sortable').forEach(th => {
-  th.addEventListener('click', () => {
-    const col = th.dataset.sort;
-    if (holdingsSortCol === col) {
-      holdingsSortAsc = !holdingsSortAsc; // Toggle direction
-    } else {
-      holdingsSortCol = col;
-      holdingsSortAsc = true; // Default to ascending on first click
-    }
-
-    // Update UI headers
-    document.querySelectorAll('#holdings-table th.sortable').forEach(h => {
-      h.classList.remove('active', 'desc');
-    });
-
-    if (holdingsSortAsc) {
-      th.classList.add('active');
-    }
-
-    renderHoldingsTable();
-  });
-});
-
-function renderHoldingsTable() {
-  const tbody = document.getElementById('holdings-tbody');
-
-  // 1. Filter
-  const filterVal = sectorFilter ? sectorFilter.value : 'all';
-  const holdingsSearchVal = holdingsSearch ? holdingsSearch.value.toLowerCase().trim() : '';
-
-  let data = EPF_DATA.holdings.filter(h => {
-    const matchSector = filterVal === 'all' || h.sector === filterVal;
-    const matchSearch = !holdingsSearchVal || h.company_name.toLowerCase().includes(holdingsSearchVal) || h.stock_name.toLowerCase().includes(holdingsSearchVal);
-    return matchSector && matchSearch;
-  });
-
-  // 2. Sort
-  if (holdingsSortCol) {
-    data.sort((a, b) => {
-      const valA = a[holdingsSortCol] || 0;
-      const valB = b[holdingsSortCol] || 0;
-      return holdingsSortAsc ? valA - valB : valB - valA;
+  function formatCurrency(num, decimals = 2) {
+    if (num === null || num === undefined || isNaN(num)) return 'RM 0.00';
+    return 'RM ' + Number(num).toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
     });
   }
 
-  document.getElementById('holdings-count').textContent = data.length;
-
-  if (data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="align-center" style="text-align: center; padding: 2rem; color: var(--text-muted);">No matching holdings found</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = data.map((h, i) => {
-    const priceText = h.price ? `RM ${h.price.toFixed(2)}` : 'RM 0.00';
-    const valueText = h.market_value ? `RM ${h.market_value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'RM 0.00';
-
-    return `<tr>
-      <td class="font-mono text-outline font-medium text-xs">${i + 1}</td>
-      <td>
-        <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="stock-symbol-link group" title="View ${h.stock_name} on KLSE Screener">
-          <div class="stock-symbol flex items-center gap-3">
-            ${renderStockLogo(h.stock_name, h.company_name, 32)}
-            <span class="stock-name group-hover:text-primary transition-colors text-xs font-bold">${h.stock_name}</span>
-          </div>
-        </a>
-      </td>
-      <td class="font-semibold text-on-surface text-xs">${h.company_name}</td>
-      <td><span class="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-outline font-medium whitespace-nowrap">${h.sector}</span></td>
-      <td class="text-right font-mono-numeric font-medium text-xs">${priceText}</td>
-      <td class="text-right font-mono-numeric text-on-surface-variant text-xs">${h.total_securities.toLocaleString()}</td>
-      <td class="text-right font-mono-numeric font-bold text-on-surface text-xs">${valueText}</td>
-      <td class="text-right font-mono-numeric font-medium text-outline text-xs">${h.direct_percent.toFixed(3)}%</td>
-      <td class="text-right font-mono-numeric font-semibold text-primary-fixed text-xs">${h.percent_portfolio.toFixed(3)}%</td>
-    </tr>`;
-  }).join('');
-}
-
-// ============================================
-// Portfolio Value Line Chart (Canvas)
-// ============================================
-
-function getPortfolioTimeSeries(range) {
-  const dates = Object.keys(EPF_DATA.txByDate).map(d => ({
-    label: d,
-    date: new Date(d),
-    ...EPF_DATA.txByDate[d]
-  })).sort((a, b) => a.date - b.date);
-
-  const now = dates[dates.length - 1]?.date || new Date();
-  let cutoff;
-  switch (range) {
-    case '1D': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 1); break;
-    case '1W': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 7); break;
-    case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
-    case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
-    case '6M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 6); break;
-    case 'YTD': cutoff = new Date(now.getFullYear(), 0, 1); break;
-    case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
-    default: cutoff = new Date(0);
-  }
-
-  const filtered = dates.filter(d => d.date >= cutoff);
-
-  // Build cumulative series
-  let cum = 0;
-  return filtered.map(d => {
-    cum += d.net;
-    return { label: d.label, value: cum, count: d.count };
-  });
-}
-
-let lineChartAnimId = null;
-
-function drawLineChart(canvasId, data, color = null, animateChart = true) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.parentElement.getBoundingClientRect();
-  if (rect.width <= 0 || rect.height <= 0) return;
-
-  const dynamicColor = color || (getComputedStyle(document.documentElement).getPropertyValue('--chart-primary').trim() || '#6366f1');
-  const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#64748b';
-  const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255, 255, 255, 0.07)';
-
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
-
-  const w = rect.width;
-  const h = rect.height;
-  const pad = { top: 20, right: 20, bottom: 30, left: 60 };
-  const plotW = w - pad.left - pad.right;
-  const plotH = h - pad.top - pad.bottom;
-
-  ctx.clearRect(0, 0, w, h);
-
-  if (data.length < 2) {
-    ctx.fillStyle = textColor;
-    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Not enough data for this range', w / 2, h / 2);
-    return;
-  }
-
-  const values = data.map(d => d.value);
-  const minV = Math.min(...values);
-  const maxV = Math.max(...values);
-  const range = maxV - minV || 1;
-
-  if (lineChartAnimId) cancelAnimationFrame(lineChartAnimId);
-
-  let startTime = null;
-  const DURATION = 1000; // 1 second animation
-
-  function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / DURATION, 1);
-
-    // Easing function (easeOutQuart)
-    const easeProgress = 1 - Math.pow(1 - progress, 4);
-
-    ctx.clearRect(0, 0, w, h);
-
-    // Y-axis labels
-    ctx.fillStyle = textColor;
-    ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 4; i++) {
-      const val = minV + (range * i / 4);
-      const y = pad.top + plotH - (plotH * i / 4);
-      ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-      // Grid line
-      ctx.strokeStyle = gridColor;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(pad.left, y);
-      ctx.lineTo(w - pad.right, y);
-      ctx.stroke();
+  function stockColor(stock) {
+    let hash = 0;
+    for (let i = 0; i < stock.length; i++) {
+      hash = stock.charCodeAt(i) + ((hash << 5) - hash);
     }
+    const hues = [345, 10, 200, 220, 160, 280, 45, 310];
+    const h = hues[Math.abs(hash) % hues.length];
+    return `hsl(${h}, 70%, 45%)`;
+  }
 
-    // X-axis labels
-    ctx.fillStyle = textColor;
-    ctx.font = '10px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
+  function getKlseLink(stock, company = '') {
+    let query = (stock || '').trim();
+    if (query.length <= 2 && company) {
+      query = company.split(' ')[0] || query;
+    }
+    return `https://www.klsescreener.com/v2/stocks/view/${encodeURIComponent(query)}`;
+  }
 
-    let formatLabel = (labelStr) => {
-      const parts = labelStr.split(' ');
-      return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
-    };
+  // ----------------------------------------------------
+  // 2. EMBEDDED BURSA LOGO REGISTRY
+  // ----------------------------------------------------
+  const BURSA_LOGOS = [
+    { "company": "MBSB", "logo_url": "https://s3-symbol-logo.tradingview.com/malaysia-building-society-bhd--big.svg" },
+    { "company": "PBBANK", "logo_url": "https://s3-symbol-logo.tradingview.com/public-bank--big.svg" },
+    { "company": "CIMB", "logo_url": "https://s3-symbol-logo.tradingview.com/cimb-group-holdings-berhad--big.svg" },
+    { "company": "AXIATA", "logo_url": "https://s3-symbol-logo.tradingview.com/axiata-group-berhad--big.svg" },
+    { "company": "RHB", "logo_url": "https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg" },
+    { "company": "RHBBANK", "logo_url": "https://s3-symbol-logo.tradingview.com/rhb-bank-berhad--big.svg" },
+    { "company": "MAYBANK", "logo_url": "https://s3-symbol-logo.tradingview.com/malayan-banking--big.svg" },
+    { "company": "TENAGA", "logo_url": "https://s3-symbol-logo.tradingview.com/tenaga-nasional--big.svg" },
+    { "company": "YTL", "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg" },
+    { "company": "CBD", "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg" },
+    { "company": "CDB", "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg" },
+    { "company": "GAMUDA", "logo_url": "https://s3-symbol-logo.tradingview.com/gamuda-bhd--big.svg" },
+    { "company": "DIALOG GROUP", "logo_url": "https://s3-symbol-logo.tradingview.com/dialog-group--big.svg" },
+    { "company": "IHH", "logo_url": "https://s3-symbol-logo.tradingview.com/ihh--big.svg" },
+    { "company": "SIMEPROP", "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-property-berhad--big.svg" },
+    { "company": "SIME", "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-bhd--big.svg" },
+    { "company": "SDG", "logo_url": "https://s3-symbol-logo.tradingview.com/sime-darby-plantation-berhad--big.svg" },
+    { "company": "MAXIS", "logo_url": "https://s3-symbol-logo.tradingview.com/maxis-berhad--big.svg" },
+    { "company": "MRDIY", "logo_url": "https://s3-symbol-logo.tradingview.com/mr-d-i-y-group-m-berhad--big.svg" },
+    { "company": "IOICORP", "logo_url": "https://s3-symbol-logo.tradingview.com/ioi-corporation-bhd--big.svg" },
+    { "company": "YTLPOWER", "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-power-international-bhd--big.svg" },
+    { "company": "PCHEM", "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-chemicals-group-bhd--big.svg" },
+    { "company": "MALAKOF", "logo_url": "https://s3-symbol-logo.tradingview.com/malakoff-corporation-berhad--big.svg" },
+    { "company": "TM", "logo_url": "https://s3-symbol-logo.tradingview.com/telekom-malaysia-bhd--big.svg" },
+    { "company": "KPJ", "logo_url": "https://s3-symbol-logo.tradingview.com/kpj-healthcare-bhd--big.svg" },
+    { "company": "PMETAL", "logo_url": "https://s3-symbol-logo.tradingview.com/press-metal-aluminium--big.svg" },
+    { "company": "SUNWAY", "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-berhad--big.svg" },
+    { "company": "IJM", "logo_url": "https://s3-symbol-logo.tradingview.com/ijm-corporation-bhd--big.svg" },
+    { "company": "AHEALTH", "logo_url": "https://apexhealthcare.com.my/wp-content/uploads/2023/06/APEX_WEB_LOGO1.png" },
+    { "company": "SPSETIA", "logo_url": "https://s3-symbol-logo.tradingview.com/sp-setia--big.svg" },
+    { "company": "MISC", "logo_url": "https://s3-symbol-logo.tradingview.com/misc-bhd--big.svg" },
+    { "company": "SUNMED", "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-healthcare-berhad--big.svg" },
+    { "company": "CLMT", "logo_url": "https://s3-symbol-logo.tradingview.com/capitamall-trust--big.svg" },
+    { "company": "99SMART", "logo_url": "https://s3-symbol-logo.tradingview.com/99-speed-mart-retail-berhad--big.svg" },
+    { "company": "INARI", "logo_url": "https://s3-symbol-logo.tradingview.com/inari-amertron-berhad--big.svg" },
+    { "company": "AMBANK", "logo_url": "https://s3-symbol-logo.tradingview.com/ammb-holdings-bhd--big.svg" },
+    { "company": "SUNREIT", "logo_url": "https://s3-symbol-logo.tradingview.com/sunway-real-estate-invt-trust--big.svg" },
+    { "company": "PAVREIT", "logo_url": "https://s3-symbol-logo.tradingview.com/pavilion-real-estate-inv-trust--big.svg" },
+    { "company": "CTOS", "logo_url": "https://s3-symbol-logo.tradingview.com/ctos-digital--big.svg" },
+    { "company": "AXREIT", "logo_url": "https://s3-symbol-logo.tradingview.com/axis-reits--big.svg" },
+    { "company": "IGBREIT", "logo_url": "https://s3-symbol-logo.tradingview.com/igb-real-estate-inv-trust--big.svg" },
+    { "company": "UOADEV", "logo_url": "https://s3-symbol-logo.tradingview.com/uoa-development-berhad--big.svg" },
+    { "company": "BIMB", "logo_url": "https://s3-symbol-logo.tradingview.com/bank-islam-malaysia-berhad--big.svg" },
+    { "company": "IOIPG", "logo_url": "https://s3-symbol-logo.tradingview.com/ioi-properties-group-berhad--big.svg" },
+    { "company": "FFB", "logo_url": "https://s3-symbol-logo.tradingview.com/farm-fresh-berhad--big.svg" },
+    { "company": "FRONTKN", "logo_url": "https://s3-symbol-logo.tradingview.com/frontken--big.svg" },
+    { "company": "TIMECOM", "logo_url": "https://s3-symbol-logo.tradingview.com/time-dotcom-bhd--big.svg" },
+    { "company": "PETGAS", "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-gas-bhd--big.svg" },
+    { "company": "PPB", "logo_url": "https://s3-symbol-logo.tradingview.com/ppb-group-bhd--big.svg" },
+    { "company": "JPG", "logo_url": "https://s3-symbol-logo.tradingview.com/johor-plantations-berhad--big.svg" },
+    { "company": "WPRTS", "logo_url": "https://s3-symbol-logo.tradingview.com/westports-holdings-berhad--big.svg" },
+    { "company": "KLK", "logo_url": "https://s3-symbol-logo.tradingview.com/kuala-lumpur-kepong-bhd--big.svg" },
+    { "company": "KLCC", "logo_url": "https://s3-symbol-logo.tradingview.com/klcc-propandreits-stapled-sec--big.svg" },
+    { "company": "HLBANK", "logo_url": "https://s3-symbol-logo.tradingview.com/hong-leong-bank-bhd--big.svg" },
+    { "company": "SKPRES", "logo_url": "https://s3-symbol-logo.tradingview.com/skp-resources-bhd--big.svg" },
+    { "company": "E&O", "logo_url": "https://s3-symbol-logo.tradingview.com/eastern-and-oriental-bhd--big.svg" },
+    { "company": "ATECH", "logo_url": "https://s3-symbol-logo.tradingview.com/aurelius-technologies-berhad--big.svg" },
+    { "company": "TAKAFUL", "logo_url": "https://s3-symbol-logo.tradingview.com/syarikat-takaful-malaysia-keluarga-berhad--big.svg" },
+    { "company": "DRBHCOM", "logo_url": "https://s3-symbol-logo.tradingview.com/drb-hicom-bhd--big.svg" },
+    { "company": "DAYANG", "logo_url": "https://s3-symbol-logo.tradingview.com/dayang-enterprise-bhd--big.svg" },
+    { "company": "ABMB", "logo_url": "https://s3-symbol-logo.tradingview.com/alliance-bank-malaysia-berhad--big.svg" },
+    { "company": "KOSSAN", "logo_url": "https://s3-symbol-logo.tradingview.com/kossan-rubber-industries--big.svg" },
+    { "company": "GENP", "logo_url": "https://s3-symbol-logo.tradingview.com/genting-plantations-berhad--big.svg" },
+    { "company": "PARADIGM", "logo_url": "https://s3-symbol-logo.tradingview.com/paradigm-real-estate-investment-trust--big.svg" },
+    { "company": "PETDAG", "logo_url": "https://s3-symbol-logo.tradingview.com/petronas-dagangan-bhd--big.svg" },
+    { "company": "BURSA", "logo_url": "https://s3-symbol-logo.tradingview.com/bursa-malaysia-bhd--big.svg" },
+    { "company": "MFCB", "logo_url": "https://s3-symbol-logo.tradingview.com/mega-first-corporation-bhd--big.svg" },
+    { "company": "PENTA", "logo_url": "https://s3-symbol-logo.tradingview.com/pentamaster--big.svg" },
+    { "company": "AEON", "logo_url": "https://s3-symbol-logo.tradingview.com/aeon-co-m-bhd--big.svg" },
+    { "company": "PADINI", "logo_url": "https://s3-symbol-logo.tradingview.com/padini-holdings-bhd--big.svg" },
+    { "company": "SCGBHD", "logo_url": "https://s3-symbol-logo.tradingview.com/southern-cable-berhad--big.svg" },
+    { "company": "PLINTAS", "logo_url": "https://s3-symbol-logo.tradingview.com/prolintas-infra-business-trust--big.svg" },
+    { "company": "DPHARMA", "logo_url": "https://s3-symbol-logo.tradingview.com/duopharma-biotech-berhad--big.svg" },
+    { "company": "HLFG", "logo_url": "https://s3-symbol-logo.tradingview.com/hong-leong-financial-group-bhd--big.svg" },
+    { "company": "ECONBHD", "logo_url": "https://s3-symbol-logo.tradingview.com/econpile-bhd--big.svg" },
+    { "company": "BAUTO", "logo_url": "https://s3-symbol-logo.tradingview.com/bermaz-auto-berhad--big.svg" },
+    { "company": "SCOMNET", "logo_url": "https://s3-symbol-logo.tradingview.com/supercomnet-technologies--big.svg" },
+    { "company": "ORKIM", "logo_url": "https://s3-symbol-logo.tradingview.com/orkim-bhd--big.svg" },
+    { "company": "UWC", "logo_url": "https://s3-symbol-logo.tradingview.com/uwc--big.svg" },
+    { "company": "D&O", "logo_url": "https://s3-symbol-logo.tradingview.com/d-and-o-green-technologies--big.svg" },
+    { "company": "F&N", "logo_url": "https://s3-symbol-logo.tradingview.com/fraser-and-neave-holdings-bhd--big.svg" },
+    { "company": "WASCO", "logo_url": "https://s3-symbol-logo.tradingview.com/wah-seong-bhd--big.svg" },
+    { "company": "UTDPLT", "logo_url": "https://s3-symbol-logo.tradingview.com/united-plantations-bhd--big.svg" },
+    { "company": "SAM", "logo_url": "https://s3-symbol-logo.tradingview.com/sam-engineering-and-equipment--big.svg" },
+    { "company": "AME", "logo_url": "https://s3-symbol-logo.tradingview.com/ame-real-estate-investment-trust--big.svg" },
+    { "company": "NESTLE", "logo_url": "https://s3-symbol-logo.tradingview.com/nestle--big.svg" },
+    { "company": "MPI", "logo_url": "https://s3-symbol-logo.tradingview.com/malaysian-pacific-industries--big.svg" },
+    { "company": "ALLIANZ", "logo_url": "https://s3-symbol-logo.tradingview.com/allianz--big.svg" },
+    { "company": "PANAMY", "logo_url": "https://s3-symbol-logo.tradingview.com/panasonic-manufacturing-msia--big.svg" }
+  ];
 
-    if (data.length >= 2) {
-      const parseDate = (str) => {
-        const parts = str.split(' ');
-        const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
-        return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+  const logoMap = {};
+  BURSA_LOGOS.forEach(item => {
+    logoMap[item.company.toUpperCase().trim()] = item.logo_url;
+  });
+
+  function getLogoUrl(company, stock) {
+    const normComp = (company || '').toUpperCase().trim();
+    if (logoMap[normComp]) return logoMap[normComp];
+    const firstWord = normComp.split(' ')[0];
+    if (logoMap[firstWord]) return logoMap[firstWord];
+    const stockKey = (stock || '').toUpperCase().trim();
+    if (logoMap[stockKey]) return logoMap[stockKey];
+    return '';
+  }
+
+  function renderStockLogo(stock, company, size = 32) {
+    const logoUrl = getLogoUrl(company, stock);
+    const domain = logoUrl ? logoUrl.match(/logo\.clearbit\.com\/(.+)$/)?.[1] || '' : '';
+    if (logoUrl) {
+      return `<img src="${logoUrl}" 
+                   class="stock-icon-img" 
+                   style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; border-radius:9999px; object-fit:cover; display:inline-block; flex-shrink:0;" 
+                   onerror="if (this.src.indexOf('clearbit') !== -1 && '${domain}') { this.src = 'https://www.google.com/s2/favicons?sz=128&domain=${domain}'; } else { this.onerror=null; this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(stock)}&background=1e1b4b&color=a5b4fc&bold=true&size=128'; }" 
+                   alt="${stock}">`;
+    }
+    return `<div class="stock-icon fallback-icon" style="width:${size}px; height:${size}px; min-width:${size}px; max-width:${size}px; background:${stockColor(stock)}; border-radius:9999px; display:inline-flex; align-items:center; justify-content:center; font-size:${Math.round(size * 0.35)}px; font-weight:700; color:#fff; flex-shrink:0;">${stock.slice(0, 2)}</div>`;
+  }
+
+  // ----------------------------------------------------
+  // 3. REACTIVE STATE STORE
+  // ----------------------------------------------------
+  class Store {
+    constructor() {
+      this.state = {
+        activeTab: 'dashboard',
+        portfolioRange: '1M',
+        returnsRange: '1M',
+        returnsView: 'net',
+        isMobile: window.innerWidth < 768,
+        holdingsSearch: '',
+        holdingsSector: 'all',
+        txSearch: '',
+        txType: 'all',
+        txPage: 1
       };
-      const startDate = parseDate(data[0].label);
-      const endDate = parseDate(data[data.length - 1].label);
-      const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-
-      if (diffDays > 365 * 1.5) {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 3 ? parts[2] : labelStr;
-        };
-      } else if (diffDays > 45) {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
-        };
-      } else {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
-        };
-      }
+      this.listeners = new Set();
     }
+
+    getState() { return this.state; }
+
+    setState(partial) {
+      const prev = { ...this.state };
+      this.state = { ...this.state, ...partial };
+      this.listeners.forEach(fn => fn(this.state, prev));
+    }
+
+    subscribe(fn) {
+      this.listeners.add(fn);
+      return () => this.listeners.delete(fn);
+    }
+  }
+
+  const store = new Store();
+
+  // ----------------------------------------------------
+  // 4. DATA CALCULATIONS & AGGREGATIONS
+  // ----------------------------------------------------
+  function getRawData() {
+    return (typeof EPF_DATA !== 'undefined') ? EPF_DATA : (window.EPF_DATA || { holdings: [], transactions: [], txByDate: {} });
+  }
+
+  function flattenTransactions(rawData = getRawData()) {
+    if (!rawData || !rawData.transactions) return [];
+    const list = [];
+    rawData.transactions.forEach(tx => {
+      let acquired = 0;
+      let disposed = 0;
+      tx.transactions.forEach(t => {
+        if (t.type === 'Acquired') acquired += t.amount;
+        else if (t.type === 'Disposed' || t.type === 'Divestment') disposed += t.amount;
+      });
+
+      let type = 'Acquired';
+      let amount = 0;
+      if (acquired > disposed) {
+        type = 'Acquired';
+        amount = acquired - disposed;
+      } else if (disposed > acquired) {
+        type = tx.transactions.some(t => t.type === 'Divestment') ? 'Divestment' : 'Disposed';
+        amount = disposed - acquired;
+      } else {
+        type = tx.transactions[0]?.type || 'Acquired';
+        amount = 0;
+      }
+
+      list.push({
+        date: tx.date,
+        stock: tx.stock,
+        company: tx.company,
+        url: tx.url,
+        type: type,
+        amount: amount,
+        percent: tx.percent,
+        total: tx.total,
+        rawTransactions: tx.transactions,
+        isNet: tx.transactions.length > 1
+      });
+    });
+
+    list.sort((a, b) => {
+      const dateDiff = new Date(b.date) - new Date(a.date);
+      if (dateDiff !== 0) return dateDiff;
+      const idA = parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
+      const idB = parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
+      return idB - idA;
+    });
+    return list;
+  }
+
+  function getPortfolioTimeSeries(range = '1M', rawData = getRawData()) {
+    if (!rawData || !rawData.txByDate) return [];
+    const dates = Object.keys(rawData.txByDate).map(d => ({
+      label: d,
+      date: new Date(d),
+      ...rawData.txByDate[d]
+    })).sort((a, b) => a.date - b.date);
+
+    const now = dates[dates.length - 1]?.date || new Date();
+    let cutoff;
+    switch (range) {
+      case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
+      case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
+      case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
+      default: cutoff = new Date(0);
+    }
+
+    const filtered = dates.filter(d => d.date >= cutoff);
+    let cumulative = 0;
+    return filtered.map(d => {
+      cumulative += d.net;
+      return { label: d.label, value: cumulative, date: d.date };
+    });
+  }
+
+  function getReturnsData(view = 'net', range = '1M', rawData = getRawData()) {
+    if (!rawData || !rawData.txByDate) return [];
+    const dates = Object.keys(rawData.txByDate).map(d => ({
+      label: d,
+      date: new Date(d),
+      ...rawData.txByDate[d]
+    })).sort((a, b) => a.date - b.date);
+
+    const now = dates[dates.length - 1]?.date || new Date();
+    let cutoff;
+    switch (range) {
+      case '1D': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 1); break;
+      case '1W': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 7); break;
+      case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
+      case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
+      case '6M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 6); break;
+      case 'YTD': cutoff = new Date(now.getFullYear(), 0, 1); break;
+      case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
+      default: cutoff = new Date(0);
+    }
+
+    const filtered = dates.filter(d => d.date >= cutoff);
+    return filtered.map(d => ({
+      label: d.label,
+      value: view === 'net' ? d.net : view === 'acquired' ? d.acquired : -d.disposed,
+      count: d.count
+    }));
+  }
+
+  // ----------------------------------------------------
+  // 5. CANVAS CHARTS ENGINE
+  // ----------------------------------------------------
+  let lineAnimId = null;
+  let lineChartMeta = {};
+
+  function drawLineChart(canvasId, data, color = null, animateChart = true) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
+    const rect = parent.getBoundingClientRect();
+    const w = Math.max(rect.width || parent.clientWidth || 300, 200);
+    const h = Math.max(rect.height || parent.clientHeight || 200, 150);
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
 
     const isMobile = window.innerWidth < 768;
-    const maxLabels = isMobile ? 3 : 6;
-    const indicesToDraw = [];
-    if (data.length > 0) {
-      indicesToDraw.push(0);
-      if (data.length > 1) {
-        const step = (data.length - 1) / (maxLabels - 1);
-        for (let i = 1; i < maxLabels - 1; i++) {
-          const idx = Math.round(i * step);
-          if (!indicesToDraw.includes(idx)) {
-            indicesToDraw.push(idx);
-          }
-        }
-        if (!indicesToDraw.includes(data.length - 1)) {
-          indicesToDraw.push(data.length - 1);
-        }
-      }
-    }
-    indicesToDraw.sort((a, b) => a - b);
+    const dynamicColor = color || (getComputedStyle(document.documentElement).getPropertyValue('--chart-primary').trim() || '#f43f5e');
+    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#64748b';
+    const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255, 255, 255, 0.06)';
 
-    indicesToDraw.forEach(i => {
-      const x = pad.left + (plotW * i / (data.length - 1));
-      ctx.fillText(formatLabel(data[i].label), x, h - 10);
-    });
+    const pad = {
+      top: 20,
+      right: isMobile ? 12 : 24,
+      bottom: isMobile ? 26 : 32,
+      left: isMobile ? 48 : 64
+    };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
 
-    // Gradient fill
-    const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
-    gradient.addColorStop(0, dynamicColor + '40');
-    gradient.addColorStop(0.5, dynamicColor + '15');
-    gradient.addColorStop(1, dynamicColor + '00');
+    if (lineAnimId) cancelAnimationFrame(lineAnimId);
+    ctx.clearRect(0, 0, w, h);
 
-    // Calculate how many points to draw based on progress
-    const maxDrawIndex = (data.length - 1) * easeProgress;
-
-    // Fill area
-    const fillPath = new Path2D();
-    data.forEach((d, i) => {
-      if (i > Math.ceil(maxDrawIndex)) return;
-
-      let x = pad.left + (plotW * i / (data.length - 1));
-      let y = pad.top + plotH - ((d.value - minV) / range * plotH);
-
-      // Interpolate the last point for smooth animation
-      if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-        const prev = data[i - 1];
-        const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
-        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-        const fraction = maxDrawIndex % 1;
-        x = prevX + (x - prevX) * fraction;
-        y = prevY + (y - prevY) * fraction;
-      }
-
-      if (i === 0) fillPath.moveTo(x, y);
-      else fillPath.lineTo(x, y);
-    });
-
-    // Complete the fill path down to the x-axis
-    const lastDrawnIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
-    let finalX = pad.left + (plotW * lastDrawnIdx / (data.length - 1));
-    if (maxDrawIndex % 1 !== 0 && lastDrawnIdx > 0) {
-      const prev = data[lastDrawnIdx - 1];
-      const prevX = pad.left + (plotW * (lastDrawnIdx - 1) / (data.length - 1));
-      const fraction = maxDrawIndex % 1;
-      finalX = prevX + (finalX - prevX) * fraction;
+    if (!data || data.length < 2) {
+      ctx.fillStyle = textColor;
+      ctx.font = '13px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Insufficient data for this range', w / 2, h / 2);
+      return;
     }
 
-    fillPath.lineTo(finalX, pad.top + plotH);
-    fillPath.lineTo(pad.left, pad.top + plotH);
-    fillPath.closePath();
+    const values = data.map(d => d.value);
+    const minV = Math.min(...values);
+    const maxV = Math.max(...values);
+    const range = maxV - minV || 1;
 
-    ctx.save();
-    ctx.fillStyle = gradient;
-    ctx.fill(fillPath);
-    ctx.restore();
+    let startTime = null;
+    const DURATION = animateChart ? 700 : 0;
 
-    // Stroke line
-    ctx.save();
-    ctx.beginPath();
-    data.forEach((d, i) => {
-      if (i > Math.ceil(maxDrawIndex)) return;
+    function render(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = DURATION > 0 ? Math.min(elapsed / DURATION, 1) : 1;
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const maxDrawIndex = (data.length - 1) * easeProgress;
 
-      let x = pad.left + (plotW * i / (data.length - 1));
-      let y = pad.top + plotH - ((d.value - minV) / range * plotH);
+      ctx.clearRect(0, 0, w, h);
 
-      if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-        const prev = data[i - 1];
-        const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
-        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-        const fraction = maxDrawIndex % 1;
-        x = prevX + (x - prevX) * fraction;
-        y = prevY + (y - prevY) * fraction;
+      // Grid + Y labels
+      ctx.fillStyle = textColor;
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const val = minV + (range * i / 4);
+        const y = pad.top + plotH - (plotH * i / 4);
+        ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
+        ctx.strokeStyle = gridColor;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(w - pad.right, y);
+        ctx.stroke();
       }
 
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-
-    ctx.shadowColor = dynamicColor;
-    ctx.shadowBlur = 10;
-    ctx.strokeStyle = dynamicColor;
-    ctx.lineWidth = 2.5;
-    ctx.lineJoin = 'round';
-    ctx.stroke();
-    ctx.restore();
-
-    // Dots on the moving head during animation only
-    if (easeProgress > 0 && progress < 1) {
-      const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
-      let currX = pad.left + (plotW * lastIdx / (data.length - 1));
-      let currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
-
-      if (maxDrawIndex % 1 !== 0 && lastIdx > 0) {
-        const prev = data[lastIdx - 1];
-        const prevX = pad.left + (plotW * (lastIdx - 1) / (data.length - 1));
-        const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-        const fraction = maxDrawIndex % 1;
-        currX = prevX + (currX - prevX) * fraction;
-        currY = prevY + (currY - prevY) * fraction;
-      }
-
-      ctx.beginPath();
-      ctx.arc(currX, currY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = dynamicColor;
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(currX, currY, 8, 0, Math.PI * 2);
-      ctx.fillStyle = dynamicColor + '30';
-      ctx.fill();
-    }
-
-    if (progress < 1) {
-      lineChartAnimId = requestAnimationFrame(animate);
-    } else {
-      // Animation complete: save clean state (no dots) for hover overlays
-      lineChartMeta = { data, pad, plotW, plotH, minV, range, rect, dynamicColor };
-      if (window._lineSaveCleanCanvas) {
-        window._lineSaveCleanCanvas();
-      }
-      // Draw single resting end dot
-      if (window._drawEndDot) {
-        window._drawEndDot();
-      }
-    }
-  }
-
-  // Start animation
-  if (!animateChart) {
-    startTime = performance.now();
-    animate(startTime + DURATION);
-  } else {
-    lineChartAnimId = requestAnimationFrame(animate);
-  }
-}
-
-// ============================================
-// Pie Chart (Canvas)
-// ============================================
-
-function getPieData(mode) {
-  const map = {};
-  EPF_DATA.holdings.forEach(h => {
-    const key = mode === 'sector' ? h.sector : h.stock_name;
-    map[key] = (map[key] || 0) + (h.market_value || 0);
-  });
-
-  const sorted = Object.entries(map).sort((a, b) => b[1] - a[1]);
-  const total = sorted.reduce((s, [, v]) => s + v, 0);
-  const TOP_N = 10;
-  const top = sorted.slice(0, TOP_N);
-  const rest = sorted.slice(TOP_N);
-  const othersValue = rest.reduce((s, [, v]) => s + v, 0);
-
-  const result = top.map(([label, value], i) => ({
-    label,
-    value,
-    pct: ((value / total) * 100).toFixed(1),
-    color: COLORS[i % COLORS.length]
-  }));
-
-  if (othersValue > 0) {
-    result.push({
-      label: `Others (${rest.length})`,
-      value: othersValue,
-      pct: ((othersValue / total) * 100).toFixed(1),
-      color: '#555570'
-    });
-  }
-
-  return result;
-}
-
-function drawPieChart(canvasId, data, mode, animateChart = true) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const container = canvas.parentElement;
-  const availW = container.clientWidth > 0 ? container.clientWidth : 240;
-  const availH = container.clientHeight > 0 ? container.clientHeight : 220;
-  const size = Math.min(availW, availH, 220);
-  if (size <= 0) return;
-
-  canvas.width = size * dpr;
-  canvas.height = size * dpr;
-  canvas.style.width = size + 'px';
-  canvas.style.height = size + 'px';
-  ctx.scale(dpr, dpr);
-
-  const cx = size / 2;
-  const cy = size / 2;
-  const radius = (size / 2) - 10;
-  const innerRadius = radius * 0.45;
-  const total = data.reduce((s, d) => s + d.value, 0);
-
-  if (canvas._animId) cancelAnimationFrame(canvas._animId);
-
-  let startTime = null;
-  const DURATION = 1000; // 1 second animation
-
-  function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / DURATION, 1);
-
-    // Easing function (easeOutCubic)
-    const easeProgress = 1 - Math.pow(1 - progress, 3);
-    const maxRevealAngle = -Math.PI / 2 + (Math.PI * 2 * easeProgress);
-
-    ctx.clearRect(0, 0, size, size);
-
-    let startAngle = -Math.PI / 2;
-    data.forEach(d => {
-      if (startAngle >= maxRevealAngle) return; // Beyond current animation progress
-
-      const sliceAngle = (d.value / total) * 2 * Math.PI;
-      const trueEndAngle = startAngle + sliceAngle;
-      const endAngle = Math.min(trueEndAngle, maxRevealAngle);
-
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, startAngle, endAngle);
-      ctx.closePath();
-      ctx.fillStyle = d.color;
-      ctx.fill();
-
-      // Transparent slice gaps for glassmorphism
+      // Line Path
       ctx.save();
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 2;
+      ctx.beginPath();
+      data.forEach((d, i) => {
+        if (i > Math.ceil(maxDrawIndex)) return;
+        let x = pad.left + (plotW * i / (data.length - 1));
+        let y = pad.top + plotH - ((d.value - minV) / range * plotH);
+
+        if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
+          const prev = data[i - 1];
+          const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
+          const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+          const fraction = maxDrawIndex % 1;
+          x = prevX + (x - prevX) * fraction;
+          y = prevY + (y - prevY) * fraction;
+        }
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+
+      ctx.shadowColor = dynamicColor;
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = dynamicColor;
+      ctx.lineWidth = 2.5;
+      ctx.lineJoin = 'round';
       ctx.stroke();
       ctx.restore();
 
-      startAngle = trueEndAngle;
-    });
+      // Area Gradient Fill
+      ctx.save();
+      ctx.beginPath();
+      let lastX = pad.left;
+      let lastY = pad.top + plotH;
 
-    // Inner circle (donut) - transparent punch-hole for glassmorphism
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#000000';
-    ctx.fill();
-    ctx.restore();
+      data.forEach((d, i) => {
+        if (i > Math.ceil(maxDrawIndex)) return;
+        let x = pad.left + (plotW * i / (data.length - 1));
+        let y = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-    // Center text - fade in
-    ctx.globalAlpha = easeProgress;
-    ctx.fillStyle = '#eaeaf0';
-    ctx.font = '600 15px Inter, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const totalItems = mode === 'sector'
-      ? Object.keys(Object.fromEntries(EPF_DATA.holdings.map(h => [h.sector, 1]))).length
-      : EPF_DATA.holdings.length;
-    // +1 to cy helps perfectly center Inter font visually
-    ctx.fillText(totalItems + (mode === 'sector' ? ' sectors' : ' stocks'), cx, cy + 1);
-    ctx.globalAlpha = 1.0;
+        if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
+          const prev = data[i - 1];
+          const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
+          const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
+          const fraction = maxDrawIndex % 1;
+          x = prevX + (x - prevX) * fraction;
+          y = prevY + (y - prevY) * fraction;
+        }
 
-    if (progress < 1) {
-      canvas._animId = requestAnimationFrame(animate);
-    } else {
-      // Store metadata for hover on the canvas object
-      canvas._chartMeta = { data, cx, cy, radius, innerRadius, total };
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+        lastX = x;
+        lastY = y;
+      });
+
+      ctx.lineTo(lastX, pad.top + plotH);
+      ctx.lineTo(pad.left, pad.top + plotH);
+      ctx.closePath();
+
+      const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
+      grad.addColorStop(0, 'rgba(244, 63, 94, 0.25)');
+      grad.addColorStop(1, 'rgba(244, 63, 94, 0.00)');
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+
+      // Head Node
+      if (data.length > 0) {
+        const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
+        const currX = pad.left + (plotW * lastIdx / (data.length - 1));
+        const currY = pad.top + plotH - ((data[lastIdx].value - minV) / range * plotH);
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = dynamicColor;
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.arc(currX, currY, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = dynamicColor;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // X Labels
+      ctx.fillStyle = textColor;
+      ctx.font = '10px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      const maxLabels = isMobile ? 3 : 6;
+      const step = Math.ceil((data.length - 1) / (maxLabels - 1));
+
+      for (let i = 0; i < data.length; i += step) {
+        const x = pad.left + (plotW * i / (data.length - 1));
+        const label = data[i].label;
+        const parts = label.split(' ');
+        const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
+        ctx.fillText(displayLabel, x, h - 8);
+      }
+
+      if (progress < 1) {
+        lineAnimId = requestAnimationFrame(render);
+      } else {
+        lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor };
+        if (window['_lineSave_' + canvasId]) window['_lineSave_' + canvasId]();
+      }
     }
+
+    if (animateChart) lineAnimId = requestAnimationFrame(render);
+    else render(performance.now() + DURATION);
   }
 
-  // Start animation
-  if (!animateChart) {
-    startTime = performance.now();
-    animate(startTime + DURATION);
-  } else {
-    canvas._animId = requestAnimationFrame(animate);
-  }
-}
+  function setupLineChartHover(canvasId = 'portfolio-canvas') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
 
-function renderPieLegend(elementId, data) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  el.innerHTML = data.map(d => `
-    <div class="pie-legend-chip">
-      <div class="flex items-center gap-2 min-w-0">
-        <span class="pie-legend-dot" style="background:${d.color}; box-shadow: 0 0 6px ${d.color}99;"></span>
-        <span class="text-xs font-semibold text-on-surface truncate" title="${d.label}">${d.label}</span>
-      </div>
-      <span class="text-xs font-bold font-mono text-outline shrink-0 pl-1.5">${d.pct}%</span>
-    </div>
-  `).join('');
-}
+    let savedImageData = null;
+    function saveCanvas() {
+      const ctx = canvas.getContext('2d');
+      savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
+    function restoreCanvas() {
+      if (!savedImageData) return;
+      const ctx = canvas.getContext('2d');
+      ctx.putImageData(savedImageData, 0, 0);
+    }
 
-// ============================================
-// Returns Tab — Bar Chart (Net Capital Activity)
-// ============================================
+    window['_lineSave_' + canvasId] = saveCanvas;
 
-let currentReturnsRange = '1M';
-let currentReturnsView = 'net';
-let barChartAnimId = null;
+    canvas.addEventListener('mousemove', (e) => {
+      const meta = lineChartMeta[canvasId];
+      if (!meta || !meta.data || meta.data.length < 2) return;
+      const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor } = meta;
 
-function getReturnsData(view = currentReturnsView, range = currentReturnsRange) {
-  const dates = Object.keys(EPF_DATA.txByDate).map(d => ({
-    label: d,
-    date: new Date(d),
-    ...EPF_DATA.txByDate[d]
-  })).sort((a, b) => a.date - b.date);
+      const canvasRect = canvas.getBoundingClientRect();
+      const mx = e.clientX - canvasRect.left;
+      const relX = mx - pad.left;
 
-  const now = dates[dates.length - 1]?.date || new Date();
-  let cutoff;
-  switch (range) {
-    case '1D': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 1); break;
-    case '1W': cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - 7); break;
-    case '1M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 1); break;
-    case '3M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 3); break;
-    case '6M': cutoff = new Date(now); cutoff.setMonth(cutoff.getMonth() - 6); break;
-    case 'YTD': cutoff = new Date(now.getFullYear(), 0, 1); break;
-    case '1Y': cutoff = new Date(now); cutoff.setFullYear(cutoff.getFullYear() - 1); break;
-    default: cutoff = new Date(0);
-  }
+      if (relX < 0 || relX > plotW) {
+        restoreCanvas();
+        hideTooltip();
+        resetLineDisplay();
+        canvas.style.cursor = 'default';
+        return;
+      }
 
-  const filtered = dates.filter(d => d.date >= cutoff);
+      const idx = Math.round(relX / (plotW / (data.length - 1)));
+      const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+      const d = data[clampedIdx];
 
-  return filtered.map(d => ({
-    label: d.label,
-    value: view === 'net' ? d.net : view === 'acquired' ? d.acquired : -d.disposed,
-    count: d.count
-  }));
-}
+      canvas.style.cursor = 'crosshair';
 
-function drawBarChart(canvasId, data, animateChart = true) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.parentElement.getBoundingClientRect();
-  if (rect.width <= 0 || rect.height <= 0) return;
+      const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
+      const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
+      // Tooltip
+      showTooltip(e, `
+        <div class="tt-label">${d.label}</div>
+        <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
+      `);
 
-  const w = rect.width;
-  const h = rect.height;
-  const pad = { top: 24, right: 24, bottom: 36, left: 70 };
-  const plotW = w - pad.left - pad.right;
-  const plotH = h - pad.top - pad.bottom;
+      // Update Live Value Display
+      const valDisp = document.getElementById('portfolio-value-display');
+      if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
+      const legDate = document.getElementById('portfolio-legend-date');
+      if (legDate) legDate.textContent = d.label;
 
-  if (barChartAnimId) {
-    cancelAnimationFrame(barChartAnimId);
-    barChartAnimId = null;
-  }
+      restoreCanvas();
 
-  ctx.clearRect(0, 0, w, h);
+      const ctx = canvas.getContext('2d');
+      ctx.save();
 
-  if (!data || data.length === 0) {
-    ctx.fillStyle = '#64748b';
-    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('No capital flow activity in this timeframe', w / 2, h / 2);
-    return;
-  }
+      // 1. Vertical Dashed Probe
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(pointX, pad.top);
+      ctx.lineTo(pointX, pad.top + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
 
-  const values = data.map(d => d.value);
-  const maxV = Math.max(...values, 0);
-  const minV = Math.min(...values, 0);
-  const range = maxV - minV || 1;
+      // 2. Glowing Point
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = dynamicColor;
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.arc(pointX, pointY, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = dynamicColor;
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
 
-  // Zero line position
-  const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
+      // 3. Current Date Pill Badge
+      ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+      const dateText = d.label;
+      const textW = ctx.measureText(dateText).width;
+      const pillW = textW + 16;
+      const pillH = 22;
+      const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, pointX - (pillW / 2)));
+      const pillY = h - 26;
 
-  // Responsive bar width
-  const rawBarW = (plotW / data.length);
-  const barW = Math.max(3, rawBarW - (data.length > 60 ? 1 : data.length > 25 ? 3 : 6));
-
-  let startTime = null;
-  const DURATION = animateChart ? 700 : 0;
-
-  function renderFrame(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = DURATION > 0 ? Math.min(elapsed / DURATION, 1) : 1;
-
-    // Smooth cubic easing for growth
-    const easeProgress = 1 - Math.pow(1 - progress, 3);
-
-    ctx.clearRect(0, 0, w, h);
-
-    // 1. Grid lines + Y axis labels
-    ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
-    ctx.font = '500 10px "JetBrains Mono", monospace';
-    ctx.textAlign = 'right';
-    for (let i = 0; i <= 4; i++) {
-      const val = minV + (range * i / 4);
-      const y = pad.top + plotH - (plotH * i / 4);
-      ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(pad.left, y);
-      ctx.lineTo(w - pad.right, y);
-      ctx.stroke();
-    }
-
-    // 2. Zero baseline
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(pad.left, zeroY);
-    ctx.lineTo(w - pad.right, zeroY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // 3. Animated Bars (Growing smoothly from zero baseline)
-    data.forEach((d, i) => {
-      const x = pad.left + (plotW * i / data.length) + (plotW / data.length - barW) / 2;
-      const fullBarH = (Math.abs(d.value) / range) * plotH;
-      const currentBarH = fullBarH * easeProgress;
-      const y = d.value >= 0 ? zeroY - currentBarH : zeroY;
-
-      if (d.value >= 0) {
-        // Positive accumulation
-        const grad = ctx.createLinearGradient(0, y, 0, zeroY);
-        grad.addColorStop(0, '#10b981');
-        grad.addColorStop(1, '#059669');
-        ctx.fillStyle = grad;
-        ctx.shadowColor = 'rgba(16, 185, 129, 0.3)';
-        ctx.shadowBlur = 6;
-      } else {
-        // Negative divestment
-        const grad = ctx.createLinearGradient(0, zeroY, 0, y + currentBarH);
-        grad.addColorStop(0, '#e11d48');
-        grad.addColorStop(1, '#f43f5e');
-        ctx.fillStyle = grad;
-        ctx.shadowColor = 'rgba(244, 63, 94, 0.3)';
-        ctx.shadowBlur = 6;
-      }
-
-      ctx.beginPath();
-      const r = Math.min(3, barW / 2);
-      ctx.roundRect(x, y, barW, Math.max(1, currentBarH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
+      ctx.roundRect(pillX, pillY, pillW, pillH, 6);
       ctx.fill();
-      ctx.shadowBlur = 0;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
+
+      ctx.restore();
     });
 
-    // 4. X-axis labels
-    ctx.fillStyle = '#64748b';
-    ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
+    canvas.addEventListener('mouseleave', () => {
+      restoreCanvas();
+      hideTooltip();
+      resetLineDisplay();
+      canvas.style.cursor = 'default';
+    });
+
+    function resetLineDisplay() {
+      const meta = lineChartMeta[canvasId];
+      if (!meta || !meta.data || meta.data.length === 0) return;
+      const lastVal = meta.data[meta.data.length - 1].value;
+      const valDisp = document.getElementById('portfolio-value-display');
+      if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
+      const legDate = document.getElementById('portfolio-legend-date');
+      if (legDate) legDate.textContent = 'Net Shareholdings Trend';
+    }
+  }
+
+  let barChartAnimId = null;
+  let barChartMeta = null;
+
+  function drawBarChart(canvasId, data, animateChart = true) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
+    const rect = parent.getBoundingClientRect();
+    const w = Math.max(rect.width || parent.clientWidth || 300, 200);
+    const h = Math.max(rect.height || parent.clientHeight || 200, 160);
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+
     const isMobile = window.innerWidth < 768;
-    const maxLabels = isMobile ? 4 : 8;
-
-    let formatLabel = (labelStr) => {
-      const parts = labelStr.split(' ');
-      return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
+    const pad = {
+      top: 24,
+      right: isMobile ? 12 : 24,
+      bottom: isMobile ? 28 : 36,
+      left: isMobile ? 48 : 70
     };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
 
-    if (data.length >= 2) {
-      const parseDate = (str) => {
-        const parts = str.split(' ');
-        const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
-        return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+    if (barChartAnimId) cancelAnimationFrame(barChartAnimId);
+    ctx.clearRect(0, 0, w, h);
+
+    if (!data || data.length === 0) {
+      ctx.fillStyle = '#64748b';
+      ctx.font = '13px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No capital flow activity in this timeframe', w / 2, h / 2);
+      return;
+    }
+
+    const values = data.map(d => d.value);
+    const maxV = Math.max(...values, 0);
+    const minV = Math.min(...values, 0);
+    const range = maxV - minV || 1;
+
+    const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
+    const rawBarW = (plotW / data.length);
+    const barW = Math.max(2.5, rawBarW - (data.length > 60 ? 1 : data.length > 25 ? 3 : 6));
+
+    let startTime = null;
+    const DURATION = animateChart ? 700 : 0;
+
+    function renderFrame(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = DURATION > 0 ? Math.min(elapsed / DURATION, 1) : 1;
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.font = '500 10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const val = minV + (range * i / 4);
+        const y = pad.top + plotH - (plotH * i / 4);
+        ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(w - pad.right, y);
+        ctx.stroke();
+      }
+
+      // Zero baseline
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, zeroY);
+      ctx.lineTo(w - pad.right, zeroY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Bars
+      data.forEach((d, i) => {
+        const x = pad.left + (plotW * i / data.length) + (plotW / data.length - barW) / 2;
+        const fullBarH = (Math.abs(d.value) / range) * plotH;
+        const currentBarH = fullBarH * easeProgress;
+        const y = d.value >= 0 ? zeroY - currentBarH : zeroY;
+
+        if (d.value >= 0) {
+          const grad = ctx.createLinearGradient(0, y, 0, zeroY);
+          grad.addColorStop(0, '#10b981');
+          grad.addColorStop(1, '#059669');
+          ctx.fillStyle = grad;
+          ctx.shadowColor = 'rgba(16, 185, 129, 0.3)';
+          ctx.shadowBlur = 6;
+        } else {
+          const grad = ctx.createLinearGradient(0, zeroY, 0, y + currentBarH);
+          grad.addColorStop(0, '#e11d48');
+          grad.addColorStop(1, '#f43f5e');
+          ctx.fillStyle = grad;
+          ctx.shadowColor = 'rgba(244, 63, 94, 0.3)';
+          ctx.shadowBlur = 6;
+        }
+
+        ctx.beginPath();
+        const r = Math.min(3, barW / 2);
+        ctx.roundRect(x, y, barW, Math.max(1, currentBarH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // X Axis labels
+      ctx.fillStyle = '#64748b';
+      ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      const maxLabels = isMobile ? 4 : 8;
+
+      let formatLabel = (labelStr) => {
+        const parts = labelStr.split(' ');
+        return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
       };
-      const startDate = parseDate(data[0].label);
-      const endDate = parseDate(data[data.length - 1].label);
-      const diffDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
 
-      if (diffDays > 365 * 1.5) {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 3 ? parts[2] : labelStr;
-        };
-      } else if (diffDays > 45) {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 3 ? `${parts[1]} '${parts[2].slice(-2)}` : labelStr;
-        };
-      } else {
-        formatLabel = (labelStr) => {
-          const parts = labelStr.split(' ');
-          return parts.length >= 2 ? `${parts[0]} ${parts[1]}` : labelStr;
-        };
-      }
-    }
-
-    const indicesToDraw = [];
-    if (data.length > 0) {
-      indicesToDraw.push(0);
-      if (data.length > 1) {
-        const step = (data.length - 1) / (maxLabels - 1);
-        for (let i = 1; i < maxLabels - 1; i++) {
-          const idx = Math.round(i * step);
-          if (!indicesToDraw.includes(idx)) {
-            indicesToDraw.push(idx);
+      const indicesToDraw = [];
+      if (data.length > 0) {
+        indicesToDraw.push(0);
+        if (data.length > 1) {
+          const step = (data.length - 1) / (maxLabels - 1);
+          for (let i = 1; i < maxLabels - 1; i++) {
+            const idx = Math.round(i * step);
+            if (!indicesToDraw.includes(idx)) indicesToDraw.push(idx);
           }
-        }
-        if (!indicesToDraw.includes(data.length - 1)) {
-          indicesToDraw.push(data.length - 1);
+          if (!indicesToDraw.includes(data.length - 1)) indicesToDraw.push(data.length - 1);
         }
       }
-    }
-    indicesToDraw.sort((a, b) => a - b);
+      indicesToDraw.sort((a, b) => a - b);
 
-    indicesToDraw.forEach(i => {
-      const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
-      ctx.fillText(formatLabel(data[i].label), x, h - 12);
-    });
+      indicesToDraw.forEach(i => {
+        const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
+        ctx.fillText(formatLabel(data[i].label), x, h - 10);
+      });
 
-    if (progress < 1) {
-      barChartAnimId = requestAnimationFrame(renderFrame);
-    } else {
-      // Store metadata for hover overlay
-      barChartMeta = { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY };
-      if (window._barSaveCanvas) window._barSaveCanvas();
-    }
-  }
-
-  if (animateChart) {
-    barChartAnimId = requestAnimationFrame(renderFrame);
-  } else {
-    renderFrame(performance.now() + DURATION);
-  }
-}
-
-function renderReturnsSummary() {
-  const dates = Object.values(EPF_DATA.txByDate);
-  const totalAcquired = dates.reduce((s, d) => s + d.acquired, 0);
-  const totalDisposed = dates.reduce((s, d) => s + d.disposed, 0);
-  const totalNet = totalAcquired - totalDisposed;
-  const totalTx = dates.reduce((s, d) => s + d.count, 0);
-
-  document.getElementById('returns-summary').innerHTML = `
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
-        <div class="h-8 w-8 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.trending_up}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold text-emerald-400 font-mono-numeric tracking-tight">+${formatCompact(totalAcquired)}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-        <span>Accumulation volume</span>
-      </div>
-    </div>
-
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
-        <div class="h-8 w-8 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.trending_down}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold text-rose-400 font-mono-numeric tracking-tight">-${formatCompact(totalDisposed)}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
-        <span>Divestment volume</span>
-      </div>
-    </div>
-
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
-        <div class="h-8 w-8 rounded-xl ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'} flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.account_balance}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric tracking-tight">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full ${totalNet >= 0 ? 'bg-emerald-400' : 'bg-rose-400'}"></span>
-        <span>Net shares flow</span>
-      </div>
-    </div>
-
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
-        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.receipt_long}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${totalTx.toLocaleString()}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-        <span>Recorded filings</span>
-      </div>
-    </div>
-
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Equities</span>
-        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.category}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${EPF_DATA.uniqueStocks}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-        <span>Bursa listed stocks</span>
-      </div>
-    </div>
-
-    <div class="returns-stat-card">
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trading Sessions</span>
-        <div class="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 shadow-sm">
-          ${ICONSTACK.calendar_month}
-        </div>
-      </div>
-      <div class="my-2">
-        <div class="text-2xl font-extrabold text-on-surface font-mono-numeric tracking-tight">${Object.keys(EPF_DATA.txByDate).length}</div>
-      </div>
-      <div class="flex items-center gap-1.5 text-xs text-outline font-medium">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-        <span>Active trade days</span>
-      </div>
-    </div>
-  `;
-}
-
-// ============================================
-// Transactions Tab
-// ============================================
-
-const TX_PER_PAGE = 50;
-let txPage = 1;
-let filteredTx = [];
-
-function flattenTransactions() {
-  const list = [];
-  EPF_DATA.transactions.forEach(tx => {
-    let acquired = 0;
-    let disposed = 0;
-    tx.transactions.forEach(t => {
-      if (t.type === 'Acquired') acquired += t.amount;
-      else if (t.type === 'Disposed' || t.type === 'Divestment') disposed += t.amount;
-    });
-
-    let type = 'Acquired';
-    let amount = 0;
-    if (acquired > disposed) {
-      type = 'Acquired';
-      amount = acquired - disposed;
-    } else if (disposed > acquired) {
-      type = tx.transactions.some(t => t.type === 'Divestment') ? 'Divestment' : 'Disposed';
-      amount = disposed - acquired;
-    } else {
-      type = tx.transactions[0]?.type || 'Acquired';
-      amount = 0;
-    }
-
-    list.push({
-      date: tx.date,
-      stock: tx.stock,
-      company: tx.company,
-      url: tx.url,
-      type: type,
-      amount: amount,
-      percent: tx.percent,
-      total: tx.total,
-      rawTransactions: tx.transactions,
-      isNet: tx.transactions.length > 1
-    });
-  });
-  // Sort by date descending, with ann_id descending as a secondary key for matching Bursa Malaysia order
-  list.sort((a, b) => {
-    const dateDiff = new Date(b.date) - new Date(a.date);
-    if (dateDiff !== 0) return dateDiff;
-    const idA = parseInt(a.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
-    const idB = parseInt(b.url.match(/ann_id=(\d+)/)?.[1] || 0, 10);
-    return idB - idA;
-  });
-  return list;
-}
-
-const allFlatTx = flattenTransactions();
-
-function filterTransactions() {
-  const typeFilter = document.getElementById('tx-filter-type').value;
-  const search = document.getElementById('tx-search').value.toLowerCase().trim();
-
-  const txSearchClear = document.getElementById('tx-search-clear');
-  if (txSearchClear) {
-    txSearchClear.style.display = search ? 'flex' : 'none';
-  }
-
-  const dateStart = document.getElementById('tx-date-start').value;
-  const dateEnd = document.getElementById('tx-date-end').value;
-  const amountMin = document.getElementById('tx-amount-min').value;
-  const amountMax = document.getElementById('tx-amount-max').value;
-  const pctMin = document.getElementById('tx-percent-min').value;
-  const pctMax = document.getElementById('tx-percent-max').value;
-
-  // Highlight active filters
-  const toggleHeader = (id, isActive) => {
-    const popup = document.getElementById(id);
-    if (popup) {
-      const th = popup.closest('th');
-      if (th) {
-        if (isActive) th.classList.add('filter-active');
-        else th.classList.remove('filter-active');
+      if (progress < 1) {
+        barChartAnimId = requestAnimationFrame(renderFrame);
+      } else {
+        barChartMeta = { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY };
+        if (window._barSaveCanvas) window._barSaveCanvas();
       }
     }
-  };
 
-  toggleHeader('date-popup', dateStart || dateEnd);
-  toggleHeader('type-popup', typeFilter !== 'all');
-  toggleHeader('amount-popup', amountMin !== '' || amountMax !== '');
-  toggleHeader('pct-popup', pctMin !== '' || pctMax !== '');
-
-  // Sync min/max bounds for the date pickers
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const todayStr = `${yyyy}-${mm}-${dd}`;
-
-  document.getElementById('tx-date-end').min = dateStart;
-  document.getElementById('tx-date-start').max = dateEnd || todayStr;
-  document.getElementById('tx-date-end').max = todayStr;
-
-  let startT = -Infinity;
-  if (dateStart) {
-    const [y, m, d] = dateStart.split('-');
-    startT = new Date(y, m - 1, d).getTime();
+    if (animateChart) barChartAnimId = requestAnimationFrame(renderFrame);
+    else renderFrame(performance.now() + DURATION);
   }
 
-  let endT = Infinity;
-  if (dateEnd) {
-    const [y, m, d] = dateEnd.split('-');
-    endT = new Date(y, m - 1, d).getTime() + 86400000; // +1 day for inclusive end
-  }
+  function setupBarChartHover(canvasId = 'returns-canvas', onBarClick = null) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
 
-  filteredTx = allFlatTx.filter(tx => {
-    if (typeFilter !== 'all' && tx.type !== typeFilter) return false;
-    if (search && !tx.company.toLowerCase().includes(search) && !tx.stock.toLowerCase().includes(search)) return false;
+    let savedImageData = null;
+    function saveCanvas() {
+      const ctx = canvas.getContext('2d');
+      savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
+    function restoreCanvas() {
+      if (!savedImageData) return;
+      const ctx = canvas.getContext('2d');
+      ctx.putImageData(savedImageData, 0, 0);
+    }
 
-    // tx.date is like "07 May 2026", new Date() parses it in local time midnight
-    const tTime = new Date(tx.date).getTime();
-    if (tTime < startT || tTime >= endT) return false;
+    canvas.addEventListener('mousemove', (e) => {
+      if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0) return;
+      const { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY } = barChartMeta;
 
-    if (amountMin !== '' && tx.amount < parseFloat(amountMin)) return false;
-    if (amountMax !== '' && tx.amount > parseFloat(amountMax)) return false;
+      const canvasRect = canvas.getBoundingClientRect();
+      const mx = e.clientX - canvasRect.left;
+      const relX = mx - pad.left;
 
-    if (pctMin !== '' && tx.percent < parseFloat(pctMin)) return false;
-    if (pctMax !== '' && tx.percent > parseFloat(pctMax)) return false;
-
-    return true;
-  });
-
-  txPage = 1;
-  renderTransactionsTable();
-}
-
-function renderTransactionsTable() {
-  const tbody = document.getElementById('tx-tbody');
-
-  if (filteredTx.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="align-center" style="text-align: center; padding: 2rem; color: var(--text-muted);">No transactions found matching the filters</td></tr>`;
-    document.getElementById('tx-count').textContent = '0';
-    renderPagination();
-    return;
-  }
-
-  const start = (txPage - 1) * TX_PER_PAGE;
-  const pageData = filteredTx.slice(start, start + TX_PER_PAGE);
-
-  document.getElementById('tx-count').textContent = filteredTx.length.toLocaleString();
-
-  tbody.innerHTML = pageData.map((tx, i) => {
-    return `<tr>
-      <td class="font-mono text-outline font-medium text-xs">${start + i + 1}</td>
-      <td class="font-mono text-outline font-medium text-xs whitespace-nowrap">${tx.date}</td>
-      <td>
-        <a href="${getKlseLink(tx.stock, tx.company)}" target="_blank" class="stock-symbol-link group" title="View ${tx.stock} on KLSE Screener">
-          <div class="stock-symbol flex items-center gap-3">
-            ${renderStockLogo(tx.stock, tx.company, 32)}
-            <span class="stock-name group-hover:text-primary transition-colors text-xs font-bold">${tx.stock}</span>
-          </div>
-        </a>
-      </td>
-      <td class="font-semibold text-on-surface text-xs">${tx.company}</td>
-      <td>
-        <span class="tx-type ${tx.type.toLowerCase()}" 
-              onclick="openTxModal(${start + i})"
-              style="cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem;"
-              title="Click to view all transactions">
-          ${tx.type}${tx.isNet ? ' (Net)' : ''}
-          <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.75;"><path d="M12 5v14M5 12h14"/></svg>
-        </span>
-      </td>
-      <td class="text-right font-mono-numeric font-semibold text-on-surface text-xs">${tx.amount.toLocaleString()}</td>
-      <td class="text-right font-mono-numeric font-medium text-outline text-xs">${tx.percent}%</td>
-      <td class="text-right font-mono-numeric font-bold text-on-surface text-xs">${tx.total.toLocaleString()}</td>
-    </tr>`;
-  }).join('');
-
-  renderPagination();
-}
-
-function renderPagination() {
-  const totalPages = Math.ceil(filteredTx.length / TX_PER_PAGE);
-  const pag = document.getElementById('tx-pagination');
-
-  if (totalPages <= 1) {
-    pag.innerHTML = '';
-    return;
-  }
-
-  let html = `<button class="page-btn" ${txPage === 1 ? 'disabled' : ''} onclick="goToPage(${txPage - 1})">‹</button>`;
-
-  // Show pages around current
-  const range = 2;
-  const start = Math.max(1, txPage - range);
-  const end = Math.min(totalPages, txPage + range);
-
-  if (start > 1) {
-    html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
-    if (start > 2) html += `<span style="color:var(--text-muted);padding:0 0.3rem;">…</span>`;
-  }
-
-  for (let p = start; p <= end; p++) {
-    html += `<button class="page-btn ${p === txPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
-  }
-
-  if (end < totalPages) {
-    if (end < totalPages - 1) html += `<span style="color:var(--text-muted);padding:0 0.3rem;">…</span>`;
-    html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
-  }
-
-  html += `<button class="page-btn" ${txPage === totalPages ? 'disabled' : ''} onclick="goToPage(${txPage + 1})">›</button>`;
-
-  pag.innerHTML = html;
-}
-
-window.goToPage = function (page) {
-  txPage = page;
-  renderTransactionsTable();
-  document.getElementById('tx-table').scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
-
-// ============================================
-// Utility
-// ============================================
-
-function formatCompact(val) {
-  const abs = Math.abs(val);
-  const sign = val < 0 ? '-' : '';
-  if (abs >= 1e9) return sign + (abs / 1e9).toFixed(2) + 'B';
-  if (abs >= 1e6) return sign + (abs / 1e6).toFixed(2) + 'M';
-  if (abs >= 1e3) return sign + (abs / 1e3).toFixed(1) + 'K';
-  return sign + val.toLocaleString();
-}
-
-// ============================================
-// Tooltip System
-// ============================================
-
-const tooltip = document.getElementById('chart-tooltip');
-
-function showTooltip(e, html) {
-  tooltip.innerHTML = html;
-  tooltip.classList.add('visible');
-
-  const tt = tooltip.getBoundingClientRect();
-  let x = e.clientX + 14;
-  let y = e.clientY - 14;
-
-  // Keep within viewport
-  if (x + tt.width > window.innerWidth - 8) x = e.clientX - tt.width - 14;
-  if (y + tt.height > window.innerHeight - 8) y = e.clientY - tt.height - 14;
-  if (y < 8) y = 8;
-
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y + 'px';
-}
-
-function hideTooltip() {
-  tooltip.classList.remove('visible');
-}
-
-// Store chart metadata for hover detection
-let lineChartMeta = null;
-let barChartMeta = null;
-let isHoverRedraw = false;
-
-// --- Line Chart Tooltip & Single-Dot Interactive Hover ---
-function setupLineChartHover() {
-  const canvas = document.getElementById('portfolio-canvas');
-  if (!canvas) return;
-
-  let savedCleanImage = null;
-
-  function saveCleanCanvas() {
-    const ctx = canvas.getContext('2d');
-    savedCleanImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  }
-
-  function restoreCleanCanvas() {
-    if (!savedCleanImage) return;
-    const ctx = canvas.getContext('2d');
-    ctx.putImageData(savedCleanImage, 0, 0);
-  }
-
-  function drawEndDot() {
-    if (!lineChartMeta || !lineChartMeta.data || lineChartMeta.data.length === 0) return;
-    const { data, pad, plotW, plotH, minV, range, dynamicColor } = lineChartMeta;
-    const lastIdx = data.length - 1;
-    const d = data[lastIdx];
-    const currX = pad.left + plotW;
-    const currY = pad.top + plotH - ((d.value - minV) / range * plotH);
-
-    const ctx = canvas.getContext('2d');
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(currX, currY, 4.5, 0, Math.PI * 2);
-    ctx.fillStyle = dynamicColor || '#c084fc';
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(currX, currY, 9, 0, Math.PI * 2);
-    ctx.fillStyle = (dynamicColor || '#c084fc') + '35';
-    ctx.fill();
-    ctx.restore();
-  }
-
-  window._lineSaveCleanCanvas = saveCleanCanvas;
-  window._drawEndDot = drawEndDot;
-
-  function formatHoverTimeLabel(labelStr, range) {
-    if (!labelStr) return '';
-    const parts = labelStr.trim().split(' ');
-    if (parts.length >= 3) {
-      const [day, month, year] = parts;
-      if (range === '1M' || range === '3M') {
-        return `${day} ${month}`;
-      } else if (range === '1Y') {
-        return `${month} ${year}`;
-      } else if (range === 'ALL') {
-        return `${month} '${year.slice(-2)}`;
+      if (relX < 0 || relX > plotW) {
+        restoreCanvas();
+        hideTooltip();
+        canvas.style.cursor = 'default';
+        return;
       }
-    }
-    return labelStr;
-  }
 
-  function resetPortfolioLegend() {
-    if (!lineChartMeta || !lineChartMeta.data || lineChartMeta.data.length === 0) return;
-    const lastVal = lineChartMeta.data[lineChartMeta.data.length - 1].value;
-    const valDisplay = document.getElementById('portfolio-value-display');
-    if (valDisplay) {
-      valDisplay.textContent = formatCompact(lastVal) + ' shares (net)';
-    }
-  }
+      const idx = Math.floor(relX / (plotW / data.length));
+      const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+      const d = data[clampedIdx];
 
-  canvas.addEventListener('mousemove', (e) => {
-    if (!lineChartMeta || lineChartMeta.data.length < 2) return;
-    const { data, pad, plotW, plotH, minV, range, dynamicColor } = lineChartMeta;
-
-    const canvasRect = canvas.getBoundingClientRect();
-    const mx = e.clientX - canvasRect.left;
-
-    const relX = mx - pad.left;
-    if (relX < 0 || relX > plotW) {
-      restoreCleanCanvas();
-      drawEndDot();
-      hideTooltip();
-      resetPortfolioLegend();
-      return;
-    }
-
-    const idx = Math.round((relX / plotW) * (data.length - 1));
-    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
-    const d = data[clampedIdx];
-
-    // 1. Restore clean line (0 dots)
-    restoreCleanCanvas();
-
-    const ctx = canvas.getContext('2d');
-    ctx.save();
-
-    const px = pad.left + (plotW * clampedIdx / (data.length - 1));
-    const py = pad.top + plotH - ((d.value - minV) / range * plotH);
-
-    const themeAccent = dynamicColor || '#c084fc';
-
-    // 2. Vertical dashed crosshair line
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 3]);
-    ctx.beginPath();
-    ctx.moveTo(px, pad.top);
-    ctx.lineTo(px, pad.top + plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // 2b. Floating X-Axis Time Badge directly below the vertical crosshair line
-    const timeText = formatHoverTimeLabel(d.label, currentRange);
-    ctx.font = '600 10.5px "JetBrains Mono", monospace';
-    const textWidth = ctx.measureText(timeText).width;
-    const badgeW = Math.max(textWidth + 14, 46);
-    const badgeH = 19;
-    let badgeX = px - (badgeW / 2);
-    // Clamp badge within plot area
-    const minBadgeX = pad.left - 4;
-    const maxBadgeX = pad.left + plotW - badgeW + 4;
-    badgeX = Math.max(minBadgeX, Math.min(maxBadgeX, badgeX));
-    const badgeY = pad.top + plotH + 5;
-
-    // Frosted Pill Container
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-    ctx.shadowBlur = 8;
-    ctx.fillStyle = 'rgba(18, 14, 28, 0.96)';
-    ctx.strokeStyle = themeAccent;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 5);
-    } else {
-      ctx.rect(badgeX, badgeY, badgeW, badgeH);
-    }
-    ctx.fill();
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    // Time text inside capsule
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(timeText, badgeX + (badgeW / 2), badgeY + (badgeH / 2));
-
-    // 3. Highlight dot: EXACTLY ONE DOT on the whole canvas
-    ctx.beginPath();
-    ctx.arc(px, py, 4.5, 0, Math.PI * 2);
-    ctx.fillStyle = themeAccent;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(px, py, 9, 0, Math.PI * 2);
-    ctx.fillStyle = themeAccent + '35';
-    ctx.fill();
-    ctx.restore();
-
-    // 4. Update the bottom-right valuation display
-    const valDisplay = document.getElementById('portfolio-value-display');
-    if (valDisplay) {
-      valDisplay.textContent = formatCompact(d.value) + ' shares (net)';
-    }
-
-    const valClass = d.value >= 0 ? 'tt-positive' : 'tt-negative';
-    showTooltip(e, `
-      <div class="tt-label" style="font-weight:700; color:#fff;">📅 ${d.label}</div>
-      <div class="tt-value ${valClass}" style="margin-top:2px;">${formatCompact(d.value)} shares</div>
-      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count || 0} announcements</div>
-    `);
-  });
-
-  canvas.addEventListener('mouseleave', () => {
-    restoreCleanCanvas();
-    drawEndDot();
-    hideTooltip();
-    resetPortfolioLegend();
-  });
-}
-
-// --- Pie Chart Tooltip ---
-function setupPieChartHover(canvasId) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-
-  canvas.addEventListener('mousemove', (e) => {
-    const meta = canvas._chartMeta;
-    if (!meta) return;
-    const { data, cx, cy, radius, innerRadius, total } = meta;
-
-    const canvasRect = canvas.getBoundingClientRect();
-    // Account for CSS vs canvas coordinate scaling
-    const scaleX = canvas.width / canvasRect.width;
-    const scaleY = canvas.height / canvasRect.height;
-    const mx = (e.clientX - canvasRect.left) * scaleX / (window.devicePixelRatio || 1);
-    const my = (e.clientY - canvasRect.top) * scaleY / (window.devicePixelRatio || 1);
-
-    const dx = mx - cx;
-    const dy = my - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist < innerRadius || dist > radius) {
-      hideTooltip();
-      canvas.style.cursor = 'default';
-      return;
-    }
-
-    let angle = Math.atan2(dy, dx);
-    angle = angle + Math.PI / 2;
-    if (angle < 0) angle += Math.PI * 2;
-
-    let cumAngle = 0;
-    let hoveredSlice = null;
-    for (const d of data) {
-      const sliceAngle = (d.value / total) * 2 * Math.PI;
-      if (angle >= cumAngle && angle < cumAngle + sliceAngle) {
-        hoveredSlice = d;
-        break;
-      }
-      cumAngle += sliceAngle;
-    }
-
-    if (hoveredSlice) {
       canvas.style.cursor = 'pointer';
+
+      const valClass = d.value >= 0 ? 'tt-positive' : 'tt-negative';
+      const valSign = d.value >= 0 ? '+' : '';
       showTooltip(e, `
-        <div class="tt-row">
-          <span class="tt-dot" style="background:${hoveredSlice.color}"></span>
-          <span style="font-weight:600">${hoveredSlice.label}</span>
-        </div>
-        <div class="tt-value" style="margin-top:2px">${hoveredSlice.value.toLocaleString()} shares</div>
-        <div style="color:var(--text-muted);font-size:0.7rem">${hoveredSlice.pct}% of portfolio</div>
+        <div class="tt-label">${d.label}</div>
+        <div class="tt-value ${valClass}">${valSign}${formatCompact(d.value)} shares</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count} announcements</div>
       `);
-    } else {
-      hideTooltip();
-      canvas.style.cursor = 'default';
-    }
-  });
 
-  canvas.addEventListener('mouseleave', () => {
-    hideTooltip();
-    canvas.style.cursor = 'default';
-  });
-}
+      restoreCanvas();
 
-// Helper to parse date strings like "21 May 2026" or "25 March 2026" into ISO "YYYY-MM-DD"
-function parseDateStringToYYYYMMDD(dateStr) {
-  const dateObj = new Date(dateStr);
-  if (isNaN(dateObj.getTime())) return null;
-  const yyyy = dateObj.getFullYear();
-  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const dd = String(dateObj.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
-}
+      const ctx = canvas.getContext('2d');
+      ctx.save();
 
-// --- Bar Chart Tooltip ---
-function setupBarChartHover() {
-  const canvas = document.getElementById('returns-canvas');
-  let savedImage = null;
+      const barCenterX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length) / 2;
+      const barX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length - barW) / 2;
+      const barH = (Math.abs(d.value) / range) * plotH;
+      const barY = d.value >= 0 ? zeroY - barH : zeroY;
+      const r = Math.min(3, barW / 2);
 
-  function saveCanvas() {
-    const ctx = canvas.getContext('2d');
-    savedImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  }
+      // Vertical Dashed Probe
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(barCenterX, pad.top);
+      ctx.lineTo(barCenterX, pad.top + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
 
-  function restoreCanvas() {
-    if (!savedImage) return;
-    const ctx = canvas.getContext('2d');
-    ctx.putImageData(savedImage, 0, 0);
-  }
+      // Bar Glow
+      ctx.fillStyle = d.value >= 0 ? '#10b981' : '#f43f5e';
+      ctx.shadowColor = d.value >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(244, 63, 94, 0.8)';
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.roundRect(barX, barY, barW, Math.max(2, barH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
+      ctx.fill();
 
-  canvas.addEventListener('mousemove', (e) => {
-    if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0) return;
-    const { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY } = barChartMeta;
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
 
-    const canvasRect = canvas.getBoundingClientRect();
-    const mx = e.clientX - canvasRect.left;
+      // Date Badge Pill
+      ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+      const dateText = d.label;
+      const textW = ctx.measureText(dateText).width;
+      const pillW = textW + 16;
+      const pillH = 22;
+      const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, barCenterX - (pillW / 2)));
+      const pillY = h - 26;
 
-    const relX = mx - pad.left;
-    if (relX < 0 || relX > plotW) {
+      ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
+      ctx.restore();
+    });
+
+    canvas.addEventListener('mouseleave', () => {
       restoreCanvas();
       hideTooltip();
       canvas.style.cursor = 'default';
-      return;
+    });
+
+    canvas.addEventListener('click', (e) => {
+      if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0) return;
+      const { data, pad, plotW } = barChartMeta;
+      const canvasRect = canvas.getBoundingClientRect();
+      const mx = e.clientX - canvasRect.left;
+      const relX = mx - pad.left;
+      if (relX < 0 || relX > plotW) return;
+
+      const idx = Math.floor(relX / (plotW / data.length));
+      const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+      const d = data[clampedIdx];
+      if (onBarClick) onBarClick(d);
+    });
+
+    window._barSaveCanvas = saveCanvas;
+  }
+
+  function showTooltip(e, html) {
+    let tt = document.getElementById('chart-tooltip');
+    if (!tt) {
+      tt = document.createElement('div');
+      tt.id = 'chart-tooltip';
+      tt.className = 'chart-tooltip';
+      document.body.appendChild(tt);
     }
+    tt.innerHTML = html;
+    tt.style.display = 'block';
+    tt.style.left = `${e.pageX + 12}px`;
+    tt.style.top = `${e.pageY - 28}px`;
+  }
 
-    const idx = Math.floor(relX / (plotW / data.length));
-    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
-    const d = data[clampedIdx];
+  function hideTooltip() {
+    const tt = document.getElementById('chart-tooltip');
+    if (tt) tt.style.display = 'none';
+  }
 
-    canvas.style.cursor = 'pointer';
+  const PIE_COLORS = ['#f43f5e', '#fb7185', '#e11d48', '#fda4af', '#38bdf8', '#fbbf24', '#34d399', '#a78bfa', '#f97316', '#22d3ee', '#818cf8', '#64748b'];
 
-    const valClass = d.value >= 0 ? 'tt-positive' : 'tt-negative';
-    const valSign = d.value >= 0 ? '+' : '';
-    showTooltip(e, `
-      <div class="tt-label">${d.label}</div>
-      <div class="tt-value ${valClass}">${valSign}${formatCompact(d.value)} shares</div>
-      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count} announcements</div>
-    `);
+  function getPieData(type = 'company', rawData = getRawData()) {
+    if (!rawData || !rawData.holdings) return [];
+    const total = rawData.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+    if (total === 0) return [];
 
-    // Restore clean canvas bitmap
-    restoreCanvas();
+    if (type === 'company') {
+      const sorted = [...rawData.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
+      const top9 = sorted.slice(0, 9);
+      const top9Total = top9.reduce((s, h) => s + (h.market_value || 0), 0);
+      const othersVal = total - top9Total;
 
+      const result = top9.map((h, i) => ({
+        label: h.stock_name,
+        sublabel: h.company_name,
+        value: h.market_value || 0,
+        pct: ((h.market_value || 0) / total * 100).toFixed(1),
+        color: PIE_COLORS[i % PIE_COLORS.length]
+      }));
+
+      if (othersVal > 0) {
+        result.push({
+          label: `Others (${sorted.length - 9})`,
+          sublabel: 'Remaining Holdings',
+          value: othersVal,
+          pct: (othersVal / total * 100).toFixed(1),
+          color: '#64748b'
+        });
+      }
+      return result;
+    } else {
+      const map = {};
+      rawData.holdings.forEach(h => {
+        map[h.sector] = (map[h.sector] || 0) + (h.market_value || 0);
+      });
+
+      const sorted = Object.entries(map).sort((a, b) => b[1] - a[1]);
+      const top8 = sorted.slice(0, 8);
+      const top8Total = top8.reduce((s, [, v]) => s + v, 0);
+      const othersVal = total - top8Total;
+
+      const result = top8.map(([sec, val], i) => ({
+        label: sec,
+        sublabel: '',
+        value: val,
+        pct: (val / total * 100).toFixed(1),
+        color: PIE_COLORS[i % PIE_COLORS.length]
+      }));
+
+      if (othersVal > 0) {
+        result.push({
+          label: 'Others',
+          sublabel: '',
+          value: othersVal,
+          pct: (othersVal / total * 100).toFixed(1),
+          color: '#64748b'
+        });
+      }
+      return result;
+    }
+  }
+
+  function drawPieChart(canvasId, data, type = 'company') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    ctx.save();
+    const dpr = window.devicePixelRatio || 1;
+    const parent = canvas.parentElement;
+    if (!parent) return;
 
-    const barCenterX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length) / 2;
-    const barX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length - barW) / 2;
-    const barH = (Math.abs(d.value) / range) * plotH;
-    const barY = d.value >= 0 ? zeroY - barH : zeroY;
-    const r = Math.min(3, barW / 2);
+    const rect = parent.getBoundingClientRect();
+    const w = Math.min(rect.width || 180, 180);
+    const h = Math.min(rect.height || 180, 180);
 
-    // 1. Vertical Dashed Guide Line Through Hovered Bar
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.lineWidth = 1.2;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(barCenterX, pad.top);
-    ctx.lineTo(barCenterX, pad.top + plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
 
-    // 2. High-Contrast Hovered Bar Glow & Stroke
-    ctx.fillStyle = d.value >= 0 ? '#10b981' : '#f43f5e';
-    ctx.shadowColor = d.value >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(244, 63, 94, 0.8)';
-    ctx.shadowBlur = 14;
-    ctx.beginPath();
-    ctx.roundRect(barX, barY, barW, Math.max(2, barH), d.value >= 0 ? [r, r, 0, 0] : [0, 0, r, r]);
-    ctx.fill();
+    const cx = w / 2;
+    const cy = h / 2;
+    const outerR = Math.min(cx, cy) - 10;
+    const innerR = outerR * 0.58;
 
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
+    ctx.clearRect(0, 0, w, h);
+    if (!data || data.length === 0) return;
 
-    // 3. Current Date Pill Badge at the bottom of the dashed line
-    ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
-    const dateText = d.label;
-    const textW = ctx.measureText(dateText).width;
-    const pillW = textW + 16;
-    const pillH = 22;
-    const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, barCenterX - (pillW / 2)));
-    const pillY = h - 26;
+    const total = data.reduce((s, d) => s + d.value, 0);
+    let startAngle = -Math.PI / 2;
 
-    ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(pillX, pillY, pillW, pillH, 6);
-    ctx.fill();
-    ctx.stroke();
+    data.forEach((d) => {
+      const sweep = (d.value / total) * (Math.PI * 2);
+      const endAngle = startAngle + sweep;
+
+      ctx.save();
+      ctx.fillStyle = d.color;
+      ctx.beginPath();
+      ctx.arc(cx, cy, outerR, startAngle, endAngle);
+      ctx.arc(cx, cy, innerR, endAngle, startAngle, true);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = '#08090e';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.restore();
+
+      startAngle = endAngle;
+    });
 
     ctx.fillStyle = '#ffffff';
+    ctx.font = '700 15px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
+    const centerText = type === 'company' ? `${getRawData()?.holdings?.length || 260} stocks` : `${data.length} sectors`;
+    ctx.fillText(centerText, cx, cy);
+  }
 
-    ctx.restore();
-  });
+  function renderPieLegend(containerId, data) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = data.map(d => `
+      <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.03] border border-white/[0.04] text-xs">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${d.color}"></span>
+          <span class="font-bold text-white truncate">${d.label}</span>
+        </div>
+        <span class="font-mono text-outline shrink-0 ml-2">${d.pct}%</span>
+      </div>
+    `).join('');
+  }
 
-  canvas.addEventListener('mouseleave', () => {
-    restoreCanvas();
-    hideTooltip();
-    canvas.style.cursor = 'default';
-  });
+  // ----------------------------------------------------
+  // 6. DESKTOP TEMPLATES (SET A)
+  // ----------------------------------------------------
+  function renderDesktopNav(activeTab = 'dashboard') {
+    return `
+      <aside class="hidden md:flex h-screen w-64 fixed top-0 left-0 flex-col py-6 px-4 z-50 justify-between items-stretch bg-surface/80 backdrop-blur-xl border-r border-white/5">
+        <div>
+          <!-- Brand Header -->
+          <div class="flex items-center justify-between mb-8 px-2">
+            <div class="flex items-center gap-3.5">
+              <img src="assets/logo.png" alt="EPF Tracker Logo" class="h-12 w-12 object-contain filter drop-shadow-[0_4px_16px_rgba(244,63,94,0.4)] shrink-0">
+              <div>
+                <h1 class="font-extrabold text-xl text-white tracking-tight leading-none flex items-center gap-1.5">
+                  <span>EPF</span><span class="text-primary">Tracker</span>
+                </h1>
+              </div>
+            </div>
+          </div>
 
-  canvas.addEventListener('click', (e) => {
-    if (!barChartMeta || barChartMeta.data.length === 0) return;
-    const { data, pad, plotW } = barChartMeta;
+          <!-- Desktop Tab Links -->
+          <nav class="flex flex-col gap-2 w-full" id="desktop-tab-nav">
+            <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard" id="tab-dashboard">
+              <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+              <span class="text-sm font-semibold">Dashboard</span>
+            </button>
 
-    const canvasRect = canvas.getBoundingClientRect();
-    const mx = e.clientX - canvasRect.left;
+            <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'holdings' ? 'active' : ''}" data-tab="holdings" id="tab-holdings">
+              <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+              <span class="text-sm font-semibold">Holdings</span>
+            </button>
 
-    const relX = mx - pad.left;
-    if (relX < 0 || relX > plotW) return;
+            <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'returns' ? 'active' : ''}" data-tab="returns" id="tab-returns">
+              <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+              <span class="text-sm font-semibold">Returns</span>
+            </button>
 
-    const idx = Math.floor(relX / (plotW / data.length));
-    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
-    const d = data[clampedIdx];
+            <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'transactions' ? 'active' : ''}" data-tab="transactions" id="tab-transactions">
+              <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
+              <span class="text-sm font-semibold">Transactions</span>
+            </button>
+          </nav>
+        </div>
+      </aside>
+    `;
+  }
 
-    const yyyymmdd = parseDateStringToYYYYMMDD(d.label);
-    if (yyyymmdd) {
-      document.getElementById('tx-date-start').value = yyyymmdd;
-      document.getElementById('tx-date-end').value = yyyymmdd;
-      filterTransactions();
+  function renderDesktopDashboard(data = getRawData()) {
+    const holdings = data?.holdings || [];
+    const totalMarketValue = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
 
-      // Programmatically switch to Transactions tab
-      const tabBtn = document.getElementById('tab-transactions');
-      if (tabBtn) tabBtn.click();
-    }
-  });
+    const sectorMap = {};
+    holdings.forEach(h => { sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0); });
+    const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
+    const topSector = sortedSectors[0] || ['Banking', 0];
+    const topSectorPct = totalMarketValue > 0 ? ((topSector[1] / totalMarketValue) * 100).toFixed(1) : '0.0';
 
-  // We need to re-save canvas bitmap whenever bar chart redraws
-  // This is handled by calling saveCanvas after drawBarChart
-  window._barSaveCanvas = saveCanvas;
-}
+    const sortedHoldings = [...holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
+    const topHolding = sortedHoldings[0] || { stock_name: 'TENAGA', company_name: 'TENAGA NASIONAL BHD', market_value: 0, direct_percent: 24.85 };
 
-// ============================================
-// Event Bindings & Initial Render
-// ============================================
+    const sectorHoldings = holdings.filter(h => h.sector === topSector[0]).sort((a, b) => (b.market_value || 0) - (a.market_value || 0)).slice(0, 3);
+    const sectorLogosHtml = sectorHoldings.map((h, i) => `
+      <div class="relative w-7 h-7 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-1.5 first:ml-0" style="z-index: ${30 - i * 10}">
+        ${renderStockLogo(h.stock_name, h.company_name, 28)}
+      </div>
+    `).join('');
 
-let lineChartDrawn = false;
-let pieChartDrawn = false;
-let barChartDrawn = false;
+    return `
+      <div id="desktop-panel-dashboard" class="flex flex-col gap-6 w-full min-w-0">
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Active Scope</span>
+          </div>
+          <div class="flex items-baseline gap-3">
+            <h2 class="text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-mono-numeric">
+              ${formatCurrency(totalMarketValue)}
+            </h2>
+            <span class="badge-pill-success text-xs font-semibold">
+              <svg class="w-3.5 h-3.5 text-emerald-400 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+              +2.4%
+            </span>
+          </div>
+        </div>
 
-// Time range toggle for portfolio chart
-let currentRange = '1M';
-document.getElementById('time-toggle').addEventListener('click', (e) => {
-  const btn = e.target.closest('.chart-toggle');
-  if (!btn) return;
-  document.querySelectorAll('#time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentRange = btn.dataset.range;
-  const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series, null, true);
-  const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
-  document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
-});
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div id="bento-sector-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-3">
+              <div class="flex items-center gap-1.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Sector Allocation</span>
+              </div>
+              <div class="flex items-center" id="bento-sector-logos">${sectorLogosHtml}</div>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-on-surface tracking-tight">${topSector[0]}</div>
+              <div class="flex items-center justify-between text-xs mt-2 font-mono-numeric">
+                <span class="text-on-surface font-semibold">RM ${formatCompact(topSector[1])}</span>
+                <span class="text-primary font-bold px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">${topSectorPct}%</span>
+              </div>
+              <div class="w-full bg-white/10 rounded-full h-1.5 mt-3 overflow-hidden">
+                <div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full" style="width: ${topSectorPct}%;"></div>
+              </div>
+            </div>
+          </div>
 
+          <div id="bento-holding-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Holding Spotlight</span>
+              <div class="relative flex h-10 w-10 shrink-0 items-center justify-center">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 38)}
+              </div>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-xl font-bold text-on-surface tracking-tight">${topHolding.stock_name}</span>
+                <span class="text-xs text-outline font-medium truncate max-w-[140px]">${topHolding.company_name}</span>
+              </div>
+              <div class="text-xs mt-2 flex justify-between items-center font-mono-numeric">
+                <span class="text-on-surface font-bold text-sm">${formatCurrency(topHolding.market_value || 0)}</span>
+                <span class="badge-pill-success text-xs">
+                  ${ICONSTACK.arrow_upward}${topHolding.direct_percent?.toFixed(3)}% in company
+                </span>
+              </div>
+            </div>
+          </div>
 
+          <div id="bento-active-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Active Positions</span>
+              <div class="flex items-center justify-center text-primary filter drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]">
+                ${ICONSTACK.layout_grid}
+              </div>
+            </div>
+            <div>
+              <div class="text-3xl font-extrabold text-on-surface tracking-tight font-mono-numeric">${holdings.length} positions</div>
+              <div class="text-xs text-outline mt-1.5 font-medium">${data?.uniqueStocks || holdings.length} unique stocks across ${sortedSectors.length} sectors</div>
+            </div>
+          </div>
+        </div>
 
-// Returns timeframe toggle
-const returnsTimeToggle = document.getElementById('returns-time-toggle');
-if (returnsTimeToggle) {
-  returnsTimeToggle.addEventListener('click', (e) => {
-    const btn = e.target.closest('.chart-toggle');
-    if (!btn) return;
-    document.querySelectorAll('#returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentReturnsRange = btn.dataset.range;
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
-  });
-}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-h-[400px]">
+            <div class="flex justify-between items-center mb-6">
+              <div>
+                <h3 class="text-base font-bold text-on-surface tracking-tight">Portfolio Trend</h3>
+                <span class="text-xs text-outline">Cumulative net shareholdings momentum</span>
+              </div>
+              <div class="chart-toggle-group flex gap-0.5" id="time-toggle">
+                <button class="chart-toggle active" data-range="1M">1M</button>
+                <button class="chart-toggle" data-range="3M">3M</button>
+                <button class="chart-toggle" data-range="1Y">1Y</button>
+                <button class="chart-toggle" data-range="ALL">All Time</button>
+              </div>
+            </div>
+            <div class="chart-body flex-1 relative min-h-[280px]">
+              <canvas id="portfolio-canvas"></canvas>
+            </div>
+            <div class="chart-footer mt-4 flex items-center justify-between border-t border-white/10 pt-4">
+              <div class="chart-legend-item flex items-center gap-2">
+                <span class="legend-line w-5 h-1 bg-primary rounded-full shadow-sm"></span>
+                <span class="legend-label text-xs text-outline font-medium" id="portfolio-legend-date">Net Shareholdings Trend</span>
+              </div>
+              <div class="chart-value text-base font-bold text-on-surface font-mono-numeric" id="portfolio-value-display">0 shares (net)</div>
+            </div>
+          </div>
 
-// Returns flow view toggle (Net / Acquired / Disposed)
-const returnsToggle = document.getElementById('returns-toggle');
-if (returnsToggle) {
-  returnsToggle.addEventListener('click', (e) => {
-    const btn = e.target.closest('.chart-toggle');
-    if (!btn) return;
-    document.querySelectorAll('#returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentReturnsView = btn.dataset.view;
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
-  });
-}
+          <div class="glass-card recent-filings-card p-6 glow-hover transition-all flex flex-col min-h-[400px]">
+            <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
+              <div>
+                <h3 class="text-base font-bold text-on-surface tracking-tight">Recent Filings</h3>
+                <span class="text-xs text-outline">Bursa announcements feed</span>
+              </div>
+              <svg class="w-5 h-5 text-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar" id="bento-activity-feed"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-// Transaction filters
-document.getElementById('tx-filter-type').addEventListener('change', filterTransactions);
-document.getElementById('tx-search').addEventListener('input', filterTransactions);
+  function renderDesktopHoldings(data = getRawData()) {
+    const holdings = data?.holdings || [];
+    const sectors = [...new Set(holdings.map(h => h.sector))].sort();
 
-const txSearch = document.getElementById('tx-search');
-const txSearchClear = document.getElementById('tx-search-clear');
-if (txSearch && txSearchClear) {
-  txSearchClear.addEventListener('click', () => {
-    txSearch.value = '';
-    txSearchClear.style.display = 'none';
-    filterTransactions();
-  });
-}
+    return `
+      <div id="desktop-panel-holdings" class="flex flex-col gap-6 w-full min-w-0">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card p-6 flex flex-col min-h-[360px]">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-base font-bold text-on-surface tracking-tight">Allocation by Company</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Top 10 Weight</span>
+            </div>
+            <div class="flex-1 flex flex-col sm:flex-row items-center gap-6">
+              <div class="pie-chart-container">
+                <canvas id="pie-company-canvas"></canvas>
+              </div>
+              <div class="flex-1 grid grid-cols-2 gap-2 w-full" id="pie-company-legend"></div>
+            </div>
+          </div>
 
-document.getElementById('tx-date-start').addEventListener('change', filterTransactions);
-document.getElementById('tx-date-end').addEventListener('change', filterTransactions);
-document.getElementById('tx-amount-min').addEventListener('input', filterTransactions);
-document.getElementById('tx-amount-max').addEventListener('input', filterTransactions);
-document.getElementById('tx-percent-min').addEventListener('input', filterTransactions);
-document.getElementById('tx-percent-max').addEventListener('input', filterTransactions);
+          <div class="glass-card p-6 flex flex-col min-h-[360px]">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-base font-bold text-on-surface tracking-tight">Allocation by Sector</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Macro Weight</span>
+            </div>
+            <div class="flex-1 flex flex-col sm:flex-row items-center gap-6">
+              <div class="pie-chart-container">
+                <canvas id="pie-sector-canvas"></canvas>
+              </div>
+              <div class="flex-1 grid grid-cols-2 gap-2 w-full" id="pie-sector-legend"></div>
+            </div>
+          </div>
+        </div>
 
-// Initial render
-function init() {
-  // Calculate and populate Bento Metrics
-  const totalSecurities = EPF_DATA.holdings.reduce((s, h) => s + h.total_securities, 0);
-  const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
-  
-  // Smooth Anime.js counter ticker
-  if (typeof anime !== 'undefined') {
-    const counterObj = { val: 0 };
-    anime({
-      targets: counterObj,
-      val: totalMarketValue,
-      duration: 1600,
-      easing: 'easeOutExpo',
-      update: function() {
-        document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + counterObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        <div class="glass-card table-card p-6 flex flex-col gap-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
+              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20" id="holdings-count">${holdings.length}</span>
+            </div>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <div class="relative flex-1 sm:w-64">
+                <input type="text" id="holdings-search" placeholder="Search ticker / company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+              </div>
+              <select id="holdings-sector-filter" class="bg-surface-container-low border border-white/10 rounded-xl px-3 py-2 text-xs text-on-surface focus:outline-none focus:border-primary/50">
+                <option value="all">All Sectors</option>
+                ${sectors.map(s => `<option value="${s}">${s}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs text-on-surface data-table" id="holdings-table">
+              <thead>
+                <tr class="border-b border-white/10 text-outline text-[11px] uppercase tracking-wider font-semibold">
+                  <th class="py-3 px-3">#</th>
+                  <th class="py-3 px-3">Symbol</th>
+                  <th class="py-3 px-3">Company</th>
+                  <th class="py-3 px-3">Sector</th>
+                  <th class="py-3 px-3 text-right">Price (RM)</th>
+                  <th class="py-3 px-3 text-right">No. of Shares</th>
+                  <th class="py-3 px-3 text-right">Market Value (RM)</th>
+                  <th class="py-3 px-3 text-right">% in Company</th>
+                  <th class="py-3 px-3 text-right">% in Portfolio</th>
+                </tr>
+              </thead>
+              <tbody id="holdings-tbody" class="divide-y divide-white/[0.04]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderDesktopReturns() {
+    return `
+      <div id="desktop-panel-returns" class="flex flex-col gap-6 w-full min-w-0">
+        <div class="glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden min-h-[440px]">
+          <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
+            <div>
+              <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
+              <span class="text-xs text-outline">Accumulation vs Divestment volume over time</span>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <div class="chart-toggle-group flex gap-0.5" id="returns-time-toggle">
+                <button class="chart-toggle active" data-range="1M">1M</button>
+                <button class="chart-toggle" data-range="3M">3M</button>
+                <button class="chart-toggle" data-range="1Y">1Y</button>
+                <button class="chart-toggle" data-range="ALL">All Time</button>
+              </div>
+              <div class="chart-toggle-group flex gap-0.5" id="returns-toggle">
+                <button class="chart-toggle active" data-view="net">Net</button>
+                <button class="chart-toggle" data-view="acquired">Acquired</button>
+                <button class="chart-toggle" data-view="disposed">Disposed</button>
+              </div>
+            </div>
+          </div>
+          <div class="chart-body chart-body-tall flex-1 relative min-h-[320px]">
+            <canvas id="returns-canvas"></canvas>
+          </div>
+        </div>
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 w-full" id="returns-summary"></div>
+      </div>
+    `;
+  }
+
+  function renderDesktopTransactions() {
+    return `
+      <div id="desktop-panel-transactions" class="flex flex-col gap-6 w-full min-w-0">
+        <div class="glass-card table-card p-6 flex flex-col gap-4">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-on-surface tracking-tight">EPF Bursa Filings</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20" id="tx-count">0</span>
+              </div>
+              <span class="text-xs text-outline mt-0.5">Substantial Shareholder Notices</span>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto flex-wrap">
+              <div class="relative flex-1 md:w-64">
+                <input type="text" id="tx-search" placeholder="Search stock / company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+              </div>
+              <select id="tx-filter-type" class="bg-surface-container-low border border-white/10 rounded-xl px-3 py-2 text-xs text-on-surface focus:outline-none focus:border-primary/50">
+                <option value="all">All Types</option>
+                <option value="Acquired">Acquired (Buy)</option>
+                <option value="Disposed">Disposed (Sell)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left text-xs text-on-surface data-table" id="tx-table">
+              <thead>
+                <tr class="border-b border-white/10 text-outline text-[11px] uppercase tracking-wider font-semibold">
+                  <th class="py-3 px-3">Date</th>
+                  <th class="py-3 px-3">Stock</th>
+                  <th class="py-3 px-3">Company</th>
+                  <th class="py-3 px-3">Type</th>
+                  <th class="py-3 px-3 text-right">Shares Changed</th>
+                  <th class="py-3 px-3 text-right">% Change</th>
+                  <th class="py-3 px-3 text-right">Total Shares Held</th>
+                  <th class="py-3 px-3 text-center">Bursa Link</th>
+                </tr>
+              </thead>
+              <tbody id="tx-tbody" class="divide-y divide-white/[0.04]"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ----------------------------------------------------
+  // 7. MOBILE TEMPLATES (SET B)
+  // ----------------------------------------------------
+  function renderMobileNav(activeTab = 'dashboard') {
+    return `
+      <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around px-2 z-50 shadow-2xl" id="mobile-tab-nav">
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'dashboard' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="dashboard">
+          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span class="text-[10px] tracking-tight">Overview</span>
+        </button>
+
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'holdings' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="holdings">
+          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+          <span class="text-[10px] tracking-tight">Holdings</span>
+        </button>
+
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'returns' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="returns">
+          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+          <span class="text-[10px] tracking-tight">Flows</span>
+        </button>
+
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'transactions' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="transactions">
+          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
+          <span class="text-[10px] tracking-tight">Filings</span>
+        </button>
+      </nav>
+    `;
+  }
+
+  function renderMobileDashboard(data = getRawData()) {
+    const holdings = data?.holdings || [];
+    const totalMarketValue = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+
+    const sectorMap = {};
+    holdings.forEach(h => { sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0); });
+    const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
+    const topSector = sortedSectors[0] || ['Banking', 0];
+    const topSectorPct = totalMarketValue > 0 ? ((topSector[1] / totalMarketValue) * 100).toFixed(1) : '0.0';
+
+    const sortedHoldings = [...holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
+    const topHolding = sortedHoldings[0] || { stock_name: 'TENAGA', company_name: 'TENAGA NASIONAL BHD', market_value: 0, direct_percent: 24.85 };
+
+    return `
+      <div id="mobile-panel-dashboard" class="flex flex-col gap-4 w-full pb-20">
+        <div class="flex items-center justify-between pt-2 pb-1">
+          <div class="flex items-center gap-2.5">
+            <img src="assets/logo.png" alt="EPF Tracker" class="h-9 w-9 object-contain filter drop-shadow-[0_2px_10px_rgba(244,63,94,0.4)]">
+            <div class="flex items-center gap-1">
+              <span class="font-extrabold text-lg text-white tracking-tight">EPF</span>
+              <span class="font-extrabold text-lg text-primary tracking-tight">Tracker</span>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Live</span>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex flex-col gap-2">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
+          <div class="flex items-baseline justify-between">
+            <h2 class="text-2xl font-black text-white font-mono-numeric tracking-tight">
+              ${formatCurrency(totalMarketValue)}
+            </h2>
+            <span class="badge-pill-success text-[11px] font-bold">+2.4%</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
+            <div class="mt-2">
+              <div class="text-base font-bold text-white truncate">${topSector[0]}</div>
+              <div class="flex justify-between items-center text-[11px] font-mono-numeric text-outline mt-1">
+                <span>RM ${formatCompact(topSector[1])}</span>
+                <span class="text-primary font-bold">${topSectorPct}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Stock</span>
+              <div class="h-6 w-6 shrink-0 flex items-center justify-center">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 24)}
+              </div>
+            </div>
+            <div class="mt-2">
+              <div class="text-base font-bold text-white truncate">${topHolding.stock_name}</div>
+              <div class="text-[11px] font-mono-numeric text-emerald-400 font-semibold mt-1 truncate">
+                ${formatCompact(topHolding.market_value)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-white">Portfolio Trend</h3>
+              <span class="text-[10px] text-outline">Net shareholdings</span>
+            </div>
+            <div class="chart-toggle-group flex gap-0.5" id="mobile-time-toggle">
+              <button class="chart-toggle active text-[10px] px-2.5 py-1" data-range="1M">1M</button>
+              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="3M">3M</button>
+              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="1Y">1Y</button>
+              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="ALL">All</button>
+            </div>
+          </div>
+          <div class="chart-body h-[210px] w-full relative overflow-hidden">
+            <canvas id="mobile-portfolio-canvas"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white">Recent Bursa Filings</h3>
+            <span class="text-[10px] text-outline">Latest notices</span>
+          </div>
+          <div class="space-y-2" id="mobile-activity-feed"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderMobileHoldings(data = getRawData()) {
+    const holdings = data?.holdings || [];
+    const sectors = [...new Set(holdings.map(h => h.sector))].sort();
+
+    return `
+      <div id="mobile-panel-holdings" class="flex flex-col gap-3.5 w-full pb-20">
+        <div class="flex flex-col gap-2 pt-2">
+          <div class="relative w-full">
+            <input type="text" id="mobile-holdings-search" placeholder="Search stock or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+          </div>
+          <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar py-1 text-xs" id="mobile-sector-pills">
+            <button class="sector-pill active px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-[11px] font-semibold whitespace-nowrap shrink-0" data-sector="all">All (${holdings.length})</button>
+            ${sectors.map(s => `<button class="sector-pill px-3 py-1 rounded-full bg-white/[0.04] text-outline hover:text-white border border-white/10 text-[11px] whitespace-nowrap shrink-0" data-sector="${s}">${s}</button>`).join('')}
+          </div>
+        </div>
+        <div class="space-y-2.5" id="mobile-holdings-list"></div>
+      </div>
+    `;
+  }
+
+  function renderMobileReturns() {
+    return `
+      <div id="mobile-panel-returns" class="flex flex-col gap-4 w-full pb-20 pt-2">
+        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <h3 class="text-sm font-bold text-white">Net Capital Activity</h3>
+              <div class="chart-toggle-group flex gap-0.5" id="mobile-returns-toggle">
+                <button class="chart-toggle active text-[10px] px-2 py-0.5" data-view="net">Net</button>
+                <button class="chart-toggle text-[10px] px-2 py-0.5" data-view="acquired">Buy</button>
+                <button class="chart-toggle text-[10px] px-2 py-0.5" data-view="disposed">Sell</button>
+              </div>
+            </div>
+            <div class="chart-toggle-group flex gap-0.5 self-start" id="mobile-returns-time-toggle">
+              <button class="chart-toggle active text-[10px] px-2 py-0.5" data-range="1M">1M</button>
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="3M">3M</button>
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="1Y">1Y</button>
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="ALL">All</button>
+            </div>
+          </div>
+          <div class="chart-body chart-body-tall h-[230px] w-full relative overflow-hidden">
+            <canvas id="mobile-returns-canvas"></canvas>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5" id="mobile-returns-summary"></div>
+      </div>
+    `;
+  }
+
+  function renderMobileTransactions() {
+    return `
+      <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-20 pt-2">
+        <div class="flex flex-col gap-2">
+          <input type="text" id="mobile-tx-search" placeholder="Search filings..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+          <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar py-0.5 text-xs" id="mobile-tx-type-pills">
+            <button class="tx-type-pill active px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-[11px] font-semibold whitespace-nowrap shrink-0" data-type="all">All Filings</button>
+            <button class="tx-type-pill px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] whitespace-nowrap shrink-0" data-type="Acquired">Acquired (Buy)</button>
+            <button class="tx-type-pill px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[11px] whitespace-nowrap shrink-0" data-type="Disposed">Disposed (Sell)</button>
+          </div>
+        </div>
+        <div class="space-y-2.5" id="mobile-tx-feed"></div>
+      </div>
+    `;
+  }
+
+  // ----------------------------------------------------
+  // 8. MASTER APP ORCHESTRATOR
+  // ----------------------------------------------------
+  let allTransactions = [];
+  let currentDeviceMode = null;
+
+  function initApp() {
+    allTransactions = flattenTransactions(getRawData());
+    mountApp();
+
+    store.subscribe((state, prev) => {
+      if (state.isMobile !== prev.isMobile) {
+        mountApp();
+      } else if (state.activeTab !== prev.activeTab) {
+        handleTabSwitch(state.activeTab);
       }
     });
 
-    // Staggered Bento Cards Entrance
-    anime({
-      targets: '#panel-dashboard .grid > div',
-      opacity: [0, 1],
-      translateY: [20, 0],
-      delay: anime.stagger(100),
-      duration: 750,
-      easing: 'easeOutCubic'
-    });
-  } else {
-    document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + totalMarketValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    window.addEventListener('resize', debounce(() => {
+      const isMob = window.innerWidth < 768;
+      if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
+        store.setState({ isMobile: isMob });
+      } else {
+        redrawActiveCharts();
+      }
+    }, 150));
   }
 
-  // Top Sector Allocation
-  const sectorMap = {};
-  EPF_DATA.holdings.forEach(h => {
-    sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0);
-  });
-  const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
-  if (sortedSectors.length > 0) {
-    const topSector = sortedSectors[0];
-    const pct = totalMarketValue > 0 ? ((topSector[1] / totalMarketValue) * 100).toFixed(1) : '0.0';
-    document.getElementById('bento-sector-name').textContent = topSector[0];
-    document.getElementById('bento-sector-val').textContent = 'RM ' + formatCompact(topSector[1]);
-    document.getElementById('bento-sector-pct').textContent = pct + '%';
-    
-    // Anime.js progress bar width animation
-    if (typeof anime !== 'undefined') {
-      anime({
-        targets: '#bento-sector-progress',
-        width: ['0%', pct + '%'],
-        duration: 1200,
-        easing: 'easeOutQuad'
-      });
+  function mountApp() {
+    const isMobile = window.innerWidth < 768;
+    currentDeviceMode = isMobile ? 'mobile' : 'desktop';
+    const root = document.getElementById('app-root');
+    if (!root) return;
+
+    const state = store.getState();
+
+    if (isMobile) {
+      root.innerHTML = `
+        <div class="w-full min-h-screen bg-page text-on-surface px-4 pt-2">
+          <main class="w-full max-w-lg mx-auto">
+            <div id="mobile-view-container">
+              ${renderMobileViewContent(state.activeTab)}
+            </div>
+          </main>
+          ${renderMobileNav(state.activeTab)}
+        </div>
+      `;
+      bindMobileEvents();
+      requestAnimationFrame(() => renderActiveMobileTab(state.activeTab));
     } else {
-      document.getElementById('bento-sector-progress').style.width = pct + '%';
-    }
-
-    // RENDER TOP SECTOR OVERLAPPING LOGOS
-    const sectorHoldings = EPF_DATA.holdings.filter(h => h.sector === topSector[0]);
-    sectorHoldings.sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
-    const top3 = sectorHoldings.slice(0, 3);
-    const sectorLogosEl = document.getElementById('bento-sector-logos');
-    if (sectorLogosEl) {
-      sectorLogosEl.innerHTML = top3.map((h, index) => {
-        const zIndex = 30 - (index * 10);
-        return `
-          <div class="relative w-8 h-8 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-2 first:ml-0" style="z-index: ${zIndex}">
-            ${renderStockLogo(h.stock_name, h.company_name, 32)}
+      root.innerHTML = `
+        <div class="flex min-h-screen bg-page text-on-surface">
+          ${renderDesktopNav(state.activeTab)}
+          <div class="ml-64 flex-1 flex flex-col min-h-screen p-8 mx-auto w-full max-w-[1440px]">
+            <main id="desktop-view-container" class="w-full flex-1">
+              ${renderDesktopViewContent(state.activeTab)}
+            </main>
           </div>
-        `;
-      }).join('');
+        </div>
+      `;
+      bindDesktopEvents();
+      requestAnimationFrame(() => renderActiveDesktopTab(state.activeTab));
     }
   }
 
-  // Top Holding
-  const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
-  if (sortedHoldings.length > 0) {
-    const topHolding = sortedHoldings[0];
-    document.getElementById('bento-holding-symbol').textContent = topHolding.stock_name;
-    document.getElementById('bento-holding-name').textContent = topHolding.company_name;
-    document.getElementById('bento-holding-val').textContent = 'RM ' + (topHolding.market_value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('bento-holding-pct').innerHTML = `${ICONSTACK.arrow_upward}${topHolding.direct_percent.toFixed(3)}% in company`;
-
-    // RENDER TOP HOLDING LOGO DYNAMICALLY
-    const holdingLogoContainer = document.getElementById('bento-holding-logo-container');
-    if (holdingLogoContainer) {
-      holdingLogoContainer.innerHTML = renderStockLogo(topHolding.stock_name, topHolding.company_name, 38);
+  function renderDesktopViewContent(tab) {
+    switch (tab) {
+      case 'holdings': return renderDesktopHoldings();
+      case 'returns': return renderDesktopReturns();
+      case 'transactions': return renderDesktopTransactions();
+      default: return renderDesktopDashboard();
     }
   }
 
-  // Active Positions
-  document.getElementById('bento-active-count').textContent = EPF_DATA.holdings.length + ' positions';
-  document.getElementById('bento-unique-count').textContent = `${EPF_DATA.uniqueStocks} unique stocks across ${sortedSectors.length} sectors`;
+  function bindDesktopEvents() {
+    document.querySelectorAll('#desktop-tab-nav .tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tab = btn.dataset.tab;
+        if (tab) store.setState({ activeTab: tab });
+      });
+    });
 
-  // Recent Announcements Feed
-  const latestTx = allFlatTx.slice(0, 8);
-  const activityFeed = document.getElementById('bento-activity-feed');
-  if (activityFeed) {
-    activityFeed.innerHTML = latestTx.map(tx => {
+    const state = store.getState();
+    if (state.activeTab === 'dashboard') {
+      const toggle = document.getElementById('time-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ portfolioRange: btn.dataset.range });
+          updateDesktopPortfolioChart(btn.dataset.range);
+        });
+      }
+      const holdingCard = document.getElementById('bento-holding-card');
+      if (holdingCard) holdingCard.addEventListener('click', () => store.setState({ activeTab: 'holdings' }));
+      const activeCard = document.getElementById('bento-active-card');
+      if (activeCard) activeCard.addEventListener('click', () => store.setState({ activeTab: 'holdings' }));
+    } else if (state.activeTab === 'holdings') {
+      const searchInput = document.getElementById('holdings-search');
+      if (searchInput) searchInput.addEventListener('input', filterDesktopHoldings);
+      const sectorFilter = document.getElementById('holdings-sector-filter');
+      if (sectorFilter) sectorFilter.addEventListener('change', filterDesktopHoldings);
+    } else if (state.activeTab === 'returns') {
+      const rTimeToggle = document.getElementById('returns-time-toggle');
+      if (rTimeToggle) {
+        rTimeToggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ returnsRange: btn.dataset.range });
+          updateDesktopReturnsChart();
+        });
+      }
+      const rToggle = document.getElementById('returns-toggle');
+      if (rToggle) {
+        rToggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ returnsView: btn.dataset.view });
+          updateDesktopReturnsChart();
+        });
+      }
+    } else if (state.activeTab === 'transactions') {
+      const txSearch = document.getElementById('tx-search');
+      if (txSearch) txSearch.addEventListener('input', filterDesktopTransactions);
+      const txType = document.getElementById('tx-filter-type');
+      if (txType) txType.addEventListener('change', filterDesktopTransactions);
+    }
+  }
+
+  function renderActiveDesktopTab(tab) {
+    if (tab === 'dashboard') {
+      updateDesktopPortfolioChart(store.getState().portfolioRange);
+      renderDesktopRecentFilings();
+      setupLineChartHover('portfolio-canvas');
+    } else if (tab === 'holdings') {
+      const cData = getPieData('company');
+      const sData = getPieData('sector');
+      drawPieChart('pie-company-canvas', cData, 'company');
+      drawPieChart('pie-sector-canvas', sData, 'sector');
+      renderPieLegend('pie-company-legend', cData);
+      renderPieLegend('pie-sector-legend', sData);
+      filterDesktopHoldings();
+    } else if (tab === 'returns') {
+      updateDesktopReturnsChart(true);
+      renderDesktopReturnsSummary();
+      setupBarChartHover('returns-canvas', () => store.setState({ activeTab: 'transactions' }));
+    } else if (tab === 'transactions') {
+      filterDesktopTransactions();
+    }
+  }
+
+  function updateDesktopPortfolioChart(range) {
+    const series = getPortfolioTimeSeries(range);
+    drawLineChart('portfolio-canvas', series, null, true);
+    const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
+    const disp = document.getElementById('portfolio-value-display');
+    if (disp) disp.textContent = `${formatCompact(lastVal)} shares (net)`;
+  }
+
+  function updateDesktopReturnsChart(animate = true) {
+    const { returnsView, returnsRange } = store.getState();
+    const data = getReturnsData(returnsView, returnsRange);
+    drawBarChart('returns-canvas', data, animate);
+  }
+
+  function renderDesktopRecentFilings() {
+    const feed = document.getElementById('bento-activity-feed');
+    if (!feed) return;
+    const latest = allTransactions.slice(0, 8);
+    feed.innerHTML = latest.map(tx => {
       const isBuy = tx.type === 'Acquired';
-      const actionIcon = isBuy ? 'shopping_cart' : tx.type === 'Dividend' ? 'payments' : 'sell';
-      const iconColor = isBuy ? 'text-primary' : tx.type === 'Dividend' ? 'text-tertiary' : 'text-error';
+      const sign = isBuy ? '+' : '-';
+      const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
       return `
-        <div class="flex gap-3 items-center p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer" onclick="openTxModal(${allFlatTx.indexOf(tx)})">
-          <div class="relative shrink-0">
-            ${renderStockLogo(tx.stock, tx.company, 32)}
-            <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#08090e] border border-white/20 flex items-center justify-center text-[8px] ${iconColor}">
-              ${actionIcon === "trending_up" ? ICONSTACK.trending_up : ICONSTACK.trending_down}
-            </span>
+        <div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="relative shrink-0">${renderStockLogo(tx.stock, tx.company, 32)}</div>
+            <div class="min-w-0">
+              <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
+              <div class="text-[11px] text-outline truncate">${tx.company}</div>
+            </div>
           </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex justify-between items-baseline gap-2">
-              <span class="font-bold text-xs text-on-surface truncate">${tx.type} ${tx.stock}</span>
-              <span class="text-[10px] text-outline font-mono shrink-0">${tx.date}</span>
-            </div>
-            <div class="text-[11px] text-outline truncate mt-0.5 font-medium">
-              ${tx.company} — <span class="font-mono text-on-surface-variant font-semibold">${tx.amount.toLocaleString()}</span> units
-            </div>
+          <div class="text-right shrink-0 ml-2 font-mono-numeric">
+            <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
+            <div class="text-[10px] text-outline">${tx.date}</div>
           </div>
         </div>
       `;
     }).join('');
   }
 
-  // Hook global search
-  const globalSearch = document.getElementById('global-search-input');
-  if (globalSearch) {
-    globalSearch.addEventListener('input', () => {
-      const val = globalSearch.value;
+  function filterDesktopHoldings() {
+    const search = (document.getElementById('holdings-search')?.value || '').toLowerCase().trim();
+    const sector = document.getElementById('holdings-sector-filter')?.value || 'all';
+    const holdings = getRawData()?.holdings || [];
 
-      // Copy to holdings search
-      const hs = document.getElementById('holdings-search');
-      if (hs) {
-        hs.value = val;
-        const hsc = document.getElementById('holdings-search-clear');
-        if (hsc) hsc.style.display = val ? 'flex' : 'none';
-        renderHoldingsTable();
-      }
-
-      // Copy to transactions search
-      const ts = document.getElementById('tx-search');
-      if (ts) {
-        ts.value = val;
-        const tsc = document.getElementById('tx-search-clear');
-        if (tsc) tsc.style.display = val ? 'flex' : 'none';
-        filterTransactions();
-      }
+    const totalMarketVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+    const filtered = holdings.filter(h => {
+      const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
+      const matchSector = sector === 'all' || h.sector === sector;
+      return matchSearch && matchSector;
     });
+
+    const tbody = document.getElementById('holdings-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = filtered.map((h, i) => {
+      const pctPort = totalMarketVal > 0 ? ((h.market_value / totalMarketVal) * 100).toFixed(3) : '0.000';
+      return `
+        <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
+          <td class="py-3 px-3 text-outline font-mono">${i + 1}</td>
+          <td class="py-3 px-3">
+            <div class="flex items-center gap-2.5">
+              ${renderStockLogo(h.stock_name, h.company_name, 28)}
+              <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="font-bold text-white hover:text-primary transition-colors">${h.stock_name}</a>
+            </div>
+          </td>
+          <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${h.company_name}</td>
+          <td class="py-3 px-3 text-outline">${h.sector}</td>
+          <td class="py-3 px-3 text-right font-mono font-semibold text-white">${h.price?.toFixed(2) || '0.00'}</td>
+          <td class="py-3 px-3 text-right font-mono text-on-surface-variant">${h.total_securities?.toLocaleString() || '0'}</td>
+          <td class="py-3 px-3 text-right font-mono font-bold text-white">${formatCurrency(h.market_value)}</td>
+          <td class="py-3 px-3 text-right font-mono font-semibold text-emerald-400">${h.direct_percent?.toFixed(3) || '0.000'}%</td>
+          <td class="py-3 px-3 text-right font-mono font-semibold text-primary">${pctPort}%</td>
+        </tr>
+      `;
+    }).join('');
+
+    const countBadge = document.getElementById('holdings-count');
+    if (countBadge) countBadge.textContent = filtered.length;
   }
 
-  // Set up Bento card clicks (tab jumps & smart filters)
-  const bentoActiveCard = document.getElementById('bento-active-card');
-  if (bentoActiveCard) {
-    bentoActiveCard.addEventListener('click', () => {
-      const tabHoldings = document.getElementById('tab-holdings');
-      if (tabHoldings) tabHoldings.click();
-    });
-  }
+  function renderDesktopReturnsSummary() {
+    const dates = Object.values(getRawData()?.txByDate || {});
+    const totalAcquired = dates.reduce((s, d) => s + d.acquired, 0);
+    const totalDisposed = dates.reduce((s, d) => s + d.disposed, 0);
+    const totalNet = totalAcquired - totalDisposed;
+    const totalTx = dates.reduce((s, d) => s + d.count, 0);
 
-  const bentoSectorCard = document.getElementById('bento-sector-card');
-  if (bentoSectorCard) {
-    bentoSectorCard.addEventListener('click', () => {
-      const topSectorName = document.getElementById('bento-sector-name').textContent;
-      const sectorFilter = document.getElementById('holdings-sector-filter');
-      if (sectorFilter && topSectorName !== 'Loading...') {
-        sectorFilter.value = topSectorName;
-        renderHoldingsTable();
-      }
-      const tabHoldings = document.getElementById('tab-holdings');
-      if (tabHoldings) tabHoldings.click();
-    });
-  }
+    const container = document.getElementById('returns-summary');
+    if (!container) return;
 
-  const bentoHoldingCard = document.getElementById('bento-holding-card');
-  if (bentoHoldingCard) {
-    bentoHoldingCard.addEventListener('click', () => {
-      const topHoldingSymbol = document.getElementById('bento-holding-symbol').textContent;
-      const searchInput = document.getElementById('holdings-search');
-      if (searchInput && topHoldingSymbol !== 'Loading...') {
-        searchInput.value = topHoldingSymbol;
-        const searchClear = document.getElementById('holdings-search-clear');
-        if (searchClear) searchClear.style.display = 'flex';
-        renderHoldingsTable();
-      }
-      const tabHoldings = document.getElementById('tab-holdings');
-      if (tabHoldings) tabHoldings.click();
-    });
-  }
+    container.innerHTML = `
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
+          <div class="h-7 w-7 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+            ${ICONSTACK.trending_up}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold text-emerald-400 font-mono-numeric">+${formatCompact(totalAcquired)}</div>
+        </div>
+        <span class="text-xs text-outline">Accumulation volume</span>
+      </div>
 
-  // Holdings
-  renderHoldingsTable();
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
+          <div class="h-7 w-7 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
+            ${ICONSTACK.trending_down}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold text-rose-400 font-mono-numeric">-${formatCompact(totalDisposed)}</div>
+        </div>
+        <span class="text-xs text-outline">Divestment volume</span>
+      </div>
 
-  // Portfolio chart
-  const series = getPortfolioTimeSeries(currentRange);
-  drawLineChart('portfolio-canvas', series, null, true);
-  lineChartDrawn = true;
-  const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
-  document.getElementById('portfolio-value-display').textContent = formatCompact(lastVal) + ' shares (net)';
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
+          <div class="h-7 w-7 rounded-lg ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} border border-white/10 flex items-center justify-center shrink-0">
+            ${ICONSTACK.account_balance}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+        </div>
+        <span class="text-xs text-outline">Net shares flow</span>
+      </div>
 
-  // Setup ResizeObserver on portfolio chart container for instant full-height responsive stretching
-  const portfolioChartBody = document.querySelector('.portfolio-trend-card .chart-body');
-  if (portfolioChartBody && window.ResizeObserver) {
-    let resizeTimeout = null;
-    const ro = new ResizeObserver(() => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        const s = getPortfolioTimeSeries(currentRange);
-        drawLineChart('portfolio-canvas', s, null, false);
-      }, 40);
-    });
-    ro.observe(portfolioChartBody);
-  }
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
+          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+            ${ICONSTACK.receipt_long}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${totalTx.toLocaleString()}</div>
+        </div>
+        <span class="text-xs text-outline">Recorded filings</span>
+      </div>
 
-  // Pie charts (Company & Sector)
-  const companyData = getPieData('company');
-  const sectorData = getPieData('sector');
-  drawPieChart('pie-company-canvas', companyData, 'company');
-  drawPieChart('pie-sector-canvas', sectorData, 'sector');
-  pieChartDrawn = true;
-  renderPieLegend('pie-company-legend', companyData);
-  renderPieLegend('pie-sector-legend', sectorData);
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Stocks</span>
+          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+            ${ICONSTACK.category}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${getRawData()?.uniqueStocks || 260}</div>
+        </div>
+        <span class="text-xs text-outline">Bursa equities</span>
+      </div>
 
-  // Returns
-  drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), false);
-  renderReturnsSummary();
-
-  // Transactions
-  filteredTx = allFlatTx;
-  if (allFlatTx && allFlatTx.length > 0) {
-    const latestDate = allFlatTx[0].date;
-    const lastUpdateEl = document.getElementById('tx-last-update');
-    if (lastUpdateEl) {
-      lastUpdateEl.textContent = `Last update: ${latestDate}`;
-    }
-  }
-
-  // Set date limits up to today (2026-05-21) on initial load
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  const todayStr = `${yyyy}-${mm}-${dd}`;
-
-  document.getElementById('tx-date-start').max = todayStr;
-  document.getElementById('tx-date-end').max = todayStr;
-
-  renderTransactionsTable();
-
-  // Setup hover tooltips
-  setupLineChartHover();
-  setupPieChartHover('pie-company-canvas');
-  setupPieChartHover('pie-sector-canvas');
-  setupBarChartHover();
-
-  // Bind tab navigation click events
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tabName = btn.dataset.tab;
-      if (tabName) switchTab(tabName);
-    });
-  });
-
-  // Trigger initial tab animation for Dashboard on load
-  switchTab('dashboard');
-}
-
-// Dedicated Tab Switching & Micro-Animation Controller (Triggered strictly on tab click, never on scroll)
-function switchTab(tabName) {
-  const allBtns = document.querySelectorAll('.tab-btn');
-  const allPanels = document.querySelectorAll('.tab-panel');
-
-  allBtns.forEach(btn => {
-    if (btn.dataset.tab === tabName) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
-
-  allPanels.forEach(panel => {
-    if (panel.id === `panel-${tabName}`) {
-      panel.classList.add('active');
-      panel.classList.remove('hidden');
-    } else {
-      panel.classList.remove('active');
-      panel.classList.add('hidden');
-    }
-  });
-
-  // Trigger Anime.js Animations ONLY ON TAB SWITCH
-  if (typeof anime === 'undefined') return;
-
-  if (tabName === 'dashboard') {
-    // 1. Total Valuation Counter Ticker
-    const totalMarketValue = EPF_DATA.holdings.reduce((s, h) => s + (h.market_value || 0), 0);
-    const countVal = { val: 0 };
-    anime({
-      targets: countVal,
-      val: totalMarketValue,
-      duration: 1300,
-      easing: 'easeOutExpo',
-      update: function() {
-        document.getElementById('dashboard-total-value').textContent = 'RM\u00A0' + countVal.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-    });
-
-    // 2. Top Sector Valuation Counter Ticker
-    const sectorMap = {};
-    EPF_DATA.holdings.forEach(h => { sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0); });
-    const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
-    if (sortedSectors.length > 0) {
-      const topSectorVal = sortedSectors[0][1];
-      const sectorObj = { val: 0 };
-      anime({
-        targets: sectorObj,
-        val: topSectorVal,
-        duration: 1100,
-        easing: 'easeOutExpo',
-        update: function() {
-          document.getElementById('bento-sector-val').textContent = 'RM ' + formatCompact(sectorObj.val);
-        }
-      });
-
-      const pct = totalMarketValue > 0 ? ((topSectorVal / totalMarketValue) * 100).toFixed(1) : '0.0';
-      anime({
-        targets: '#bento-sector-progress',
-        width: ['0%', pct + '%'],
-        duration: 1000,
-        easing: 'easeOutQuad'
-      });
-    }
-
-    // 3. Top Holding Valuation Counter Ticker
-    const sortedHoldings = [...EPF_DATA.holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
-    if (sortedHoldings.length > 0) {
-      const topHoldingVal = sortedHoldings[0].market_value || 0;
-      const holdingCountObj = { val: 0 };
-      anime({
-        targets: holdingCountObj,
-        val: topHoldingVal,
-        duration: 1200,
-        easing: 'easeOutExpo',
-        update: function() {
-          document.getElementById('bento-holding-val').textContent = 'RM ' + holdingCountObj.val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-      });
-    }
-
-    // 4. Active Positions Counter Ticker
-    const posObj = { val: 0 };
-    anime({
-      targets: posObj,
-      val: EPF_DATA.holdings.length,
-      duration: 900,
-      easing: 'easeOutQuart',
-      round: 1,
-      update: function() {
-        document.getElementById('bento-active-count').textContent = posObj.val + ' positions';
-      }
-    });
-
-    // 5. Staggered Bento Cards Reveal Entrance
-    anime({
-      targets: '#panel-dashboard .grid > div',
-      opacity: [0, 1],
-      translateY: [18, 0],
-      delay: anime.stagger(80),
-      duration: 600,
-      easing: 'easeOutCubic'
-    });
-
-  } else if (tabName === 'holdings') {
-    const companyData = getPieData('company');
-    const sectorData = getPieData('sector');
-    drawPieChart('pie-company-canvas', companyData, 'company', true);
-    drawPieChart('pie-sector-canvas', sectorData, 'sector', true);
-    renderPieLegend('pie-company-legend', companyData);
-    renderPieLegend('pie-sector-legend', sectorData);
-    renderHoldingsTable();
-
-    // Holdings Badge Counter Ticker
-    const countBadge = { val: 0 };
-    anime({
-      targets: countBadge,
-      val: EPF_DATA.holdings.length,
-      duration: 1000,
-      easing: 'easeOutExpo',
-      round: 1,
-      update: function() {
-        document.getElementById('holdings-count').textContent = countBadge.val;
-      }
-    });
-
-    // Staggered Table Rows Entrance
-    anime({
-      targets: '#holdings-tbody tr',
-      opacity: [0, 1],
-      translateY: [12, 0],
-      delay: anime.stagger(14, { start: 30 }),
-      duration: 400,
-      easing: 'easeOutQuad'
-    });
-
-  } else if (tabName === 'returns') {
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), true);
-    renderReturnsSummary();
-
-    // Summary Cards Entrance
-    anime({
-      targets: '#returns-summary > div',
-      opacity: [0, 1],
-      scale: [0.94, 1],
-      translateY: [12, 0],
-      delay: anime.stagger(60),
-      duration: 500,
-      easing: 'easeOutBack'
-    });
-
-  } else if (tabName === 'transactions') {
-    renderTransactionsTable();
-
-    // Transactions Badge Counter Ticker
-    const txCountObj = { val: 0 };
-    const txTarget = filteredTx ? filteredTx.length : 0;
-    anime({
-      targets: txCountObj,
-      val: txTarget,
-      duration: 1000,
-      easing: 'easeOutExpo',
-      round: 1,
-      update: function() {
-        document.getElementById('tx-count').textContent = txCountObj.val;
-      }
-    });
-
-    // Staggered Transactions Table Entrance
-    anime({
-      targets: '#tx-tbody tr',
-      opacity: [0, 1],
-      translateY: [10, 0],
-      delay: anime.stagger(12, { start: 30 }),
-      duration: 380,
-      easing: 'easeOutQuad'
-    });
-  }
-}
-
-// ============================================
-// Filter Popups Logic
-// ============================================
-window.togglePopup = function (event, element, popupId) {
-  event.stopPropagation();
-  const popup = document.getElementById(popupId);
-  const isShowing = popup.classList.contains('show');
-
-  // Close all other popups
-  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
-
-  if (!isShowing) {
-    popup.classList.add('show');
-    // Set active state on the icon for styling
-    document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
-    element.classList.add('active');
-  } else {
-    element.classList.remove('active');
-  }
-};
-
-window.clearFilter = function (type) {
-  if (type === 'date') {
-    document.getElementById('tx-date-start').value = '';
-    document.getElementById('tx-date-end').value = '';
-  } else if (type === 'type') {
-    document.getElementById('tx-filter-type').value = 'all';
-  } else if (type === 'amount') {
-    document.getElementById('tx-amount-min').value = '';
-    document.getElementById('tx-amount-max').value = '';
-  } else if (type === 'pct') {
-    document.getElementById('tx-percent-min').value = '';
-    document.getElementById('tx-percent-max').value = '';
-  }
-
-  // Close all popups and remove active state from icons
-  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
-  document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
-
-  filterTransactions();
-};
-
-document.addEventListener('click', (event) => {
-  // If click is inside a popup, do nothing
-  if (event.target.closest('.filter-popup')) return;
-
-  // Otherwise close all popups and remove active state from icons
-  document.querySelectorAll('.filter-popup.show').forEach(p => p.classList.remove('show'));
-  document.querySelectorAll('.col-filter-icon.active').forEach(icon => icon.classList.remove('active'));
-});
-
-// Handle resize
-let resizeTimeout;
-let lastWidth = window.innerWidth;
-window.addEventListener('resize', () => {
-  if (window.innerWidth === lastWidth) return; // Prevent address-bar scroll toggles from restarting animation!
-  lastWidth = window.innerWidth;
-
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), null, false);
-    const companyData = getPieData('company');
-    const sectorData = getPieData('sector');
-    drawPieChart('pie-company-canvas', companyData, 'company', false);
-    drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange), false);
-  }, 200);
-});
-
-// Fetch logo.json dynamically to keep mapped logos up to date
-fetch('logo.json')
-  .then(res => {
-    if (res.ok) return res.json();
-    throw new Error('Failed to load logo.json');
-  })
-  .then(list => {
-    list.forEach(item => {
-      const key = item.company.toUpperCase().trim();
-      tvLogoMap[key] = item.logo_url;
-    });
-    // Re-render once loaded to show new logos
-    renderHoldingsTable();
-    renderTransactionsTable();
-  })
-  .catch(err => {
-    console.warn("Using fallback TradingView logos:", err.message);
-  });
-
-// ============================================
-// Transaction Details Modal
-// ============================================
-window.openTxModal = function (index) {
-  const tx = filteredTx[index];
-  if (!tx) return;
-
-  document.getElementById('modal-title').textContent = tx.company;
-
-  const netBadge = tx.isNet ? `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">Net ${tx.type}</span>` : `<span class="tx-type ${tx.type.toLowerCase()}" style="margin-left: 0.5rem; vertical-align: middle;">${tx.type}</span>`;
-
-  let txRows = '';
-  tx.rawTransactions.forEach(t => {
-    txRows += `
-      <tr>
-        <td><span class="tx-type ${t.type.toLowerCase()}">${t.type}</span></td>
-        <td class="align-right">${t.amount.toLocaleString()}</td>
-      </tr>
+      <div class="returns-stat-card">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trade Days</span>
+          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+            ${ICONSTACK.calendar_month}
+          </div>
+        </div>
+        <div class="my-2">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${dates.length}</div>
+        </div>
+        <span class="text-xs text-outline">Active sessions</span>
+      </div>
     `;
-  });
-
-  const bodyHtml = `
-    <div class="modal-meta-grid">
-      <div class="modal-meta-item">
-        <span class="modal-meta-label">Stock Symbol</span>
-        <span class="modal-meta-value">${tx.stock}</span>
-      </div>
-      <div class="modal-meta-item">
-        <span class="modal-meta-label">Date Announced</span>
-        <span class="modal-meta-value">${tx.date}</span>
-      </div>
-      <div class="modal-meta-item">
-        <span class="modal-meta-label">Direct Shareholding %</span>
-        <span class="modal-meta-value">${tx.percent}%</span>
-      </div>
-      <div class="modal-meta-item">
-        <span class="modal-meta-label">Total Shares After Change</span>
-        <span class="modal-meta-value">${tx.total.toLocaleString()}</span>
-      </div>
-    </div>
-    
-    <div>
-      <h4 class="modal-tx-list-title">Filing Transactions ${netBadge}</h4>
-      <table class="modal-tx-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th class="align-right">No. of Securities</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${txRows}
-        </tbody>
-      </table>
-    </div>
-
-    ${tx.url ? `
-      <a href="${tx.url}" target="_blank" class="modal-link-btn">
-        <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        View Official Announcement
-      </a>
-    ` : ''}
-  `;
-
-  document.getElementById('modal-body').innerHTML = bodyHtml;
-  document.getElementById('tx-modal').classList.add('show');
-};
-
-window.closeTxModal = function () {
-  document.getElementById('tx-modal').classList.remove('show');
-};
-
-// Close modal when clicking overlay background
-document.getElementById('tx-modal').addEventListener('click', (e) => {
-  if (e.target.id === 'tx-modal') {
-    closeTxModal();
   }
-});
 
-// Close modal on Escape key press
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeTxModal();
+  function filterDesktopTransactions() {
+    const search = (document.getElementById('tx-search')?.value || '').toLowerCase().trim();
+    const type = document.getElementById('tx-filter-type')?.value || 'all';
+
+    const filtered = allTransactions.filter(tx => {
+      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search);
+      const matchType = type === 'all' || tx.type === type;
+      return matchSearch && matchType;
+    });
+
+    const tbody = document.getElementById('tx-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = filtered.slice(0, 50).map(tx => {
+      const isBuy = tx.type === 'Acquired';
+      const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+      return `
+        <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
+          <td class="py-3 px-3 text-outline font-mono text-[11px]">${tx.date}</td>
+          <td class="py-3 px-3">
+            <div class="flex items-center gap-2">
+              ${renderStockLogo(tx.stock, tx.company, 24)}
+              <span class="font-bold text-white">${tx.stock}</span>
+            </div>
+          </td>
+          <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${tx.company}</td>
+          <td class="py-3 px-3">
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">${tx.type}</span>
+          </td>
+          <td class="py-3 px-3 text-right font-mono font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</td>
+          <td class="py-3 px-3 text-right font-mono text-outline">${tx.percent ? tx.percent.toFixed(3) + '%' : '-'}</td>
+          <td class="py-3 px-3 text-right font-mono font-bold text-white">${tx.total ? tx.total.toLocaleString() : '-'}</td>
+          <td class="py-3 px-3 text-center">
+            <a href="${tx.url}" target="_blank" class="inline-flex items-center justify-center p-1 rounded-lg text-outline hover:text-primary transition-colors">
+              <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    const countBadge = document.getElementById('tx-count');
+    if (countBadge) countBadge.textContent = filtered.length;
   }
-});
 
-// Redraw active canvas chart dynamically on theme change
-window.redrawCurrentActiveChart = function () {
-  const activePanel = document.querySelector('.tab-panel.active');
-  if (!activePanel) return;
-  if (activePanel.id === 'panel-dashboard') {
-    drawLineChart('portfolio-canvas', getPortfolioTimeSeries(currentRange), null, false);
-  } else if (activePanel.id === 'panel-holdings') {
-    const companyData = getPieData('company');
-    const sectorData = getPieData('sector');
-    drawPieChart('pie-company-canvas', companyData, 'company', false);
-    drawPieChart('pie-sector-canvas', sectorData, 'sector', false);
-  } else if (activePanel.id === 'panel-returns') {
-    drawBarChart('returns-canvas', getReturnsData(currentReturnsView, currentReturnsRange));
+  // ----------------------------------------------------
+  // 9. MOBILE VIEW CONTROLLER (SET B)
+  // ----------------------------------------------------
+  function renderMobileViewContent(tab) {
+    switch (tab) {
+      case 'holdings': return renderMobileHoldings();
+      case 'returns': return renderMobileReturns();
+      case 'transactions': return renderMobileTransactions();
+      default: return renderMobileDashboard();
+    }
   }
-};
 
-init();
+  function bindMobileEvents() {
+    document.querySelectorAll('#mobile-tab-nav .mobile-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tab = btn.dataset.tab;
+        if (tab) store.setState({ activeTab: tab });
+      });
+    });
+
+    const state = store.getState();
+    if (state.activeTab === 'dashboard') {
+      const toggle = document.getElementById('mobile-time-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#mobile-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ portfolioRange: btn.dataset.range });
+          updateMobilePortfolioChart(btn.dataset.range);
+        });
+      }
+    } else if (state.activeTab === 'holdings') {
+      const search = document.getElementById('mobile-holdings-search');
+      if (search) search.addEventListener('input', filterMobileHoldings);
+
+      const pills = document.getElementById('mobile-sector-pills');
+      if (pills) {
+        pills.addEventListener('click', (e) => {
+          const btn = e.target.closest('.sector-pill');
+          if (!btn) return;
+          document.querySelectorAll('#mobile-sector-pills .sector-pill').forEach(b => {
+            b.classList.remove('active', 'bg-primary/20', 'text-primary', 'border-primary/30', 'font-semibold');
+            b.classList.add('bg-white/[0.04]', 'text-outline', 'border-white/10');
+          });
+          btn.classList.add('active', 'bg-primary/20', 'text-primary', 'border-primary/30', 'font-semibold');
+          btn.classList.remove('bg-white/[0.04]', 'text-outline', 'border-white/10');
+          store.setState({ holdingsSector: btn.dataset.sector });
+          filterMobileHoldings();
+        });
+      }
+    } else if (state.activeTab === 'returns') {
+      const rTime = document.getElementById('mobile-returns-time-toggle');
+      if (rTime) {
+        rTime.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#mobile-returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ returnsRange: btn.dataset.range });
+          updateMobileReturnsChart();
+        });
+      }
+      const rToggle = document.getElementById('mobile-returns-toggle');
+      if (rToggle) {
+        rToggle.addEventListener('click', (e) => {
+          const btn = e.target.closest('.chart-toggle');
+          if (!btn) return;
+          document.querySelectorAll('#mobile-returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          store.setState({ returnsView: btn.dataset.view });
+          updateMobileReturnsChart();
+        });
+      }
+    } else if (state.activeTab === 'transactions') {
+      const search = document.getElementById('mobile-tx-search');
+      if (search) search.addEventListener('input', filterMobileTransactions);
+
+      const pills = document.getElementById('mobile-tx-type-pills');
+      if (pills) {
+        pills.addEventListener('click', (e) => {
+          const btn = e.target.closest('.tx-type-pill');
+          if (!btn) return;
+          document.querySelectorAll('#mobile-tx-type-pills .tx-type-pill').forEach(b => b.classList.remove('active', 'ring-2', 'ring-primary'));
+          btn.classList.add('active', 'ring-2', 'ring-primary');
+          store.setState({ txType: btn.dataset.type });
+          filterMobileTransactions();
+        });
+      }
+    }
+  }
+
+  function renderActiveMobileTab(tab) {
+    if (tab === 'dashboard') {
+      updateMobilePortfolioChart(store.getState().portfolioRange);
+      renderMobileRecentFilings();
+      setupLineChartHover('mobile-portfolio-canvas');
+    } else if (tab === 'holdings') {
+      filterMobileHoldings();
+    } else if (tab === 'returns') {
+      updateMobileReturnsChart(true);
+      renderMobileReturnsSummary();
+      setupBarChartHover('mobile-returns-canvas', () => store.setState({ activeTab: 'transactions' }));
+    } else if (tab === 'transactions') {
+      filterMobileTransactions();
+    }
+  }
+
+  function updateMobilePortfolioChart(range) {
+    const series = getPortfolioTimeSeries(range);
+    drawLineChart('mobile-portfolio-canvas', series, null, true);
+  }
+
+  function updateMobileReturnsChart(animate = true) {
+    const { returnsView, returnsRange } = store.getState();
+    const data = getReturnsData(returnsView, returnsRange);
+    drawBarChart('mobile-returns-canvas', data, animate);
+  }
+
+  function renderMobileRecentFilings() {
+    const feed = document.getElementById('mobile-activity-feed');
+    if (!feed) return;
+    const latest = allTransactions.slice(0, 6);
+    feed.innerHTML = latest.map(tx => {
+      const isBuy = tx.type === 'Acquired';
+      const sign = isBuy ? '+' : '-';
+      const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
+      return `
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 28)}</div>
+            <div class="min-w-0">
+              <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
+              <div class="text-[10px] text-outline truncate">${tx.company}</div>
+            </div>
+          </div>
+          <div class="text-right shrink-0 ml-2 font-mono-numeric">
+            <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
+            <div class="text-[9px] text-outline">${tx.date}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterMobileHoldings() {
+    const search = (document.getElementById('mobile-holdings-search')?.value || '').toLowerCase().trim();
+    const sector = store.getState().holdingsSector || 'all';
+    const holdings = getRawData()?.holdings || [];
+    const totalVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
+
+    const filtered = holdings.filter(h => {
+      const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
+      const matchSector = sector === 'all' || h.sector === sector;
+      return matchSearch && matchSector;
+    });
+
+    const list = document.getElementById('mobile-holdings-list');
+    if (!list) return;
+
+    list.innerHTML = filtered.map(h => {
+      return `
+        <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-3 min-w-0">
+            ${renderStockLogo(h.stock_name, h.company_name, 34)}
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-sm text-white">${h.stock_name}</span>
+                <span class="text-[10px] px-1.5 py-0.2 rounded bg-white/5 text-outline">${h.sector}</span>
+              </div>
+              <div class="text-xs text-outline truncate mt-0.5">${h.company_name}</div>
+            </div>
+          </div>
+          <div class="text-right shrink-0 ml-2 font-mono-numeric">
+            <div class="text-xs font-bold text-white">${formatCurrency(h.market_value)}</div>
+            <div class="text-[11px] text-emerald-400 font-semibold mt-0.5">${h.direct_percent?.toFixed(2)}% in co</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderMobileReturnsSummary() {
+    const dates = Object.values(getRawData()?.txByDate || {});
+    const totalAcquired = dates.reduce((s, d) => s + d.acquired, 0);
+    const totalDisposed = dates.reduce((s, d) => s + d.disposed, 0);
+    const totalNet = totalAcquired - totalDisposed;
+    const totalTx = dates.reduce((s, d) => s + d.count, 0);
+
+    const container = document.getElementById('mobile-returns-summary');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="glass-card p-3 rounded-xl">
+        <span class="text-[10px] font-bold text-outline uppercase">Acquired</span>
+        <div class="text-lg font-bold text-emerald-400 font-mono-numeric mt-1">+${formatCompact(totalAcquired)}</div>
+      </div>
+      <div class="glass-card p-3 rounded-xl">
+        <span class="text-[10px] font-bold text-outline uppercase">Disposed</span>
+        <div class="text-lg font-bold text-rose-400 font-mono-numeric mt-1">-${formatCompact(totalDisposed)}</div>
+      </div>
+      <div class="glass-card p-3 rounded-xl">
+        <span class="text-[10px] font-bold text-outline uppercase">Net Flow</span>
+        <div class="text-lg font-bold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric mt-1">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+      </div>
+      <div class="glass-card p-3 rounded-xl">
+        <span class="text-[10px] font-bold text-outline uppercase">Filings</span>
+        <div class="text-lg font-bold text-white font-mono-numeric mt-1">${totalTx.toLocaleString()}</div>
+      </div>
+    `;
+  }
+
+  function filterMobileTransactions() {
+    const search = (document.getElementById('mobile-tx-search')?.value || '').toLowerCase().trim();
+    const type = store.getState().txType || 'all';
+
+    const filtered = allTransactions.filter(tx => {
+      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search);
+      const matchType = type === 'all' || tx.type === type;
+      return matchSearch && matchType;
+    });
+
+    const feed = document.getElementById('mobile-tx-feed');
+    if (!feed) return;
+
+    feed.innerHTML = filtered.slice(0, 40).map(tx => {
+      const isBuy = tx.type === 'Acquired';
+      const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+      return `
+        <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2.5 min-w-0">
+            ${renderStockLogo(tx.stock, tx.company, 32)}
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-xs text-white">${tx.stock}</span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
+              </div>
+              <div class="text-[11px] text-outline truncate mt-0.5">${tx.company}</div>
+            </div>
+          </div>
+          <div class="text-right shrink-0 ml-2 font-mono-numeric">
+            <div class="text-xs font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</div>
+            <div class="text-[10px] text-outline">${tx.date}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function handleTabSwitch(tab) {
+    const isMobile = window.innerWidth < 768;
+    const container = document.getElementById(isMobile ? 'mobile-view-container' : 'desktop-view-container');
+    if (!container) return;
+
+    container.innerHTML = isMobile ? renderMobileViewContent(tab) : renderDesktopViewContent(tab);
+
+    if (isMobile) {
+      document.querySelectorAll('#mobile-tab-nav .mobile-tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle('text-primary', active);
+        btn.classList.toggle('font-bold', active);
+        btn.classList.toggle('active', active);
+        btn.classList.toggle('text-outline', !active);
+      });
+      bindMobileEvents();
+      requestAnimationFrame(() => renderActiveMobileTab(tab));
+    } else {
+      document.querySelectorAll('#desktop-tab-nav .tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      bindDesktopEvents();
+      requestAnimationFrame(() => renderActiveDesktopTab(tab));
+    }
+  }
+
+  function redrawActiveCharts() {
+    const isMobile = window.innerWidth < 768;
+    const tab = store.getState().activeTab;
+    if (tab === 'dashboard') {
+      if (isMobile) updateMobilePortfolioChart(store.getState().portfolioRange);
+      else updateDesktopPortfolioChart(store.getState().portfolioRange);
+    } else if (tab === 'holdings' && !isMobile) {
+      const cData = getPieData('company');
+      const sData = getPieData('sector');
+      drawPieChart('pie-company-canvas', cData, 'company');
+      drawPieChart('pie-sector-canvas', sData, 'sector');
+    } else if (tab === 'returns') {
+      if (isMobile) updateMobileReturnsChart(false);
+      else updateDesktopReturnsChart(false);
+    }
+  }
+
+  function debounce(fn, ms) {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => fn(...args), ms);
+    };
+  }
+
+  // ----------------------------------------------------
+  // AUTO-INIT ON DOM READY
+  // ----------------------------------------------------
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+
+  window.EPFTracker = { initApp, store };
+})();

@@ -416,6 +416,64 @@ aside#app-sidebar {
 }
 
 /* ============================================================================
+   Canvas Sizing & Container Constraints (Zero Overflow & Fixed Boundaries)
+   ========================================================================== */
+canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+}
+
+.portfolio-trend-card,
+.recent-filings-card {
+  min-height: 440px !important;
+}
+
+.chart-body {
+  height: 280px !important;
+  min-height: 280px !important;
+  max-height: 280px !important;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chart-body-tall {
+  height: 330px !important;
+  min-height: 330px !important;
+  max-height: 330px !important;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.pie-chart-container {
+  width: 180px !important;
+  height: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .chart-body {
+    height: 210px !important;
+    min-height: 210px !important;
+    max-height: 210px !important;
+  }
+  .chart-body-tall {
+    height: 230px !important;
+    min-height: 230px !important;
+    max-height: 230px !important;
+  }
+}
+
+/* ============================================================================
    Segmented Control / Time Toggles (Hibiscus Crimson Gradient Pill)
    ========================================================================== */
 .chart-toggle-group {
