@@ -1,39 +1,45 @@
 /**
- * EPF Tracker — Line Chart Engine (Portfolio Trend)
- * High-performance smooth Bezier canvas with dynamic DPI & theme awareness
+ * Line Chart Canvas Engine with Smooth Cubic/Linear Path,
+ * dynamic theme awareness, single glowing head node,
+ * clean hover probe with vertical dashed guide,
+ * and guaranteed single tracking circle.
  */
 
 import { formatCompact } from '../core/utils.js';
 
 let lineAnimId = null;
+let lineChartMeta = {};
 
 export function drawLineChart(canvasId, data, color = null, animateChart = true) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.parentElement.getBoundingClientRect();
-  if (rect.width <= 0 || rect.height <= 0) return;
+  const parent = canvas.parentElement;
+  if (!parent) return;
 
+  const w = parent.clientWidth || 300;
+  const h = parent.clientHeight || 280;
+
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  ctx.scale(dpr, dpr);
+
+  const isMobile = window.innerWidth < 768;
   const dynamicColor = color || (getComputedStyle(document.documentElement).getPropertyValue('--chart-primary').trim() || '#f43f5e');
   const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#64748b';
   const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255, 255, 255, 0.06)';
 
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
-
-  const w = rect.width;
-  const h = rect.height;
-  const pad = { top: 20, right: 20, bottom: 30, left: 60 };
+  const pad = {
+    top: 20,
+    right: isMobile ? 12 : 24,
+    bottom: isMobile ? 26 : 32,
+    left: isMobile ? 48 : 64
+  };
   const plotW = w - pad.left - pad.right;
   const plotH = h - pad.top - pad.bottom;
 
-  if (lineAnimId) {
-    cancelAnimationFrame(lineAnimId);
-    lineAnimId = null;
-  }
-
+  if (lineAnimId) cancelAnimationFrame(lineAnimId);
   ctx.clearRect(0, 0, w, h);
 
   if (!data || data.length < 2) {
@@ -50,7 +56,7 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
   const range = maxV - minV || 1;
 
   let startTime = null;
-  const DURATION = animateChart ? 800 : 0;
+  const DURATION = animateChart ? 600 : 0;
 
   function render(timestamp) {
     if (!startTime) startTime = timestamp;
@@ -143,7 +149,25 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
     ctx.fill();
     ctx.restore();
 
-    // Moving Glowing Head Node
+    // X Labels
+    ctx.fillStyle = textColor;
+    ctx.font = '10px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'center';
+    const maxLabels = isMobile ? 3 : 6;
+    const step = Math.ceil((data.length - 1) / (maxLabels - 1));
+
+    for (let i = 0; i < data.length; i += step) {
+      const x = pad.left + (plotW * i / (data.length - 1));
+      const label = data[i].label;
+      const parts = label.split(' ');
+      const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
+      ctx.fillText(displayLabel, x, h - 8);
+    }
+
+    // 1. Capture clean canvas (WITHOUT HEAD CIRCLE) for hover restore
+    const cleanImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    // 2. Draw Head Node (The Single Circle at the end of the line)
     if (data.length > 0) {
       const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
       const currX = pad.left + (plotW * lastIdx / (data.length - 1));
@@ -162,30 +186,154 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
       ctx.restore();
     }
 
-    // X Labels
-    ctx.fillStyle = textColor;
-    ctx.font = '10px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
-    const isMobile = window.innerWidth < 768;
-    const maxLabels = isMobile ? 3 : 6;
-    const step = Math.ceil((data.length - 1) / (maxLabels - 1));
-
-    for (let i = 0; i < data.length; i += step) {
-      const x = pad.left + (plotW * i / (data.length - 1));
-      const label = data[i].label;
-      const parts = label.split(' ');
-      const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
-      ctx.fillText(displayLabel, x, h - 10);
-    }
+    // 3. Capture full canvas (WITH HEAD CIRCLE) for mouseleave restore
+    const fullImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     if (progress < 1) {
       lineAnimId = requestAnimationFrame(render);
+    } else {
+      lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
     }
   }
 
-  if (animateChart) {
-    lineAnimId = requestAnimationFrame(render);
-  } else {
-    render(performance.now() + DURATION);
+  if (animateChart) lineAnimId = requestAnimationFrame(render);
+  else render(performance.now() + DURATION);
+}
+
+export function setupLineChartHover(canvasId = 'portfolio-canvas') {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  canvas.addEventListener('mousemove', (e) => {
+    const meta = lineChartMeta[canvasId];
+    if (!meta || !meta.data || meta.data.length < 2 || !meta.cleanImageData) return;
+    const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData } = meta;
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const mx = e.clientX - canvasRect.left;
+    const relX = mx - pad.left;
+
+    const ctx = canvas.getContext('2d');
+
+    if (relX < 0 || relX > plotW) {
+      if (fullImageData) ctx.putImageData(fullImageData, 0, 0);
+      hideTooltip();
+      resetLineDisplay();
+      canvas.style.cursor = 'default';
+      return;
+    }
+
+    const idx = Math.round(relX / (plotW / (data.length - 1)));
+    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+    const d = data[clampedIdx];
+
+    canvas.style.cursor = 'crosshair';
+
+    const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
+    const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
+
+    // RESTORE CLEAN IMAGE DATA (THIS ELIMINATES THE ORIGINAL HEAD CIRCLE!)
+    ctx.putImageData(cleanImageData, 0, 0);
+
+    // DRAW HOVER ELEMENTS (THE SINGLE CIRCLE ON THE ENTIRE CANVAS)
+    ctx.save();
+
+    // 1. Vertical Dashed Probe
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pointX, pad.top);
+    ctx.lineTo(pointX, pad.top + plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 2. The ONLY Glowing Circle on Canvas
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = dynamicColor;
+    ctx.shadowBlur = 14;
+    ctx.beginPath();
+    ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = dynamicColor;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // 3. Current Date Pill Badge
+    ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+    const dateText = d.label;
+    const textW = ctx.measureText(dateText).width;
+    const pillW = textW + 16;
+    const pillH = 22;
+    const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, pointX - (pillW / 2)));
+    const pillY = h - 26;
+
+    ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
+
+    ctx.restore();
+
+    // Tooltip
+    showTooltip(e, `
+      <div class="tt-label">${d.label}</div>
+      <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
+      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
+    `);
+
+    // Update Live Value Display
+    const valDisp = document.getElementById('portfolio-value-display');
+    if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
+    const legDate = document.getElementById('portfolio-legend-date');
+    if (legDate) legDate.textContent = d.label;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    const meta = lineChartMeta[canvasId];
+    if (meta && meta.fullImageData) {
+      const ctx = canvas.getContext('2d');
+      ctx.putImageData(meta.fullImageData, 0, 0); // RESTORES ORIGINAL CIRCLE!
+    }
+    hideTooltip();
+    resetLineDisplay();
+    canvas.style.cursor = 'default';
+  });
+
+  function resetLineDisplay() {
+    const meta = lineChartMeta[canvasId];
+    if (!meta || !meta.data || meta.data.length === 0) return;
+    const lastVal = meta.data[meta.data.length - 1].value;
+    const valDisp = document.getElementById('portfolio-value-display');
+    if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
+    const legDate = document.getElementById('portfolio-legend-date');
+    if (legDate) legDate.textContent = 'Net Shareholdings Trend';
   }
+}
+
+function showTooltip(e, html) {
+  let tt = document.getElementById('chart-tooltip');
+  if (!tt) {
+    tt = document.createElement('div');
+    tt.id = 'chart-tooltip';
+    tt.className = 'chart-tooltip';
+    document.body.appendChild(tt);
+  }
+  tt.innerHTML = html;
+  tt.style.display = 'block';
+  tt.style.left = `${e.pageX + 12}px`;
+  tt.style.top = `${e.pageY - 28}px`;
+}
+
+function hideTooltip() {
+  const tt = document.getElementById('chart-tooltip');
+  if (tt) tt.style.display = 'none';
 }

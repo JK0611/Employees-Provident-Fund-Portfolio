@@ -328,7 +328,7 @@
   }
 
   // ----------------------------------------------------
-  // 5. CANVAS CHARTS ENGINE
+  // 5. CANVAS CHARTS ENGINE & HOVER PROBES
   // ----------------------------------------------------
   let lineAnimId = null;
   let lineChartMeta = {};
@@ -341,9 +341,9 @@
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const rect = parent.getBoundingClientRect();
-    const w = Math.max(rect.width || parent.clientWidth || 300, 200);
-    const h = Math.max(rect.height || parent.clientHeight || 200, 150);
+    // Use client dimensions for exact pixel sharpness
+    const w = parent.clientWidth || 300;
+    const h = parent.clientHeight || 280;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -380,7 +380,7 @@
     const range = maxV - minV || 1;
 
     let startTime = null;
-    const DURATION = animateChart ? 700 : 0;
+    const DURATION = animateChart ? 600 : 0;
 
     function render(timestamp) {
       if (!startTime) startTime = timestamp;
@@ -473,7 +473,25 @@
       ctx.fill();
       ctx.restore();
 
-      // Head Node
+      // X Labels
+      ctx.fillStyle = textColor;
+      ctx.font = '10px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      const maxLabels = isMobile ? 3 : 6;
+      const step = Math.ceil((data.length - 1) / (maxLabels - 1));
+
+      for (let i = 0; i < data.length; i += step) {
+        const x = pad.left + (plotW * i / (data.length - 1));
+        const label = data[i].label;
+        const parts = label.split(' ');
+        const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
+        ctx.fillText(displayLabel, x, h - 8);
+      }
+
+      // 1. Capture clean canvas (WITHOUT HEAD CIRCLE) for hover restore
+      const cleanImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      // 2. Draw Head Node (The Single Circle at the end of the line)
       if (data.length > 0) {
         const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
         const currX = pad.left + (plotW * lastIdx / (data.length - 1));
@@ -492,26 +510,13 @@
         ctx.restore();
       }
 
-      // X Labels
-      ctx.fillStyle = textColor;
-      ctx.font = '10px "Plus Jakarta Sans", sans-serif';
-      ctx.textAlign = 'center';
-      const maxLabels = isMobile ? 3 : 6;
-      const step = Math.ceil((data.length - 1) / (maxLabels - 1));
-
-      for (let i = 0; i < data.length; i += step) {
-        const x = pad.left + (plotW * i / (data.length - 1));
-        const label = data[i].label;
-        const parts = label.split(' ');
-        const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
-        ctx.fillText(displayLabel, x, h - 8);
-      }
+      // 3. Capture full canvas (WITH HEAD CIRCLE) for mouseleave restore
+      const fullImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
       if (progress < 1) {
         lineAnimId = requestAnimationFrame(render);
       } else {
-        lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor };
-        if (window['_lineSave_' + canvasId]) window['_lineSave_' + canvasId]();
+        lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
       }
     }
 
@@ -523,30 +528,19 @@
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    let savedImageData = null;
-    function saveCanvas() {
-      const ctx = canvas.getContext('2d');
-      savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    }
-    function restoreCanvas() {
-      if (!savedImageData) return;
-      const ctx = canvas.getContext('2d');
-      ctx.putImageData(savedImageData, 0, 0);
-    }
-
-    window['_lineSave_' + canvasId] = saveCanvas;
-
     canvas.addEventListener('mousemove', (e) => {
       const meta = lineChartMeta[canvasId];
-      if (!meta || !meta.data || meta.data.length < 2) return;
-      const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor } = meta;
+      if (!meta || !meta.data || meta.data.length < 2 || !meta.cleanImageData) return;
+      const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData } = meta;
 
       const canvasRect = canvas.getBoundingClientRect();
       const mx = e.clientX - canvasRect.left;
       const relX = mx - pad.left;
 
+      const ctx = canvas.getContext('2d');
+
       if (relX < 0 || relX > plotW) {
-        restoreCanvas();
+        if (fullImageData) ctx.putImageData(fullImageData, 0, 0);
         hideTooltip();
         resetLineDisplay();
         canvas.style.cursor = 'default';
@@ -562,22 +556,10 @@
       const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
       const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-      // Tooltip
-      showTooltip(e, `
-        <div class="tt-label">${d.label}</div>
-        <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
-        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
-      `);
+      // RESTORE CLEAN IMAGE DATA (THIS ELIMINATES THE ORIGINAL HEAD CIRCLE!)
+      ctx.putImageData(cleanImageData, 0, 0);
 
-      // Update Live Value Display
-      const valDisp = document.getElementById('portfolio-value-display');
-      if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
-      const legDate = document.getElementById('portfolio-legend-date');
-      if (legDate) legDate.textContent = d.label;
-
-      restoreCanvas();
-
-      const ctx = canvas.getContext('2d');
+      // DRAW HOVER ELEMENTS (THE SINGLE CIRCLE ON THE ENTIRE CANVAS)
       ctx.save();
 
       // 1. Vertical Dashed Probe
@@ -590,12 +572,12 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // 2. Glowing Point
+      // 2. The ONLY Glowing Circle on Canvas
       ctx.fillStyle = '#ffffff';
       ctx.shadowColor = dynamicColor;
       ctx.shadowBlur = 14;
       ctx.beginPath();
-      ctx.arc(pointX, pointY, 6, 0, Math.PI * 2);
+      ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = dynamicColor;
       ctx.lineWidth = 2.5;
@@ -624,10 +606,27 @@
       ctx.fillText(dateText, pillX + (pillW / 2), pillY + (pillH / 2));
 
       ctx.restore();
+
+      // Tooltip
+      showTooltip(e, `
+        <div class="tt-label">${d.label}</div>
+        <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
+      `);
+
+      // Update Live Value Display
+      const valDisp = document.getElementById('portfolio-value-display');
+      if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
+      const legDate = document.getElementById('portfolio-legend-date');
+      if (legDate) legDate.textContent = d.label;
     });
 
     canvas.addEventListener('mouseleave', () => {
-      restoreCanvas();
+      const meta = lineChartMeta[canvasId];
+      if (meta && meta.fullImageData) {
+        const ctx = canvas.getContext('2d');
+        ctx.putImageData(meta.fullImageData, 0, 0); // RESTORES ORIGINAL CIRCLE!
+      }
       hideTooltip();
       resetLineDisplay();
       canvas.style.cursor = 'default';
@@ -655,9 +654,8 @@
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const rect = parent.getBoundingClientRect();
-    const w = Math.max(rect.width || parent.clientWidth || 300, 200);
-    const h = Math.max(rect.height || parent.clientHeight || 200, 160);
+    const w = parent.clientWidth || 300;
+    const h = parent.clientHeight || 320;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -694,7 +692,7 @@
     const barW = Math.max(2.5, rawBarW - (data.length > 60 ? 1 : data.length > 25 ? 3 : 6));
 
     let startTime = null;
-    const DURATION = animateChart ? 700 : 0;
+    const DURATION = animateChart ? 600 : 0;
 
     function renderFrame(timestamp) {
       if (!startTime) startTime = timestamp;
@@ -778,7 +776,7 @@
           const step = (data.length - 1) / (maxLabels - 1);
           for (let i = 1; i < maxLabels - 1; i++) {
             const idx = Math.round(i * step);
-            if (!indicesToDraw.includes(idx)) indicesToDraw.push(idx);
+            if (!indicesToDraw.push(idx)) indicesToDraw.push(idx);
           }
           if (!indicesToDraw.includes(data.length - 1)) indicesToDraw.push(data.length - 1);
         }
@@ -793,8 +791,8 @@
       if (progress < 1) {
         barChartAnimId = requestAnimationFrame(renderFrame);
       } else {
-        barChartMeta = { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY };
-        if (window._barSaveCanvas) window._barSaveCanvas();
+        const savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        barChartMeta = { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY, savedImageData };
       }
     }
 
@@ -806,27 +804,18 @@
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    let savedImageData = null;
-    function saveCanvas() {
-      const ctx = canvas.getContext('2d');
-      savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    }
-    function restoreCanvas() {
-      if (!savedImageData) return;
-      const ctx = canvas.getContext('2d');
-      ctx.putImageData(savedImageData, 0, 0);
-    }
-
     canvas.addEventListener('mousemove', (e) => {
-      if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0) return;
-      const { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY } = barChartMeta;
+      if (!barChartMeta || !barChartMeta.data || barChartMeta.data.length === 0 || !barChartMeta.savedImageData) return;
+      const { data, pad, plotW, plotH, minV, range, barW, w, h, zeroY, savedImageData } = barChartMeta;
 
       const canvasRect = canvas.getBoundingClientRect();
       const mx = e.clientX - canvasRect.left;
       const relX = mx - pad.left;
 
+      const ctx = canvas.getContext('2d');
+
       if (relX < 0 || relX > plotW) {
-        restoreCanvas();
+        ctx.putImageData(savedImageData, 0, 0);
         hideTooltip();
         canvas.style.cursor = 'default';
         return;
@@ -846,9 +835,8 @@
         <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">${d.count} announcements</div>
       `);
 
-      restoreCanvas();
+      ctx.putImageData(savedImageData, 0, 0);
 
-      const ctx = canvas.getContext('2d');
       ctx.save();
 
       const barCenterX = pad.left + (plotW * clampedIdx / data.length) + (plotW / data.length) / 2;
@@ -905,7 +893,10 @@
     });
 
     canvas.addEventListener('mouseleave', () => {
-      restoreCanvas();
+      if (barChartMeta && barChartMeta.savedImageData) {
+        const ctx = canvas.getContext('2d');
+        ctx.putImageData(barChartMeta.savedImageData, 0, 0);
+      }
       hideTooltip();
       canvas.style.cursor = 'default';
     });
@@ -923,8 +914,6 @@
       const d = data[clampedIdx];
       if (onBarClick) onBarClick(d);
     });
-
-    window._barSaveCanvas = saveCanvas;
   }
 
   function showTooltip(e, html) {
@@ -1017,9 +1006,8 @@
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const rect = parent.getBoundingClientRect();
-    const w = Math.min(rect.width || 180, 180);
-    const h = Math.min(rect.height || 180, 180);
+    const w = Math.min(parent.clientWidth || 180, 180);
+    const h = Math.min(parent.clientHeight || 180, 180);
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -1218,7 +1206,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-h-[400px]">
+          <div class="lg:col-span-2 glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col">
             <div class="flex justify-between items-center mb-6">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Portfolio Trend</h3>
@@ -1231,7 +1219,7 @@
                 <button class="chart-toggle" data-range="ALL">All Time</button>
               </div>
             </div>
-            <div class="chart-body flex-1 relative min-h-[280px]">
+            <div class="chart-body flex-1 relative">
               <canvas id="portfolio-canvas"></canvas>
             </div>
             <div class="chart-footer mt-4 flex items-center justify-between border-t border-white/10 pt-4">
@@ -1243,7 +1231,7 @@
             </div>
           </div>
 
-          <div class="glass-card recent-filings-card p-6 glow-hover transition-all flex flex-col min-h-[400px]">
+          <div class="glass-card recent-filings-card p-6 glow-hover transition-all flex flex-col">
             <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Recent Filings</h3>
@@ -1335,7 +1323,7 @@
   function renderDesktopReturns() {
     return `
       <div id="desktop-panel-returns" class="flex flex-col gap-6 w-full min-w-0">
-        <div class="glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden min-h-[440px]">
+        <div class="glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
           <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
             <div>
               <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
@@ -1355,7 +1343,7 @@
               </div>
             </div>
           </div>
-          <div class="chart-body chart-body-tall flex-1 relative min-h-[320px]">
+          <div class="chart-body chart-body-tall flex-1 relative">
             <canvas id="returns-canvas"></canvas>
           </div>
         </div>
@@ -1516,7 +1504,7 @@
               <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="ALL">All</button>
             </div>
           </div>
-          <div class="chart-body h-[210px] w-full relative overflow-hidden">
+          <div class="chart-body w-full relative overflow-hidden">
             <canvas id="mobile-portfolio-canvas"></canvas>
           </div>
         </div>
@@ -1572,7 +1560,7 @@
               <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="ALL">All</button>
             </div>
           </div>
-          <div class="chart-body chart-body-tall h-[230px] w-full relative overflow-hidden">
+          <div class="chart-body chart-body-tall w-full relative overflow-hidden">
             <canvas id="mobile-returns-canvas"></canvas>
           </div>
         </div>
@@ -1602,6 +1590,7 @@
   // ----------------------------------------------------
   let allTransactions = [];
   let currentDeviceMode = null;
+  let chartResizeObserver = null;
 
   function initApp() {
     allTransactions = flattenTransactions(getRawData());
@@ -1623,6 +1612,17 @@
         redrawActiveCharts();
       }
     }, 150));
+
+    // Setup ResizeObserver for pixel-perfect responsiveness
+    if (window.ResizeObserver) {
+      chartResizeObserver = new ResizeObserver(debounce((entries) => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+            redrawActiveCharts(false);
+          }
+        }
+      }, 100));
+    }
   }
 
   function mountApp() {
@@ -1645,7 +1645,10 @@
         </div>
       `;
       bindMobileEvents();
-      requestAnimationFrame(() => renderActiveMobileTab(state.activeTab));
+      requestAnimationFrame(() => {
+        renderActiveMobileTab(state.activeTab);
+        observeChartContainers();
+      });
     } else {
       root.innerHTML = `
         <div class="flex min-h-screen bg-page text-on-surface">
@@ -1658,8 +1661,19 @@
         </div>
       `;
       bindDesktopEvents();
-      requestAnimationFrame(() => renderActiveDesktopTab(state.activeTab));
+      requestAnimationFrame(() => {
+        renderActiveDesktopTab(state.activeTab);
+        observeChartContainers();
+      });
     }
+  }
+
+  function observeChartContainers() {
+    if (!chartResizeObserver) return;
+    chartResizeObserver.disconnect();
+    document.querySelectorAll('.chart-body, .pie-chart-container').forEach(el => {
+      chartResizeObserver.observe(el);
+    });
   }
 
   function renderDesktopViewContent(tab) {
@@ -2123,7 +2137,6 @@
     const search = (document.getElementById('mobile-holdings-search')?.value || '').toLowerCase().trim();
     const sector = store.getState().holdingsSector || 'all';
     const holdings = getRawData()?.holdings || [];
-    const totalVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
 
     const filtered = holdings.filter(h => {
       const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
@@ -2239,30 +2252,39 @@
         btn.classList.toggle('text-outline', !active);
       });
       bindMobileEvents();
-      requestAnimationFrame(() => renderActiveMobileTab(tab));
+      requestAnimationFrame(() => {
+        renderActiveMobileTab(tab);
+        observeChartContainers();
+      });
     } else {
       document.querySelectorAll('#desktop-tab-nav .tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
       bindDesktopEvents();
-      requestAnimationFrame(() => renderActiveDesktopTab(tab));
+      requestAnimationFrame(() => {
+        renderActiveDesktopTab(tab);
+        observeChartContainers();
+      });
     }
   }
 
-  function redrawActiveCharts() {
+  function redrawActiveCharts(animate = false) {
     const isMobile = window.innerWidth < 768;
     const tab = store.getState().activeTab;
     if (tab === 'dashboard') {
       if (isMobile) updateMobilePortfolioChart(store.getState().portfolioRange);
-      else updateDesktopPortfolioChart(store.getState().portfolioRange);
+      else {
+        const series = getPortfolioTimeSeries(store.getState().portfolioRange);
+        drawLineChart('portfolio-canvas', series, null, animate);
+      }
     } else if (tab === 'holdings' && !isMobile) {
       const cData = getPieData('company');
       const sData = getPieData('sector');
       drawPieChart('pie-company-canvas', cData, 'company');
       drawPieChart('pie-sector-canvas', sData, 'sector');
     } else if (tab === 'returns') {
-      if (isMobile) updateMobileReturnsChart(false);
-      else updateDesktopReturnsChart(false);
+      if (isMobile) updateMobileReturnsChart(animate);
+      else updateDesktopReturnsChart(animate);
     }
   }
 
