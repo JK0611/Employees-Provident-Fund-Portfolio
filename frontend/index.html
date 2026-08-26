@@ -20,7 +20,7 @@
   <!-- Open Graph / Facebook / WhatsApp / Telegram / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="EPF Tracker">
-  <meta property="og:url" content="https://epf-tracker.vercel.app/">
+  <meta property="og:url" content="https://employees-provident-fund-portfolio.vercel.app/">
   <meta property="og:title" content="EPF Tracker — Institutional Malaysian Equity Portfolio Dashboard">
   <meta property="og:description" content="Explore RM 228B+ of EPF (KWSP) Malaysian domestic equity positions, top holdings, sector weightings, capital activity, and real-time Bursa filings.">
   <meta property="og:image" content="assets/logo.png">
@@ -38,7 +38,7 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "EPF Tracker",
-    "url": "https://epf-tracker.vercel.app/",
+    "url": "https://employees-provident-fund-portfolio.vercel.app/",
     "description": "Institutional investment portfolio dashboard tracking Employees Provident Fund (KWSP) Malaysian equity holdings and Bursa Malaysia filings.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "All",
@@ -66,8 +66,9 @@
       capture_pageview: true,
       capture_pageleave: true,
       session_recording: {
-        maskAllInputs: false,
-        maskInputOptions: { password: true }
+        maskAllInputs: true,
+        maskTextSelector: '.sensitive-data, [data-sensitive="true"]',
+        recordCrossOriginIframes: false
       }
     });
   </script>

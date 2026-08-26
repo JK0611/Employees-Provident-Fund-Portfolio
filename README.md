@@ -1,68 +1,55 @@
-# Employees Provident Fund (EPF) Portfolio Tracking System
+# EPF Tracker — Malaysian Institutional Portfolio & Filings Tracker
 
-A full-stack data pipeline and interactive Web UI for tracking and analyzing Employees Provident Fund (EPF / KWSP) investment holdings in public-listed companies on Bursa Malaysia.
+> Real-time tracker for Employees Provident Fund (KWSP / EPF) equity transactions and domestic shareholdings on Bursa Malaysia.
 
----
-
-## 📁 Project Architecture & Directory Structure
-
-```
-Employees-Provident-Fund-Portfolio/
-├── assets/                         # Media Assets & Branding Specifications
-│   └── logo/                       # Corporate Logos & Document Specifications
-├── data/                           # Scraped Datasets, SQL Dumps & Cache
-│   ├── links.json                  # Target Announcement URLs & Metadata
-│   ├── scrape_results.sql          # Exported SQL Database Backup
-│   ├── scrape_test_results.json    # Processed Announcement Records
-│   ├── codes_cache.json            # Cached Stock Tickers & Company Profiles
-│   ├── detected_cessations.json    # Cessation of Substantial Shareholder Logs
-│   ├── skipped_ids.json            # Skipped ID Cache for Incremental Scrapes
-│   └── test_scrape.json            # Sample Test Data Payload
-├── frontend/                       # Interactive Dashboard Web Application
-│   ├── index.html                  # Main Web Interface Entrypoint
-│   ├── style.css                   # Custom CSS Layout & Themes
-│   ├── app.js                      # Portfolio Analytics & Data Visualization Logic
-│   ├── data.js                     # Compiled Portfolio Payload
-│   └── logo.json                   # Stock Logo Mapping Matrix
-├── scripts/                        # Data Collection & ETL Processing Pipeline
-│   ├── process_data.js             # ETL Pipeline: Aggregates Raw Data -> frontend/data.js
-│   ├── scrape_test.js              # Scraper: Fetches EPF Bursa Malaysia Announcements
-│   ├── check_pagination.js         # API Pagination Diagnostic Script
-│   └── verify-scrape-schedule.js   # Automated Scraping Scheduler Verification
-├── scratch/                        # Temporary Workspace & Investigation Bench
-│   └── extracted_docx/             # Extracted Specification Documents
-├── .gitignore                      # Git Version Control Exclusions
-├── package.json                    # Node.js Dependencies & Execution Scripts
-├── README.md                       # Project Documentation & Architecture Guide
-└── vercel.json                     # Vercel Deployment Configuration
-```
+🌐 **Live Website**: [https://employees-provident-fund-portfolio.vercel.app/](https://employees-provident-fund-portfolio.vercel.app/)
 
 ---
 
-## 🚀 Quick Start Guide
+## 📌 Overview
 
-### 1. Run Development Server
-To launch the interactive frontend dashboard locally:
-```bash
-npm run dev
-```
-Open `http://localhost:3000` in your browser.
+**EPF Tracker** is an institutional-grade portfolio intelligence dashboard that tracks and visualizes the equity investments of Malaysia's **Employees Provident Fund (KWSP)** across all public-listed companies on Bursa Malaysia.
 
-### 2. Run Data Pipeline (ETL)
-To re-process raw Bursa announcements into `frontend/data.js`:
-```bash
-npm run process
-```
+It provides complete transparency into:
+* 📅 **Transaction Timestamps & Dates**: Real-time tracking of when EPF buys or sells shares.
+* 🔄 **Buy & Sell Actions (Inflow / Outflow)**: Precise logging of share acquisitions (+), disposals (-), and cessation events.
+* 📊 **Share Volumes & Values**: Exact number of shares transacted and their estimated capital value (RM).
+* 💼 **Portfolio Holdings & Stakes**: Total domestic equity portfolio breakdown (RM 228B+), direct ownership percentages (e.g. Tenaga 24.9%, Maybank 7.5%), and sector allocations.
+* 🏛 **Official Bursa Filings**: Direct links to substantial shareholder notices filed on Bursa Malaysia.
 
-### 3. Run Announcement Scraper
-To fetch new announcement records from Bursa Malaysia:
-```bash
-npm run scrape
-```
+---
+
+## ✨ Key Features
+
+* **⚡ Responsive Dual-Layout Engine**: Custom-tailored, independent UI experiences for both Desktop (institutional multi-column) and Mobile (smooth swipe gestures & native scroll).
+* **🍩 Interactive Allocation Donut Charts**: Interactive breakdown of top 10 company weightings and macro sector distributions.
+* **📈 Net Capital Activity Flow**: Dynamic volume charts visualizing EPF's capital accumulation vs. divestment over 1M, 3M, 1Y, and All-Time ranges.
+* **🛡 Enterprise-Grade Security & Privacy**: OWASP Top 10 compliant, strict CSP headers, anti-clickjacking, and zero-cookie telemetry.
+* **📊 Privacy-First Analytics**: PostHog telemetry with full PII input masking and mobile device diagnostics.
 
 ---
 
 ## 🛠 Tech Stack
-- **Frontend**: HTML5, Vanilla JavaScript (ES6+), Vanilla CSS (Responsive & Custom Design)
-- **Data Scraping**: Node.js, Cheerio, Axios, Puppeteer Extra, Got Scraping
-- **Deployment**: Vercel (`vercel.json`)
+
+* **Frontend**: HTML5, Vanilla JavaScript (ES6+), Vanilla CSS (Obsidian Crimson Design System)
+* **Analytics & Telemetry**: PostHog (Session Replay & Device Intelligence)
+* **Data & Scraping Pipeline**: Node.js, Cheerio, Axios, Puppeteer
+* **Deployment & Edge Security**: Vercel (`vercel.json` with HSTS, CSP & Security Headers)
+
+---
+
+## 🚀 Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/JK0611/Employees-Provident-Fund-Portfolio.git
+
+# Open frontend in browser or start local static server
+npx serve frontend
+```
+
+---
+
+## 🔗 Live Application
+Access the production dashboard anytime at:  
+👉 **[https://employees-provident-fund-portfolio.vercel.app/](https://employees-provident-fund-portfolio.vercel.app/)**

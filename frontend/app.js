@@ -51,6 +51,16 @@
     return `hsl(${h}, 70%, 45%)`;
   }
 
+  function escapeHTML(str) {
+    if (typeof str !== 'string') return str == null ? '' : String(str);
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   function getKlseLink(stock, company = '') {
     let query = (stock || '').trim();
     if (query.length <= 2 && company) {
@@ -2209,7 +2219,7 @@
           <td class="py-3 px-3">
             <div class="flex items-center gap-2.5">
               ${renderStockLogo(h.stock_name, h.company_name, 28)}
-              <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="font-bold text-white hover:text-primary transition-colors">${h.stock_name}</a>
+              <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors">${h.stock_name}</a>
             </div>
           </td>
           <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${h.company_name}</td>
@@ -2351,7 +2361,7 @@
           <td class="py-3 px-3 text-right font-mono text-outline">${tx.percent ? tx.percent.toFixed(3) + '%' : '-'}</td>
           <td class="py-3 px-3 text-right font-mono font-bold text-white">${tx.total ? tx.total.toLocaleString() : '-'}</td>
           <td class="py-3 px-3 text-center">
-            <a href="${tx.url}" target="_blank" class="inline-flex items-center justify-center p-1 rounded-lg text-outline hover:text-primary transition-colors">
+            <a href="${tx.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-1 rounded-lg text-outline hover:text-primary transition-colors">
               <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </td>
