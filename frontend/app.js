@@ -341,9 +341,8 @@
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    // Use client dimensions for exact pixel sharpness
     const w = parent.clientWidth || 300;
-    const h = parent.clientHeight || 280;
+    const h = parent.clientHeight || 250;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -355,9 +354,9 @@
     const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--border-subtle').trim() || 'rgba(255, 255, 255, 0.06)';
 
     const pad = {
-      top: 20,
+      top: 18,
       right: isMobile ? 12 : 24,
-      bottom: isMobile ? 26 : 32,
+      bottom: isMobile ? 24 : 28,
       left: isMobile ? 48 : 64
     };
     const plotW = w - pad.left - pad.right;
@@ -485,7 +484,7 @@
         const label = data[i].label;
         const parts = label.split(' ');
         const displayLabel = parts.length >= 2 ? `${parts[0]} ${parts[1]}` : label;
-        ctx.fillText(displayLabel, x, h - 8);
+        ctx.fillText(displayLabel, x, h - 6);
       }
 
       // 1. Capture clean canvas (WITHOUT HEAD CIRCLE) for hover restore
@@ -584,19 +583,19 @@
       ctx.stroke();
 
       // 3. Current Date Pill Badge
-      ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
       const dateText = d.label;
       const textW = ctx.measureText(dateText).width;
       const pillW = textW + 16;
-      const pillH = 22;
+      const pillH = 20;
       const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, pointX - (pillW / 2)));
-      const pillY = h - 26;
+      const pillY = h - 23;
 
       ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+      ctx.roundRect(pillX, pillY, pillW, pillH, 5);
       ctx.fill();
       ctx.stroke();
 
@@ -655,7 +654,7 @@
     if (!parent) return;
 
     const w = parent.clientWidth || 300;
-    const h = parent.clientHeight || 320;
+    const h = parent.clientHeight || 300;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -663,9 +662,9 @@
 
     const isMobile = window.innerWidth < 768;
     const pad = {
-      top: 24,
+      top: 20,
       right: isMobile ? 12 : 24,
-      bottom: isMobile ? 28 : 36,
+      bottom: isMobile ? 26 : 32,
       left: isMobile ? 48 : 70
     };
     const plotW = w - pad.left - pad.right;
@@ -776,7 +775,7 @@
           const step = (data.length - 1) / (maxLabels - 1);
           for (let i = 1; i < maxLabels - 1; i++) {
             const idx = Math.round(i * step);
-            if (!indicesToDraw.push(idx)) indicesToDraw.push(idx);
+            if (!indicesToDraw.includes(idx)) indicesToDraw.push(idx);
           }
           if (!indicesToDraw.includes(data.length - 1)) indicesToDraw.push(data.length - 1);
         }
@@ -785,7 +784,7 @@
 
       indicesToDraw.forEach(i => {
         const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
-        ctx.fillText(formatLabel(data[i].label), x, h - 10);
+        ctx.fillText(formatLabel(data[i].label), x, h - 8);
       });
 
       if (progress < 1) {
@@ -869,19 +868,19 @@
       ctx.stroke();
 
       // Date Badge Pill
-      ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
       const dateText = d.label;
       const textW = ctx.measureText(dateText).width;
       const pillW = textW + 16;
-      const pillH = 22;
+      const pillH = 20;
       const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, barCenterX - (pillW / 2)));
-      const pillY = h - 26;
+      const pillY = h - 23;
 
       ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.roundRect(pillX, pillY, pillW, pillH, 6);
+      ctx.roundRect(pillX, pillY, pillW, pillH, 5);
       ctx.fill();
       ctx.stroke();
 
@@ -926,8 +925,10 @@
     }
     tt.innerHTML = html;
     tt.style.display = 'block';
-    tt.style.left = `${e.pageX + 12}px`;
-    tt.style.top = `${e.pageY - 28}px`;
+    const x = Math.min(window.innerWidth - 180, e.clientX + 14);
+    const y = Math.max(10, e.clientY - 35);
+    tt.style.left = `${x}px`;
+    tt.style.top = `${y}px`;
   }
 
   function hideTooltip() {
@@ -1006,8 +1007,8 @@
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const w = Math.min(parent.clientWidth || 180, 180);
-    const h = Math.min(parent.clientHeight || 180, 180);
+    const w = parent.clientWidth || 130;
+    const h = parent.clientHeight || 130;
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
@@ -1015,8 +1016,8 @@
 
     const cx = w / 2;
     const cy = h / 2;
-    const outerR = Math.min(cx, cy) - 10;
-    const innerR = outerR * 0.58;
+    const outerR = Math.min(cx, cy) - 6;
+    const innerR = outerR * 0.60;
 
     ctx.clearRect(0, 0, w, h);
     if (!data || data.length === 0) return;
@@ -1037,7 +1038,7 @@
       ctx.fill();
 
       ctx.strokeStyle = '#08090e';
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2;
       ctx.stroke();
       ctx.restore();
 
@@ -1045,10 +1046,10 @@
     });
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 15px "Plus Jakarta Sans", sans-serif';
+    ctx.font = '700 12px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const centerText = type === 'company' ? `${getRawData()?.holdings?.length || 260} stocks` : `${data.length} sectors`;
+    const centerText = type === 'company' ? `${getRawData()?.holdings?.length || 260}` : `${data.length}`;
     ctx.fillText(centerText, cx, cy);
   }
 
@@ -1133,10 +1134,10 @@
     `).join('');
 
     return `
-      <div id="desktop-panel-dashboard" class="flex flex-col gap-6 w-full min-w-0">
-        <div class="flex flex-col gap-1">
+      <div id="desktop-panel-dashboard" class="flex flex-col gap-4 w-full min-w-0">
+        <div class="flex flex-col gap-0.5">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
+            <span class="text-[11px] font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Active Scope</span>
           </div>
           <div class="flex items-baseline gap-3">
@@ -1150,9 +1151,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div id="bento-sector-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
-            <div class="flex justify-between items-start mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div id="bento-sector-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-2">
               <div class="flex items-center gap-1.5">
                 <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Sector Allocation</span>
               </div>
@@ -1160,21 +1161,21 @@
             </div>
             <div>
               <div class="text-2xl font-bold text-on-surface tracking-tight">${topSector[0]}</div>
-              <div class="flex items-center justify-between text-xs mt-2 font-mono-numeric">
+              <div class="flex items-center justify-between text-xs mt-1.5 font-mono-numeric">
                 <span class="text-on-surface font-semibold">RM ${formatCompact(topSector[1])}</span>
                 <span class="text-primary font-bold px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">${topSectorPct}%</span>
               </div>
-              <div class="w-full bg-white/10 rounded-full h-1.5 mt-3 overflow-hidden">
+              <div class="w-full bg-white/10 rounded-full h-1.5 mt-2 overflow-hidden">
                 <div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full" style="width: ${topSectorPct}%;"></div>
               </div>
             </div>
           </div>
 
-          <div id="bento-holding-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
-            <div class="flex justify-between items-center mb-3">
+          <div id="bento-holding-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
+            <div class="flex justify-between items-center mb-2">
               <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Holding Spotlight</span>
-              <div class="relative flex h-10 w-10 shrink-0 items-center justify-center">
-                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 38)}
+              <div class="relative flex h-9 w-9 shrink-0 items-center justify-center">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 36)}
               </div>
             </div>
             <div>
@@ -1182,7 +1183,7 @@
                 <span class="text-xl font-bold text-on-surface tracking-tight">${topHolding.stock_name}</span>
                 <span class="text-xs text-outline font-medium truncate max-w-[140px]">${topHolding.company_name}</span>
               </div>
-              <div class="text-xs mt-2 flex justify-between items-center font-mono-numeric">
+              <div class="text-xs mt-1.5 flex justify-between items-center font-mono-numeric">
                 <span class="text-on-surface font-bold text-sm">${formatCurrency(topHolding.market_value || 0)}</span>
                 <span class="badge-pill-success text-xs">
                   ${ICONSTACK.arrow_upward}${topHolding.direct_percent?.toFixed(3)}% in company
@@ -1191,8 +1192,8 @@
             </div>
           </div>
 
-          <div id="bento-active-card" class="glass-card p-6 flex flex-col justify-between min-h-[160px] relative group cursor-pointer">
-            <div class="flex justify-between items-start mb-3">
+          <div id="bento-active-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-2">
               <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Active Positions</span>
               <div class="flex items-center justify-center text-primary filter drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]">
                 ${ICONSTACK.layout_grid}
@@ -1200,14 +1201,14 @@
             </div>
             <div>
               <div class="text-3xl font-extrabold text-on-surface tracking-tight font-mono-numeric">${holdings.length} positions</div>
-              <div class="text-xs text-outline mt-1.5 font-medium">${data?.uniqueStocks || holdings.length} unique stocks across ${sortedSectors.length} sectors</div>
+              <div class="text-xs text-outline mt-1 font-medium">${data?.uniqueStocks || holdings.length} unique stocks across ${sortedSectors.length} sectors</div>
             </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col">
-            <div class="flex justify-between items-center mb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="lg:col-span-2 glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-3">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Portfolio Trend</h3>
                 <span class="text-xs text-outline">Cumulative net shareholdings momentum</span>
@@ -1222,17 +1223,17 @@
             <div class="chart-body flex-1 relative">
               <canvas id="portfolio-canvas"></canvas>
             </div>
-            <div class="chart-footer mt-4 flex items-center justify-between border-t border-white/10 pt-4">
+            <div class="chart-footer mt-2 flex items-center justify-between border-t border-white/10 pt-2 pb-0.5">
               <div class="chart-legend-item flex items-center gap-2">
                 <span class="legend-line w-5 h-1 bg-primary rounded-full shadow-sm"></span>
                 <span class="legend-label text-xs text-outline font-medium" id="portfolio-legend-date">Net Shareholdings Trend</span>
               </div>
-              <div class="chart-value text-base font-bold text-on-surface font-mono-numeric" id="portfolio-value-display">0 shares (net)</div>
+              <div class="chart-value text-sm font-bold text-on-surface font-mono-numeric" id="portfolio-value-display">0 shares (net)</div>
             </div>
           </div>
 
-          <div class="glass-card recent-filings-card p-6 glow-hover transition-all flex flex-col">
-            <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
+          <div class="glass-card recent-filings-card p-5 glow-hover transition-all flex flex-col">
+            <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-2.5">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Recent Filings</h3>
                 <span class="text-xs text-outline">Bursa announcements feed</span>
@@ -1251,65 +1252,65 @@
     const sectors = [...new Set(holdings.map(h => h.sector))].sort();
 
     return `
-      <div id="desktop-panel-holdings" class="flex flex-col gap-6 w-full min-w-0">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="glass-card p-6 flex flex-col min-h-[360px]">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-base font-bold text-on-surface tracking-tight">Allocation by Company</h3>
-              <span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Top 10 Weight</span>
+      <div id="desktop-panel-holdings" class="flex flex-col gap-3.5 w-full h-full min-w-0 pt-2 pb-1 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 shrink-0">
+          <div class="glass-card p-4 flex flex-col justify-between h-[210px]" id="pie-company-card">
+            <div class="flex justify-between items-center mb-1.5">
+              <h3 class="text-sm font-bold text-on-surface tracking-tight">Allocation by Company</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Top 10 Weight</span>
             </div>
-            <div class="flex-1 flex flex-col sm:flex-row items-center gap-6">
-              <div class="pie-chart-container">
+            <div class="flex-1 flex items-center gap-4 min-h-0">
+              <div class="pie-chart-container-compact">
                 <canvas id="pie-company-canvas"></canvas>
               </div>
-              <div class="flex-1 grid grid-cols-2 gap-2 w-full" id="pie-company-legend"></div>
+              <div class="flex-1 grid grid-cols-2 gap-1.5 w-full overflow-y-auto max-h-[145px] pr-1 custom-scrollbar" id="pie-company-legend"></div>
             </div>
           </div>
 
-          <div class="glass-card p-6 flex flex-col min-h-[360px]">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-base font-bold text-on-surface tracking-tight">Allocation by Sector</h3>
-              <span class="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Macro Weight</span>
+          <div class="glass-card p-4 flex flex-col justify-between h-[210px]" id="pie-sector-card">
+            <div class="flex justify-between items-center mb-1.5">
+              <h3 class="text-sm font-bold text-on-surface tracking-tight">Allocation by Sector</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">Macro Weight</span>
             </div>
-            <div class="flex-1 flex flex-col sm:flex-row items-center gap-6">
-              <div class="pie-chart-container">
+            <div class="flex-1 flex items-center gap-4 min-h-0">
+              <div class="pie-chart-container-compact">
                 <canvas id="pie-sector-canvas"></canvas>
               </div>
-              <div class="flex-1 grid grid-cols-2 gap-2 w-full" id="pie-sector-legend"></div>
+              <div class="flex-1 grid grid-cols-2 gap-1.5 w-full overflow-y-auto max-h-[145px] pr-1 custom-scrollbar" id="pie-sector-legend"></div>
             </div>
           </div>
         </div>
 
-        <div class="glass-card table-card p-6 flex flex-col gap-4">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div class="glass-card table-card p-4 flex flex-col flex-1 min-h-0 overflow-hidden">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 mb-2.5 shrink-0">
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
-              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20" id="holdings-count">${holdings.length}</span>
+              <h3 class="text-sm font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="holdings-count">${holdings.length}</span>
             </div>
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-              <div class="relative flex-1 sm:w-64">
-                <input type="text" id="holdings-search" placeholder="Search ticker / company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+              <div class="relative flex-1 sm:w-56">
+                <input type="text" id="holdings-search" placeholder="Search ticker / company..." class="w-full bg-surface-container-low border border-white/10 rounded-lg px-3 py-1.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
               </div>
-              <select id="holdings-sector-filter" class="bg-surface-container-low border border-white/10 rounded-xl px-3 py-2 text-xs text-on-surface focus:outline-none focus:border-primary/50">
+              <select id="holdings-sector-filter" class="bg-surface-container-low border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary/50">
                 <option value="all">All Sectors</option>
                 ${sectors.map(s => `<option value="${s}">${s}</option>`).join('')}
               </select>
             </div>
           </div>
 
-          <div class="overflow-x-auto custom-scrollbar">
+          <div class="table-scroll-wrapper custom-scrollbar">
             <table class="w-full text-left text-xs text-on-surface data-table" id="holdings-table">
               <thead>
-                <tr class="border-b border-white/10 text-outline text-[11px] uppercase tracking-wider font-semibold">
-                  <th class="py-3 px-3">#</th>
-                  <th class="py-3 px-3">Symbol</th>
-                  <th class="py-3 px-3">Company</th>
-                  <th class="py-3 px-3">Sector</th>
-                  <th class="py-3 px-3 text-right">Price (RM)</th>
-                  <th class="py-3 px-3 text-right">No. of Shares</th>
-                  <th class="py-3 px-3 text-right">Market Value (RM)</th>
-                  <th class="py-3 px-3 text-right">% in Company</th>
-                  <th class="py-3 px-3 text-right">% in Portfolio</th>
+                <tr class="text-outline text-[11px] uppercase tracking-wider font-semibold">
+                  <th class="py-2.5 px-3">#</th>
+                  <th class="py-2.5 px-3">Symbol</th>
+                  <th class="py-2.5 px-3">Company</th>
+                  <th class="py-2.5 px-3">Sector</th>
+                  <th class="py-2.5 px-3 text-right">Price (RM)</th>
+                  <th class="py-2.5 px-3 text-right">No. of Shares</th>
+                  <th class="py-2.5 px-3 text-right">Market Value (RM)</th>
+                  <th class="py-2.5 px-3 text-right">% in Company</th>
+                  <th class="py-2.5 px-3 text-right">% in Portfolio</th>
                 </tr>
               </thead>
               <tbody id="holdings-tbody" class="divide-y divide-white/[0.04]"></tbody>
@@ -1322,9 +1323,9 @@
 
   function renderDesktopReturns() {
     return `
-      <div id="desktop-panel-returns" class="flex flex-col gap-6 w-full min-w-0">
-        <div class="glass-card portfolio-trend-card p-6 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
-          <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
+      <div id="desktop-panel-returns" class="flex flex-col gap-4 w-full min-w-0">
+        <div class="glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
+          <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
             <div>
               <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
               <span class="text-xs text-outline">Accumulation vs Divestment volume over time</span>
@@ -1347,16 +1348,16 @@
             <canvas id="returns-canvas"></canvas>
           </div>
         </div>
-        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 w-full" id="returns-summary"></div>
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 w-full" id="returns-summary"></div>
       </div>
     `;
   }
 
   function renderDesktopTransactions() {
     return `
-      <div id="desktop-panel-transactions" class="flex flex-col gap-6 w-full min-w-0">
-        <div class="glass-card table-card p-6 flex flex-col gap-4">
-          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div id="desktop-panel-transactions" class="flex flex-col h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
+        <div class="glass-card table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-3.5 shrink-0">
             <div>
               <div class="flex items-center gap-2">
                 <h3 class="text-base font-bold text-on-surface tracking-tight">EPF Bursa Filings</h3>
@@ -1376,10 +1377,10 @@
             </div>
           </div>
 
-          <div class="overflow-x-auto custom-scrollbar">
+          <div class="table-scroll-wrapper custom-scrollbar">
             <table class="w-full text-left text-xs text-on-surface data-table" id="tx-table">
               <thead>
-                <tr class="border-b border-white/10 text-outline text-[11px] uppercase tracking-wider font-semibold">
+                <tr class="text-outline text-[11px] uppercase tracking-wider font-semibold">
                   <th class="py-3 px-3">Date</th>
                   <th class="py-3 px-3">Stock</th>
                   <th class="py-3 px-3">Company</th>
@@ -1403,25 +1404,25 @@
   // ----------------------------------------------------
   function renderMobileNav(activeTab = 'dashboard') {
     return `
-      <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around px-2 z-50 shadow-2xl" id="mobile-tab-nav">
-        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'dashboard' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="dashboard">
-          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-          <span class="text-[10px] tracking-tight">Overview</span>
+      <nav class="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-surface/95 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around px-2 z-50 shadow-2xl" id="mobile-tab-nav">
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'dashboard' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="dashboard" id="mobile-btn-dashboard">
+          <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span class="text-[9px] tracking-tight">Overview</span>
         </button>
 
-        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'holdings' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="holdings">
-          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
-          <span class="text-[10px] tracking-tight">Holdings</span>
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'holdings' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="holdings" id="mobile-btn-holdings">
+          <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+          <span class="text-[9px] tracking-tight">Holdings</span>
         </button>
 
-        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'returns' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="returns">
-          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
-          <span class="text-[10px] tracking-tight">Flows</span>
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'returns' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="returns" id="mobile-btn-returns">
+          <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+          <span class="text-[9px] tracking-tight">Flows</span>
         </button>
 
-        <button class="mobile-tab-btn flex flex-col items-center justify-center w-16 h-12 rounded-xl ${activeTab === 'transactions' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="transactions">
-          <svg class="w-5 h-5 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
-          <span class="text-[10px] tracking-tight">Filings</span>
+        <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'transactions' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="transactions" id="mobile-btn-transactions">
+          <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
+          <span class="text-[9px] tracking-tight">Filings</span>
         </button>
       </nav>
     `;
@@ -1441,148 +1442,209 @@
     const topHolding = sortedHoldings[0] || { stock_name: 'TENAGA', company_name: 'TENAGA NASIONAL BHD', market_value: 0, direct_percent: 24.85 };
 
     return `
-      <div id="mobile-panel-dashboard" class="flex flex-col gap-4 w-full pb-20">
-        <div class="flex items-center justify-between pt-2 pb-1">
-          <div class="flex items-center gap-2.5">
-            <img src="assets/logo.png" alt="EPF Tracker" class="h-9 w-9 object-contain filter drop-shadow-[0_2px_10px_rgba(244,63,94,0.4)]">
+      <div id="mobile-panel-dashboard" class="flex flex-col justify-between h-[calc(100vh-5rem)] w-full py-1">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="assets/logo.png" alt="EPF Tracker" class="h-7 w-7 object-contain filter drop-shadow-[0_2px_8px_rgba(244,63,94,0.4)]">
             <div class="flex items-center gap-1">
-              <span class="font-extrabold text-lg text-white tracking-tight">EPF</span>
-              <span class="font-extrabold text-lg text-primary tracking-tight">Tracker</span>
+              <span class="font-extrabold text-base text-white tracking-tight">EPF</span>
+              <span class="font-extrabold text-base text-primary tracking-tight">Tracker</span>
             </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Live</span>
+          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-primary/10 text-primary border border-primary/20">Live Scope</span>
         </div>
 
-        <div class="glass-card p-4 rounded-2xl flex flex-col gap-2">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
+        <div class="glass-card p-3 rounded-xl flex flex-col gap-0.5">
+          <span class="text-[9px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
           <div class="flex items-baseline justify-between">
-            <h2 class="text-2xl font-black text-white font-mono-numeric tracking-tight">
+            <h2 class="text-xl font-black text-white font-mono-numeric tracking-tight">
               ${formatCurrency(totalMarketValue)}
             </h2>
-            <span class="badge-pill-success text-[11px] font-bold">+2.4%</span>
+            <span class="badge-pill-success text-[10px] font-bold">+2.4%</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
-          <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
-            <div class="mt-2">
-              <div class="text-base font-bold text-white truncate">${topSector[0]}</div>
-              <div class="flex justify-between items-center text-[11px] font-mono-numeric text-outline mt-1">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="glass-card p-2.5 rounded-xl flex flex-col justify-between">
+            <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
+            <div class="mt-0.5">
+              <div class="text-xs font-bold text-white truncate">${topSector[0]}</div>
+              <div class="flex justify-between items-center text-[10px] font-mono-numeric text-outline mt-0.5">
                 <span>RM ${formatCompact(topSector[1])}</span>
                 <span class="text-primary font-bold">${topSectorPct}%</span>
               </div>
             </div>
           </div>
 
-          <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
+          <div class="glass-card p-2.5 rounded-xl flex flex-col justify-between">
             <div class="flex justify-between items-center">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Stock</span>
-              <div class="h-6 w-6 shrink-0 flex items-center justify-center">
-                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 24)}
+              <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Stock</span>
+              <div class="h-4 w-4 shrink-0 flex items-center justify-center">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 18)}
               </div>
             </div>
-            <div class="mt-2">
-              <div class="text-base font-bold text-white truncate">${topHolding.stock_name}</div>
-              <div class="text-[11px] font-mono-numeric text-emerald-400 font-semibold mt-1 truncate">
+            <div class="mt-0.5">
+              <div class="text-xs font-bold text-white truncate">${topHolding.stock_name}</div>
+              <div class="text-[10px] font-mono-numeric text-emerald-400 font-semibold mt-0.5 truncate">
                 ${formatCompact(topHolding.market_value)}
               </div>
             </div>
           </div>
         </div>
 
-        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+        <div class="glass-card p-3 rounded-xl flex flex-col gap-1.5">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-sm font-bold text-white">Portfolio Trend</h3>
-              <span class="text-[10px] text-outline">Net shareholdings</span>
+              <h3 class="text-xs font-bold text-white">Portfolio Trend</h3>
+              <span class="text-[9px] text-outline">Net shareholdings</span>
             </div>
             <div class="chart-toggle-group flex gap-0.5" id="mobile-time-toggle">
-              <button class="chart-toggle active text-[10px] px-2.5 py-1" data-range="1M">1M</button>
-              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="3M">3M</button>
-              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="1Y">1Y</button>
-              <button class="chart-toggle text-[10px] px-2.5 py-1" data-range="ALL">All</button>
+              <button class="chart-toggle active text-[9px] px-2 py-0.5" data-range="1M">1M</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="3M">3M</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="1Y">1Y</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
             </div>
           </div>
-          <div class="chart-body w-full relative overflow-hidden">
+          <div class="chart-body h-[160px] w-full relative overflow-hidden">
             <canvas id="mobile-portfolio-canvas"></canvas>
           </div>
         </div>
 
-        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+        <div class="glass-card p-2.5 rounded-xl flex flex-col gap-1">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">Recent Bursa Filings</h3>
-            <span class="text-[10px] text-outline">Latest notices</span>
+            <h3 class="text-xs font-bold text-white">Recent Bursa Filings</h3>
+            <span class="text-[9px] text-outline">Latest notices</span>
           </div>
-          <div class="space-y-2" id="mobile-activity-feed"></div>
+          <div class="space-y-1" id="mobile-activity-feed"></div>
         </div>
-      </div>
-    `;
-  }
-
-  function renderMobileHoldings(data = getRawData()) {
-    const holdings = data?.holdings || [];
-    const sectors = [...new Set(holdings.map(h => h.sector))].sort();
-
-    return `
-      <div id="mobile-panel-holdings" class="flex flex-col gap-3.5 w-full pb-20">
-        <div class="flex flex-col gap-2 pt-2">
-          <div class="relative w-full">
-            <input type="text" id="mobile-holdings-search" placeholder="Search stock or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
-          </div>
-          <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar py-1 text-xs" id="mobile-sector-pills">
-            <button class="sector-pill active px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-[11px] font-semibold whitespace-nowrap shrink-0" data-sector="all">All (${holdings.length})</button>
-            ${sectors.map(s => `<button class="sector-pill px-3 py-1 rounded-full bg-white/[0.04] text-outline hover:text-white border border-white/10 text-[11px] whitespace-nowrap shrink-0" data-sector="${s}">${s}</button>`).join('')}
-          </div>
-        </div>
-        <div class="space-y-2.5" id="mobile-holdings-list"></div>
       </div>
     `;
   }
 
   function renderMobileReturns() {
     return `
-      <div id="mobile-panel-returns" class="flex flex-col gap-4 w-full pb-20 pt-2">
-        <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
-          <div class="flex flex-col gap-2">
+      <div id="mobile-panel-returns" class="flex flex-col justify-between h-[calc(100vh-5rem)] w-full py-1">
+        <div class="glass-card p-3 rounded-xl flex flex-col gap-2">
+          <div class="flex flex-col gap-1">
             <div class="flex justify-between items-center">
-              <h3 class="text-sm font-bold text-white">Net Capital Activity</h3>
+              <h3 class="text-xs font-bold text-white">Net Capital Activity</h3>
               <div class="chart-toggle-group flex gap-0.5" id="mobile-returns-toggle">
-                <button class="chart-toggle active text-[10px] px-2 py-0.5" data-view="net">Net</button>
-                <button class="chart-toggle text-[10px] px-2 py-0.5" data-view="acquired">Buy</button>
-                <button class="chart-toggle text-[10px] px-2 py-0.5" data-view="disposed">Sell</button>
+                <button class="chart-toggle active text-[9px] px-2 py-0.5" data-view="net">Net</button>
+                <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="acquired">Buy</button>
+                <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="disposed">Sell</button>
               </div>
             </div>
             <div class="chart-toggle-group flex gap-0.5 self-start" id="mobile-returns-time-toggle">
-              <button class="chart-toggle active text-[10px] px-2 py-0.5" data-range="1M">1M</button>
-              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="3M">3M</button>
-              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="1Y">1Y</button>
-              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="ALL">All</button>
+              <button class="chart-toggle active text-[9px] px-2 py-0.5" data-range="1M">1M</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="3M">3M</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="1Y">1Y</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
             </div>
           </div>
-          <div class="chart-body chart-body-tall w-full relative overflow-hidden">
+          <div class="chart-body chart-body-tall h-[190px] w-full relative overflow-hidden">
             <canvas id="mobile-returns-canvas"></canvas>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2.5" id="mobile-returns-summary"></div>
+        <div class="grid grid-cols-2 gap-2" id="mobile-returns-summary"></div>
       </div>
     `;
   }
 
-  function renderMobileTransactions() {
-    return `
-      <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-20 pt-2">
-        <div class="flex flex-col gap-2">
-          <input type="text" id="mobile-tx-search" placeholder="Search filings..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
-          <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar py-0.5 text-xs" id="mobile-tx-type-pills">
-            <button class="tx-type-pill active px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-[11px] font-semibold whitespace-nowrap shrink-0" data-type="all">All Filings</button>
-            <button class="tx-type-pill px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] whitespace-nowrap shrink-0" data-type="Acquired">Acquired (Buy)</button>
-            <button class="tx-type-pill px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[11px] whitespace-nowrap shrink-0" data-type="Disposed">Disposed (Sell)</button>
+  function renderMobileRecentFilings() {
+    const feed = document.getElementById('mobile-activity-feed');
+    if (!feed) return;
+    const latest = allTransactions.slice(0, 2);
+    feed.innerHTML = latest.map(tx => {
+      const isBuy = tx.type === 'Acquired';
+      const sign = isBuy ? '+' : '-';
+      const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
+      return `
+        <div class="flex items-center justify-between p-1.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 22)}</div>
+            <div class="min-w-0">
+              <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
+              <div class="text-[8px] text-outline truncate">${tx.company}</div>
+            </div>
+          </div>
+          <div class="text-right shrink-0 ml-2 font-mono-numeric">
+            <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
+            <div class="text-[8px] text-outline">${tx.date}</div>
           </div>
         </div>
-        <div class="space-y-2.5" id="mobile-tx-feed"></div>
-      </div>
-    `;
+      `;
+    }).join('');
+  }
+
+  function applyScrollLock(tab) {
+    const isMobile = window.innerWidth < 768;
+    const isFixedTab = tab === 'dashboard' || tab === 'returns';
+
+    if (isMobile) {
+      if (isFixedTab) {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.height = '100%';
+        document.body.style.height = '100%';
+        document.documentElement.classList.add('mobile-locked');
+        document.body.classList.add('mobile-locked');
+        const root = document.getElementById('app-root');
+        if (root) {
+          root.classList.add('overflow-hidden', 'h-screen', 'max-h-screen');
+          root.classList.remove('min-h-screen');
+        }
+        const mobLayout = document.getElementById('mobile-app-layout');
+        if (mobLayout) {
+          mobLayout.classList.add('overflow-hidden', 'h-screen', 'max-h-screen');
+          mobLayout.classList.remove('min-h-screen', 'h-auto');
+        }
+        const mobContainer = document.getElementById('mobile-view-container');
+        if (mobContainer) {
+          mobContainer.classList.add('overflow-hidden', 'h-full');
+          mobContainer.classList.remove('overflow-y-auto');
+        }
+      } else {
+        document.documentElement.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.height = 'auto';
+        document.body.style.height = 'auto';
+        document.documentElement.classList.remove('mobile-locked');
+        document.body.classList.remove('mobile-locked');
+        const root = document.getElementById('app-root');
+        if (root) {
+          root.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
+          root.classList.add('min-h-screen');
+        }
+        const mobLayout = document.getElementById('mobile-app-layout');
+        if (mobLayout) {
+          mobLayout.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
+          mobLayout.classList.add('min-h-screen', 'h-auto');
+        }
+        const mobContainer = document.getElementById('mobile-view-container');
+        if (mobContainer) {
+          mobContainer.classList.remove('overflow-hidden', 'h-full');
+          mobContainer.classList.add('overflow-y-auto');
+        }
+      }
+      return;
+    }
+
+    // DESKTOP: Full viewport lock for all tabs (zero window scrollbar, tables scroll internally)
+    document.documentElement.classList.remove('mobile-locked');
+    document.body.classList.remove('mobile-locked');
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    const mainPane = document.getElementById('desktop-main-pane');
+    if (mainPane) {
+      mainPane.classList.add('overflow-hidden', 'h-screen');
+      mainPane.classList.remove('overflow-y-auto');
+    }
+    const viewContainer = document.getElementById('desktop-view-container');
+    if (viewContainer) {
+      viewContainer.classList.add('overflow-hidden', 'h-full');
+      viewContainer.classList.remove('overflow-y-auto');
+    }
   }
 
   // ----------------------------------------------------
@@ -1590,7 +1652,7 @@
   // ----------------------------------------------------
   let allTransactions = [];
   let currentDeviceMode = null;
-  let chartResizeObserver = null;
+  let lastMeasuredWidth = window.innerWidth;
 
   function initApp() {
     allTransactions = flattenTransactions(getRawData());
@@ -1604,25 +1666,19 @@
       }
     });
 
+    // ONLY resize chart on true horizontal screen orientation or window width resize (NOT on vertical scroll!)
     window.addEventListener('resize', debounce(() => {
-      const isMob = window.innerWidth < 768;
-      if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
-        store.setState({ isMobile: isMob });
-      } else {
-        redrawActiveCharts();
+      const curW = window.innerWidth;
+      if (Math.abs(curW - lastMeasuredWidth) > 5) {
+        lastMeasuredWidth = curW;
+        const isMob = curW < 768;
+        if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
+          store.setState({ isMobile: isMob });
+        } else {
+          redrawActiveCharts(false); // Render final frame immediately, ZERO reanimation!
+        }
       }
     }, 150));
-
-    // Setup ResizeObserver for pixel-perfect responsiveness
-    if (window.ResizeObserver) {
-      chartResizeObserver = new ResizeObserver(debounce((entries) => {
-        for (const entry of entries) {
-          if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
-            redrawActiveCharts(false);
-          }
-        }
-      }, 100));
-    }
   }
 
   function mountApp() {
@@ -1635,9 +1691,9 @@
 
     if (isMobile) {
       root.innerHTML = `
-        <div class="w-full min-h-screen bg-page text-on-surface px-4 pt-2">
-          <main class="w-full max-w-lg mx-auto">
-            <div id="mobile-view-container">
+        <div class="w-full bg-page text-on-surface px-3 pt-1 flex flex-col justify-between" id="mobile-app-layout">
+          <main class="w-full max-w-lg mx-auto flex-1 flex flex-col justify-between overflow-hidden">
+            <div id="mobile-view-container" class="w-full h-full flex flex-col justify-between">
               ${renderMobileViewContent(state.activeTab)}
             </div>
           </main>
@@ -1645,35 +1701,23 @@
         </div>
       `;
       bindMobileEvents();
-      requestAnimationFrame(() => {
-        renderActiveMobileTab(state.activeTab);
-        observeChartContainers();
-      });
+      applyScrollLock(state.activeTab);
+      requestAnimationFrame(() => renderActiveMobileTab(state.activeTab, true));
     } else {
       root.innerHTML = `
-        <div class="flex min-h-screen bg-page text-on-surface">
+        <div class="flex h-screen overflow-hidden bg-page text-on-surface" id="desktop-app-layout">
           ${renderDesktopNav(state.activeTab)}
-          <div class="ml-64 flex-1 flex flex-col min-h-screen p-8 mx-auto w-full max-w-[1440px]">
-            <main id="desktop-view-container" class="w-full flex-1">
+          <div class="ml-64 flex-1 flex flex-col h-screen overflow-hidden p-5 mx-auto w-full max-w-[1440px]" id="desktop-main-pane">
+            <main id="desktop-view-container" class="w-full flex-1 flex flex-col justify-between overflow-hidden">
               ${renderDesktopViewContent(state.activeTab)}
             </main>
           </div>
         </div>
       `;
       bindDesktopEvents();
-      requestAnimationFrame(() => {
-        renderActiveDesktopTab(state.activeTab);
-        observeChartContainers();
-      });
+      applyScrollLock(state.activeTab);
+      requestAnimationFrame(() => renderActiveDesktopTab(state.activeTab, true));
     }
-  }
-
-  function observeChartContainers() {
-    if (!chartResizeObserver) return;
-    chartResizeObserver.disconnect();
-    document.querySelectorAll('.chart-body, .pie-chart-container').forEach(el => {
-      chartResizeObserver.observe(el);
-    });
   }
 
   function renderDesktopViewContent(tab) {
@@ -1704,7 +1748,7 @@
           document.querySelectorAll('#time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ portfolioRange: btn.dataset.range });
-          updateDesktopPortfolioChart(btn.dataset.range);
+          updateDesktopPortfolioChart(btn.dataset.range, true); // Animate on explicit toggle click
         });
       }
       const holdingCard = document.getElementById('bento-holding-card');
@@ -1725,7 +1769,7 @@
           document.querySelectorAll('#returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ returnsRange: btn.dataset.range });
-          updateDesktopReturnsChart();
+          updateDesktopReturnsChart(true);
         });
       }
       const rToggle = document.getElementById('returns-toggle');
@@ -1736,7 +1780,7 @@
           document.querySelectorAll('#returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ returnsView: btn.dataset.view });
-          updateDesktopReturnsChart();
+          updateDesktopReturnsChart(true);
         });
       }
     } else if (state.activeTab === 'transactions') {
@@ -1747,9 +1791,9 @@
     }
   }
 
-  function renderActiveDesktopTab(tab) {
+  function renderActiveDesktopTab(tab, animate = false) {
     if (tab === 'dashboard') {
-      updateDesktopPortfolioChart(store.getState().portfolioRange);
+      updateDesktopPortfolioChart(store.getState().portfolioRange, animate);
       renderDesktopRecentFilings();
       setupLineChartHover('portfolio-canvas');
     } else if (tab === 'holdings') {
@@ -1761,7 +1805,7 @@
       renderPieLegend('pie-sector-legend', sData);
       filterDesktopHoldings();
     } else if (tab === 'returns') {
-      updateDesktopReturnsChart(true);
+      updateDesktopReturnsChart(animate);
       renderDesktopReturnsSummary();
       setupBarChartHover('returns-canvas', () => store.setState({ activeTab: 'transactions' }));
     } else if (tab === 'transactions') {
@@ -1769,15 +1813,15 @@
     }
   }
 
-  function updateDesktopPortfolioChart(range) {
+  function updateDesktopPortfolioChart(range, animate = false) {
     const series = getPortfolioTimeSeries(range);
-    drawLineChart('portfolio-canvas', series, null, true);
+    drawLineChart('portfolio-canvas', series, null, animate);
     const lastVal = series.length > 0 ? series[series.length - 1].value : 0;
     const disp = document.getElementById('portfolio-value-display');
     if (disp) disp.textContent = `${formatCompact(lastVal)} shares (net)`;
   }
 
-  function updateDesktopReturnsChart(animate = true) {
+  function updateDesktopReturnsChart(animate = false) {
     const { returnsView, returnsRange } = store.getState();
     const data = getReturnsData(returnsView, returnsRange);
     drawBarChart('returns-canvas', data, animate);
@@ -2017,7 +2061,7 @@
           document.querySelectorAll('#mobile-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ portfolioRange: btn.dataset.range });
-          updateMobilePortfolioChart(btn.dataset.range);
+          updateMobilePortfolioChart(btn.dataset.range, true); // Animate on toggle click
         });
       }
     } else if (state.activeTab === 'holdings') {
@@ -2048,7 +2092,7 @@
           document.querySelectorAll('#mobile-returns-time-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ returnsRange: btn.dataset.range });
-          updateMobileReturnsChart();
+          updateMobileReturnsChart(true);
         });
       }
       const rToggle = document.getElementById('mobile-returns-toggle');
@@ -2059,7 +2103,7 @@
           document.querySelectorAll('#mobile-returns-toggle .chart-toggle').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           store.setState({ returnsView: btn.dataset.view });
-          updateMobileReturnsChart();
+          updateMobileReturnsChart(true);
         });
       }
     } else if (state.activeTab === 'transactions') {
@@ -2080,15 +2124,15 @@
     }
   }
 
-  function renderActiveMobileTab(tab) {
+  function renderActiveMobileTab(tab, animate = false) {
     if (tab === 'dashboard') {
-      updateMobilePortfolioChart(store.getState().portfolioRange);
+      updateMobilePortfolioChart(store.getState().portfolioRange, animate);
       renderMobileRecentFilings();
       setupLineChartHover('mobile-portfolio-canvas');
     } else if (tab === 'holdings') {
       filterMobileHoldings();
     } else if (tab === 'returns') {
-      updateMobileReturnsChart(true);
+      updateMobileReturnsChart(animate);
       renderMobileReturnsSummary();
       setupBarChartHover('mobile-returns-canvas', () => store.setState({ activeTab: 'transactions' }));
     } else if (tab === 'transactions') {
@@ -2096,12 +2140,12 @@
     }
   }
 
-  function updateMobilePortfolioChart(range) {
+  function updateMobilePortfolioChart(range, animate = false) {
     const series = getPortfolioTimeSeries(range);
-    drawLineChart('mobile-portfolio-canvas', series, null, true);
+    drawLineChart('mobile-portfolio-canvas', series, null, animate);
   }
 
-  function updateMobileReturnsChart(animate = true) {
+  function updateMobileReturnsChart(animate = false) {
     const { returnsView, returnsRange } = store.getState();
     const data = getReturnsData(returnsView, returnsRange);
     drawBarChart('mobile-returns-canvas', data, animate);
@@ -2110,23 +2154,23 @@
   function renderMobileRecentFilings() {
     const feed = document.getElementById('mobile-activity-feed');
     if (!feed) return;
-    const latest = allTransactions.slice(0, 6);
+    const latest = allTransactions.slice(0, 4);
     feed.innerHTML = latest.map(tx => {
       const isBuy = tx.type === 'Acquired';
       const sign = isBuy ? '+' : '-';
       const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
       return `
-        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 28)}</div>
+        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 24)}</div>
             <div class="min-w-0">
               <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
-              <div class="text-[10px] text-outline truncate">${tx.company}</div>
+              <div class="text-[9px] text-outline truncate">${tx.company}</div>
             </div>
           </div>
           <div class="text-right shrink-0 ml-2 font-mono-numeric">
             <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
-            <div class="text-[9px] text-outline">${tx.date}</div>
+            <div class="text-[8px] text-outline">${tx.date}</div>
           </div>
         </div>
       `;
@@ -2149,20 +2193,20 @@
 
     list.innerHTML = filtered.map(h => {
       return `
-        <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
-          <div class="flex items-center gap-3 min-w-0">
-            ${renderStockLogo(h.stock_name, h.company_name, 34)}
+        <div class="glass-card p-3 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2.5 min-w-0">
+            ${renderStockLogo(h.stock_name, h.company_name, 30)}
             <div class="min-w-0">
               <div class="flex items-center gap-1.5">
-                <span class="font-bold text-sm text-white">${h.stock_name}</span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-white/5 text-outline">${h.sector}</span>
+                <span class="font-bold text-xs text-white">${h.stock_name}</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded bg-white/5 text-outline">${h.sector}</span>
               </div>
-              <div class="text-xs text-outline truncate mt-0.5">${h.company_name}</div>
+              <div class="text-[10px] text-outline truncate mt-0.5">${h.company_name}</div>
             </div>
           </div>
           <div class="text-right shrink-0 ml-2 font-mono-numeric">
             <div class="text-xs font-bold text-white">${formatCurrency(h.market_value)}</div>
-            <div class="text-[11px] text-emerald-400 font-semibold mt-0.5">${h.direct_percent?.toFixed(2)}% in co</div>
+            <div class="text-[10px] text-emerald-400 font-semibold mt-0.5">${h.direct_percent?.toFixed(2)}% in co</div>
           </div>
         </div>
       `;
@@ -2180,21 +2224,21 @@
     if (!container) return;
 
     container.innerHTML = `
-      <div class="glass-card p-3 rounded-xl">
-        <span class="text-[10px] font-bold text-outline uppercase">Acquired</span>
-        <div class="text-lg font-bold text-emerald-400 font-mono-numeric mt-1">+${formatCompact(totalAcquired)}</div>
+      <div class="glass-card p-2.5 rounded-xl">
+        <span class="text-[9px] font-bold text-outline uppercase">Acquired</span>
+        <div class="text-base font-bold text-emerald-400 font-mono-numeric mt-0.5">+${formatCompact(totalAcquired)}</div>
       </div>
-      <div class="glass-card p-3 rounded-xl">
-        <span class="text-[10px] font-bold text-outline uppercase">Disposed</span>
-        <div class="text-lg font-bold text-rose-400 font-mono-numeric mt-1">-${formatCompact(totalDisposed)}</div>
+      <div class="glass-card p-2.5 rounded-xl">
+        <span class="text-[9px] font-bold text-outline uppercase">Disposed</span>
+        <div class="text-base font-bold text-rose-400 font-mono-numeric mt-0.5">-${formatCompact(totalDisposed)}</div>
       </div>
-      <div class="glass-card p-3 rounded-xl">
-        <span class="text-[10px] font-bold text-outline uppercase">Net Flow</span>
-        <div class="text-lg font-bold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric mt-1">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+      <div class="glass-card p-2.5 rounded-xl">
+        <span class="text-[9px] font-bold text-outline uppercase">Net Flow</span>
+        <div class="text-base font-bold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric mt-0.5">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
       </div>
-      <div class="glass-card p-3 rounded-xl">
-        <span class="text-[10px] font-bold text-outline uppercase">Filings</span>
-        <div class="text-lg font-bold text-white font-mono-numeric mt-1">${totalTx.toLocaleString()}</div>
+      <div class="glass-card p-2.5 rounded-xl">
+        <span class="text-[9px] font-bold text-outline uppercase">Filings</span>
+        <div class="text-base font-bold text-white font-mono-numeric mt-0.5">${totalTx.toLocaleString()}</div>
       </div>
     `;
   }
@@ -2216,20 +2260,20 @@
       const isBuy = tx.type === 'Acquired';
       const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
       return `
-        <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
-          <div class="flex items-center gap-2.5 min-w-0">
-            ${renderStockLogo(tx.stock, tx.company, 32)}
+        <div class="glass-card p-3 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2 min-w-0">
+            ${renderStockLogo(tx.stock, tx.company, 28)}
             <div class="min-w-0">
               <div class="flex items-center gap-1.5">
                 <span class="font-bold text-xs text-white">${tx.stock}</span>
                 <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
               </div>
-              <div class="text-[11px] text-outline truncate mt-0.5">${tx.company}</div>
+              <div class="text-[10px] text-outline truncate mt-0.5">${tx.company}</div>
             </div>
           </div>
           <div class="text-right shrink-0 ml-2 font-mono-numeric">
             <div class="text-xs font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</div>
-            <div class="text-[10px] text-outline">${tx.date}</div>
+            <div class="text-[9px] text-outline">${tx.date}</div>
           </div>
         </div>
       `;
@@ -2242,6 +2286,7 @@
     if (!container) return;
 
     container.innerHTML = isMobile ? renderMobileViewContent(tab) : renderDesktopViewContent(tab);
+    applyScrollLock(tab);
 
     if (isMobile) {
       document.querySelectorAll('#mobile-tab-nav .mobile-tab-btn').forEach(btn => {
@@ -2252,19 +2297,13 @@
         btn.classList.toggle('text-outline', !active);
       });
       bindMobileEvents();
-      requestAnimationFrame(() => {
-        renderActiveMobileTab(tab);
-        observeChartContainers();
-      });
+      requestAnimationFrame(() => renderActiveMobileTab(tab, false));
     } else {
       document.querySelectorAll('#desktop-tab-nav .tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tab === tab);
       });
       bindDesktopEvents();
-      requestAnimationFrame(() => {
-        renderActiveDesktopTab(tab);
-        observeChartContainers();
-      });
+      requestAnimationFrame(() => renderActiveDesktopTab(tab, false));
     }
   }
 
@@ -2272,11 +2311,8 @@
     const isMobile = window.innerWidth < 768;
     const tab = store.getState().activeTab;
     if (tab === 'dashboard') {
-      if (isMobile) updateMobilePortfolioChart(store.getState().portfolioRange);
-      else {
-        const series = getPortfolioTimeSeries(store.getState().portfolioRange);
-        drawLineChart('portfolio-canvas', series, null, animate);
-      }
+      if (isMobile) updateMobilePortfolioChart(store.getState().portfolioRange, animate);
+      else updateDesktopPortfolioChart(store.getState().portfolioRange, animate);
     } else if (tab === 'holdings' && !isMobile) {
       const cData = getPieData('company');
       const sData = getPieData('sector');

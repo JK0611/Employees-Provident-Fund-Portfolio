@@ -329,8 +329,10 @@ function showTooltip(e, html) {
   }
   tt.innerHTML = html;
   tt.style.display = 'block';
-  tt.style.left = `${e.pageX + 12}px`;
-  tt.style.top = `${e.pageY - 28}px`;
+  const x = Math.min(window.innerWidth - 180, e.clientX + 14);
+  const y = Math.max(10, e.clientY - 35);
+  tt.style.left = `${x}px`;
+  tt.style.top = `${y}px`;
 }
 
 function hideTooltip() {

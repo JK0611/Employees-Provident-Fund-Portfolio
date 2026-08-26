@@ -427,25 +427,58 @@ canvas {
 
 .portfolio-trend-card,
 .recent-filings-card {
-  min-height: 440px !important;
+  min-height: 360px !important;
+  max-height: 400px !important;
 }
 
 .chart-body {
-  height: 280px !important;
-  min-height: 280px !important;
-  max-height: 280px !important;
+  height: 215px !important;
+  min-height: 215px !important;
+  max-height: 215px !important;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
 
+.chart-footer {
+  flex-shrink: 0 !important;
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+  padding-bottom: 2px !important;
+}
+
 .chart-body-tall {
-  height: 330px !important;
-  min-height: 330px !important;
-  max-height: 330px !important;
+  height: 275px !important;
+  min-height: 275px !important;
+  max-height: 275px !important;
   position: relative;
   width: 100%;
   overflow: hidden;
+}
+
+.table-scroll-wrapper {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  position: relative;
+}
+
+.table-scroll-wrapper thead {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 25 !important;
+}
+
+.table-scroll-wrapper thead th {
+  background-color: #15111c !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 25 !important;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08) !important;
 }
 
 .pie-chart-container {
@@ -457,19 +490,77 @@ canvas {
   max-height: 180px !important;
   position: relative;
   flex-shrink: 0;
-  overflow: hidden;
+}
+
+.pie-chart-container-compact {
+  width: 130px !important;
+  height: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+  min-height: 130px !important;
+  max-height: 130px !important;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Floating Precision Chart Tooltip (Never breaks layout flow) */
+.chart-tooltip {
+  position: fixed !important;
+  pointer-events: none !important;
+  z-index: 99999 !important;
+  background: rgba(15, 12, 20, 0.96) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(244, 63, 94, 0.35) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 12px rgba(244, 63, 94, 0.25) !important;
+  display: none;
+  font-family: var(--font-sans) !important;
+  line-height: 1.35 !important;
+}
+
+.tt-label {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-bottom: 2px !important;
+}
+
+.tt-value {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono) !important;
+}
+
+.tt-positive {
+  color: #34d399 !important;
+}
+
+.tt-negative {
+  color: #fb7185 !important;
 }
 
 @media (max-width: 767px) {
+  body.mobile-locked,
+  html.mobile-locked {
+    overflow: hidden !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    position: fixed !important;
+    width: 100% !important;
+    overscroll-behavior: none !important;
+    touch-action: pan-x !important;
+  }
+
   .chart-body {
-    height: 210px !important;
-    min-height: 210px !important;
-    max-height: 210px !important;
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 160px !important;
   }
   .chart-body-tall {
-    height: 230px !important;
-    min-height: 230px !important;
-    max-height: 230px !important;
+    height: 190px !important;
+    min-height: 190px !important;
+    max-height: 190px !important;
   }
 }
 
