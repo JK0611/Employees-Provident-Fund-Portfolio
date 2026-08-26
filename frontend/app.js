@@ -999,13 +999,17 @@
     }
   }
 
-  function drawPieChart(canvasId, data, type = 'company') {
+  let pieChartDataCache = { company: [], sector: [] };
+
+  function drawPieChart(canvasId, data, type = 'company', hoveredIndex = -1) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
     const parent = canvas.parentElement;
     if (!parent) return;
+
+    pieChartDataCache[type] = data;
 
     const w = parent.clientWidth || 130;
     const h = parent.clientHeight || 130;
@@ -1016,8 +1020,8 @@
 
     const cx = w / 2;
     const cy = h / 2;
-    const outerR = Math.min(cx, cy) - 6;
-    const innerR = outerR * 0.60;
+    const baseOuterR = Math.min(cx, cy) - 9;
+    const baseInnerR = baseOuterR * 0.58;
 
     ctx.clearRect(0, 0, w, h);
     if (!data || data.length === 0) return;
@@ -1025,46 +1029,258 @@
     const total = data.reduce((s, d) => s + d.value, 0);
     let startAngle = -Math.PI / 2;
 
+    // Calculate angles first
     data.forEach((d) => {
       const sweep = (d.value / total) * (Math.PI * 2);
-      const endAngle = startAngle + sweep;
+      d._startAngle = startAngle;
+      d._endAngle = startAngle + sweep;
+      startAngle = d._endAngle;
+    });
+
+    // PASS 1: Draw all non-hovered slices underneath
+    data.forEach((d, i) => {
+      if (i === hoveredIndex) return;
 
       ctx.save();
+      ctx.globalAlpha = hoveredIndex !== -1 ? 0.35 : 1.0;
       ctx.fillStyle = d.color;
+
       ctx.beginPath();
-      ctx.arc(cx, cy, outerR, startAngle, endAngle);
-      ctx.arc(cx, cy, innerR, endAngle, startAngle, true);
+      ctx.arc(cx, cy, baseOuterR, d._startAngle, d._endAngle);
+      ctx.arc(cx, cy, baseInnerR, d._endAngle, d._startAngle, true);
       ctx.closePath();
       ctx.fill();
 
       ctx.strokeStyle = '#08090e';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.restore();
-
-      startAngle = endAngle;
     });
 
+    // PASS 2: Draw hovered slice ON TOP with full, unbroken, perfectly closed outline & pop-out
+    if (hoveredIndex !== -1 && data[hoveredIndex]) {
+      const d = data[hoveredIndex];
+      const midAngle = (d._startAngle + d._endAngle) / 2;
+      const popDist = 4.5;
+      const ox = Math.cos(midAngle) * popDist;
+      const oy = Math.sin(midAngle) * popDist;
+
+      ctx.save();
+      ctx.globalAlpha = 1.0;
+      ctx.fillStyle = d.color;
+      ctx.shadowColor = d.color;
+      ctx.shadowBlur = 14;
+
+      ctx.beginPath();
+      ctx.arc(cx + ox, cy + oy, baseOuterR + 1, d._startAngle, d._endAngle);
+      ctx.arc(cx + ox, cy + oy, baseInnerR - 1, d._endAngle, d._startAngle, true);
+      ctx.closePath();
+      ctx.fill();
+
+      // Completely closed, thick, glowing white stroke
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2.5;
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Center text
     ctx.fillStyle = '#ffffff';
     ctx.font = '700 12px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const centerText = type === 'company' ? `${getRawData()?.holdings?.length || 260}` : `${data.length}`;
-    ctx.fillText(centerText, cx, cy);
+
+    if (hoveredIndex !== -1 && data[hoveredIndex]) {
+      const hItem = data[hoveredIndex];
+      ctx.fillText(`${hItem.pct}%`, cx, cy - 6);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 8.5px "Plus Jakarta Sans", sans-serif';
+      const shortLabel = hItem.label.length > 7 ? hItem.label.slice(0, 6) + '..' : hItem.label;
+      ctx.fillText(shortLabel, cx, cy + 7);
+    } else {
+      const centerText = type === 'company' ? `${getRawData()?.holdings?.length || 260}` : `${data.length}`;
+      const centerSub = type === 'company' ? 'stocks' : 'sectors';
+      ctx.fillText(centerText, cx, cy - 5);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 8.5px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(centerSub, cx, cy + 7);
+    }
   }
 
   function renderPieLegend(containerId, data) {
     const el = document.getElementById(containerId);
     if (!el) return;
-    el.innerHTML = data.map(d => `
-      <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.03] border border-white/[0.04] text-xs">
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${d.color}"></span>
-          <span class="font-bold text-white truncate">${d.label}</span>
+    el.innerHTML = data.map((d, i) => `
+      <div class="pie-legend-row flex items-center justify-between p-1.5 px-2 rounded-lg bg-white/[0.03] border border-white/[0.05] text-xs cursor-pointer transition-all hover:bg-white/[0.08] hover:border-primary/40" data-index="${i}" data-label="${d.label}">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="w-2 h-2 rounded-full shrink-0 shadow-sm" style="background-color: ${d.color}"></span>
+          <span class="font-bold text-white text-[11px] truncate max-w-[80px]">${d.label}</span>
         </div>
-        <span class="font-mono text-outline shrink-0 ml-2">${d.pct}%</span>
+        <span class="font-mono text-[11px] text-outline shrink-0 ml-1 font-semibold">${d.pct}%</span>
       </div>
     `).join('');
+  }
+
+  function setupPieInteractivity(canvasId, legendId, type) {
+    const canvas = document.getElementById(canvasId);
+    const legendEl = document.getElementById(legendId);
+    if (!canvas) return;
+
+    let currentHover = -1;
+
+    function getSliceIndex(e) {
+      const data = pieChartDataCache[type] || [];
+      if (!data.length) return -1;
+
+      const rect = canvas.getBoundingClientRect();
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const dx = mx - cx;
+      const dy = my - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const outerR = Math.min(cx, cy);
+
+      if (dist < outerR * 0.45 || dist > outerR + 10) return -1;
+
+      let angle = Math.atan2(dy, dx);
+      if (angle < -Math.PI / 2) angle += Math.PI * 2;
+
+      for (let i = 0; i < data.length; i++) {
+        if (angle >= data[i]._startAngle && angle < data[i]._endAngle) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function setHover(idx, e) {
+      if (currentHover === idx) return;
+      currentHover = idx;
+      const data = pieChartDataCache[type] || [];
+      drawPieChart(canvasId, data, type, currentHover);
+
+      if (legendEl) {
+        legendEl.querySelectorAll('.pie-legend-row').forEach((row, i) => {
+          if (i === idx) {
+            row.classList.add('bg-primary/20', 'border-primary/60', 'shadow-[0_0_12px_rgba(244,63,94,0.3)]');
+          } else {
+            row.classList.remove('bg-primary/20', 'border-primary/60', 'shadow-[0_0_12px_rgba(244,63,94,0.3)]');
+          }
+        });
+      }
+
+      if (idx !== -1 && data[idx]) {
+        const item = data[idx];
+        const clientX = e ? e.clientX : (legendEl ? legendEl.getBoundingClientRect().left : 200);
+        const clientY = e ? e.clientY : (legendEl ? legendEl.getBoundingClientRect().top : 200);
+        showTooltip({ clientX, clientY }, `
+          <div class="tt-label font-bold text-white">${item.label}</div>
+          <div class="tt-value text-primary font-mono text-xs mt-0.5">${item.pct}% weight</div>
+          <div class="text-[10px] text-outline mt-0.5">RM ${formatCompact(item.value)}</div>
+        `);
+      } else {
+        hideTooltip();
+      }
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const idx = getSliceIndex(e);
+      canvas.style.cursor = idx !== -1 ? 'pointer' : 'default';
+      setHover(idx, e);
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      setHover(-1, null);
+    });
+
+    canvas.addEventListener('click', (e) => {
+      const idx = getSliceIndex(e);
+      const data = pieChartDataCache[type] || [];
+      if (idx !== -1 && data[idx]) {
+        handlePieSelection(type, data[idx].label);
+      }
+    });
+
+    if (legendEl) {
+      legendEl.querySelectorAll('.pie-legend-row').forEach((row, i) => {
+        row.addEventListener('mouseenter', (e) => setHover(i, e));
+        row.addEventListener('mouseleave', () => setHover(-1, null));
+        row.addEventListener('click', () => {
+          const data = pieChartDataCache[type] || [];
+          if (data[i]) {
+            handlePieSelection(type, data[i].label);
+          }
+        });
+      });
+    }
+  }
+
+  function handlePieSelection(type, label) {
+    const isMobile = window.innerWidth < 768;
+    if (type === 'sector') {
+      if (isMobile) {
+        const curSector = store.getState().holdingsSector;
+        const newSector = (curSector === label) ? 'all' : label;
+        store.setState({ holdingsSector: newSector });
+        document.querySelectorAll('#mobile-sector-pills .sector-pill').forEach(b => {
+          const match = b.dataset.sector === newSector;
+          b.classList.toggle('active', match);
+          b.classList.toggle('bg-primary/20', match);
+          b.classList.toggle('text-primary', match);
+          b.classList.toggle('border-primary/30', match);
+          b.classList.toggle('font-semibold', match);
+          b.classList.toggle('bg-white/[0.04]', !match);
+          b.classList.toggle('text-outline', !match);
+          b.classList.toggle('border-white/10', !match);
+        });
+        filterMobileHoldings();
+        updateLegendActiveState('mobile-pie-sector-legend', newSector);
+      } else {
+        const select = document.getElementById('holdings-sector-filter');
+        if (!select) return;
+        select.value = (select.value === label) ? 'all' : label;
+        filterDesktopHoldings();
+        updateLegendActiveState('pie-sector-legend', select.value);
+      }
+    } else if (type === 'company') {
+      if (isMobile) {
+        const search = document.getElementById('mobile-holdings-search');
+        if (!search) return;
+        if (label.startsWith('Others') || search.value.toLowerCase() === label.toLowerCase()) {
+          search.value = '';
+        } else {
+          search.value = label;
+        }
+        filterMobileHoldings();
+        updateLegendActiveState('mobile-pie-company-legend', search.value);
+      } else {
+        const search = document.getElementById('holdings-search');
+        if (!search) return;
+        if (label.startsWith('Others') || search.value.toLowerCase() === label.toLowerCase()) {
+          search.value = '';
+        } else {
+          search.value = label;
+        }
+        filterDesktopHoldings();
+        updateLegendActiveState('pie-company-legend', search.value);
+      }
+    }
+  }
+
+  function updateLegendActiveState(legendId, activeVal) {
+    const el = document.getElementById(legendId);
+    if (!el) return;
+    el.querySelectorAll('.pie-legend-row').forEach(row => {
+      const label = row.dataset.label;
+      if (activeVal && activeVal !== 'all' && label && label.toLowerCase() === activeVal.toLowerCase()) {
+        row.classList.add('border-primary', 'bg-primary/25', 'ring-1', 'ring-primary');
+      } else {
+        row.classList.remove('border-primary', 'bg-primary/25', 'ring-1', 'ring-primary');
+      }
+    });
   }
 
   // ----------------------------------------------------
@@ -1134,8 +1350,8 @@
     `).join('');
 
     return `
-      <div id="desktop-panel-dashboard" class="flex flex-col gap-4 w-full min-w-0">
-        <div class="flex flex-col gap-0.5">
+      <div id="desktop-panel-dashboard" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
+        <div class="flex flex-col gap-0.5 shrink-0">
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Active Scope</span>
@@ -1151,39 +1367,39 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div id="bento-sector-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
-            <div class="flex justify-between items-start mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 shrink-0">
+          <div id="bento-sector-card" class="glass-card p-4 flex flex-col justify-between h-[130px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-1.5">
               <div class="flex items-center gap-1.5">
                 <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Sector Allocation</span>
               </div>
               <div class="flex items-center" id="bento-sector-logos">${sectorLogosHtml}</div>
             </div>
             <div>
-              <div class="text-2xl font-bold text-on-surface tracking-tight">${topSector[0]}</div>
-              <div class="flex items-center justify-between text-xs mt-1.5 font-mono-numeric">
+              <div class="text-xl font-bold text-on-surface tracking-tight">${topSector[0]}</div>
+              <div class="flex items-center justify-between text-xs mt-1 font-mono-numeric">
                 <span class="text-on-surface font-semibold">RM ${formatCompact(topSector[1])}</span>
                 <span class="text-primary font-bold px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">${topSectorPct}%</span>
               </div>
-              <div class="w-full bg-white/10 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div class="w-full bg-white/10 rounded-full h-1.5 mt-1.5 overflow-hidden">
                 <div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full" style="width: ${topSectorPct}%;"></div>
               </div>
             </div>
           </div>
 
-          <div id="bento-holding-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
-            <div class="flex justify-between items-center mb-2">
+          <div id="bento-holding-card" class="glass-card p-4 flex flex-col justify-between h-[130px] relative group cursor-pointer">
+            <div class="flex justify-between items-center mb-1.5">
               <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Top Holding Spotlight</span>
-              <div class="relative flex h-9 w-9 shrink-0 items-center justify-center">
-                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 36)}
+              <div class="relative flex h-8 w-8 shrink-0 items-center justify-center">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 32)}
               </div>
             </div>
             <div>
               <div class="flex items-baseline gap-2">
-                <span class="text-xl font-bold text-on-surface tracking-tight">${topHolding.stock_name}</span>
+                <span class="text-lg font-bold text-on-surface tracking-tight">${topHolding.stock_name}</span>
                 <span class="text-xs text-outline font-medium truncate max-w-[140px]">${topHolding.company_name}</span>
               </div>
-              <div class="text-xs mt-1.5 flex justify-between items-center font-mono-numeric">
+              <div class="text-xs mt-1 flex justify-between items-center font-mono-numeric">
                 <span class="text-on-surface font-bold text-sm">${formatCurrency(topHolding.market_value || 0)}</span>
                 <span class="badge-pill-success text-xs">
                   ${ICONSTACK.arrow_upward}${topHolding.direct_percent?.toFixed(3)}% in company
@@ -1192,23 +1408,23 @@
             </div>
           </div>
 
-          <div id="bento-active-card" class="glass-card p-5 flex flex-col justify-between min-h-[135px] relative group cursor-pointer">
-            <div class="flex justify-between items-start mb-2">
+          <div id="bento-active-card" class="glass-card p-4 flex flex-col justify-between h-[130px] relative group cursor-pointer">
+            <div class="flex justify-between items-start mb-1.5">
               <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Active Positions</span>
               <div class="flex items-center justify-center text-primary filter drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]">
                 ${ICONSTACK.layout_grid}
               </div>
             </div>
             <div>
-              <div class="text-3xl font-extrabold text-on-surface tracking-tight font-mono-numeric">${holdings.length} positions</div>
-              <div class="text-xs text-outline mt-1 font-medium">${data?.uniqueStocks || holdings.length} unique stocks across ${sortedSectors.length} sectors</div>
+              <div class="text-2xl font-extrabold text-on-surface tracking-tight font-mono-numeric">${holdings.length} positions</div>
+              <div class="text-xs text-outline mt-0.5 font-medium">${data?.uniqueStocks || holdings.length} unique stocks across ${sortedSectors.length} sectors</div>
             </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div class="lg:col-span-2 glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col justify-between">
-            <div class="flex justify-between items-center mb-3">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 flex-1 min-h-0 w-full">
+          <div class="lg:col-span-2 glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col justify-between h-full min-h-0">
+            <div class="flex justify-between items-center mb-2.5 shrink-0">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Portfolio Trend</h3>
                 <span class="text-xs text-outline">Cumulative net shareholdings momentum</span>
@@ -1220,10 +1436,10 @@
                 <button class="chart-toggle" data-range="ALL">All Time</button>
               </div>
             </div>
-            <div class="chart-body flex-1 relative">
+            <div class="chart-body flex-1 relative min-h-0 w-full">
               <canvas id="portfolio-canvas"></canvas>
             </div>
-            <div class="chart-footer mt-2 flex items-center justify-between border-t border-white/10 pt-2 pb-0.5">
+            <div class="chart-footer mt-2 flex items-center justify-between border-t border-white/10 pt-2 pb-0.5 shrink-0">
               <div class="chart-legend-item flex items-center gap-2">
                 <span class="legend-line w-5 h-1 bg-primary rounded-full shadow-sm"></span>
                 <span class="legend-label text-xs text-outline font-medium" id="portfolio-legend-date">Net Shareholdings Trend</span>
@@ -1232,15 +1448,15 @@
             </div>
           </div>
 
-          <div class="glass-card recent-filings-card p-5 glow-hover transition-all flex flex-col">
-            <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-2.5">
+          <div class="glass-card recent-filings-card p-5 glow-hover transition-all flex flex-col h-full min-h-0">
+            <div class="flex justify-between items-center mb-2.5 border-b border-white/10 pb-2 shrink-0">
               <div>
                 <h3 class="text-base font-bold text-on-surface tracking-tight">Recent Filings</h3>
                 <span class="text-xs text-outline">Bursa announcements feed</span>
               </div>
-              <svg class="w-5 h-5 text-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+              <svg class="w-4 h-4 text-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
             </div>
-            <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar" id="bento-activity-feed"></div>
+            <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar min-h-0" id="bento-activity-feed"></div>
           </div>
         </div>
       </div>
@@ -1323,9 +1539,9 @@
 
   function renderDesktopReturns() {
     return `
-      <div id="desktop-panel-returns" class="flex flex-col gap-4 w-full min-w-0">
-        <div class="glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden">
-          <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+      <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
+        <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-0">
+          <div class="flex justify-between items-center mb-3 flex-wrap gap-3 shrink-0">
             <div>
               <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
               <span class="text-xs text-outline">Accumulation vs Divestment volume over time</span>
@@ -1344,11 +1560,11 @@
               </div>
             </div>
           </div>
-          <div class="chart-body chart-body-tall flex-1 relative">
+          <div class="chart-body-tall flex-1 relative min-h-0 w-full">
             <canvas id="returns-canvas"></canvas>
           </div>
         </div>
-        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 w-full" id="returns-summary"></div>
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 w-full shrink-0" id="returns-summary"></div>
       </div>
     `;
   }
@@ -1409,17 +1625,14 @@
           <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
           <span class="text-[9px] tracking-tight">Overview</span>
         </button>
-
         <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'holdings' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="holdings" id="mobile-btn-holdings">
           <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
           <span class="text-[9px] tracking-tight">Holdings</span>
         </button>
-
         <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'returns' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="returns" id="mobile-btn-returns">
           <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
           <span class="text-[9px] tracking-tight">Flows</span>
         </button>
-
         <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'transactions' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="transactions" id="mobile-btn-transactions">
           <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
           <span class="text-[9px] tracking-tight">Filings</span>
@@ -1431,69 +1644,76 @@
   function renderMobileDashboard(data = getRawData()) {
     const holdings = data?.holdings || [];
     const totalMarketValue = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
-
     const sectorMap = {};
     holdings.forEach(h => { sectorMap[h.sector] = (sectorMap[h.sector] || 0) + (h.market_value || 0); });
     const sortedSectors = Object.entries(sectorMap).sort((a, b) => b[1] - a[1]);
     const topSector = sortedSectors[0] || ['Banking', 0];
     const topSectorPct = totalMarketValue > 0 ? ((topSector[1] / totalMarketValue) * 100).toFixed(1) : '0.0';
-
     const sortedHoldings = [...holdings].sort((a, b) => (b.market_value || 0) - (a.market_value || 0));
     const topHolding = sortedHoldings[0] || { stock_name: 'TENAGA', company_name: 'TENAGA NASIONAL BHD', market_value: 0, direct_percent: 24.85 };
 
-    return `
-      <div id="mobile-panel-dashboard" class="flex flex-col justify-between h-[calc(100vh-5rem)] w-full py-1">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <img src="assets/logo.png" alt="EPF Tracker" class="h-7 w-7 object-contain filter drop-shadow-[0_2px_8px_rgba(244,63,94,0.4)]">
-            <div class="flex items-center gap-1">
-              <span class="font-extrabold text-base text-white tracking-tight">EPF</span>
-              <span class="font-extrabold text-base text-primary tracking-tight">Tracker</span>
-            </div>
-          </div>
-          <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-primary/10 text-primary border border-primary/20">Live Scope</span>
-        </div>
+    const sectorHoldings = holdings.filter(h => h.sector === topSector[0]).sort((a, b) => (b.market_value || 0) - (a.market_value || 0)).slice(0, 3);
+    const sectorLogosHtml = sectorHoldings.map((h, i) => `
+      <div class="relative w-6 h-6 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-1.5 first:ml-0 bg-surface-container" style="z-index: ${30 - i * 10}">
+        ${renderStockLogo(h.stock_name, h.company_name, 24)}
+      </div>
+    `).join('');
 
-        <div class="glass-card p-3 rounded-xl flex flex-col gap-0.5">
-          <span class="text-[9px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
-          <div class="flex items-baseline justify-between">
-            <h2 class="text-xl font-black text-white font-mono-numeric tracking-tight">
-              ${formatCurrency(totalMarketValue)}
-            </h2>
+    return `
+      <div id="mobile-panel-dashboard" class="flex flex-col w-full py-2 pb-[62px] gap-3">
+        <!-- Hero Balance Card with Crimson Glow -->
+        <div id="mobile-hero-balance-card" class="glass-card p-3.5 rounded-2xl flex flex-col gap-1 shrink-0">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
             <span class="badge-pill-success text-[10px] font-bold">+2.4%</span>
           </div>
+          <div class="flex items-baseline">
+            <h2 class="text-2xl font-black text-white font-mono-numeric tracking-tight">
+              ${formatCurrency(totalMarketValue)}
+            </h2>
+          </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <div class="glass-card p-2.5 rounded-xl flex flex-col justify-between">
-            <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
-            <div class="mt-0.5">
-              <div class="text-xs font-bold text-white truncate">${topSector[0]}</div>
+        <!-- 2 Bento Metric Cards -->
+        <div class="grid grid-cols-2 gap-2.5 shrink-0">
+          <!-- Top Sector Card with Logos -->
+          <div id="mobile-bento-sector-card" class="glass-card p-3 rounded-2xl flex flex-col justify-between h-[115px]">
+            <div class="flex justify-between items-start">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
+              <div class="flex items-center" id="mobile-sector-logos">${sectorLogosHtml}</div>
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white truncate">${topSector[0]}</div>
               <div class="flex justify-between items-center text-[10px] font-mono-numeric text-outline mt-0.5">
                 <span>RM ${formatCompact(topSector[1])}</span>
                 <span class="text-primary font-bold">${topSectorPct}%</span>
               </div>
             </div>
+            <div class="w-full bg-white/10 rounded-full h-1 overflow-hidden">
+              <div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full" style="width: ${topSectorPct}%;"></div>
+            </div>
           </div>
 
-          <div class="glass-card p-2.5 rounded-xl flex flex-col justify-between">
-            <div class="flex justify-between items-center">
-              <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Stock</span>
-              <div class="h-4 w-4 shrink-0 flex items-center justify-center">
-                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 18)}
+          <!-- Top Holding Card with Correct Logo Position -->
+          <div id="mobile-bento-holding-card" class="glass-card p-3 rounded-2xl flex flex-col justify-between h-[115px] relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Holding</span>
+              <div class="relative flex h-6 w-6 shrink-0 items-center justify-center -mt-0.5">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 24)}
               </div>
             </div>
-            <div class="mt-0.5">
-              <div class="text-xs font-bold text-white truncate">${topHolding.stock_name}</div>
+            <div>
+              <div class="text-sm font-bold text-white truncate">${topHolding.stock_name}</div>
               <div class="text-[10px] font-mono-numeric text-emerald-400 font-semibold mt-0.5 truncate">
-                ${formatCompact(topHolding.market_value)}
+                ${formatCompact(topHolding.market_value)} (${topHolding.direct_percent?.toFixed(1)}%)
               </div>
             </div>
           </div>
         </div>
 
-        <div class="glass-card p-3 rounded-xl flex flex-col gap-1.5">
-          <div class="flex items-center justify-between">
+        <!-- Portfolio Trend Chart Card with Ambient Lighting -->
+        <div id="mobile-portfolio-card" class="glass-card p-3.5 rounded-2xl flex flex-col gap-2 shrink-0">
+          <div class="flex items-center justify-between shrink-0">
             <div>
               <h3 class="text-xs font-bold text-white">Portfolio Trend</h3>
               <span class="text-[9px] text-outline">Net shareholdings</span>
@@ -1505,47 +1725,137 @@
               <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
             </div>
           </div>
-          <div class="chart-body h-[160px] w-full relative overflow-hidden">
+          <div class="chart-body h-[240px] w-full relative">
             <canvas id="mobile-portfolio-canvas"></canvas>
           </div>
         </div>
 
-        <div class="glass-card p-2.5 rounded-xl flex flex-col gap-1">
+        <!-- Recent Filings Card (6 entries, stops +5px above nav bar) -->
+        <div id="mobile-activity-card" class="glass-card p-3 rounded-2xl flex flex-col gap-1.5 shrink-0">
           <div class="flex items-center justify-between">
             <h3 class="text-xs font-bold text-white">Recent Bursa Filings</h3>
             <span class="text-[9px] text-outline">Latest notices</span>
           </div>
-          <div class="space-y-1" id="mobile-activity-feed"></div>
+          <div class="space-y-1.5" id="mobile-activity-feed"></div>
         </div>
+      </div>
+    `;
+  }
+
+  function renderMobileHoldings(data = getRawData()) {
+    const holdings = data?.holdings || [];
+    const sectors = ['all', ...new Set(holdings.map(h => h.sector))];
+
+    return `
+      <div id="mobile-panel-holdings" class="flex flex-col gap-3.5 w-full pb-24 pt-1">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-extrabold text-white tracking-tight">Portfolio Holdings</h2>
+            <span class="text-[10px] text-outline">${holdings.length} domestic equity assets</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="mobile-holdings-count">${holdings.length}</span>
+        </div>
+
+        <!-- 2 Mobile Interactive Donut Pie Chart Cards -->
+        <div class="grid grid-cols-1 gap-3 shrink-0">
+          <!-- Allocation by Company -->
+          <div class="glass-card p-3.5 rounded-2xl flex flex-col justify-between" id="mobile-pie-company-card">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-xs font-bold text-white tracking-tight">Allocation by Company</h3>
+              <span class="text-[9px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-semibold">Top 10</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <div class="relative w-[115px] h-[115px] shrink-0 flex items-center justify-center">
+                <canvas id="mobile-pie-company-canvas" class="w-full h-full"></canvas>
+              </div>
+              <div class="flex-1 min-w-0 space-y-1" id="mobile-pie-company-legend"></div>
+            </div>
+          </div>
+
+          <!-- Allocation by Sector -->
+          <div class="glass-card p-3.5 rounded-2xl flex flex-col justify-between" id="mobile-pie-sector-card">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-xs font-bold text-white tracking-tight">Allocation by Sector</h3>
+              <span class="text-[9px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-semibold">Macro</span>
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <div class="relative w-[115px] h-[115px] shrink-0 flex items-center justify-center">
+                <canvas id="mobile-pie-sector-canvas" class="w-full h-full"></canvas>
+              </div>
+              <div class="flex-1 min-w-0 space-y-1" id="mobile-pie-sector-legend"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <input type="text" id="mobile-holdings-search" placeholder="Search ticker or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+        </div>
+
+        <div class="flex gap-1.5 overflow-x-auto pb-1 custom-scrollbar no-scrollbar" id="mobile-sector-pills">
+          ${sectors.map(s => `
+            <button class="sector-pill whitespace-nowrap px-3 py-1 rounded-lg text-[11px] border transition-all ${s === 'all' ? 'active bg-primary/20 text-primary border-primary/30 font-semibold' : 'bg-white/[0.04] text-outline border-white/10'}" data-sector="${s}">
+              ${s === 'all' ? 'All Sectors' : s}
+            </button>
+          `).join('')}
+        </div>
+
+        <div class="space-y-2 mt-0.5" id="mobile-holdings-list"></div>
       </div>
     `;
   }
 
   function renderMobileReturns() {
     return `
-      <div id="mobile-panel-returns" class="flex flex-col justify-between h-[calc(100vh-5rem)] w-full py-1">
-        <div class="glass-card p-3 rounded-xl flex flex-col gap-2">
-          <div class="flex flex-col gap-1">
-            <div class="flex justify-between items-center">
-              <h3 class="text-xs font-bold text-white">Net Capital Activity</h3>
-              <div class="chart-toggle-group flex gap-0.5" id="mobile-returns-toggle">
-                <button class="chart-toggle active text-[9px] px-2 py-0.5" data-view="net">Net</button>
-                <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="acquired">Buy</button>
-                <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="disposed">Sell</button>
-              </div>
+      <div id="mobile-panel-returns" class="flex flex-col justify-between h-[calc(100dvh-7.5rem)] w-full py-1 gap-2.5 overflow-hidden">
+        <div id="mobile-returns-chart-card" class="glass-card p-3.5 rounded-2xl flex flex-col gap-2 flex-1 min-h-0 overflow-hidden">
+          <div class="flex justify-between items-center shrink-0">
+            <div>
+              <h3 class="text-xs font-bold text-white tracking-tight">Net Capital Activity</h3>
+              <span class="text-[9px] text-outline">Accumulation vs Divestment volume</span>
             </div>
-            <div class="chart-toggle-group flex gap-0.5 self-start" id="mobile-returns-time-toggle">
-              <button class="chart-toggle active text-[9px] px-2 py-0.5" data-range="1M">1M</button>
-              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="3M">3M</button>
-              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="1Y">1Y</button>
-              <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
+            <div class="chart-toggle-group flex gap-0.5" id="mobile-returns-toggle">
+              <button class="chart-toggle active text-[9px] px-2 py-0.5" data-view="net">Net</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="acquired">Buy</button>
+              <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="disposed">Sell</button>
             </div>
           </div>
-          <div class="chart-body chart-body-tall h-[190px] w-full relative overflow-hidden">
+          <div class="chart-toggle-group flex gap-0.5 self-start shrink-0" id="mobile-returns-time-toggle">
+            <button class="chart-toggle active text-[9px] px-2 py-0.5" data-range="1M">1M</button>
+            <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="3M">3M</button>
+            <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="1Y">1Y</button>
+            <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
+          </div>
+          <div class="chart-body flex-1 relative min-h-0 w-full overflow-hidden">
             <canvas id="mobile-returns-canvas"></canvas>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2" id="mobile-returns-summary"></div>
+        <div class="grid grid-cols-2 gap-2.5 shrink-0" id="mobile-returns-summary"></div>
+      </div>
+    `;
+  }
+
+  function renderMobileTransactions() {
+    return `
+      <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-24 pt-1">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-extrabold text-white tracking-tight">EPF Bursa Filings</h2>
+            <span class="text-[10px] text-outline">Substantial Shareholder Notices</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="mobile-tx-count">${allTransactions.length}</span>
+        </div>
+
+        <div class="relative">
+          <input type="text" id="mobile-tx-search" placeholder="Search stock or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+        </div>
+
+        <div class="flex gap-1.5" id="mobile-tx-type-pills">
+          <button class="tx-type-pill flex-1 py-1.5 rounded-lg text-xs font-semibold border border-primary/30 bg-primary/20 text-primary active" data-type="all">All</button>
+          <button class="tx-type-pill flex-1 py-1.5 rounded-lg text-xs font-semibold border border-white/10 bg-white/[0.04] text-outline" data-type="Acquired">Acquired</button>
+          <button class="tx-type-pill flex-1 py-1.5 rounded-lg text-xs font-semibold border border-white/10 bg-white/[0.04] text-outline" data-type="Disposed">Disposed</button>
+        </div>
+
+        <div class="space-y-2 mt-0.5" id="mobile-tx-feed"></div>
       </div>
     `;
   }
@@ -1553,18 +1863,18 @@
   function renderMobileRecentFilings() {
     const feed = document.getElementById('mobile-activity-feed');
     if (!feed) return;
-    const latest = allTransactions.slice(0, 2);
+    const latest = allTransactions.slice(0, 6);
     feed.innerHTML = latest.map(tx => {
       const isBuy = tx.type === 'Acquired';
       const sign = isBuy ? '+' : '-';
       const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
       return `
-        <div class="flex items-center justify-between p-1.5 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]">
           <div class="flex items-center gap-2 min-w-0">
-            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 22)}</div>
+            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 24)}</div>
             <div class="min-w-0">
               <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
-              <div class="text-[8px] text-outline truncate">${tx.company}</div>
+              <div class="text-[9px] text-outline truncate">${tx.company}</div>
             </div>
           </div>
           <div class="text-right shrink-0 ml-2 font-mono-numeric">
@@ -1578,10 +1888,9 @@
 
   function applyScrollLock(tab) {
     const isMobile = window.innerWidth < 768;
-    const isFixedTab = tab === 'dashboard' || tab === 'returns';
 
     if (isMobile) {
-      if (isFixedTab) {
+      if (tab === 'returns') {
         document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
         document.documentElement.style.height = '100%';
@@ -1691,9 +2000,18 @@
 
     if (isMobile) {
       root.innerHTML = `
-        <div class="w-full bg-page text-on-surface px-3 pt-1 flex flex-col justify-between" id="mobile-app-layout">
-          <main class="w-full max-w-lg mx-auto flex-1 flex flex-col justify-between overflow-hidden">
-            <div id="mobile-view-container" class="w-full h-full flex flex-col justify-between">
+        <div class="w-full min-h-screen bg-page text-on-surface flex flex-col justify-between" id="mobile-app-layout">
+          <header class="h-12 bg-surface/90 backdrop-blur-xl border-b border-white/10 flex items-center px-4 sticky top-0 z-40 shrink-0 shadow-lg" id="mobile-header">
+            <div class="flex items-center gap-2">
+              <img src="assets/logo.png" alt="EPF Logo" class="h-7 w-7 object-contain filter drop-shadow-[0_0_10px_rgba(244,63,94,0.5)]">
+              <div class="flex items-center gap-1">
+                <span class="font-extrabold text-base text-white tracking-tight">EPF</span>
+                <span class="font-extrabold text-base text-primary tracking-tight">Tracker</span>
+              </div>
+            </div>
+          </header>
+          <main class="w-full max-w-lg mx-auto flex-1 flex flex-col px-3">
+            <div id="mobile-view-container" class="w-full flex-1 flex flex-col">
               ${renderMobileViewContent(state.activeTab)}
             </div>
           </main>
@@ -1803,6 +2121,8 @@
       drawPieChart('pie-sector-canvas', sData, 'sector');
       renderPieLegend('pie-company-legend', cData);
       renderPieLegend('pie-sector-legend', sData);
+      setupPieInteractivity('pie-company-canvas', 'pie-company-legend', 'company');
+      setupPieInteractivity('pie-sector-canvas', 'pie-sector-legend', 'sector');
       filterDesktopHoldings();
     } else if (tab === 'returns') {
       updateDesktopReturnsChart(animate);
@@ -1830,13 +2150,13 @@
   function renderDesktopRecentFilings() {
     const feed = document.getElementById('bento-activity-feed');
     if (!feed) return;
-    const latest = allTransactions.slice(0, 8);
+    const latest = allTransactions.slice(0, 50);
     feed.innerHTML = latest.map(tx => {
       const isBuy = tx.type === 'Acquired';
       const sign = isBuy ? '+' : '-';
       const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
       return `
-        <div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors">
+        <div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors cursor-pointer filing-item" data-stock="${tx.stock}">
           <div class="flex items-center gap-3 min-w-0">
             <div class="relative shrink-0">${renderStockLogo(tx.stock, tx.company, 32)}</div>
             <div class="min-w-0">
@@ -1851,6 +2171,12 @@
         </div>
       `;
     }).join('');
+
+    feed.querySelectorAll('.filing-item').forEach(item => {
+      item.addEventListener('click', () => {
+        store.setState({ activeTab: 'transactions' });
+      });
+    });
   }
 
   function filterDesktopHoldings() {
@@ -2064,6 +2390,10 @@
           updateMobilePortfolioChart(btn.dataset.range, true); // Animate on toggle click
         });
       }
+      const holdingCard = document.getElementById('mobile-bento-holding-card');
+      if (holdingCard) holdingCard.addEventListener('click', () => store.setState({ activeTab: 'holdings' }));
+      const sectorCard = document.getElementById('mobile-bento-sector-card');
+      if (sectorCard) sectorCard.addEventListener('click', () => store.setState({ activeTab: 'holdings' }));
     } else if (state.activeTab === 'holdings') {
       const search = document.getElementById('mobile-holdings-search');
       if (search) search.addEventListener('input', filterMobileHoldings);
@@ -2115,8 +2445,12 @@
         pills.addEventListener('click', (e) => {
           const btn = e.target.closest('.tx-type-pill');
           if (!btn) return;
-          document.querySelectorAll('#mobile-tx-type-pills .tx-type-pill').forEach(b => b.classList.remove('active', 'ring-2', 'ring-primary'));
-          btn.classList.add('active', 'ring-2', 'ring-primary');
+          document.querySelectorAll('#mobile-tx-type-pills .tx-type-pill').forEach(b => {
+            b.classList.remove('active', 'border-primary/30', 'bg-primary/20', 'text-primary');
+            b.classList.add('border-white/10', 'bg-white/[0.04]', 'text-outline');
+          });
+          btn.classList.add('active', 'border-primary/30', 'bg-primary/20', 'text-primary');
+          btn.classList.remove('border-white/10', 'bg-white/[0.04]', 'text-outline');
           store.setState({ txType: btn.dataset.type });
           filterMobileTransactions();
         });
@@ -2130,6 +2464,14 @@
       renderMobileRecentFilings();
       setupLineChartHover('mobile-portfolio-canvas');
     } else if (tab === 'holdings') {
+      const cData = getPieData('company');
+      const sData = getPieData('sector');
+      drawPieChart('mobile-pie-company-canvas', cData, 'company');
+      drawPieChart('mobile-pie-sector-canvas', sData, 'sector');
+      renderPieLegend('mobile-pie-company-legend', cData);
+      renderPieLegend('mobile-pie-sector-legend', sData);
+      setupPieInteractivity('mobile-pie-company-canvas', 'mobile-pie-company-legend', 'company');
+      setupPieInteractivity('mobile-pie-sector-canvas', 'mobile-pie-sector-legend', 'sector');
       filterMobileHoldings();
     } else if (tab === 'returns') {
       updateMobileReturnsChart(animate);
@@ -2149,32 +2491,6 @@
     const { returnsView, returnsRange } = store.getState();
     const data = getReturnsData(returnsView, returnsRange);
     drawBarChart('mobile-returns-canvas', data, animate);
-  }
-
-  function renderMobileRecentFilings() {
-    const feed = document.getElementById('mobile-activity-feed');
-    if (!feed) return;
-    const latest = allTransactions.slice(0, 4);
-    feed.innerHTML = latest.map(tx => {
-      const isBuy = tx.type === 'Acquired';
-      const sign = isBuy ? '+' : '-';
-      const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
-      return `
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-          <div class="flex items-center gap-2 min-w-0">
-            <div class="shrink-0">${renderStockLogo(tx.stock, tx.company, 24)}</div>
-            <div class="min-w-0">
-              <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
-              <div class="text-[9px] text-outline truncate">${tx.company}</div>
-            </div>
-          </div>
-          <div class="text-right shrink-0 ml-2 font-mono-numeric">
-            <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
-            <div class="text-[8px] text-outline">${tx.date}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
   }
 
   function filterMobileHoldings() {
@@ -2313,11 +2629,16 @@
     if (tab === 'dashboard') {
       if (isMobile) updateMobilePortfolioChart(store.getState().portfolioRange, animate);
       else updateDesktopPortfolioChart(store.getState().portfolioRange, animate);
-    } else if (tab === 'holdings' && !isMobile) {
+    } else if (tab === 'holdings') {
       const cData = getPieData('company');
       const sData = getPieData('sector');
-      drawPieChart('pie-company-canvas', cData, 'company');
-      drawPieChart('pie-sector-canvas', sData, 'sector');
+      if (isMobile) {
+        drawPieChart('mobile-pie-company-canvas', cData, 'company');
+        drawPieChart('mobile-pie-sector-canvas', sData, 'sector');
+      } else {
+        drawPieChart('pie-company-canvas', cData, 'company');
+        drawPieChart('pie-sector-canvas', sData, 'sector');
+      }
     } else if (tab === 'returns') {
       if (isMobile) updateMobileReturnsChart(animate);
       else updateDesktopReturnsChart(animate);
