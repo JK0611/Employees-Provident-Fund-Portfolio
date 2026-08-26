@@ -3016,6 +3016,12 @@
     if (form) {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
+        const submitBtn = document.getElementById('survey-submit-btn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>Submitting...</span>`;
+        }
+
         const desiredFeatures = (document.getElementById('survey-feature-input')?.value || '').trim();
         const comment = (document.getElementById('survey-comment-input')?.value || '').trim();
         const payload = {
@@ -3028,10 +3034,31 @@
           device: window.innerWidth < 768 ? 'mobile' : 'desktop'
         };
 
+        // 1. PostHog JS SDK Capture
         if (window.posthog) {
           window.posthog.capture('survey_submitted', payload);
           window.posthog.capture('user_feedback', payload);
         }
+
+        // 2. Direct HTTPS Beacon Fallback (Bypasses any SDK latency)
+        try {
+          fetch('https://us.i.posthog.com/capture/', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              api_key: 'phc_sn6didtESTQzQe6HTLNuc5AkrcHuzxGGY97q9kBPzvVd',
+              event: 'survey_submitted',
+              properties: {
+                ...payload,
+                distinct_id: window.posthog?.get_distinct_id?.() || 'anon_' + Math.random().toString(36).slice(2),
+                $current_url: window.location.href
+              }
+            })
+          }).catch(() => {});
+        } catch (_) {}
+
+        console.log('✅ [EPF Tracker] Feedback submitted to PostHog:', payload);
 
         form.classList.add('hidden');
         if (thankYou) thankYou.classList.remove('hidden');
@@ -3039,6 +3066,10 @@
         setTimeout(() => {
           modal.classList.add('hidden');
           setTimeout(() => {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = `Send Feedback`;
+            }
             form.classList.remove('hidden');
             if (thankYou) thankYou.classList.add('hidden');
             if (document.getElementById('survey-feature-input')) {
