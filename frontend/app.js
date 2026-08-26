@@ -1327,7 +1327,7 @@
           <nav class="flex flex-col gap-2 w-full" id="desktop-tab-nav">
             <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard" id="tab-dashboard">
               <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-              <span class="text-sm font-semibold">Dashboard</span>
+              <span class="text-sm font-semibold">Overview</span>
             </button>
 
             <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'holdings' ? 'active' : ''}" data-tab="holdings" id="tab-holdings">
@@ -1337,7 +1337,7 @@
 
             <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'returns' ? 'active' : ''}" data-tab="returns" id="tab-returns">
               <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
-              <span class="text-sm font-semibold">Returns</span>
+              <span class="text-sm font-semibold">Flows</span>
             </button>
 
             <button class="tab-btn flex items-center gap-3 px-4 py-3 ${activeTab === 'transactions' ? 'active' : ''}" data-tab="transactions" id="tab-transactions">
@@ -1365,8 +1365,8 @@
 
     const sectorHoldings = holdings.filter(h => h.sector === topSector[0]).sort((a, b) => (b.market_value || 0) - (a.market_value || 0)).slice(0, 3);
     const sectorLogosHtml = sectorHoldings.map((h, i) => `
-      <div class="relative w-7 h-7 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-1.5 first:ml-0" style="z-index: ${30 - i * 10}">
-        ${renderStockLogo(h.stock_name, h.company_name, 28)}
+      <div class="relative w-8 h-8 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-2 first:ml-0 bg-surface-container" style="z-index: ${30 - i * 10}">
+        ${renderStockLogo(h.stock_name, h.company_name, 32)}
       </div>
     `).join('');
 
@@ -1524,14 +1524,19 @@
               <h3 class="text-sm font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="holdings-count">${holdings.length}</span>
             </div>
-            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+            <div class="flex items-center gap-2 w-full sm:w-auto">
               <div class="relative flex-1 sm:w-56">
-                <input type="text" id="holdings-search" placeholder="Search ticker / company..." class="w-full bg-surface-container-low border border-white/10 rounded-lg px-3 py-1.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+                <input type="text" id="holdings-search" placeholder="Search ticker / company..." class="w-full bg-surface-container-low border border-white/10 rounded-lg pl-3 pr-7 py-1.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+                <button id="holdings-clear-search-btn" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-outline hover:text-white p-0.5 text-xs transition-colors" title="Clear search">✕</button>
               </div>
               <select id="holdings-sector-filter" class="bg-surface-container-low border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary/50">
                 <option value="all">All Sectors</option>
                 ${sectors.map(s => `<option value="${s}">${s}</option>`).join('')}
               </select>
+              <button id="holdings-clear-filter-btn" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/15 text-rose-400 hover:bg-rose-500/25 border border-rose-500/30 transition-all cursor-pointer shrink-0 shadow-sm">
+                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <span>Clear Filter</span>
+              </button>
             </div>
           </div>
 
@@ -1602,15 +1607,20 @@
               </div>
               <span class="text-xs text-outline mt-0.5">Substantial Shareholder Notices</span>
             </div>
-            <div class="flex items-center gap-3 w-full md:w-auto flex-wrap">
+            <div class="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
               <div class="relative flex-1 md:w-64">
-                <input type="text" id="tx-search" placeholder="Search stock / company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+                <input type="text" id="tx-search" placeholder="Search stock / company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl pl-3.5 pr-8 py-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+                <button id="tx-clear-search-btn" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-white p-0.5 text-xs transition-colors" title="Clear search">✕</button>
               </div>
               <select id="tx-filter-type" class="bg-surface-container-low border border-white/10 rounded-xl px-3 py-2 text-xs text-on-surface focus:outline-none focus:border-primary/50">
                 <option value="all">All Types</option>
                 <option value="Acquired">Acquired (Buy)</option>
                 <option value="Disposed">Disposed (Sell)</option>
               </select>
+              <button id="tx-clear-filter-btn" class="hidden items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold bg-rose-500/15 text-rose-400 hover:bg-rose-500/25 border border-rose-500/30 transition-all cursor-pointer shrink-0 shadow-sm">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <span>Clear Filter</span>
+              </button>
             </div>
           </div>
 
@@ -1656,7 +1666,7 @@
         </button>
         <button class="mobile-tab-btn flex flex-col items-center justify-center w-14 h-11 rounded-xl ${activeTab === 'transactions' ? 'text-primary font-bold active' : 'text-outline hover:text-white'}" data-tab="transactions" id="mobile-btn-transactions">
           <svg class="w-4 h-4 mb-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg>
-          <span class="text-[9px] tracking-tight">Filings</span>
+          <span class="text-[9px] tracking-tight">Transactions</span>
         </button>
       </nav>
     `;
@@ -1675,8 +1685,8 @@
 
     const sectorHoldings = holdings.filter(h => h.sector === topSector[0]).sort((a, b) => (b.market_value || 0) - (a.market_value || 0)).slice(0, 3);
     const sectorLogosHtml = sectorHoldings.map((h, i) => `
-      <div class="relative w-6 h-6 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-1.5 first:ml-0 bg-surface-container" style="z-index: ${30 - i * 10}">
-        ${renderStockLogo(h.stock_name, h.company_name, 24)}
+      <div class="relative w-7 h-7 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 -ml-2 first:ml-0 bg-surface-container" style="z-index: ${30 - i * 10}">
+        ${renderStockLogo(h.stock_name, h.company_name, 28)}
       </div>
     `).join('');
 
@@ -1719,8 +1729,8 @@
           <div id="mobile-bento-holding-card" class="glass-card p-3 rounded-2xl flex flex-col justify-between h-[115px] relative overflow-hidden">
             <div class="flex justify-between items-start">
               <span class="text-[9px] font-bold uppercase tracking-wider text-outline">Top Holding</span>
-              <div class="relative flex h-6 w-6 shrink-0 items-center justify-center -mt-0.5">
-                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 24)}
+              <div class="relative w-7 h-7 rounded-full border border-white/20 overflow-hidden flex items-center justify-center shadow-md shrink-0 bg-surface-container">
+                ${renderStockLogo(topHolding.stock_name, topHolding.company_name, 28)}
               </div>
             </div>
             <div>
@@ -1808,8 +1818,15 @@
           </div>
         </div>
 
-        <div class="relative">
-          <input type="text" id="mobile-holdings-search" placeholder="Search ticker or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1">
+            <input type="text" id="mobile-holdings-search" placeholder="Search ticker or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl pl-3.5 pr-8 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+            <button id="mobile-holdings-clear-search-btn" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-white p-1 text-xs transition-colors" title="Clear search">✕</button>
+          </div>
+          <button id="mobile-holdings-clear-filter-btn" class="hidden items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold bg-rose-500/15 text-rose-400 hover:bg-rose-500/25 border border-rose-500/30 shrink-0 transition-all shadow-sm">
+            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <span>Clear Filter</span>
+          </button>
         </div>
 
         <div class="flex gap-1.5 overflow-x-auto pb-1 custom-scrollbar no-scrollbar" id="mobile-sector-pills">
@@ -1823,7 +1840,9 @@
         <div class="space-y-2 mt-0.5" id="mobile-holdings-list"></div>
       </div>
     `;
-  }  function renderMobileReturns() {
+  }
+
+  function renderMobileReturns() {
     return `
       <div id="mobile-panel-returns" class="flex flex-col gap-2.5 w-full py-1 overflow-hidden">
         <div id="mobile-returns-chart-card" class="glass-card p-3 rounded-xl flex flex-col gap-2 shrink-0">
@@ -1855,14 +1874,21 @@
       <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-16 pt-1">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-base font-extrabold text-white tracking-tight">EPF Bursa Filings</h2>
+            <h2 class="text-base font-extrabold text-white tracking-tight">EPF Transactions</h2>
             <span class="text-[10px] text-outline">Substantial Shareholder Notices</span>
           </div>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="mobile-tx-count">${allTransactions.length}</span>
         </div>
 
-        <div class="relative">
-          <input type="text" id="mobile-tx-search" placeholder="Search stock or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1">
+            <input type="text" id="mobile-tx-search" placeholder="Search stock or company..." class="w-full bg-surface-container-low border border-white/10 rounded-xl pl-3.5 pr-8 py-2.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 shadow-inner">
+            <button id="mobile-tx-clear-search-btn" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-white p-1 text-xs transition-colors" title="Clear search">✕</button>
+          </div>
+          <button id="mobile-tx-clear-filter-btn" class="hidden items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold bg-rose-500/15 text-rose-400 hover:bg-rose-500/25 border border-rose-500/30 shrink-0 transition-all shadow-sm">
+            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <span>Clear Filter</span>
+          </button>
         </div>
 
         <div class="flex gap-1.5" id="mobile-tx-type-pills">
@@ -2033,9 +2059,11 @@
             </div>
           </main>
           ${renderMobileNav(state.activeTab)}
+          ${renderPostHogSurveyWidget(true)}
         </div>
       `;
       bindMobileEvents();
+      bindSurveyEvents();
       applyScrollLock(state.activeTab);
       requestAnimationFrame(() => renderActiveMobileTab(state.activeTab, true));
     } else {
@@ -2047,9 +2075,11 @@
               ${renderDesktopViewContent(state.activeTab)}
             </main>
           </div>
+          ${renderPostHogSurveyWidget(false)}
         </div>
       `;
       bindDesktopEvents();
+      bindSurveyEvents();
       applyScrollLock(state.activeTab);
       requestAnimationFrame(() => renderActiveDesktopTab(state.activeTab, true));
     }
@@ -2093,8 +2123,25 @@
     } else if (state.activeTab === 'holdings') {
       const searchInput = document.getElementById('holdings-search');
       if (searchInput) searchInput.addEventListener('input', filterDesktopHoldings);
+      const searchClear = document.getElementById('holdings-clear-search-btn');
+      if (searchClear) {
+        searchClear.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          filterDesktopHoldings();
+        });
+      }
       const sectorFilter = document.getElementById('holdings-sector-filter');
       if (sectorFilter) sectorFilter.addEventListener('change', filterDesktopHoldings);
+      const clearBtn = document.getElementById('holdings-clear-filter-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (sectorFilter) sectorFilter.value = 'all';
+          updateLegendActiveState('pie-company-legend', 'all');
+          updateLegendActiveState('pie-sector-legend', 'all');
+          filterDesktopHoldings();
+        });
+      }
     } else if (state.activeTab === 'returns') {
       const rTimeToggle = document.getElementById('returns-time-toggle');
       if (rTimeToggle) {
@@ -2121,8 +2168,23 @@
     } else if (state.activeTab === 'transactions') {
       const txSearch = document.getElementById('tx-search');
       if (txSearch) txSearch.addEventListener('input', filterDesktopTransactions);
+      const txSearchClear = document.getElementById('tx-clear-search-btn');
+      if (txSearchClear) {
+        txSearchClear.addEventListener('click', () => {
+          if (txSearch) txSearch.value = '';
+          filterDesktopTransactions();
+        });
+      }
       const txType = document.getElementById('tx-filter-type');
       if (txType) txType.addEventListener('change', filterDesktopTransactions);
+      const txClearBtn = document.getElementById('tx-clear-filter-btn');
+      if (txClearBtn) {
+        txClearBtn.addEventListener('click', () => {
+          if (txSearch) txSearch.value = '';
+          if (txType) txType.value = 'all';
+          filterDesktopTransactions();
+        });
+      }
     }
   }
 
@@ -2144,7 +2206,16 @@
     } else if (tab === 'returns') {
       updateDesktopReturnsChart(animate);
       renderDesktopReturnsSummary();
-      setupBarChartHover('returns-canvas', () => store.setState({ activeTab: 'transactions' }));
+      setupBarChartHover('returns-canvas', (barData) => {
+        store.setState({ activeTab: 'transactions' });
+        setTimeout(() => {
+          const input = document.getElementById('tx-search');
+          if (input && barData?.label) {
+            input.value = barData.label;
+            filterDesktopTransactions();
+          }
+        }, 60);
+      });
     } else if (tab === 'transactions') {
       filterDesktopTransactions();
     }
@@ -2197,9 +2268,22 @@
   }
 
   function filterDesktopHoldings() {
-    const search = (document.getElementById('holdings-search')?.value || '').toLowerCase().trim();
+    const searchInput = document.getElementById('holdings-search');
+    const search = (searchInput?.value || '').toLowerCase().trim();
     const sector = document.getElementById('holdings-sector-filter')?.value || 'all';
     const holdings = getRawData()?.holdings || [];
+
+    // Toggle clear filter buttons
+    const hasFilter = search !== '' || sector !== 'all';
+    const clearBtn = document.getElementById('holdings-clear-filter-btn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('hidden', !hasFilter);
+      clearBtn.classList.toggle('flex', hasFilter);
+    }
+    const searchClear = document.getElementById('holdings-clear-search-btn');
+    if (searchClear) {
+      searchClear.classList.toggle('hidden', search === '');
+    }
 
     const totalMarketVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
     const filtered = holdings.filter(h => {
@@ -2329,11 +2413,24 @@
   }
 
   function filterDesktopTransactions() {
-    const search = (document.getElementById('tx-search')?.value || '').toLowerCase().trim();
+    const txSearchInput = document.getElementById('tx-search');
+    const search = (txSearchInput?.value || '').toLowerCase().trim();
     const type = document.getElementById('tx-filter-type')?.value || 'all';
 
+    // Toggle clear filter buttons
+    const hasFilter = search !== '' || type !== 'all';
+    const clearBtn = document.getElementById('tx-clear-filter-btn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('hidden', !hasFilter);
+      clearBtn.classList.toggle('flex', hasFilter);
+    }
+    const searchClear = document.getElementById('tx-clear-search-btn');
+    if (searchClear) {
+      searchClear.classList.toggle('hidden', search === '');
+    }
+
     const filtered = allTransactions.filter(tx => {
-      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search);
+      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
       const matchType = type === 'all' || tx.type === type;
       return matchSearch && matchType;
     });
@@ -2414,6 +2511,34 @@
     } else if (state.activeTab === 'holdings') {
       const search = document.getElementById('mobile-holdings-search');
       if (search) search.addEventListener('input', filterMobileHoldings);
+      const searchClear = document.getElementById('mobile-holdings-clear-search-btn');
+      if (searchClear) {
+        searchClear.addEventListener('click', () => {
+          if (search) search.value = '';
+          filterMobileHoldings();
+        });
+      }
+      const clearBtn = document.getElementById('mobile-holdings-clear-filter-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (search) search.value = '';
+          store.setState({ holdingsSector: 'all' });
+          document.querySelectorAll('#mobile-sector-pills .sector-pill').forEach(b => {
+            const match = b.dataset.sector === 'all';
+            b.classList.toggle('active', match);
+            b.classList.toggle('bg-primary/20', match);
+            b.classList.toggle('text-primary', match);
+            b.classList.toggle('border-primary/30', match);
+            b.classList.toggle('font-semibold', match);
+            b.classList.toggle('bg-white/[0.04]', !match);
+            b.classList.toggle('text-outline', !match);
+            b.classList.toggle('border-white/10', !match);
+          });
+          updateLegendActiveState('mobile-pie-company-legend', 'all');
+          updateLegendActiveState('mobile-pie-sector-legend', 'all');
+          filterMobileHoldings();
+        });
+      }
 
       const pills = document.getElementById('mobile-sector-pills');
       if (pills) {
@@ -2456,6 +2581,31 @@
     } else if (state.activeTab === 'transactions') {
       const search = document.getElementById('mobile-tx-search');
       if (search) search.addEventListener('input', filterMobileTransactions);
+      const searchClear = document.getElementById('mobile-tx-clear-search-btn');
+      if (searchClear) {
+        searchClear.addEventListener('click', () => {
+          if (search) search.value = '';
+          filterMobileTransactions();
+        });
+      }
+      const clearBtn = document.getElementById('mobile-tx-clear-filter-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (search) search.value = '';
+          store.setState({ txType: 'all' });
+          document.querySelectorAll('#mobile-tx-type-pills .tx-type-pill').forEach(b => {
+            const match = b.dataset.type === 'all';
+            b.classList.toggle('active', match);
+            b.classList.toggle('border-primary/30', match);
+            b.classList.toggle('bg-primary/20', match);
+            b.classList.toggle('text-primary', match);
+            b.classList.toggle('border-white/10', !match);
+            b.classList.toggle('bg-white/[0.04]', !match);
+            b.classList.toggle('text-outline', !match);
+          });
+          filterMobileTransactions();
+        });
+      }
 
       const pills = document.getElementById('mobile-tx-type-pills');
       if (pills) {
@@ -2493,7 +2643,16 @@
     } else if (tab === 'returns') {
       updateMobileReturnsChart(animate);
       renderMobileReturnsSummary();
-      setupBarChartHover('mobile-returns-canvas', () => store.setState({ activeTab: 'transactions' }));
+      setupBarChartHover('mobile-returns-canvas', (barData) => {
+        store.setState({ activeTab: 'transactions' });
+        setTimeout(() => {
+          const input = document.getElementById('mobile-tx-search');
+          if (input && barData?.label) {
+            input.value = barData.label;
+            filterMobileTransactions();
+          }
+        }, 60);
+      });
     } else if (tab === 'transactions') {
       filterMobileTransactions();
     }
@@ -2511,9 +2670,22 @@
   }
 
   function filterMobileHoldings() {
-    const search = (document.getElementById('mobile-holdings-search')?.value || '').toLowerCase().trim();
+    const searchInput = document.getElementById('mobile-holdings-search');
+    const search = (searchInput?.value || '').toLowerCase().trim();
     const sector = store.getState().holdingsSector || 'all';
     const holdings = getRawData()?.holdings || [];
+
+    // Toggle clear filter buttons
+    const hasFilter = search !== '' || sector !== 'all';
+    const clearBtn = document.getElementById('mobile-holdings-clear-filter-btn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('hidden', !hasFilter);
+      clearBtn.classList.toggle('flex', hasFilter);
+    }
+    const searchClear = document.getElementById('mobile-holdings-clear-search-btn');
+    if (searchClear) {
+      searchClear.classList.toggle('hidden', search === '');
+    }
 
     const filtered = holdings.filter(h => {
       const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
@@ -2577,11 +2749,24 @@
   }
 
   function filterMobileTransactions() {
-    const search = (document.getElementById('mobile-tx-search')?.value || '').toLowerCase().trim();
+    const searchInput = document.getElementById('mobile-tx-search');
+    const search = (searchInput?.value || '').toLowerCase().trim();
     const type = store.getState().txType || 'all';
 
+    // Toggle clear filter buttons
+    const hasFilter = search !== '' || type !== 'all';
+    const clearBtn = document.getElementById('mobile-tx-clear-filter-btn');
+    if (clearBtn) {
+      clearBtn.classList.toggle('hidden', !hasFilter);
+      clearBtn.classList.toggle('flex', hasFilter);
+    }
+    const searchClear = document.getElementById('mobile-tx-clear-search-btn');
+    if (searchClear) {
+      searchClear.classList.toggle('hidden', search === '');
+    }
+
     const filtered = allTransactions.filter(tx => {
-      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search);
+      const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
       const matchType = type === 'all' || tx.type === type;
       return matchSearch && matchType;
     });
@@ -2669,6 +2854,214 @@
       clearTimeout(timeout);
       timeout = setTimeout(() => fn(...args), ms);
     };
+  }
+
+  // ----------------------------------------------------
+  // 9. POSTHOG USER FEEDBACK & SURVEY WIDGET
+  // ----------------------------------------------------
+  function renderPostHogSurveyWidget(isMobile = false) {
+    const containerClass = isMobile ? 'bottom-16 right-3.5' : 'bottom-5 left-5';
+    const popoverAlignClass = isMobile ? 'right-0' : 'left-0';
+    return `
+      <!-- Floating PostHog Survey / Feedback Trigger -->
+      <div id="posthog-survey-container" class="fixed ${containerClass} z-50">
+        <button id="survey-trigger-btn" class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-surface-container/95 hover:bg-white/10 border border-white/15 hover:border-primary/50 text-xs font-semibold text-white shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-xl group">
+          <svg class="w-3.5 h-3.5 text-primary group-hover:rotate-12 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Feedback</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        </button>
+
+        <!-- Interactive Survey Popover Modal -->
+        <div id="survey-modal-popover" class="hidden absolute bottom-12 ${popoverAlignClass} w-[300px] sm:w-[340px] p-4 rounded-2xl glass-card border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.85)] backdrop-blur-2xl">
+          <div class="flex items-start justify-between mb-2.5">
+            <div>
+              <h4 class="text-xs font-bold text-white tracking-tight flex items-center gap-1.5">
+                <span>EPF Tracker Survey</span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30">PostHog</span>
+              </h4>
+              <p class="text-[10px] text-outline mt-0.5">How is your tracking experience?</p>
+            </div>
+            <button id="survey-close-btn" class="text-outline hover:text-white p-1 rounded-lg hover:bg-white/5 transition-colors cursor-pointer text-xs" title="Close">✕</button>
+          </div>
+
+          <form id="posthog-survey-form" class="space-y-2.5">
+            <!-- Sentiment Rating -->
+            <div>
+              <label class="block text-[10px] text-outline mb-1 font-medium">Overall Rating:</label>
+              <div class="grid grid-cols-4 gap-1.5" id="survey-rating-group">
+                <button type="button" class="survey-rating-btn flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-primary/40 hover:bg-primary/10 transition-all cursor-pointer text-xs" data-rating="5" data-label="Great">
+                  <span class="text-base mb-0.5">😍</span>
+                  <span class="text-[9px] text-outline font-medium">Great</span>
+                </button>
+                <button type="button" class="survey-rating-btn flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-primary/40 hover:bg-primary/10 transition-all cursor-pointer text-xs" data-rating="4" data-label="Good">
+                  <span class="text-base mb-0.5">🙂</span>
+                  <span class="text-[9px] text-outline font-medium">Good</span>
+                </button>
+                <button type="button" class="survey-rating-btn flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-primary/40 hover:bg-primary/10 transition-all cursor-pointer text-xs" data-rating="3" data-label="Okay">
+                  <span class="text-base mb-0.5">😐</span>
+                  <span class="text-[9px] text-outline font-medium">Okay</span>
+                </button>
+                <button type="button" class="survey-rating-btn flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-primary/40 hover:bg-primary/10 transition-all cursor-pointer text-xs" data-rating="2" data-label="Poor">
+                  <span class="text-base mb-0.5">🙁</span>
+                  <span class="text-[9px] text-outline font-medium">Poor</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Desired Features Writable Input -->
+            <div>
+              <label class="block text-[10px] text-outline mb-1 font-medium">Desired features or tools you want:</label>
+              <input type="text" id="survey-feature-input" placeholder="e.g. Dividend yield, alerts, PDF export..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-3 py-1.5 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50">
+              <div class="flex flex-wrap gap-1 mt-1.5" id="survey-tag-group">
+                <button type="button" class="survey-tag-btn px-2 py-0.5 rounded-md text-[9px] bg-white/[0.03] border border-white/10 text-outline hover:text-white transition-all cursor-pointer" data-tag="Dividend Yield Tracker">+ Dividend Yield</button>
+                <button type="button" class="survey-tag-btn px-2 py-0.5 rounded-md text-[9px] bg-white/[0.03] border border-white/10 text-outline hover:text-white transition-all cursor-pointer" data-tag="Daily Stock Alerts">+ Price Alerts</button>
+                <button type="button" class="survey-tag-btn px-2 py-0.5 rounded-md text-[9px] bg-white/[0.03] border border-white/10 text-outline hover:text-white transition-all cursor-pointer" data-tag="Longer History Data">+ 5Y History</button>
+                <button type="button" class="survey-tag-btn px-2 py-0.5 rounded-md text-[9px] bg-white/[0.03] border border-white/10 text-outline hover:text-white transition-all cursor-pointer" data-tag="CSV / Excel Export">+ CSV Export</button>
+              </div>
+            </div>
+
+            <!-- Additional Comments Text Area -->
+            <div>
+              <label class="block text-[10px] text-outline mb-1 font-medium">Additional feedback or suggestions:</label>
+              <textarea id="survey-comment-input" placeholder="Suggestions, bugs, or general feedback..." class="w-full bg-surface-container-low border border-white/10 rounded-xl p-2 text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50 resize-none h-12"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="survey-submit-btn" class="w-full py-2 rounded-xl bg-gradient-to-r from-primary to-rose-600 hover:from-primary-hover hover:to-rose-500 text-white font-bold text-xs tracking-tight shadow-md hover:shadow-primary/30 transition-all cursor-pointer">
+              Send Feedback
+            </button>
+          </form>
+
+          <!-- Thank you state -->
+          <div id="survey-thank-you" class="hidden py-4 flex flex-col items-center justify-center text-center">
+            <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-1.5">
+              <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h4 class="text-xs font-bold text-white">Thank You! ❤️</h4>
+            <p class="text-[10px] text-outline mt-0.5">Your feedback was sent directly to PostHog.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindSurveyEvents() {
+    const trigger = document.getElementById('survey-trigger-btn');
+    const modal = document.getElementById('survey-modal-popover');
+    const closeBtn = document.getElementById('survey-close-btn');
+    const form = document.getElementById('posthog-survey-form');
+    const thankYou = document.getElementById('survey-thank-you');
+    const featureInput = document.getElementById('survey-feature-input');
+    if (!trigger || !modal) return;
+
+    let selectedRating = 5;
+    let selectedRatingLabel = 'Great';
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      modal.classList.toggle('hidden');
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        modal.classList.add('hidden');
+      });
+    }
+
+    // Rating emoji buttons
+    document.querySelectorAll('#survey-rating-group .survey-rating-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#survey-rating-group .survey-rating-btn').forEach(b => {
+          b.classList.remove('active', 'border-primary', 'bg-primary/20', 'ring-1', 'ring-primary');
+          b.classList.add('bg-white/[0.04]', 'border-white/10');
+        });
+        btn.classList.add('active', 'border-primary', 'bg-primary/20', 'ring-1', 'ring-primary');
+        btn.classList.remove('bg-white/[0.04]', 'border-white/10');
+        selectedRating = parseInt(btn.dataset.rating, 10) || 5;
+        selectedRatingLabel = btn.dataset.label || 'Great';
+      });
+    });
+
+    // Default select 1st button (Great)
+    const firstRating = document.querySelector('#survey-rating-group .survey-rating-btn');
+    if (firstRating) {
+      firstRating.classList.add('active', 'border-primary', 'bg-primary/20', 'ring-1', 'ring-primary');
+      firstRating.classList.remove('bg-white/[0.04]', 'border-white/10');
+    }
+
+    // Tag buttons: Append or toggle feature text directly into feature input
+    document.querySelectorAll('#survey-tag-group .survey-tag-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag;
+        if (!featureInput) return;
+        const currentVal = featureInput.value.trim();
+        if (currentVal.includes(tag)) {
+          // Remove if already present
+          const updated = currentVal.split(',').map(s => s.trim()).filter(s => s !== tag).join(', ');
+          featureInput.value = updated;
+          btn.classList.remove('bg-primary/20', 'border-primary/40', 'text-primary', 'font-semibold');
+          btn.classList.add('bg-white/[0.03]', 'border-white/10', 'text-outline');
+        } else {
+          // Append
+          featureInput.value = currentVal ? `${currentVal}, ${tag}` : tag;
+          btn.classList.add('bg-primary/20', 'border-primary/40', 'text-primary', 'font-semibold');
+          btn.classList.remove('bg-white/[0.03]', 'border-white/10', 'text-outline');
+        }
+        featureInput.focus();
+      });
+    });
+
+    // Form submit
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const desiredFeatures = (document.getElementById('survey-feature-input')?.value || '').trim();
+        const comment = (document.getElementById('survey-comment-input')?.value || '').trim();
+        const payload = {
+          rating: selectedRating,
+          rating_label: selectedRatingLabel,
+          desired_features: desiredFeatures,
+          comment: comment,
+          active_tab: store.getState().activeTab,
+          screen_width: window.innerWidth,
+          device: window.innerWidth < 768 ? 'mobile' : 'desktop'
+        };
+
+        if (window.posthog) {
+          window.posthog.capture('survey_submitted', payload);
+          window.posthog.capture('user_feedback', payload);
+        }
+
+        form.classList.add('hidden');
+        if (thankYou) thankYou.classList.remove('hidden');
+
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          setTimeout(() => {
+            form.classList.remove('hidden');
+            if (thankYou) thankYou.classList.add('hidden');
+            if (document.getElementById('survey-feature-input')) {
+              document.getElementById('survey-feature-input').value = '';
+            }
+            if (document.getElementById('survey-comment-input')) {
+              document.getElementById('survey-comment-input').value = '';
+            }
+            document.querySelectorAll('#survey-tag-group .survey-tag-btn').forEach(b => {
+              b.classList.remove('bg-primary/20', 'border-primary/40', 'text-primary', 'font-semibold');
+              b.classList.add('bg-white/[0.03]', 'border-white/10', 'text-outline');
+            });
+          }, 400);
+        }, 2200);
+      });
+    }
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!modal.contains(e.target) && !trigger.contains(e.target)) {
+        modal.classList.add('hidden');
+      }
+    });
   }
 
   // ----------------------------------------------------
