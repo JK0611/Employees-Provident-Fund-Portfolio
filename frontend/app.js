@@ -1802,41 +1802,36 @@
         <div class="space-y-2 mt-0.5" id="mobile-holdings-list"></div>
       </div>
     `;
-  }
-
-  function renderMobileReturns() {
+  }  function renderMobileReturns() {
     return `
-      <div id="mobile-panel-returns" class="flex flex-col justify-between h-[calc(100dvh-7.5rem)] w-full py-1 gap-2.5 overflow-hidden">
-        <div id="mobile-returns-chart-card" class="glass-card p-3.5 rounded-2xl flex flex-col gap-2 flex-1 min-h-0 overflow-hidden">
-          <div class="flex justify-between items-center shrink-0">
-            <div>
-              <h3 class="text-xs font-bold text-white tracking-tight">Net Capital Activity</h3>
-              <span class="text-[9px] text-outline">Accumulation vs Divestment volume</span>
-            </div>
+      <div id="mobile-panel-returns" class="flex flex-col gap-2.5 w-full py-1 overflow-hidden">
+        <div id="mobile-returns-chart-card" class="glass-card p-3 rounded-xl flex flex-col gap-2 shrink-0">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white tracking-tight">Net Capital Activity</h3>
             <div class="chart-toggle-group flex gap-0.5" id="mobile-returns-toggle">
               <button class="chart-toggle active text-[9px] px-2 py-0.5" data-view="net">Net</button>
               <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="acquired">Buy</button>
               <button class="chart-toggle text-[9px] px-2 py-0.5" data-view="disposed">Sell</button>
             </div>
           </div>
-          <div class="chart-toggle-group flex gap-0.5 self-start shrink-0" id="mobile-returns-time-toggle">
+          <div class="chart-toggle-group flex gap-0.5 self-start" id="mobile-returns-time-toggle">
             <button class="chart-toggle active text-[9px] px-2 py-0.5" data-range="1M">1M</button>
             <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="3M">3M</button>
             <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="1Y">1Y</button>
             <button class="chart-toggle text-[9px] px-2 py-0.5" data-range="ALL">All</button>
           </div>
-          <div class="chart-body flex-1 relative min-h-0 w-full overflow-hidden">
+          <div class="chart-body h-[175px] w-full relative overflow-hidden">
             <canvas id="mobile-returns-canvas"></canvas>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2.5 shrink-0" id="mobile-returns-summary"></div>
+        <div class="grid grid-cols-2 gap-2 shrink-0" id="mobile-returns-summary"></div>
       </div>
     `;
   }
 
   function renderMobileTransactions() {
     return `
-      <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-24 pt-1">
+      <div id="mobile-panel-transactions" class="flex flex-col gap-3.5 w-full pb-16 pt-1">
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-base font-extrabold text-white tracking-tight">EPF Bursa Filings</h2>
@@ -1927,7 +1922,8 @@
         const mobLayout = document.getElementById('mobile-app-layout');
         if (mobLayout) {
           mobLayout.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
-          mobLayout.classList.add('min-h-screen', 'h-auto');
+          mobLayout.classList.remove('min-h-screen');
+          mobLayout.classList.add('h-auto');
         }
         const mobContainer = document.getElementById('mobile-view-container');
         if (mobContainer) {
@@ -2000,7 +1996,7 @@
 
     if (isMobile) {
       root.innerHTML = `
-        <div class="w-full min-h-screen bg-page text-on-surface flex flex-col justify-between" id="mobile-app-layout">
+        <div class="w-full bg-page text-on-surface flex flex-col" id="mobile-app-layout">
           <header class="h-12 bg-surface/90 backdrop-blur-xl border-b border-white/10 flex items-center px-4 sticky top-0 z-40 shrink-0 shadow-lg" id="mobile-header">
             <div class="flex items-center gap-2">
               <img src="assets/logo.png" alt="EPF Logo" class="h-7 w-7 object-contain filter drop-shadow-[0_0_10px_rgba(244,63,94,0.5)]">
@@ -2010,8 +2006,8 @@
               </div>
             </div>
           </header>
-          <main class="w-full max-w-lg mx-auto flex-1 flex flex-col px-3">
-            <div id="mobile-view-container" class="w-full flex-1 flex flex-col">
+          <main class="w-full max-w-lg mx-auto flex flex-col px-3">
+            <div id="mobile-view-container" class="w-full flex flex-col">
               ${renderMobileViewContent(state.activeTab)}
             </div>
           </main>

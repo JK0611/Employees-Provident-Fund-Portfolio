@@ -9,22 +9,27 @@ const path = require('path');
   await page.goto(url);
   await page.waitForTimeout(800);
 
-  // 1. Overview: Scroll down to the bottom
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(400);
-  await page.screenshot({ path: 'frontend/verify-mobile-overview-bottom.png' });
+  // Check 1: Horizontal scroll check
+  const horizScroll = await page.evaluate(() => {
+    return document.documentElement.scrollWidth > window.innerWidth || document.body.scrollWidth > window.innerWidth;
+  });
+  console.log('Horizontal overflow detected (should be false):', horizScroll);
 
-  // 2. Flows (Returns): Verify scroll is disabled and layout fits cleanly
+  // Check 2: Scroll down to the maximum on Overview
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: 'frontend/verify-mobile-overview-final-scroll.png' });
+
+  // Check 3: Flows tab compact size & no scroll
   await page.click('#mobile-btn-returns');
   await page.waitForTimeout(600);
-  await page.screenshot({ path: 'frontend/verify-mobile-flows-noscroll.png' });
+  await page.screenshot({ path: 'frontend/verify-mobile-flows-compact-final.png' });
 
-  // Verify scroll is disabled on flows
-  const canScrollFlows = await page.evaluate(() => {
+  const flowsScrollable = await page.evaluate(() => {
     return document.documentElement.scrollHeight > window.innerHeight;
   });
-  console.log('Flows scroll check (should be false/clean):', canScrollFlows);
+  console.log('Flows scrollable (should be false):', flowsScrollable);
 
   await browser.close();
-  console.log('Mobile tests completed successfully!');
+  console.log('Tests finished successfully!');
 })();
