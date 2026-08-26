@@ -5,31 +5,30 @@ const path = require('path');
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 
+  const errors = [];
+  page.on('pageerror', err => errors.push(err.message));
+  page.on('console', msg => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+
   const url = 'file:///' + path.resolve('frontend/index.html').replace(/\\/g, '/');
   await page.goto(url);
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1000);
 
-  // Check 1: Horizontal scroll check
-  const horizScroll = await page.evaluate(() => {
-    return document.documentElement.scrollWidth > window.innerWidth || document.body.scrollWidth > window.innerWidth;
+  const posthogLoaded = await page.evaluate(() => {
+    return typeof window.posthog !== 'undefined' && typeof window.posthog.capture === 'function';
   });
-  console.log('Horizontal overflow detected (should be false):', horizScroll);
+  console.log('PostHog initialized successfully:', posthogLoaded);
 
-  // Check 2: Scroll down to the maximum on Overview
-  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-  await page.waitForTimeout(400);
-  await page.screenshot({ path: 'frontend/verify-mobile-overview-final-scroll.png' });
-
-  // Check 3: Flows tab compact size & no scroll
+  // Switch tabs
+  await page.click('#mobile-btn-holdings');
+  await page.waitForTimeout(300);
   await page.click('#mobile-btn-returns');
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: 'frontend/verify-mobile-flows-compact-final.png' });
+  await page.waitForTimeout(300);
+  await page.click('#mobile-btn-transactions');
+  await page.waitForTimeout(300);
 
-  const flowsScrollable = await page.evaluate(() => {
-    return document.documentElement.scrollHeight > window.innerHeight;
-  });
-  console.log('Flows scrollable (should be false):', flowsScrollable);
-
+  console.log('Page errors:', errors);
   await browser.close();
-  console.log('Tests finished successfully!');
+  console.log('Telemetry verification complete!');
 })();

@@ -1218,8 +1218,19 @@
     }
   }
 
+  function trackAnalytics(eventName, properties = {}) {
+    try {
+      if (window.posthog && typeof window.posthog.capture === 'function') {
+        window.posthog.capture(eventName, properties);
+      }
+    } catch (e) {
+      // Non-blocking telemetry
+    }
+  }
+
   function handlePieSelection(type, label) {
     const isMobile = window.innerWidth < 768;
+    trackAnalytics('pie_slice_selected', { type, label, device: isMobile ? 'mobile' : 'desktop' });
     if (type === 'sector') {
       if (isMobile) {
         const curSector = store.getState().holdingsSector;
@@ -2594,6 +2605,7 @@
 
   function handleTabSwitch(tab) {
     const isMobile = window.innerWidth < 768;
+    trackAnalytics('tab_switched', { tab, device: isMobile ? 'mobile' : 'desktop' });
     const container = document.getElementById(isMobile ? 'mobile-view-container' : 'desktop-view-container');
     if (!container) return;
 

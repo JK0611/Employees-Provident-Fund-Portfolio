@@ -4,10 +4,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description"
-    content="EPFTrack — Employees Provident Fund (KWSP) Institutional Portfolio Dashboard. Real-time Malaysian equity holdings, transactions, and performance analytics.">
-  <title>EPFTrack — Institutional Portfolio Dashboard</title>
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>EPF Tracker — Institutional Malaysian Equity Portfolio & Analytics Dashboard</title>
+  <meta name="title" content="EPF Tracker — Institutional Malaysian Equity Portfolio & Analytics Dashboard">
+  <meta name="description" content="Real-time Malaysian Employees Provident Fund (KWSP) institutional portfolio tracker. Track RM 228B+ domestic equity holdings, sector allocations, net capital flows, and Bursa Malaysia shareholder filings.">
+  <meta name="keywords" content="EPF Tracker, KWSP Portfolio, Bursa Malaysia, Malaysia Equity, Institutional Investment, EPF Holdings, EPF Filings, Bursa Stock Analysis, Malaysian Stock Market, Tenaga, Maybank">
+  <meta name="author" content="JK0611">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#08090e">
+  <meta name="application-name" content="EPF Tracker">
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+
+  <!-- Open Graph / Facebook / WhatsApp / Telegram / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="EPF Tracker">
+  <meta property="og:url" content="https://epf-tracker.vercel.app/">
+  <meta property="og:title" content="EPF Tracker — Institutional Malaysian Equity Portfolio Dashboard">
+  <meta property="og:description" content="Explore RM 228B+ of EPF (KWSP) Malaysian domestic equity positions, top holdings, sector weightings, capital activity, and real-time Bursa filings.">
+  <meta property="og:image" content="assets/logo.png">
+  <meta property="og:locale" content="en_MY">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EPF Tracker — Institutional Portfolio Dashboard">
+  <meta name="twitter:description" content="Track RM 228B+ of Employees Provident Fund (KWSP) Malaysian equity investments with institutional-grade analytics.">
+  <meta name="twitter:image" content="assets/logo.png">
+
+  <!-- JSON-LD Structured Data for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "EPF Tracker",
+    "url": "https://epf-tracker.vercel.app/",
+    "description": "Institutional investment portfolio dashboard tracking Employees Provident Fund (KWSP) Malaysian equity holdings and Bursa Malaysia filings.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "MYR"
+    },
+    "featureList": [
+      "Real-time EPF Equity Portfolio Value Tracking",
+      "Sector & Company Allocation Donut Visualizations",
+      "Net Capital Inflow/Outflow Volume Bar Charts",
+      "Bursa Malaysia Substantial Shareholder Notices Feed"
+    ]
+  }
+  </script>
+
+  <!-- PostHog Product & Web Analytics SDK (with Session Replay & Device Telemetry) -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_sn6didtESTQzQe6HTLNuc5AkrcHuzxGGY97q9kBPzvVd', {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'always',
+      autocapture: true,
+      capture_pageview: true,
+      capture_pageleave: true,
+      session_recording: {
+        maskAllInputs: false,
+        maskInputOptions: { password: true }
+      }
+    });
+  </script>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
