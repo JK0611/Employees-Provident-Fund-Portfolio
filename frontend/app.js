@@ -2007,30 +2007,42 @@
   let lastMeasuredWidth = window.innerWidth;
 
   function initApp() {
-    allTransactions = flattenTransactions(getRawData());
-    mountApp();
+    try {
+      allTransactions = flattenTransactions(getRawData());
+      mountApp();
 
-    store.subscribe((state, prev) => {
-      if (state.isMobile !== prev.isMobile) {
-        mountApp();
-      } else if (state.activeTab !== prev.activeTab) {
-        handleTabSwitch(state.activeTab);
-      }
-    });
-
-    // ONLY resize chart on true horizontal screen orientation or window width resize (NOT on vertical scroll!)
-    window.addEventListener('resize', debounce(() => {
-      const curW = window.innerWidth;
-      if (Math.abs(curW - lastMeasuredWidth) > 5) {
-        lastMeasuredWidth = curW;
-        const isMob = curW < 768;
-        if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
-          store.setState({ isMobile: isMob });
-        } else {
-          redrawActiveCharts(false); // Render final frame immediately, ZERO reanimation!
+      store.subscribe((state, prev) => {
+        try {
+          if (state.isMobile !== prev.isMobile) {
+            mountApp();
+          } else if (state.activeTab !== prev.activeTab) {
+            handleTabSwitch(state.activeTab);
+          }
+        } catch (subErr) {
+          console.error('[EPF Tracker] State subscription error:', subErr);
         }
+      });
+
+      // ONLY resize chart on true horizontal screen orientation or window width resize (NOT on vertical scroll!)
+      window.addEventListener('resize', debounce(() => {
+        const curW = window.innerWidth;
+        if (Math.abs(curW - lastMeasuredWidth) > 5) {
+          lastMeasuredWidth = curW;
+          const isMob = curW < 768;
+          if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
+            store.setState({ isMobile: isMob });
+          } else {
+            redrawActiveCharts(false); // Render final frame immediately, ZERO reanimation!
+          }
+        }
+      }, 150));
+    } catch (fatalErr) {
+      console.error('[EPF Tracker] Fatal init error:', fatalErr);
+      const root = document.getElementById('app-root');
+      if (root) {
+        root.innerHTML = `<div class="p-6 text-white text-center flex flex-col items-center justify-center min-h-screen"><h2 class="text-xl font-bold mb-2 text-rose-400">Error Loading Dashboard</h2><p class="text-xs text-outline font-mono max-w-md">${escapeHTML(fatalErr.message || fatalErr)}</p><button onclick="location.reload()" class="mt-4 px-4 py-2 bg-primary rounded-xl text-xs font-bold text-white shadow-lg">Reload App</button></div>`;
       }
-    }, 150));
+    }
   }
 
   function mountApp() {

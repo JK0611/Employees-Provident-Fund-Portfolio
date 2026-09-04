@@ -410,18 +410,23 @@ async function processData() {
   // Group transactions in reverse chronological order for dashboard timeline
   allTransactions.reverse();
 
-  // Construct final dataset
-  const finalDataset = {
+  // Save complete historical archive for full lookups
+  const FULL_DATA_FILE = path.join(__dirname, '..', 'frontend', 'data_full.json');
+  fs.writeFileSync(FULL_DATA_FILE, JSON.stringify(finalDataset));
+  console.log(`[✓] Complete historical dataset saved to ${FULL_DATA_FILE}`);
+
+  // Create high-performance mobile-optimized dataset for instant web load (top 3,000 transactions ~1MB)
+  const webDataset = {
     holdings,
     txByDate,
-    transactions: allTransactions,
+    transactions: allTransactions.slice(0, 3000),
     uniqueStocks: holdings.length,
     companyDomains
   };
 
-  const outputContent = `const EPF_DATA = ${JSON.stringify(finalDataset, null, 2)};`;
+  const outputContent = `const EPF_DATA = ${JSON.stringify(webDataset)};`;
   fs.writeFileSync(DATA_FILE, outputContent);
-  console.log(`[✓] Successfully processed and saved data to ${DATA_FILE}`);
+  console.log(`[✓] Successfully processed and saved web data to ${DATA_FILE} (${(outputContent.length / (1024*1024)).toFixed(2)} MB)`);
 }
 
 if (require.main === module) {

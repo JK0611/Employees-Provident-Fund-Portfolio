@@ -56,6 +56,18 @@
   }
   </script>
 
+  <!-- iOS Safari / WebKit Error Catcher & Diagnostics -->
+  <script>
+    window.addEventListener('error', function (e) {
+      console.error('[Global Error]', e.message, e.filename, e.lineno);
+      const b = document.getElementById('debug-banner');
+      if (b) {
+        b.style.display = 'block';
+        b.innerHTML = '<strong>Load Error:</strong> ' + (e.message || 'Script failed') + '<br><small>' + (e.filename || '').split('/').pop() + ':' + e.lineno + '</small>';
+      }
+    });
+  </script>
+
   <!-- PostHog Product & Web Analytics SDK (with Session Replay & Device Telemetry) -->
   <script>
     try {
@@ -135,6 +147,9 @@
 
 <body class="bg-page text-on-surface font-sans antialiased min-h-screen relative selection:bg-rose-500/30 selection:text-white">
 
+  <!-- On-Screen Diagnostics Banner for iOS Safari -->
+  <div id="debug-banner" style="display:none; position:fixed; top:0; left:0; right:0; z-index:999999; background:#dc2626; color:#fff; font-size:11px; font-family:monospace; padding:10px 14px; box-shadow:0 4px 12px rgba(0,0,0,0.5);"></div>
+
   <!-- Ambient Dynamic Smoke Mesh (Luxury White Moonlight Glow) -->
   <div class="smoke-container" aria-hidden="true">
     <div class="smoke-blob smoke-blob-1"></div>
@@ -158,6 +173,19 @@
 
   <!-- Universal Master Application Script -->
   <script src="app.js"></script>
+
+  <!-- Auto-Recovery Watchdog for Slow Mobile Devices -->
+  <script>
+    setTimeout(function () {
+      const root = document.getElementById('app-root');
+      if (root && root.innerHTML.indexOf('LOADING...') !== -1) {
+        console.warn('[Watchdog] Init taking longer than expected. Triggering auto-init...');
+        if (window.EPFTracker && typeof window.EPFTracker.initApp === 'function') {
+          window.EPFTracker.initApp();
+        }
+      }
+    }, 3000);
+  </script>
 </body>
 
 </html>
