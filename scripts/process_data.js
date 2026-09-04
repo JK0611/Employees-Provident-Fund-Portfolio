@@ -138,7 +138,7 @@ async function fetchDomainFromSearch(companyName, stockName) {
 }
 
 async function fetchStockCodeAndSector(stockName, companyName) {
-  if (cache[stockName] && cache[stockName].code) {
+  if (cache[stockName] && cache[stockName].code !== undefined) {
     return cache[stockName];
   }
 
@@ -212,7 +212,10 @@ async function fetchStockCodeAndSector(stockName, companyName) {
   }
 
   // Fallback
-  return { code: null, sector: 'Others' };
+  const fallback = { code: stockName, sector: 'Others' };
+  cache[stockName] = fallback;
+  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+  return fallback;
 }
 
 async function processData() {
