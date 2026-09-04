@@ -15,6 +15,7 @@ export const BURSA_LOGOS = [
   { "company": "YTL", "logo_url": "https://s3-symbol-logo.tradingview.com/ytl-corporation-bhd--big.svg" },
   { "company": "CBD", "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg" },
   { "company": "CDB", "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg" },
+  { "company": "CELCOMDIGI", "logo_url": "https://s3-symbol-logo.tradingview.com/digi-com-bhd--big.svg" },
   { "company": "GAMUDA", "logo_url": "https://s3-symbol-logo.tradingview.com/gamuda-bhd--big.svg" },
   { "company": "DIALOG GROUP", "logo_url": "https://s3-symbol-logo.tradingview.com/dialog-group--big.svg" },
   { "company": "IHH", "logo_url": "https://s3-symbol-logo.tradingview.com/ihh--big.svg" },
