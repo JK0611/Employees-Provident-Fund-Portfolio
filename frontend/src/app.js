@@ -275,19 +275,27 @@ function filterDesktopHoldings() {
   tbody.innerHTML = filtered.map((h, i) => {
     const pctPort = totalMarketVal > 0 ? ((h.market_value / totalMarketVal) * 100).toFixed(3) : '0.000';
     const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
+    const logoEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">${renderStockLogo(h.stock_name, h.company_name, 28)}</a>`
+      : `<span class="shrink-0">${renderStockLogo(h.stock_name, h.company_name, 28)}</span>`;
+    const tickerEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>`
+      : `<span class="font-bold text-white">${h.stock_name}</span>`;
+    const companyEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>`
+      : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${h.company_name}</span>`;
+
     return `
       <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
         <td class="py-3 px-3 text-outline font-mono">${i + 1}</td>
         <td class="py-3 px-3">
           <div class="flex items-center gap-2.5">
-            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">
-              ${renderStockLogo(h.stock_name, h.company_name, 28)}
-            </a>
-            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>
+            ${logoEl}
+            ${tickerEl}
           </div>
         </td>
         <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">
-          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>
+          ${companyEl}
         </td>
         <td class="py-3 px-3 text-outline">${h.sector}</td>
         <td class="py-3 px-3 text-right font-mono font-semibold text-white">${h.price?.toFixed(2) || '0.00'}</td>
@@ -405,19 +413,27 @@ function renderDesktopTransactionRow(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
   const profileUrl = getKlseLink(tx.stock, tx.company);
+  const logoEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">${renderStockLogo(tx.stock, tx.company, 24)}</a>`
+    : `<span class="shrink-0">${renderStockLogo(tx.stock, tx.company, 24)}</span>`;
+  const tickerEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>`
+    : `<span class="font-bold text-white">${tx.stock}</span>`;
+  const companyEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>`
+    : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${tx.company}</span>`;
+
   return `
     <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
       <td class="py-3 px-3 text-outline font-mono text-[11px] whitespace-nowrap">${tx.date}</td>
       <td class="py-3 px-3">
         <div class="flex items-center gap-2">
-          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">
-            ${renderStockLogo(tx.stock, tx.company, 24)}
-          </a>
-          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>
+          ${logoEl}
+          ${tickerEl}
         </div>
       </td>
       <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">
-        <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>
+        ${companyEl}
       </td>
       <td class="py-3 px-3">
         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">${tx.type}</span>
@@ -700,18 +716,26 @@ function filterMobileHoldings() {
   list.innerHTML = filtered.map(h => {
     const pct = totalVal > 0 ? ((h.market_value / totalVal) * 100).toFixed(2) : '0.00';
     const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
+    const logoEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">${renderStockLogo(h.stock_name, h.company_name, 34)}</a>`
+      : `<span class="shrink-0">${renderStockLogo(h.stock_name, h.company_name, 34)}</span>`;
+    const tickerEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>`
+      : `<span class="font-bold text-sm text-white">${h.stock_name}</span>`;
+    const companyEl = profileUrl
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>`
+      : `<span class="text-xs text-outline truncate mt-0.5 block">${h.company_name}</span>`;
+
     return `
       <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
         <div class="flex items-center gap-3 min-w-0">
-          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">
-            ${renderStockLogo(h.stock_name, h.company_name, 34)}
-          </a>
+          ${logoEl}
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
-              <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>
+              ${tickerEl}
               <span class="text-[10px] px-1.5 py-0.2 rounded bg-white/5 text-outline">${h.sector}</span>
             </div>
-            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>
+            ${companyEl}
           </div>
         </div>
         <div class="text-right shrink-0 ml-2 font-mono-numeric">
@@ -764,18 +788,26 @@ function renderMobileTransactionCard(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
   const profileUrl = getKlseLink(tx.stock, tx.company);
+  const logoEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">${renderStockLogo(tx.stock, tx.company, 28)}</a>`
+    : `<span class="shrink-0">${renderStockLogo(tx.stock, tx.company, 28)}</span>`;
+  const tickerEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-xs text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>`
+    : `<span class="font-bold text-xs text-white">${tx.stock}</span>`;
+  const companyEl = profileUrl
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>`
+    : `<span class="text-[10px] text-outline truncate mt-0.5 block">${tx.company}</span>`;
+
   return `
     <div class="glass-card p-3 rounded-xl flex items-center justify-between hover:bg-white/[0.04] transition-colors">
       <div class="flex items-center gap-2 min-w-0">
-        <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">
-          ${renderStockLogo(tx.stock, tx.company, 28)}
-        </a>
+        ${logoEl}
         <div class="min-w-0">
           <div class="flex items-center gap-1.5">
-            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-xs text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>
+            ${tickerEl}
             <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
           </div>
-          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>
+          ${companyEl}
         </div>
       </div>
       <div class="text-right shrink-0 ml-2 font-mono-numeric flex flex-col items-end">
