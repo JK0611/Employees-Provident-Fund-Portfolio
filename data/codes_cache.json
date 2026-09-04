@@ -878,9 +878,10 @@
     "domain": "mtd-en.com"
   },
   "LATITUD": {
-    "code": "LATITUD",
-    "sector": "Others",
-    "domain": "latlong.net"
+    "code": "7006",
+    "sector": "Consumer",
+    "domain": "rhongkhen.com",
+    "price": 1.05
   },
   "HALIM": {
     "code": "HALIM",
@@ -1633,5 +1634,36 @@
     "domain": "eco-shop.com.my",
     "price": 1.5,
     "price_updated_at": "2026-09-04T13:20:26.652Z"
+  },
+  "RKI": {
+    "code": "7006",
+    "sector": "Consumer",
+    "domain": "rhongkhen.com",
+    "price": 1.05
+  },
+  "EDGENTA": {
+    "code": "1368",
+    "sector": "Industrial",
+    "domain": "uemedgenta.com"
+  },
+  "TALAMT": {
+    "code": "2259",
+    "sector": "Property",
+    "domain": "talamtransform.com.my"
+  },
+  "GUOCO": {
+    "code": "1503",
+    "sector": "Property",
+    "domain": "guocoland.com.my"
+  },
+  "YB": {
+    "code": "5048",
+    "sector": "Industrial",
+    "domain": "ybventures.com"
+  },
+  "GLOTEC": {
+    "code": "5220",
+    "sector": "Industrial",
+    "domain": "globaltec.com.my"
   }
 }

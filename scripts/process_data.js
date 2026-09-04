@@ -29,6 +29,74 @@ const sectorMapping = {
   'Financial': 'Banking'
 };
 
+const RENAMED_MAP = {
+  'LATITUD': { stock: 'RKI', company: 'RHONG KHEN INTERNATIONAL BERHAD' },
+  'LATITUDE TREE HOLDINGS BERHAD': { stock: 'RKI', company: 'RHONG KHEN INTERNATIONAL BERHAD' },
+  'DIGI': { stock: 'CDB', company: 'CELCOMDIGI BERHAD' },
+  'DIGI.COM BERHAD': { stock: 'CDB', company: 'CELCOMDIGI BERHAD' },
+  'CELCOM': { stock: 'CDB', company: 'CELCOMDIGI BERHAD' },
+  'CELCOM (MALAYSIA) BERHAD': { stock: 'CDB', company: 'CELCOMDIGI BERHAD' },
+  'PRESBHD': { stock: 'AWANTEC', company: 'AWANBIRU TECHNOLOGY BERHAD' },
+  'PRESTARIANG BERHAD': { stock: 'AWANTEC', company: 'AWANBIRU TECHNOLOGY BERHAD' },
+  'UMWOG': { stock: 'VELESTO', company: 'VELESTO ENERGY BERHAD' },
+  'UMW OIL & GAS CORPORATION BERHAD': { stock: 'VELESTO', company: 'VELESTO ENERGY BERHAD' },
+  'BJAUTO': { stock: 'BAUTO', company: 'BERMAZ AUTO BERHAD' },
+  'BERJAYA AUTO BERHAD': { stock: 'BAUTO', company: 'BERMAZ AUTO BERHAD' },
+  'AFG': { stock: 'ABMB', company: 'ALLIANCE BANK MALAYSIA BERHAD' },
+  'ALLIANCE FINANCIAL GROUP BERHAD': { stock: 'ABMB', company: 'ALLIANCE BANK MALAYSIA BERHAD' },
+  'CMMT': { stock: 'CLMT', company: 'CAPITALAND MALAYSIA TRUST' },
+  'CAPITALAND MALAYSIA MALL TRUST': { stock: 'CLMT', company: 'CAPITALAND MALAYSIA TRUST' },
+  'DBIOTEC': { stock: 'DPHARMA', company: 'DUOPHARMA BIOTECH BERHAD' },
+  'CCMDBIO': { stock: 'DPHARMA', company: 'DUOPHARMA BIOTECH BERHAD' },
+  'CCM DUOPHARMA BIOTECH BERHAD': { stock: 'DPHARMA', company: 'DUOPHARMA BIOTECH BERHAD' },
+  'MQREIT': { stock: 'SENTRAL', company: 'SENTRAL REIT' },
+  'MRCB-QUILL REIT': { stock: 'SENTRAL', company: 'SENTRAL REIT' },
+  'JUSCO': { stock: 'AEON', company: 'AEON CO. (M) BHD' },
+  'JAYA JUSCO STORES BERHAD': { stock: 'AEON', company: 'AEON CO. (M) BHD' },
+  'POSHLDG': { stock: 'POS', company: 'POS MALAYSIA BHD' },
+  'POS MALAYSIA & SERVICES HOLDINGS BERHAD': { stock: 'POS', company: 'POS MALAYSIA BHD' },
+  'WCTLAND': { stock: 'WCT', company: 'WCT HOLDINGS BERHAD' },
+  'WCT LAND BERHAD': { stock: 'WCT', company: 'WCT HOLDINGS BERHAD' },
+  'SAPCRES': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'SAPURACREST PETROLEUM BERHAD': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'SKPETRO': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'SAPURAKENCANA PETROLEUM BERHAD': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'SENERGY': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'SAPURA ENERGY BERHAD': { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD' },
+  'UEMLAND': { stock: 'UEMS', company: 'UEM SUNRISE BERHAD' },
+  'UEM LAND HOLDINGS BERHAD': { stock: 'UEMS', company: 'UEM SUNRISE BERHAD' },
+  'SUNRISE': { stock: 'UEMS', company: 'UEM SUNRISE BERHAD' },
+  'SUNRISE BERHAD': { stock: 'UEMS', company: 'UEM SUNRISE BERHAD' },
+  'IOIPB': { stock: 'IOIPG', company: 'IOI PROPERTIES GROUP BERHAD' },
+  'IOIPROP': { stock: 'IOIPG', company: 'IOI PROPERTIES GROUP BERHAD' },
+  'IOI PROPERTIES BERHAD': { stock: 'IOIPG', company: 'IOI PROPERTIES GROUP BERHAD' },
+  'FABER': { stock: 'EDGENTA', company: 'UEM EDGENTA BERHAD' },
+  'FABER GROUP BERHAD': { stock: 'EDGENTA', company: 'UEM EDGENTA BERHAD' },
+  'SIMEPLT': { stock: 'SDG', company: 'SD GUTHRIE BERHAD' },
+  'SIME DARBY PLANTATION BERHAD': { stock: 'SDG', company: 'SD GUTHRIE BERHAD' },
+  'TALAM': { stock: 'TALAMT', company: 'TALAM TRANSFORM BERHAD' },
+  'TALAM CORPORATION BERHAD': { stock: 'TALAMT', company: 'TALAM TRANSFORM BERHAD' },
+  'HLPB': { stock: 'GUOCO', company: 'GUOCOLAND (MALAYSIA) BHD' },
+  'HONG LEONG PROPERTIES BHD': { stock: 'GUOCO', company: 'GUOCOLAND (MALAYSIA) BHD' },
+  'COMMERZ': { stock: 'CIMB', company: 'CIMB GROUP HOLDINGS BERHAD' },
+  'COMMERCE ASSET-HOLDING BERHAD': { stock: 'CIMB', company: 'CIMB GROUP HOLDINGS BERHAD' },
+  'PFB': { stock: 'PBBANK', company: 'PUBLIC BANK BERHAD' },
+  'PBFIN': { stock: 'PBBANK', company: 'PUBLIC BANK BERHAD' },
+  'PUBLIC FINANCE BERHAD': { stock: 'PBBANK', company: 'PUBLIC BANK BERHAD' },
+  'YILAI': { stock: 'YB', company: 'YB VENTURES BERHAD' },
+  'YI-LAI BERHAD': { stock: 'YB', company: 'YB VENTURES BERHAD' },
+  'AIC': { stock: 'GLOTEC', company: 'GLOBALTEC FORMATION BERHAD' },
+  'AIC CORPORATION BERHAD': { stock: 'GLOTEC', company: 'GLOBALTEC FORMATION BERHAD' },
+  'PETRA': { stock: 'PERDANA', company: 'PERDANA PETROLEUM BERHAD' },
+  'PETRA PERDANA BERHAD': { stock: 'PERDANA', company: 'PERDANA PETROLEUM BERHAD' },
+  'CREST': { stock: 'CRESBLD', company: 'CREST BUILDER HOLDINGS BHD' },
+  'CREST BUILDER HOLDINGS BERHAD': { stock: 'CRESBLD', company: 'CREST BUILDER HOLDINGS BHD' },
+  'TRACTOR': { stock: 'SIME', company: 'SIME DARBY BERHAD' },
+  'TRACTORS MALAYSIA HOLDINGS BERHAD': { stock: 'SIME', company: 'SIME DARBY BERHAD' },
+  'WASCO': { stock: 'WASCO', company: 'WASCO BERHAD' },
+  'WAH SEONG CORPORATION BERHAD': { stock: 'WASCO', company: 'WASCO BERHAD' }
+};
+
 function normalizeSector(sec) {
   if (!sec) return 'Others';
   if (sectorMapping[sec]) return sectorMapping[sec];
@@ -244,7 +312,13 @@ async function processData() {
   for (const item of rawData) {
     if (!item.stock_name || item.stock_name.trim() === '') continue;
 
-    const stock = item.stock_name.trim();
+    let stock = item.stock_name.trim();
+    let company = item.company_name ? item.company_name.trim() : '';
+    const ren = RENAMED_MAP[stock.toUpperCase()] || RENAMED_MAP[company.toUpperCase()];
+    if (ren) {
+      stock = ren.stock;
+      company = ren.company;
+    }
     const date = item.date_announced;
     const directPercent = item.direct_percent || 0;
     const totalSecurities = item.total_securities_after_change || 0;
@@ -261,7 +335,7 @@ async function processData() {
     if (validTransactions.length > 0) {
       allTransactions.push({
         stock,
-        company: item.company_name,
+        company,
         date,
         url: item.url,
         transactions: validTransactions,
@@ -284,7 +358,7 @@ async function processData() {
     // Latest state
     holdingsMap[stock] = {
       stock_name: stock,
-      company_name: item.company_name,
+      company_name: company,
       direct_percent: directPercent,
       total_securities: totalSecurities,
       date: date

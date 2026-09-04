@@ -147,20 +147,122 @@ export const BASE_STOCK_CODES = {
   'SKPETRO': '5218',
   'SAPURA ENERGY BERHAD': '5218',
   'SAPURAKENCANA PETROLEUM BERHAD': '5218',
+  'VANTNRG': '5218',
+  'VANTRIS ENERGY BERHAD': '5218',
   'BSTEAD': '8133',
   'BOUSTEAD HOLDINGS BERHAD': '8133',
   'TALAM': '2259',
   'TALAM CORPORATION BERHAD': '2259',
+  'TALAMT': '2259',
+  'TALAM TRANSFORM BERHAD': '2259',
   'LATITUD': '7006',
   'LATITUDE TREE HOLDINGS BERHAD': '7006',
-  'PETRA': '5133',
-  'PETRA ENERGY BHD': '5133',
-  'PETRA PERDANA BERHAD': '5133',
-  'FABER': '1481',
-  'FABER GROUP BERHAD': '1481',
-  'EDGENTA': '1481',
-  'UEM EDGENTA BERHAD': '1481'
+  'RKI': '7006',
+  'RHONG KHEN INTERNATIONAL BERHAD': '7006',
+  'PETRA': '7108',
+  'PETRA PERDANA BERHAD': '7108',
+  'PERDANA': '7108',
+  'PERDANA PETROLEUM BERHAD': '7108',
+  'FABER': '1368',
+  'FABER GROUP BERHAD': '1368',
+  'EDGENTA': '1368',
+  'UEM EDGENTA BERHAD': '1368',
+  'SDG': '5285',
+  'SD GUTHRIE BERHAD': '5285',
+  'SIMEPLT': '5285',
+  'SIME DARBY PLANTATION BERHAD': '5285',
+  'GUOCO': '1503',
+  'GUOCOLAND (MALAYSIA) BHD': '1503',
+  'HLPB': '1503',
+  'HONG LEONG PROPERTIES BHD': '1503',
+  'CIMB': '1023',
+  'CIMB GROUP HOLDINGS BERHAD': '1023',
+  'COMMERZ': '1023',
+  'COMMERCE ASSET-HOLDING BERHAD': '1023',
+  'PBBANK': '1295',
+  'PUBLIC BANK BERHAD': '1295',
+  'PFB': '1295',
+  'PBFIN': '1295',
+  'PUBLIC FINANCE BERHAD': '1295',
+  'YB': '5048',
+  'YB VENTURES BERHAD': '5048',
+  'YILAI': '5048',
+  'YI-LAI BERHAD': '5048',
+  'GLOTEC': '5220',
+  'GLOBALTEC FORMATION BERHAD': '5220',
+  'AIC': '5220',
+  'AIC CORPORATION BERHAD': '5220',
+  'CRESBLD': '8591',
+  'CREST BUILDER HOLDINGS BHD': '8591',
+  'CREST': '8591',
+  'CREST BUILDER HOLDINGS BERHAD': '8591',
+  'WASCO': '5142',
+  'WASCO BERHAD': '5142',
+  'WSC': '5142',
+  'WAH SEONG CORPORATION BERHAD': '5142',
+  'YNHPROP': '3158',
+  'YNH PROPERTY BERHAD': '3158',
+  'YNHB': '3158',
+  'MANULFE': '1058',
+  'MANULIFE HOLDINGS BERHAD': '1058',
+  'MNRB': '6459',
+  'MNRB HOLDINGS BERHAD': '6459'
 };
+
+export const CANONICAL_RENAMED_PAIRS = [
+  { stock: 'RKI', company: 'RHONG KHEN INTERNATIONAL BERHAD', formers: ['LATITUD', 'LATITUDE TREE HOLDINGS BERHAD'] },
+  { stock: 'CDB', company: 'CELCOMDIGI BERHAD', formers: ['DIGI', 'DIGI.COM BERHAD', 'CELCOM', 'CELCOM (MALAYSIA) BERHAD'] },
+  { stock: 'AWANTEC', company: 'AWANBIRU TECHNOLOGY BERHAD', formers: ['PRESBHD', 'PRESTARIANG BERHAD'] },
+  { stock: 'VELESTO', company: 'VELESTO ENERGY BERHAD', formers: ['UMWOG', 'UMW OIL & GAS CORPORATION BERHAD'] },
+  { stock: 'BAUTO', company: 'BERMAZ AUTO BERHAD', formers: ['BJAUTO', 'BERJAYA AUTO BERHAD'] },
+  { stock: 'ABMB', company: 'ALLIANCE BANK MALAYSIA BERHAD', formers: ['AFG', 'ALLIANCE FINANCIAL GROUP BERHAD'] },
+  { stock: 'CLMT', company: 'CAPITALAND MALAYSIA TRUST', formers: ['CMMT', 'CAPITALAND MALAYSIA MALL TRUST'] },
+  { stock: 'DPHARMA', company: 'DUOPHARMA BIOTECH BERHAD', formers: ['DBIOTEC', 'CCMDBIO', 'CCM DUOPHARMA BIOTECH BERHAD'] },
+  { stock: 'SENTRAL', company: 'SENTRAL REIT', formers: ['MQREIT', 'MRCB-QUILL REIT'] },
+  { stock: 'AEON', company: 'AEON CO. (M) BHD', formers: ['JUSCO', 'JAYA JUSCO STORES BERHAD'] },
+  { stock: 'POS', company: 'POS MALAYSIA BHD', formers: ['POSHLDG', 'POS MALAYSIA & SERVICES HOLDINGS BERHAD'] },
+  { stock: 'WCT', company: 'WCT HOLDINGS BERHAD', formers: ['WCTLAND', 'WCT LAND BERHAD'] },
+  { stock: 'VANTNRG', company: 'VANTRIS ENERGY BERHAD', formers: ['SAPCRES', 'SAPURACREST PETROLEUM BERHAD', 'SKPETRO', 'SAPURAKENCANA PETROLEUM BERHAD', 'SENERGY', 'SAPURA ENERGY BERHAD'] },
+  { stock: 'UEMS', company: 'UEM SUNRISE BERHAD', formers: ['UEMLAND', 'UEM LAND HOLDINGS BERHAD', 'SUNRISE', 'SUNRISE BERHAD'] },
+  { stock: 'IOIPG', company: 'IOI PROPERTIES GROUP BERHAD', formers: ['IOIPB', 'IOIPROP', 'IOI PROPERTIES BERHAD'] },
+  { stock: 'EDGENTA', company: 'UEM EDGENTA BERHAD', formers: ['FABER', 'FABER GROUP BERHAD'] },
+  { stock: 'SDG', company: 'SD GUTHRIE BERHAD', formers: ['SIMEPLT', 'SIME DARBY PLANTATION BERHAD'] },
+  { stock: 'TALAMT', company: 'TALAM TRANSFORM BERHAD', formers: ['TALAM', 'TALAM CORPORATION BERHAD'] },
+  { stock: 'GUOCO', company: 'GUOCOLAND (MALAYSIA) BHD', formers: ['HLPB', 'HONG LEONG PROPERTIES BHD'] },
+  { stock: 'CIMB', company: 'CIMB GROUP HOLDINGS BERHAD', formers: ['COMMERZ', 'COMMERCE ASSET-HOLDING BERHAD'] },
+  { stock: 'PBBANK', company: 'PUBLIC BANK BERHAD', formers: ['PFB', 'PBFIN', 'PUBLIC FINANCE BERHAD'] },
+  { stock: 'YB', company: 'YB VENTURES BERHAD', formers: ['YILAI', 'YI-LAI BERHAD'] },
+  { stock: 'GLOTEC', company: 'GLOBALTEC FORMATION BERHAD', formers: ['AIC', 'AIC CORPORATION BERHAD'] },
+  { stock: 'PERDANA', company: 'PERDANA PETROLEUM BERHAD', formers: ['PETRA', 'PETRA PERDANA BERHAD'] },
+  { stock: 'CRESBLD', company: 'CREST BUILDER HOLDINGS BHD', formers: ['CREST', 'CREST BUILDER HOLDINGS BERHAD'] },
+  { stock: 'SIME', company: 'SIME DARBY BERHAD', formers: ['TRACTOR', 'TRACTORS MALAYSIA HOLDINGS BERHAD'] },
+  { stock: 'WASCO', company: 'WASCO BERHAD', formers: ['WSC', 'WAH SEONG CORPORATION BERHAD'] }
+];
+
+export const RENAMED_STOCKS_MAP = {};
+CANONICAL_RENAMED_PAIRS.forEach(pair => {
+  const formerStr = pair.formers.join(' ');
+  RENAMED_STOCKS_MAP[pair.stock.toUpperCase()] = { stock: pair.stock, company: pair.company, former: pair.formers[0], allFormers: formerStr };
+  RENAMED_STOCKS_MAP[pair.company.toUpperCase()] = { stock: pair.stock, company: pair.company, former: pair.formers[0], allFormers: formerStr };
+  pair.formers.forEach(f => {
+    RENAMED_STOCKS_MAP[f.toUpperCase()] = { stock: pair.stock, company: pair.company, former: f, allFormers: formerStr };
+  });
+});
+
+export function resolveRenamedStock(stock, company = '') {
+  const sKey = (stock || '').toUpperCase().trim();
+  const cKey = (company || '').toUpperCase().trim();
+  const ren = RENAMED_STOCKS_MAP[sKey] || RENAMED_STOCKS_MAP[cKey];
+  if (ren) {
+    return {
+      stock: ren.stock,
+      company: ren.company,
+      former: ren.former || (sKey !== ren.stock ? sKey : cKey),
+      allFormers: ren.allFormers || ''
+    };
+  }
+  return { stock: stock || '', company: company || '', former: '', allFormers: '' };
+}
 
 export const STOCK_CODE_MAP = Object.assign({}, BASE_STOCK_CODES);
 
@@ -168,8 +270,9 @@ export function getStockCode(stock, company = '', explicitCode = '') {
   let code = (explicitCode || '').trim();
   if (code && /^\d+/.test(code)) return code;
 
-  const sKey = (stock || '').toUpperCase().trim();
-  const cKey = (company || '').toUpperCase().trim();
+  const ren = resolveRenamedStock(stock, company);
+  const sKey = (ren.stock || stock || '').toUpperCase().trim();
+  const cKey = (ren.company || company || '').toUpperCase().trim();
 
   if (STOCK_CODE_MAP[sKey] && /^\d+/.test(STOCK_CODE_MAP[sKey])) return STOCK_CODE_MAP[sKey];
   if (STOCK_CODE_MAP[cKey] && /^\d+/.test(STOCK_CODE_MAP[cKey])) return STOCK_CODE_MAP[cKey];
@@ -194,6 +297,7 @@ export function getStockCode(stock, company = '', explicitCode = '') {
 export function getKlseLink(stock, company = '', explicitCode = '') {
   const code = getStockCode(stock, company, explicitCode);
   if (!code || !/^\d+/.test(code)) return '';
-  const slug = slugify(company || stock);
+  const ren = resolveRenamedStock(stock, company);
+  const slug = slugify(ren.company || ren.stock || company || stock);
   return `https://www.klsescreener.com/v2/stocks/view/${encodeURIComponent(code)}${slug ? '/' + slug : ''}`;
 }

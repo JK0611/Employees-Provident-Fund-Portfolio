@@ -4,7 +4,7 @@
  */
 
 import { store } from './core/state.js';
-import { formatCompact, formatCurrency, getKlseLink, ICONSTACK } from './core/utils.js';
+import { formatCompact, formatCurrency, getKlseLink, resolveRenamedStock, ICONSTACK } from './core/utils.js';
 import { initLogoMap, renderStockLogo, flattenTransactions, getPortfolioTimeSeries, getReturnsData } from './core/data.js';
 import { drawLineChart } from './charts/line-chart.js';
 import { drawBarChart, setupBarChartHover } from './charts/bar-chart.js';
@@ -264,7 +264,19 @@ function filterDesktopHoldings() {
 
   const totalMarketVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
   const filtered = holdings.filter(h => {
-    const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
+    const ren = resolveRenamedStock(h.stock_name, h.company_name);
+    const stockName = ren.stock.toLowerCase();
+    const compName = ren.company.toLowerCase();
+    const formerName = (ren.allFormers || ren.former || '').toLowerCase();
+    const origStock = (h.stock_name || '').toLowerCase();
+    const origComp = (h.company_name || '').toLowerCase();
+
+    const matchSearch = !search ||
+      stockName.includes(search) ||
+      compName.includes(search) ||
+      formerName.includes(search) ||
+      origStock.includes(search) ||
+      origComp.includes(search);
     const matchSector = sector === 'all' || h.sector === sector;
     return matchSearch && matchSector;
   });
@@ -274,16 +286,22 @@ function filterDesktopHoldings() {
 
   tbody.innerHTML = filtered.map((h, i) => {
     const pctPort = totalMarketVal > 0 ? ((h.market_value / totalMarketVal) * 100).toFixed(3) : '0.000';
-    const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
+    const ren = resolveRenamedStock(h.stock_name, h.company_name);
+    const stockName = ren.stock;
+    const compName = ren.company;
+    const formerBadge = (ren.former && ren.former !== stockName)
+      ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
+      : '';
+    const profileUrl = getKlseLink(stockName, compName, h.stock_code);
     const logoEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">${renderStockLogo(h.stock_name, h.company_name, 28)}</a>`
-      : `<span class="shrink-0">${renderStockLogo(h.stock_name, h.company_name, 28)}</span>`;
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`
+      : `<span class="shrink-0">${renderStockLogo(stockName, compName, 28)}</span>`;
     const tickerEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>`
-      : `<span class="font-bold text-white">${h.stock_name}</span>`;
+      ? `<div class="flex items-center gap-1.5"><a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${compName} on KLSE Screener">${stockName}</a>${formerBadge}</div>`
+      : `<div class="flex items-center gap-1.5"><span class="font-bold text-white">${stockName}</span>${formerBadge}</div>`;
     const companyEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>`
-      : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${h.company_name}</span>`;
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${compName} on KLSE Screener">${compName}</a>`
+      : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${compName}</span>`;
 
     return `
       <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
@@ -412,16 +430,22 @@ let isDesktopTxLoading = false;
 function renderDesktopTransactionRow(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
-  const profileUrl = getKlseLink(tx.stock, tx.company);
+  const ren = resolveRenamedStock(tx.stock, tx.company);
+  const stockName = ren.stock;
+  const compName = ren.company;
+  const formerBadge = (ren.former && ren.former !== stockName)
+    ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
+    : '';
+  const profileUrl = getKlseLink(stockName, compName);
   const logoEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">${renderStockLogo(tx.stock, tx.company, 24)}</a>`
-    : `<span class="shrink-0">${renderStockLogo(tx.stock, tx.company, 24)}</span>`;
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 24)}</a>`
+    : `<span class="shrink-0">${renderStockLogo(stockName, compName, 24)}</span>`;
   const tickerEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>`
-    : `<span class="font-bold text-white">${tx.stock}</span>`;
+    ? `<div class="flex items-center gap-1.5"><a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${compName || stockName} on KLSE Screener">${stockName}</a>${formerBadge}</div>`
+    : `<div class="flex items-center gap-1.5"><span class="font-bold text-white">${stockName}</span>${formerBadge}</div>`;
   const companyEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>`
-    : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${tx.company}</span>`;
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${compName || stockName} on KLSE Screener">${compName}</a>`
+    : `<span class="text-on-surface-variant font-medium truncate max-w-[200px] block">${compName}</span>`;
 
   return `
     <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
@@ -525,7 +549,21 @@ function filterDesktopTransactions(reset = true) {
   const type = document.getElementById('tx-filter-type')?.value || 'all';
 
   desktopTxFiltered = allTransactions.filter(tx => {
-    const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
+    const ren = resolveRenamedStock(tx.stock, tx.company);
+    const stockName = ren.stock.toLowerCase();
+    const compName = ren.company.toLowerCase();
+    const formerName = (ren.allFormers || ren.former || '').toLowerCase();
+    const origStock = (tx.stock || '').toLowerCase();
+    const origComp = (tx.company || '').toLowerCase();
+    const dateStr = (tx.date || '').toLowerCase();
+
+    const matchSearch = !search ||
+      stockName.includes(search) ||
+      compName.includes(search) ||
+      formerName.includes(search) ||
+      origStock.includes(search) ||
+      origComp.includes(search) ||
+      dateStr.includes(search);
     const matchType = type === 'all' || tx.type === type;
     return matchSearch && matchType;
   });
@@ -705,7 +743,19 @@ function filterMobileHoldings() {
   const totalVal = holdings.reduce((s, h) => s + (h.market_value || 0), 0);
 
   const filtered = holdings.filter(h => {
-    const matchSearch = !search || h.stock_name.toLowerCase().includes(search) || h.company_name.toLowerCase().includes(search);
+    const ren = resolveRenamedStock(h.stock_name, h.company_name);
+    const stockName = ren.stock.toLowerCase();
+    const compName = ren.company.toLowerCase();
+    const formerName = (ren.allFormers || ren.former || '').toLowerCase();
+    const origStock = (h.stock_name || '').toLowerCase();
+    const origComp = (h.company_name || '').toLowerCase();
+
+    const matchSearch = !search ||
+      stockName.includes(search) ||
+      compName.includes(search) ||
+      formerName.includes(search) ||
+      origStock.includes(search) ||
+      origComp.includes(search);
     const matchSector = sector === 'all' || h.sector === sector;
     return matchSearch && matchSector;
   });
@@ -715,16 +765,22 @@ function filterMobileHoldings() {
 
   list.innerHTML = filtered.map(h => {
     const pct = totalVal > 0 ? ((h.market_value / totalVal) * 100).toFixed(2) : '0.00';
-    const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
+    const ren = resolveRenamedStock(h.stock_name, h.company_name);
+    const stockName = ren.stock;
+    const compName = ren.company;
+    const formerBadge = (ren.former && ren.former !== stockName)
+      ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
+      : '';
+    const profileUrl = getKlseLink(stockName, compName, h.stock_code);
     const logoEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">${renderStockLogo(h.stock_name, h.company_name, 34)}</a>`
-      : `<span class="shrink-0">${renderStockLogo(h.stock_name, h.company_name, 34)}</span>`;
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 34)}</a>`
+      : `<span class="shrink-0">${renderStockLogo(stockName, compName, 34)}</span>`;
     const tickerEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>`
-      : `<span class="font-bold text-sm text-white">${h.stock_name}</span>`;
+      ? `<div class="flex items-center gap-1"><a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-primary transition-colors" title="View ${compName} on KLSE Screener">${stockName}</a>${formerBadge}</div>`
+      : `<div class="flex items-center gap-1"><span class="font-bold text-sm text-white">${stockName}</span>${formerBadge}</div>`;
     const companyEl = profileUrl
-      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>`
-      : `<span class="text-xs text-outline truncate mt-0.5 block">${h.company_name}</span>`;
+      ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${compName} on KLSE Screener">${compName}</a>`
+      : `<span class="text-xs text-outline truncate mt-0.5 block">${compName}</span>`;
 
     return `
       <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
@@ -787,16 +843,22 @@ let isMobileTxLoading = false;
 function renderMobileTransactionCard(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
-  const profileUrl = getKlseLink(tx.stock, tx.company);
+  const ren = resolveRenamedStock(tx.stock, tx.company);
+  const stockName = ren.stock;
+  const compName = ren.company;
+  const formerBadge = (ren.former && ren.former !== stockName)
+    ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
+    : '';
+  const profileUrl = getKlseLink(stockName, compName);
   const logoEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">${renderStockLogo(tx.stock, tx.company, 28)}</a>`
-    : `<span class="shrink-0">${renderStockLogo(tx.stock, tx.company, 28)}</span>`;
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`
+    : `<span class="shrink-0">${renderStockLogo(stockName, compName, 28)}</span>`;
   const tickerEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-xs text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>`
-    : `<span class="font-bold text-xs text-white">${tx.stock}</span>`;
+    ? `<div class="flex items-center gap-1"><a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-xs text-white hover:text-primary transition-colors" title="View ${compName || stockName} on KLSE Screener">${stockName}</a>${formerBadge}</div>`
+    : `<div class="flex items-center gap-1"><span class="font-bold text-xs text-white">${stockName}</span>${formerBadge}</div>`;
   const companyEl = profileUrl
-    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>`
-    : `<span class="text-[10px] text-outline truncate mt-0.5 block">${tx.company}</span>`;
+    ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${compName || stockName} on KLSE Screener">${compName}</a>`
+    : `<span class="text-[10px] text-outline truncate mt-0.5 block">${compName}</span>`;
 
   return `
     <div class="glass-card p-3 rounded-xl flex items-center justify-between hover:bg-white/[0.04] transition-colors">
@@ -900,7 +962,21 @@ function filterMobileTransactions(reset = true) {
   const type = store.getState().txType || 'all';
 
   mobileTxFiltered = allTransactions.filter(tx => {
-    const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
+    const ren = resolveRenamedStock(tx.stock, tx.company);
+    const stockName = ren.stock.toLowerCase();
+    const compName = ren.company.toLowerCase();
+    const formerName = (ren.allFormers || ren.former || '').toLowerCase();
+    const origStock = (tx.stock || '').toLowerCase();
+    const origComp = (tx.company || '').toLowerCase();
+    const dateStr = (tx.date || '').toLowerCase();
+
+    const matchSearch = !search ||
+      stockName.includes(search) ||
+      compName.includes(search) ||
+      formerName.includes(search) ||
+      origStock.includes(search) ||
+      origComp.includes(search) ||
+      dateStr.includes(search);
     const matchType = type === 'all' || tx.type === type;
     return matchSearch && matchType;
   });
