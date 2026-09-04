@@ -32,7 +32,7 @@ export function renderDesktopTransactions() {
           </div>
         </div>
 
-        <div class="table-scroll-wrapper custom-scrollbar">
+        <div class="table-scroll-wrapper custom-scrollbar" id="tx-table-scroll">
           <table class="w-full text-left text-xs text-on-surface data-table" id="tx-table">
             <thead>
               <tr class="text-outline text-[11px] uppercase tracking-wider font-semibold">

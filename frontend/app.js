@@ -1624,7 +1624,7 @@
             </div>
           </div>
 
-          <div class="table-scroll-wrapper custom-scrollbar">
+          <div class="table-scroll-wrapper custom-scrollbar" id="tx-table-scroll">
             <table class="w-full text-left text-xs text-on-surface data-table" id="tx-table">
               <thead>
                 <tr class="text-outline text-[11px] uppercase tracking-wider font-semibold">
@@ -2452,7 +2452,143 @@
     `;
   }
 
-  function filterDesktopTransactions() {
+  // Desktop transactions infinite scroll state
+  let desktopTxFiltered = [];
+  let desktopTxRenderedCount = 0;
+  const DESKTOP_TX_BATCH_SIZE = 50;
+  let desktopTxObserver = null;
+  let isDesktopTxLoading = false;
+
+  function renderDesktopTransactionRow(tx) {
+    const isBuy = tx.type === 'Acquired';
+    const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+    return `
+      <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
+        <td class="py-3 px-3 text-outline font-mono text-[11px] whitespace-nowrap">${tx.date}</td>
+        <td class="py-3 px-3">
+          <div class="flex items-center gap-2">
+            ${renderStockLogo(tx.stock, tx.company, 24)}
+            <span class="font-bold text-white">${tx.stock}</span>
+          </div>
+        </td>
+        <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${tx.company}</td>
+        <td class="py-3 px-3">
+          <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">${tx.type}</span>
+        </td>
+        <td class="py-3 px-3 text-right font-mono font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</td>
+        <td class="py-3 px-3 text-right font-mono text-outline">${tx.percent ? tx.percent.toFixed(3) + '%' : '-'}</td>
+        <td class="py-3 px-3 text-right font-mono font-bold text-white">${tx.total ? tx.total.toLocaleString() : '-'}</td>
+        <td class="py-3 px-3 text-center">
+          <a href="${tx.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-1 rounded-lg text-outline hover:text-primary transition-colors">
+            <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </td>
+      </tr>
+    `;
+  }
+
+  function setupDesktopIntersectionObserver() {
+    if (desktopTxObserver) {
+      desktopTxObserver.disconnect();
+      desktopTxObserver = null;
+    }
+    const sentinel = document.getElementById('tx-desktop-sentinel');
+    const scrollWrapper = document.getElementById('tx-table-scroll') || document.querySelector('#desktop-panel-transactions .table-scroll-wrapper');
+    if (!sentinel || !scrollWrapper) return;
+
+    desktopTxObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting) {
+        renderMoreDesktopTransactions();
+      }
+    }, {
+      root: scrollWrapper,
+      rootMargin: '300px'
+    });
+    desktopTxObserver.observe(sentinel);
+  }
+
+  function bindDesktopTxScroll() {
+    const scrollWrapper = document.getElementById('tx-table-scroll') || document.querySelector('#desktop-panel-transactions .table-scroll-wrapper');
+    if (!scrollWrapper) return;
+
+    if (!scrollWrapper.dataset.scrollBound) {
+      scrollWrapper.dataset.scrollBound = 'true';
+      scrollWrapper.addEventListener('scroll', () => {
+        if (scrollWrapper.scrollTop + scrollWrapper.clientHeight >= scrollWrapper.scrollHeight - 300) {
+          renderMoreDesktopTransactions();
+        }
+      }, { passive: true });
+    }
+  }
+
+  function renderMoreDesktopTransactions() {
+    const tbody = document.getElementById('tx-tbody');
+    if (!tbody || isDesktopTxLoading) return;
+    if (desktopTxRenderedCount >= desktopTxFiltered.length) return;
+
+    isDesktopTxLoading = true;
+
+    // Clean up existing sentinel & archive prompt
+    const existingSentinel = document.getElementById('tx-desktop-sentinel');
+    if (existingSentinel) existingSentinel.remove();
+    const existingArchive = document.getElementById('tx-desktop-archive-row');
+    if (existingArchive) existingArchive.remove();
+
+    const start = desktopTxRenderedCount;
+    const end = Math.min(start + DESKTOP_TX_BATCH_SIZE, desktopTxFiltered.length);
+    const chunk = desktopTxFiltered.slice(start, end);
+    desktopTxRenderedCount = end;
+
+    const html = chunk.map(renderDesktopTransactionRow).join('');
+    tbody.insertAdjacentHTML('beforeend', html);
+
+    if (desktopTxRenderedCount < desktopTxFiltered.length) {
+      const sentinelHtml = `
+        <tr id="tx-desktop-sentinel">
+          <td colspan="8" class="py-4 text-center text-xs text-outline font-medium">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span>Loaded ${desktopTxRenderedCount} of ${desktopTxFiltered.length.toLocaleString()} filings • Scroll down for more</span>
+            </div>
+          </td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML('beforeend', sentinelHtml);
+      setupDesktopIntersectionObserver();
+    } else {
+      if (allTransactions.length <= 3500) {
+        const archiveHtml = `
+          <tr id="tx-desktop-archive-row">
+            <td colspan="8" class="py-4 text-center">
+              <div class="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 text-outline text-xs">
+                <span>Showing all ${desktopTxFiltered.length.toLocaleString()} recent filings (May - Sep 2026)</span>
+                <button id="btn-load-full-archive" class="px-3 py-1 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 font-semibold cursor-pointer transition-colors flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  <span>Load Complete Historical Archive (122,381 Filings)</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', archiveHtml);
+        const btn = document.getElementById('btn-load-full-archive');
+        if (btn) btn.addEventListener('click', loadFullHistoricalArchive);
+      } else {
+        const endNotice = `
+          <tr id="tx-desktop-end-row">
+            <td colspan="8" class="py-3 text-center text-xs text-outline font-medium">
+              <span>All ${desktopTxFiltered.length.toLocaleString()} filings displayed</span>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', endNotice);
+      }
+    }
+
+    isDesktopTxLoading = false;
+  }
+
+  function filterDesktopTransactions(reset = true) {
     const txSearchInput = document.getElementById('tx-search');
     const search = (txSearchInput?.value || '').toLowerCase().trim();
     const type = document.getElementById('tx-filter-type')?.value || 'all';
@@ -2469,7 +2605,7 @@
       searchClear.classList.toggle('hidden', search === '');
     }
 
-    const filtered = allTransactions.filter(tx => {
+    desktopTxFiltered = allTransactions.filter(tx => {
       const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
       const matchType = type === 'all' || tx.type === type;
       return matchSearch && matchType;
@@ -2478,36 +2614,19 @@
     const tbody = document.getElementById('tx-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = filtered.slice(0, 50).map(tx => {
-      const isBuy = tx.type === 'Acquired';
-      const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
-      return `
-        <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
-          <td class="py-3 px-3 text-outline font-mono text-[11px]">${tx.date}</td>
-          <td class="py-3 px-3">
-            <div class="flex items-center gap-2">
-              ${renderStockLogo(tx.stock, tx.company, 24)}
-              <span class="font-bold text-white">${tx.stock}</span>
-            </div>
-          </td>
-          <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${tx.company}</td>
-          <td class="py-3 px-3">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">${tx.type}</span>
-          </td>
-          <td class="py-3 px-3 text-right font-mono font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</td>
-          <td class="py-3 px-3 text-right font-mono text-outline">${tx.percent ? tx.percent.toFixed(3) + '%' : '-'}</td>
-          <td class="py-3 px-3 text-right font-mono font-bold text-white">${tx.total ? tx.total.toLocaleString() : '-'}</td>
-          <td class="py-3 px-3 text-center">
-            <a href="${tx.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center p-1 rounded-lg text-outline hover:text-primary transition-colors">
-              <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          </td>
-        </tr>
-      `;
-    }).join('');
+    const shouldReset = reset !== false;
+    if (shouldReset) {
+      desktopTxRenderedCount = 0;
+      tbody.innerHTML = '';
+      const scrollWrapper = document.getElementById('tx-table-scroll') || document.querySelector('#desktop-panel-transactions .table-scroll-wrapper');
+      if (scrollWrapper) scrollWrapper.scrollTop = 0;
+    }
+
+    renderMoreDesktopTransactions();
+    bindDesktopTxScroll();
 
     const countBadge = document.getElementById('tx-count');
-    if (countBadge) countBadge.textContent = filtered.length;
+    if (countBadge) countBadge.textContent = desktopTxFiltered.length.toLocaleString();
   }
 
   // ----------------------------------------------------
@@ -2788,7 +2907,134 @@
     `;
   }
 
-  function filterMobileTransactions() {
+  // Mobile transactions infinite scroll state
+  let mobileTxFiltered = [];
+  let mobileTxRenderedCount = 0;
+  const MOBILE_TX_BATCH_SIZE = 40;
+  let mobileTxObserver = null;
+  let isMobileTxLoading = false;
+
+  function renderMobileTransactionCard(tx) {
+    const isBuy = tx.type === 'Acquired';
+    const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+    return `
+      <a href="${tx.url}" target="_blank" rel="noopener noreferrer" class="glass-card p-3 rounded-xl flex items-center justify-between hover:bg-white/[0.04] transition-colors block cursor-pointer">
+        <div class="flex items-center gap-2 min-w-0">
+          ${renderStockLogo(tx.stock, tx.company, 28)}
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-xs text-white">${tx.stock}</span>
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
+            </div>
+            <div class="text-[10px] text-outline truncate mt-0.5">${tx.company}</div>
+          </div>
+        </div>
+        <div class="text-right shrink-0 ml-2 font-mono-numeric">
+          <div class="text-xs font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</div>
+          <div class="text-[9px] text-outline">${tx.date}</div>
+        </div>
+      </a>
+    `;
+  }
+
+  function setupMobileIntersectionObserver() {
+    if (mobileTxObserver) {
+      mobileTxObserver.disconnect();
+      mobileTxObserver = null;
+    }
+    const sentinel = document.getElementById('tx-mobile-sentinel');
+    if (!sentinel) return;
+
+    mobileTxObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting) {
+        renderMoreMobileTransactions();
+      }
+    }, {
+      rootMargin: '300px'
+    });
+    mobileTxObserver.observe(sentinel);
+  }
+
+  function bindMobileTxScroll() {
+    const onScroll = () => {
+      const sentinel = document.getElementById('tx-mobile-sentinel');
+      if (!sentinel) return;
+      const rect = sentinel.getBoundingClientRect();
+      if (rect.top <= window.innerHeight + 300) {
+        renderMoreMobileTransactions();
+      }
+    };
+    const mobContainer = document.getElementById('mobile-view-container');
+    if (mobContainer && !mobContainer.dataset.txScrollBound) {
+      mobContainer.dataset.txScrollBound = 'true';
+      mobContainer.addEventListener('scroll', onScroll, { passive: true });
+    }
+    if (!window.__mobileTxScrollBound) {
+      window.__mobileTxScrollBound = true;
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  }
+
+  function renderMoreMobileTransactions() {
+    const feed = document.getElementById('mobile-tx-feed');
+    if (!feed || isMobileTxLoading) return;
+    if (mobileTxRenderedCount >= mobileTxFiltered.length) return;
+
+    isMobileTxLoading = true;
+
+    const existingSentinel = document.getElementById('tx-mobile-sentinel');
+    if (existingSentinel) existingSentinel.remove();
+    const existingArchive = document.getElementById('tx-mobile-archive-row');
+    if (existingArchive) existingArchive.remove();
+
+    const start = mobileTxRenderedCount;
+    const end = Math.min(start + MOBILE_TX_BATCH_SIZE, mobileTxFiltered.length);
+    const chunk = mobileTxFiltered.slice(start, end);
+    mobileTxRenderedCount = end;
+
+    const cardsHtml = chunk.map(renderMobileTransactionCard).join('');
+    feed.insertAdjacentHTML('beforeend', cardsHtml);
+
+    if (mobileTxRenderedCount < mobileTxFiltered.length) {
+      const sentinelHtml = `
+        <div id="tx-mobile-sentinel" class="py-3 text-center text-xs text-outline font-medium">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.02]">
+            <span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span>Loaded ${mobileTxRenderedCount} of ${mobileTxFiltered.length.toLocaleString()} filings • Scroll for more</span>
+          </div>
+        </div>
+      `;
+      feed.insertAdjacentHTML('beforeend', sentinelHtml);
+      setupMobileIntersectionObserver();
+    } else {
+      if (allTransactions.length <= 3500) {
+        const archiveHtml = `
+          <div id="tx-mobile-archive-row" class="py-3 text-center">
+            <div class="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/[0.03] border border-white/10 text-outline text-xs">
+              <span>Showing all ${mobileTxFiltered.length.toLocaleString()} recent filings</span>
+              <button id="btn-mobile-load-full-archive" class="w-full py-2 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 font-semibold cursor-pointer transition-colors flex items-center justify-center gap-1.5">
+                <span>Load Complete Archive (122k+ Filings)</span>
+              </button>
+            </div>
+          </div>
+        `;
+        feed.insertAdjacentHTML('beforeend', archiveHtml);
+        const btn = document.getElementById('btn-mobile-load-full-archive');
+        if (btn) btn.addEventListener('click', loadFullHistoricalArchive);
+      } else {
+        const endNotice = `
+          <div class="py-3 text-center text-xs text-outline font-medium">
+            <span>All ${mobileTxFiltered.length.toLocaleString()} filings displayed</span>
+          </div>
+        `;
+        feed.insertAdjacentHTML('beforeend', endNotice);
+      }
+    }
+
+    isMobileTxLoading = false;
+  }
+
+  function filterMobileTransactions(reset = true) {
     const searchInput = document.getElementById('mobile-tx-search');
     const search = (searchInput?.value || '').toLowerCase().trim();
     const type = store.getState().txType || 'all';
@@ -2805,7 +3051,7 @@
       searchClear.classList.toggle('hidden', search === '');
     }
 
-    const filtered = allTransactions.filter(tx => {
+    mobileTxFiltered = allTransactions.filter(tx => {
       const matchSearch = !search || tx.stock.toLowerCase().includes(search) || tx.company.toLowerCase().includes(search) || (tx.date && tx.date.toLowerCase().includes(search));
       const matchType = type === 'all' || tx.type === type;
       return matchSearch && matchType;
@@ -2814,28 +3060,55 @@
     const feed = document.getElementById('mobile-tx-feed');
     if (!feed) return;
 
-    feed.innerHTML = filtered.slice(0, 40).map(tx => {
-      const isBuy = tx.type === 'Acquired';
-      const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
-      return `
-        <div class="glass-card p-3 rounded-xl flex items-center justify-between">
-          <div class="flex items-center gap-2 min-w-0">
-            ${renderStockLogo(tx.stock, tx.company, 28)}
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-xs text-white">${tx.stock}</span>
-                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
-              </div>
-              <div class="text-[10px] text-outline truncate mt-0.5">${tx.company}</div>
-            </div>
-          </div>
-          <div class="text-right shrink-0 ml-2 font-mono-numeric">
-            <div class="text-xs font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</div>
-            <div class="text-[9px] text-outline">${tx.date}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
+    const shouldReset = reset !== false;
+    if (shouldReset) {
+      mobileTxRenderedCount = 0;
+      feed.innerHTML = '';
+      window.scrollTo({ top: 0 });
+    }
+
+    renderMoreMobileTransactions();
+    bindMobileTxScroll();
+
+    const countBadge = document.getElementById('mobile-tx-count');
+    if (countBadge) countBadge.textContent = mobileTxFiltered.length.toLocaleString();
+  }
+
+  let isLoadingFullArchive = false;
+  async function loadFullHistoricalArchive() {
+    if (isLoadingFullArchive) return;
+    isLoadingFullArchive = true;
+    const btns = [
+      document.getElementById('btn-load-full-archive'),
+      document.getElementById('btn-mobile-load-full-archive')
+    ].filter(Boolean);
+
+    btns.forEach(b => {
+      b.disabled = true;
+      b.innerHTML = `<span class="inline-block w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin"></span> Loading 122,000+ records...`;
+    });
+
+    try {
+      const res = await fetch('data_full.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const fullData = await res.json();
+      allTransactions = flattenTransactions(fullData);
+      
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        filterMobileTransactions(false);
+      } else {
+        filterDesktopTransactions(false);
+      }
+    } catch (err) {
+      console.error('[Archive Load Error]', err);
+      btns.forEach(b => {
+        b.disabled = false;
+        b.textContent = 'Failed to load archive. Tap to retry.';
+      });
+    } finally {
+      isLoadingFullArchive = false;
+    }
   }
 
   function handleTabSwitch(tab) {
