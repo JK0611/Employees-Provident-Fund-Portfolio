@@ -274,16 +274,21 @@ function filterDesktopHoldings() {
 
   tbody.innerHTML = filtered.map((h, i) => {
     const pctPort = totalMarketVal > 0 ? ((h.market_value / totalMarketVal) * 100).toFixed(3) : '0.000';
+    const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
     return `
       <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
         <td class="py-3 px-3 text-outline font-mono">${i + 1}</td>
         <td class="py-3 px-3">
           <div class="flex items-center gap-2.5">
-            ${renderStockLogo(h.stock_name, h.company_name, 28)}
-            <a href="${getKlseLink(h.stock_name, h.company_name)}" target="_blank" class="font-bold text-white hover:text-primary transition-colors">${h.stock_name}</a>
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">
+              ${renderStockLogo(h.stock_name, h.company_name, 28)}
+            </a>
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>
           </div>
         </td>
-        <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${h.company_name}</td>
+        <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">
+          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>
+        </td>
         <td class="py-3 px-3 text-outline">${h.sector}</td>
         <td class="py-3 px-3 text-right font-mono font-semibold text-white">${h.price?.toFixed(2) || '0.00'}</td>
         <td class="py-3 px-3 text-right font-mono text-on-surface-variant">${h.total_securities?.toLocaleString() || '0'}</td>
@@ -399,16 +404,21 @@ let isDesktopTxLoading = false;
 function renderDesktopTransactionRow(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+  const profileUrl = getKlseLink(tx.stock, tx.company);
   return `
     <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
       <td class="py-3 px-3 text-outline font-mono text-[11px] whitespace-nowrap">${tx.date}</td>
       <td class="py-3 px-3">
         <div class="flex items-center gap-2">
-          ${renderStockLogo(tx.stock, tx.company, 24)}
-          <span class="font-bold text-white">${tx.stock}</span>
+          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">
+            ${renderStockLogo(tx.stock, tx.company, 24)}
+          </a>
+          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>
         </div>
       </td>
-      <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">${tx.company}</td>
+      <td class="py-3 px-3 text-on-surface-variant font-medium truncate max-w-[200px]">
+        <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-primary transition-colors block truncate" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>
+      </td>
       <td class="py-3 px-3">
         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">${tx.type}</span>
       </td>
@@ -689,16 +699,19 @@ function filterMobileHoldings() {
 
   list.innerHTML = filtered.map(h => {
     const pct = totalVal > 0 ? ((h.market_value / totalVal) * 100).toFixed(2) : '0.00';
+    const profileUrl = getKlseLink(h.stock_name, h.company_name, h.stock_code);
     return `
       <div class="glass-card p-3.5 rounded-xl flex items-center justify-between">
         <div class="flex items-center gap-3 min-w-0">
-          ${renderStockLogo(h.stock_name, h.company_name, 34)}
+          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${h.company_name || h.stock_name} on KLSE Screener">
+            ${renderStockLogo(h.stock_name, h.company_name, 34)}
+          </a>
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
-              <span class="font-bold text-sm text-white">${h.stock_name}</span>
+              <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-white hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.stock_name}</a>
               <span class="text-[10px] px-1.5 py-0.2 rounded bg-white/5 text-outline">${h.sector}</span>
             </div>
-            <div class="text-xs text-outline truncate mt-0.5">${h.company_name}</div>
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${h.company_name || h.stock_name} on KLSE Screener">${h.company_name}</a>
           </div>
         </div>
         <div class="text-right shrink-0 ml-2 font-mono-numeric">
@@ -750,23 +763,31 @@ let isMobileTxLoading = false;
 function renderMobileTransactionCard(tx) {
   const isBuy = tx.type === 'Acquired';
   const badgeClass = isBuy ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+  const profileUrl = getKlseLink(tx.stock, tx.company);
   return `
-    <a href="${tx.url}" target="_blank" rel="noopener noreferrer" class="glass-card p-3 rounded-xl flex items-center justify-between hover:bg-white/[0.04] transition-colors block cursor-pointer">
+    <div class="glass-card p-3 rounded-xl flex items-center justify-between hover:bg-white/[0.04] transition-colors">
       <div class="flex items-center gap-2 min-w-0">
-        ${renderStockLogo(tx.stock, tx.company, 28)}
+        <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${tx.company || tx.stock} on KLSE Screener">
+          ${renderStockLogo(tx.stock, tx.company, 28)}
+        </a>
         <div class="min-w-0">
           <div class="flex items-center gap-1.5">
-            <span class="font-bold text-xs text-white">${tx.stock}</span>
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-xs text-white hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.stock}</a>
             <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass}">${tx.type}</span>
           </div>
-          <div class="text-[10px] text-outline truncate mt-0.5">${tx.company}</div>
+          <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-outline truncate mt-0.5 block hover:text-primary transition-colors" title="View ${tx.company || tx.stock} on KLSE Screener">${tx.company}</a>
         </div>
       </div>
-      <div class="text-right shrink-0 ml-2 font-mono-numeric">
+      <div class="text-right shrink-0 ml-2 font-mono-numeric flex flex-col items-end">
         <div class="text-xs font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : '-'}${tx.amount.toLocaleString()}</div>
-        <div class="text-[9px] text-outline">${tx.date}</div>
+        <div class="text-[9px] text-outline flex items-center gap-1.5 mt-0.5">
+          <span>${tx.date}</span>
+          <a href="${tx.url}" target="_blank" rel="noopener noreferrer" title="View Bursa Malaysia Announcement" class="text-outline hover:text-primary transition-colors p-0.5">
+            <svg class="w-3.5 h-3.5 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
       </div>
-    </a>
+    </div>
   `;
 }
 
