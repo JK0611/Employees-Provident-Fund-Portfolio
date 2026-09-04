@@ -1522,6 +1522,28 @@
     return (typeof EPF_DATA !== 'undefined') ? EPF_DATA : (window.EPF_DATA || { holdings: [], transactions: [], txByDate: {} });
   }
 
+  function getTotalTransactionsCount() {
+    const raw = getRawData();
+    if (raw && typeof raw.totalTransactions === 'number') {
+      return raw.totalTransactions;
+    }
+    return (allTransactions && allTransactions.length > 0) ? allTransactions.length : 122381;
+  }
+
+  function getLatestUpdateDate() {
+    const raw = getRawData();
+    if (raw && raw.lastUpdated) {
+      return raw.lastUpdated;
+    }
+    if (allTransactions && allTransactions.length > 0 && allTransactions[0].date) {
+      return allTransactions[0].date;
+    }
+    if (raw && raw.transactions && raw.transactions.length > 0 && raw.transactions[0].date) {
+      return raw.transactions[0].date;
+    }
+    return '04 Sep 2026';
+  }
+
   function flattenTransactions(rawData = getRawData()) {
     if (!rawData || !rawData.transactions) return [];
     const list = [];
@@ -2662,7 +2684,6 @@
         <div class="flex flex-col gap-0.5 shrink-0">
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Active Scope</span>
           </div>
           <div class="flex items-baseline gap-3">
             <h2 class="text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-mono-numeric">
@@ -2888,9 +2909,13 @@
         <div class="glass-card table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-3.5 shrink-0">
             <div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2.5 flex-wrap">
                 <h3 class="text-base font-bold text-on-surface tracking-tight">EPF Bursa Filings</h3>
-                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20" id="tx-count">0</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 font-mono-numeric" id="tx-count">${getTotalTransactionsCount().toLocaleString()} Filings</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.04] text-outline border border-white/10 flex items-center gap-1.5" id="tx-latest-badge" title="Latest Bursa Malaysia announcement in database">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Latest Update: <span class="text-white font-semibold" id="tx-latest-date">${getLatestUpdateDate()}</span>
+                </span>
               </div>
               <span class="text-xs text-outline mt-0.5">Substantial Shareholder Notices</span>
             </div>
@@ -3162,9 +3187,16 @@
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-base font-extrabold text-white tracking-tight">EPF Transactions</h2>
-            <span class="text-[10px] text-outline">Substantial Shareholder Notices</span>
+            <div class="text-[10px] text-outline flex items-center gap-1.5 mt-0.5">
+              <span>Substantial Shareholder Notices</span>
+              <span>•</span>
+              <span class="text-emerald-400 font-medium flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="mobile-tx-latest-date">${getLatestUpdateDate()}</span>
+              </span>
+            </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" id="mobile-tx-count">${allTransactions.length}</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20 font-mono-numeric" id="mobile-tx-count">${getTotalTransactionsCount().toLocaleString()} Filings</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -3977,7 +4009,20 @@
     bindDesktopTxScroll();
 
     const countBadge = document.getElementById('tx-count');
-    if (countBadge) countBadge.textContent = desktopTxFiltered.length.toLocaleString();
+    if (countBadge) {
+      const total = getTotalTransactionsCount();
+      const isFiltered = Boolean(search || (type && type !== 'all'));
+      if (isFiltered) {
+        countBadge.textContent = `${desktopTxFiltered.length.toLocaleString()} of ${total.toLocaleString()} Filings`;
+      } else {
+        countBadge.textContent = `${total.toLocaleString()} Filings`;
+      }
+    }
+
+    const latestDateEl = document.getElementById('tx-latest-date');
+    if (latestDateEl) {
+      latestDateEl.textContent = getLatestUpdateDate();
+    }
   }
 
   // ----------------------------------------------------
@@ -4487,7 +4532,20 @@
     bindMobileTxScroll();
 
     const countBadge = document.getElementById('mobile-tx-count');
-    if (countBadge) countBadge.textContent = mobileTxFiltered.length.toLocaleString();
+    if (countBadge) {
+      const total = getTotalTransactionsCount();
+      const isFiltered = Boolean(search || (type && type !== 'all'));
+      if (isFiltered) {
+        countBadge.textContent = `${mobileTxFiltered.length.toLocaleString()} of ${total.toLocaleString()}`;
+      } else {
+        countBadge.textContent = `${total.toLocaleString()} Filings`;
+      }
+    }
+
+    const mobileLatestEl = document.getElementById('mobile-tx-latest-date');
+    if (mobileLatestEl) {
+      mobileLatestEl.textContent = getLatestUpdateDate();
+    }
   }
 
   let isLoadingFullArchive = false;

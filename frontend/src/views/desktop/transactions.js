@@ -12,9 +12,13 @@ export function renderDesktopTransactions() {
       <div class="glass-card table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-3.5 shrink-0">
           <div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5 flex-wrap">
               <h3 class="text-base font-bold text-on-surface tracking-tight">EPF Bursa Filings</h3>
-              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20" id="tx-count">0</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 font-mono-numeric" id="tx-count">122,381 Filings</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.04] text-outline border border-white/10 flex items-center gap-1.5" id="tx-latest-badge" title="Latest Bursa Malaysia announcement in database">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Latest Update: <span class="text-white font-semibold" id="tx-latest-date">04 Sep 2026</span>
+              </span>
             </div>
             <span class="text-xs text-outline mt-0.5">Substantial Shareholder Notices</span>
           </div>

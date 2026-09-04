@@ -35,7 +35,6 @@ export function renderDesktopDashboard(data = window.EPF_DATA) {
       <div class="flex flex-col gap-0.5 shrink-0">
         <div class="flex items-center gap-2">
           <span class="text-[11px] font-bold uppercase tracking-widest text-outline">Institutional Portfolio</span>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">Active Scope</span>
         </div>
         <div class="flex items-baseline gap-3">
           <h2 class="text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-mono-numeric" id="desktop-total-val">

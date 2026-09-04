@@ -5,7 +5,7 @@
 
 import { store } from './core/state.js';
 import { formatCompact, formatCurrency, getKlseLink, resolveRenamedStock, ICONSTACK } from './core/utils.js';
-import { initLogoMap, renderStockLogo, flattenTransactions, getPortfolioTimeSeries, getReturnsData } from './core/data.js';
+import { initLogoMap, renderStockLogo, flattenTransactions, getPortfolioTimeSeries, getReturnsData, getTotalTransactionsCount, getLatestUpdateDate } from './core/data.js';
 import { drawLineChart } from './charts/line-chart.js';
 import { drawBarChart, setupBarChartHover } from './charts/bar-chart.js';
 import { drawPieChart, getPieData, renderPieLegend } from './charts/pie-chart.js';
@@ -583,7 +583,21 @@ function filterDesktopTransactions(reset = true) {
   bindDesktopTxScroll();
 
   const countBadge = document.getElementById('tx-count');
-  if (countBadge) countBadge.textContent = desktopTxFiltered.length.toLocaleString();
+  if (countBadge) {
+    const total = getTotalTransactionsCount();
+    const search = (document.getElementById('tx-search')?.value || '').trim();
+    const type = document.getElementById('tx-filter-type')?.value || 'all';
+    if (search || type !== 'all') {
+      countBadge.textContent = `${desktopTxFiltered.length.toLocaleString()} of ${total.toLocaleString()} Filings`;
+    } else {
+      countBadge.textContent = `${total.toLocaleString()} Filings`;
+    }
+  }
+
+  const latestDateEl = document.getElementById('tx-latest-date');
+  if (latestDateEl) {
+    latestDateEl.textContent = getLatestUpdateDate();
+  }
 }
 
 // ----------------------------------------------------
@@ -995,7 +1009,21 @@ function filterMobileTransactions(reset = true) {
   bindMobileTxScroll();
 
   const countBadge = document.getElementById('mobile-tx-count');
-  if (countBadge) countBadge.textContent = mobileTxFiltered.length.toLocaleString();
+  if (countBadge) {
+    const total = getTotalTransactionsCount();
+    const search = (document.getElementById('mobile-tx-search')?.value || '').trim();
+    const type = store.getState().txType || 'all';
+    if (search || type !== 'all') {
+      countBadge.textContent = `${mobileTxFiltered.length.toLocaleString()} of ${total.toLocaleString()}`;
+    } else {
+      countBadge.textContent = `${total.toLocaleString()} Filings`;
+    }
+  }
+
+  const mobileLatestEl = document.getElementById('mobile-tx-latest-date');
+  if (mobileLatestEl) {
+    mobileLatestEl.textContent = getLatestUpdateDate();
+  }
 }
 
 // ----------------------------------------------------

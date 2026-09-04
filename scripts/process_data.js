@@ -488,22 +488,29 @@ async function processData() {
   allTransactions.reverse();
 
   // Save complete historical archive for full lookups
+  const totalTransactionsCount = allTransactions.length;
+  const latestTransactionDate = allTransactions[0]?.date || '04 Sep 2026';
+
   const finalDataset = {
     holdings,
     txByDate,
     transactions: allTransactions,
+    totalTransactions: totalTransactionsCount,
+    lastUpdated: latestTransactionDate,
     uniqueStocks: holdings.length,
     companyDomains
   };
   const FULL_DATA_FILE = path.join(__dirname, '..', 'frontend', 'data_full.json');
   fs.writeFileSync(FULL_DATA_FILE, JSON.stringify(finalDataset));
-  console.log(`[✓] Complete historical dataset saved to ${FULL_DATA_FILE}`);
+  console.log(`[✓] Complete historical dataset saved to ${FULL_DATA_FILE} (${totalTransactionsCount.toLocaleString()} filings, latest: ${latestTransactionDate})`);
 
   // Create high-performance mobile-optimized dataset for instant web load (top 3,000 transactions ~1MB)
   const webDataset = {
     holdings,
     txByDate,
     transactions: allTransactions.slice(0, 3000),
+    totalTransactions: totalTransactionsCount,
+    lastUpdated: latestTransactionDate,
     uniqueStocks: holdings.length,
     companyDomains
   };
