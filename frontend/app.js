@@ -2011,6 +2011,34 @@
       allTransactions = flattenTransactions(getRawData());
       mountApp();
 
+      // Explicit visitor tracking (SDK)
+      const isMob = window.innerWidth < 768;
+      trackAnalytics('$pageview', {
+        $current_url: window.location.href,
+        device: isMob ? 'mobile' : 'desktop',
+        is_ios: /iPad|iPhone|iPod/i.test(navigator.userAgent)
+      });
+
+      // Redundant HTTPS Beacon fallback (guarantees record even if SDK encounters tracking blockers)
+      try {
+        const anonId = window.posthog?.get_distinct_id?.() || 'anon_' + Math.random().toString(36).slice(2);
+        fetch('https://us.i.posthog.com/capture/', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            api_key: 'phc_sn6didtESTQzQe6HTLNuc5AkrcHuzxGGY97q9kBPzvVd',
+            event: '$pageview',
+            distinct_id: anonId,
+            properties: {
+              $current_url: window.location.href,
+              device: isMob ? 'mobile' : 'desktop',
+              is_ios: /iPad|iPhone|iPod/i.test(navigator.userAgent)
+            }
+          })
+        }).catch(() => {});
+      } catch (_) {}
+
       store.subscribe((state, prev) => {
         try {
           if (state.isMobile !== prev.isMobile) {
