@@ -3035,10 +3035,12 @@
         };
 
         // 1. PostHog JS SDK Capture
-        if (window.posthog) {
-          window.posthog.capture('survey_submitted', payload);
-          window.posthog.capture('user_feedback', payload);
-        }
+        try {
+          if (window.posthog) {
+            window.posthog.capture('survey_submitted', payload);
+            window.posthog.capture('user_feedback', payload);
+          }
+        } catch (_) {}
 
         // 2. Direct HTTPS Beacon Fallback (Bypasses any SDK latency)
         try {
