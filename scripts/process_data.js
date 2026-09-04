@@ -411,6 +411,13 @@ async function processData() {
   allTransactions.reverse();
 
   // Save complete historical archive for full lookups
+  const finalDataset = {
+    holdings,
+    txByDate,
+    transactions: allTransactions,
+    uniqueStocks: holdings.length,
+    companyDomains
+  };
   const FULL_DATA_FILE = path.join(__dirname, '..', 'frontend', 'data_full.json');
   fs.writeFileSync(FULL_DATA_FILE, JSON.stringify(finalDataset));
   console.log(`[✓] Complete historical dataset saved to ${FULL_DATA_FILE}`);

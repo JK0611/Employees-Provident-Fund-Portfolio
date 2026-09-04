@@ -8,6 +8,7 @@
     "test:schedule": "node scripts/verify-scrape-schedule.js",
     "process": "node scripts/process_data.js",
     "scrape": "node scripts/scrape_test.js",
+    "scrape:sync": "node scripts/auto_scrape_sync.js",
     "dev": "npx http-server frontend -p 3000"
   },
   "repository": {
