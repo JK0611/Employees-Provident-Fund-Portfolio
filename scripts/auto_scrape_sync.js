@@ -12,6 +12,7 @@ const { execSync, spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { buildStockHistory } = require('./build_stock_history.js');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const DATA_JS = path.join(ROOT_DIR, 'frontend', 'data.js');
@@ -92,6 +93,14 @@ async function main() {
   console.log(`  ✓ Active holdings: ${validation.holdingsCount}`);
   console.log(`  ✓ Total archive records: ${currentCount.toLocaleString()} (+${newRecords} new)`);
   console.log(`  ✓ Latest transaction date: ${validation.latestDate}`);
+  
+  // Rebuild stock history dataset with clean validation
+  try {
+    console.log(`  ✓ Rebuilding cleaned stock history dataset...`);
+    buildStockHistory();
+  } catch (err) {
+    console.warn(`  ⚠️  Warning: Failed to rebuild stock_history.js: ${err.message}`);
+  }
 
   // Step 3: Git Commit & Sync
   console.log('\n[4/4] Syncing updates to Git remote...');
@@ -113,7 +122,9 @@ async function main() {
     'data/skipped_ids.json',
     'frontend/data.js',
     'frontend/data_full.json',
+    'frontend/stock_history.js',
     'scripts/process_data.js',
+    'scripts/build_stock_history.js',
     'scripts/scrape_test.js',
     'scripts/auto_scrape_sync.js',
     'package.json'
