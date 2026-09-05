@@ -4264,7 +4264,10 @@
       return;
     }
 
-    // Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
+    // Step 1: Accurate chronological sort with announcement ID secondary sort
+    rawList.sort((a, b) => new Date(a[0]) - new Date(b[0]) || (Number(a[5]) || 0) - (Number(b[5]) || 0));
+
+    // Step 2: Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
     for (let i = 0; i < rawList.length; i++) {
       if (!rawList[i][1] || rawList[i][1] <= 0) {
         const prev = i > 0 ? rawList[i - 1][1] : 0;
@@ -4291,6 +4294,51 @@
             }
           }
           rawList[i][1] = change > 0 ? change : (nextVal || 0);
+        }
+      }
+    }
+
+    // Step 3: Correct clerical outlier spikes, change-as-total copy errors, and missing/extra digits
+    for (let i = 1; i < rawList.length; i++) {
+      const prev = rawList[i - 1][1];
+      let cur = rawList[i][1];
+      const change = rawList[i][3] || 0;
+
+      if (prev <= 0) continue;
+
+      // Pattern A: Filer pasted transaction change into total field
+      if (Math.abs(change) > 0 && Math.abs(cur - Math.abs(change)) < 5 && cur < prev * 0.3) {
+        rawList[i][1] = prev + change;
+        continue;
+      }
+
+      // Pattern B: Missing or extra digit (10x clerical error)
+      if (Math.abs(cur * 10 - prev) / prev < 0.15) {
+        rawList[i][1] = change !== 0 ? (prev + change) : Math.round(cur * 10);
+        continue;
+      }
+      if (Math.abs(cur / 10 - prev) / prev < 0.15) {
+        rawList[i][1] = change !== 0 ? (prev + change) : Math.round(cur / 10);
+        continue;
+      }
+
+      // Pattern C: Isolated outlier spike/dip where future returns to near prev
+      let nextBenchmark = 0;
+      for (let j = i + 1; j < Math.min(rawList.length, i + 8); j++) {
+        if (rawList[j][1] > 0 && Math.abs(rawList[j][1] - prev) / prev < 0.25) {
+          nextBenchmark = rawList[j][1];
+          break;
+        }
+      }
+
+      if (nextBenchmark > 0) {
+        const ratio = cur / prev;
+        if (ratio < 0.5 || ratio > 2.0) {
+          if (change !== 0 && Math.abs((prev + change) - nextBenchmark) / nextBenchmark < 0.2) {
+            rawList[i][1] = prev + change;
+          } else {
+            rawList[i][1] = Math.round((prev + nextBenchmark) / 2);
+          }
         }
       }
     }

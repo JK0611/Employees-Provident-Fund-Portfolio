@@ -54,11 +54,11 @@ function buildStockHistory() {
     ]);
   });
 
-  // Sort chronological (oldest to newest)
+  // Step 1: Accurate chronological sort with announcement ID secondary sort
   Object.keys(stockHist).forEach(k => {
-    stockHist[k].sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    stockHist[k].sort((a, b) => new Date(a[0]) - new Date(b[0]) || (Number(a[5]) || 0) - (Number(b[5]) || 0));
 
-    // Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
+    // Step 2: Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
     for (let i = 0; i < stockHist[k].length; i++) {
       if (!stockHist[k][i][1] || stockHist[k][i][1] <= 0) {
         const prev = i > 0 ? stockHist[k][i - 1][1] : 0;
@@ -85,6 +85,51 @@ function buildStockHistory() {
             }
           }
           stockHist[k][i][1] = change > 0 ? change : (nextVal || 0);
+        }
+      }
+    }
+
+    // Step 3: Correct clerical outlier spikes, change-as-total copy errors, and missing/extra digits
+    for (let i = 1; i < stockHist[k].length; i++) {
+      const prev = stockHist[k][i - 1][1];
+      let cur = stockHist[k][i][1];
+      const change = stockHist[k][i][3] || 0;
+
+      if (prev <= 0) continue;
+
+      // Pattern A: Filer pasted transaction change into total field
+      if (Math.abs(change) > 0 && Math.abs(cur - Math.abs(change)) < 5 && cur < prev * 0.3) {
+        stockHist[k][i][1] = prev + change;
+        continue;
+      }
+
+      // Pattern B: Missing or extra digit (10x clerical error)
+      if (Math.abs(cur * 10 - prev) / prev < 0.15) {
+        stockHist[k][i][1] = change !== 0 ? (prev + change) : Math.round(cur * 10);
+        continue;
+      }
+      if (Math.abs(cur / 10 - prev) / prev < 0.15) {
+        stockHist[k][i][1] = change !== 0 ? (prev + change) : Math.round(cur / 10);
+        continue;
+      }
+
+      // Pattern C: Isolated outlier spike/dip where future returns to near prev
+      let nextBenchmark = 0;
+      for (let j = i + 1; j < Math.min(stockHist[k].length, i + 8); j++) {
+        if (stockHist[k][j][1] > 0 && Math.abs(stockHist[k][j][1] - prev) / prev < 0.25) {
+          nextBenchmark = stockHist[k][j][1];
+          break;
+        }
+      }
+
+      if (nextBenchmark > 0) {
+        const ratio = cur / prev;
+        if (ratio < 0.5 || ratio > 2.0) {
+          if (change !== 0 && Math.abs((prev + change) - nextBenchmark) / nextBenchmark < 0.2) {
+            stockHist[k][i][1] = prev + change;
+          } else {
+            stockHist[k][i][1] = Math.round((prev + nextBenchmark) / 2);
+          }
         }
       }
     }
