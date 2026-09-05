@@ -2169,9 +2169,11 @@
       }
       indicesToDraw.sort((a, b) => a - b);
 
+      const labelY = pad.top + plotH + Math.round(pad.bottom * 0.55);
+      ctx.textBaseline = 'middle';
       indicesToDraw.forEach(i => {
         const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
-        ctx.fillText(formatLabel(data[i].label), x, h - 12);
+        ctx.fillText(formatLabel(data[i].label), x, labelY);
       });
 
       if (progress < 1) {
@@ -2941,58 +2943,40 @@
 
   function renderDesktopReturns() {
     return `
-      <div id="desktop-panel-returns" class="flex flex-col gap-3 h-full w-full min-w-0 pt-1 pb-0.5 overflow-hidden">
-        <!-- Main Bento Grid (Left 2 cols: Chart | Right 1 col: Search & Movers) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 flex-1 min-h-0 w-full">
-          <!-- Main Net Activity Chart Card -->
-          <div class="lg:col-span-2 glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden h-full min-h-0">
-            <div class="flex justify-between items-center mb-2.5 flex-wrap gap-3 shrink-0">
-              <div>
-                <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
-                <span class="text-xs text-outline">Accumulation vs Divestment volume over time</span>
-              </div>
-              <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <div class="chart-toggle-group flex gap-0.5" id="returns-time-toggle">
-                  <button class="chart-toggle active" data-range="1M">1M</button>
-                  <button class="chart-toggle" data-range="3M">3M</button>
-                  <button class="chart-toggle" data-range="1Y">1Y</button>
-                  <button class="chart-toggle" data-range="ALL">All Time</button>
-                </div>
-                <div class="chart-toggle-group flex gap-0.5" id="returns-toggle">
-                  <button class="chart-toggle active" data-view="net">Net</button>
-                  <button class="chart-toggle" data-view="acquired">Acquired</button>
-                  <button class="chart-toggle" data-view="disposed">Disposed</button>
-                </div>
-              </div>
+      <div id="desktop-panel-returns" class="flex flex-col gap-2.5 h-full w-full min-w-0 pt-1 pb-0.5 overflow-hidden">
+        <!-- Main Net Activity Chart Card (Expanded) -->
+        <div class="glass-card returns-chart-card px-5 py-3.5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-[200px]">
+          <div class="flex justify-between items-center mb-2 flex-wrap gap-2 shrink-0">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
+              <span class="text-[11px] text-outline">Accumulation vs Divestment volume over time</span>
             </div>
-            <div class="chart-body-tall flex-1 relative min-h-0 w-full">
-              <canvas id="returns-canvas" class="w-full h-full block absolute inset-0"></canvas>
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <!-- Timeframe Selector -->
+              <div class="chart-toggle-group flex gap-0.5" id="returns-time-toggle">
+                <button class="chart-toggle active" data-range="1M">1M</button>
+                <button class="chart-toggle" data-range="3M">3M</button>
+                <button class="chart-toggle" data-range="1Y">1Y</button>
+                <button class="chart-toggle" data-range="ALL">All Time</button>
+              </div>
+              <!-- Flow View Selector -->
+              <div class="chart-toggle-group flex gap-0.5" id="returns-toggle">
+                <button class="chart-toggle active" data-view="net">Net</button>
+                <button class="chart-toggle" data-view="acquired">Acquired</button>
+                <button class="chart-toggle" data-view="disposed">Disposed</button>
+              </div>
             </div>
           </div>
-
-          <!-- Right: Search Launcher & Top Capital Movers -->
-          <div class="flex flex-col gap-2.5 h-full min-h-0">
-            <!-- Simplified Search Launcher Bar -->
-            <div class="p-2.5 px-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 transition-all flex items-center justify-between gap-2 shadow-md group cursor-pointer shrink-0" onclick="window.openStockHistoryDrawer('MAYBANK'); setTimeout(() => document.getElementById('drawer-stock-search')?.focus(), 250);" title="Search past holding history for any stock">
-              <div class="flex items-center gap-2 min-w-0">
-                <div class="w-5 h-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </div>
-                <span class="text-xs text-outline group-hover:text-white transition-colors truncate">Search stock history (e.g. MAYBANK, TENAGA)...</span>
-              </div>
-              <span class="text-xs font-semibold text-primary flex items-center gap-0.5 shrink-0">
-                <span>Search</span>
-                <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              </span>
-            </div>
-
-            <!-- Top Capital Movers Card -->
-            <div class="glass-card p-4 glow-hover transition-all flex-1 min-h-0 flex flex-col overflow-hidden" id="returns-movers"></div>
+          <div class="chart-body-tall flex-1 relative min-h-0 w-full">
+            <canvas id="returns-canvas" class="w-full h-full block absolute inset-0"></canvas>
           </div>
         </div>
 
-        <!-- Bottom: Summary Cards Grid (6 Columns) -->
-        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 w-full shrink-0" id="returns-summary"></div>
+        <!-- Summary Cards Grid (6 Columns, Compact) -->
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 w-full shrink-0" id="returns-summary"></div>
+
+        <!-- Picture 1: Search Launcher + Side-by-side Top Net Accumulated & Top Net Divested (4 items each) -->
+        <div class="flex flex-col gap-2 w-full shrink-0" id="returns-movers"></div>
       </div>
     `;
   }
@@ -3441,11 +3425,16 @@
         }
       });
 
-      // ONLY resize chart on true horizontal screen orientation or window width resize (NOT on vertical scroll!)
+      // Resize chart on horizontal screen orientation or window size change (NOT on vertical scroll!)
+      let lastMeasuredHeight = window.innerHeight;
       window.addEventListener('resize', debounce(() => {
         const curW = window.innerWidth;
-        if (Math.abs(curW - lastMeasuredWidth) > 5) {
+        const curH = window.innerHeight;
+        const widthChanged = Math.abs(curW - lastMeasuredWidth) > 5;
+        const heightChanged = curW >= 768 && Math.abs(curH - lastMeasuredHeight) > 15;
+        if (widthChanged || heightChanged) {
           lastMeasuredWidth = curW;
+          lastMeasuredHeight = curH;
           const isMob = curW < 768;
           if ((isMob ? 'mobile' : 'desktop') !== currentDeviceMode) {
             store.setState({ isMobile: isMob });
@@ -3798,81 +3787,81 @@
 
     container.innerHTML = `
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
-          <div class="h-7 w-7 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
+          <div class="h-5 w-5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.trending_up}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold text-emerald-400 font-mono-numeric">+${formatCompact(totalAcquired)}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold text-emerald-400 font-mono-numeric">+${formatCompact(totalAcquired)}</div>
         </div>
-        <span class="text-xs text-outline">Accumulation volume</span>
+        <span class="text-[9px] text-outline">Accumulation volume</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
-          <div class="h-7 w-7 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
+          <div class="h-5 w-5 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.trending_down}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold text-rose-400 font-mono-numeric">-${formatCompact(totalDisposed)}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold text-rose-400 font-mono-numeric">-${formatCompact(totalDisposed)}</div>
         </div>
-        <span class="text-xs text-outline">Divestment volume</span>
+        <span class="text-[9px] text-outline">Divestment volume</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
-          <div class="h-7 w-7 rounded-lg ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} border border-white/10 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
+          <div class="h-5 w-5 rounded-md ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} border border-white/10 flex items-center justify-center shrink-0">
             ${ICONSTACK.account_balance}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
         </div>
-        <span class="text-xs text-outline">Net shares flow</span>
+        <span class="text-[9px] text-outline">Net shares flow</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
-          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
+          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.receipt_long}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold text-white font-mono-numeric">${totalTx.toLocaleString()}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${totalTx.toLocaleString()}</div>
         </div>
-        <span class="text-xs text-outline">Recorded filings</span>
+        <span class="text-[9px] text-outline">Recorded filings</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Stocks</span>
-          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Tracked Stocks</span>
+          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.category}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold text-white font-mono-numeric">${getRawData()?.uniqueStocks || 260}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${getRawData()?.uniqueStocks || 260}</div>
         </div>
-        <span class="text-xs text-outline">Bursa equities</span>
+        <span class="text-[9px] text-outline">Bursa equities</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trade Days</span>
-          <div class="h-7 w-7 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-1.5">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Trade Days</span>
+          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.calendar_month}
           </div>
         </div>
-        <div class="my-2">
-          <div class="text-xl font-extrabold text-white font-mono-numeric">${dates.length}</div>
+        <div class="my-0.5">
+          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${dates.length}</div>
         </div>
-        <span class="text-xs text-outline">Active sessions</span>
+        <span class="text-[9px] text-outline">Active sessions</span>
       </div>
     `;
 
@@ -4325,22 +4314,23 @@
     const holdings = getRawData()?.holdings || [];
     const getHoldingInfo = (stock) => holdings.find(h => h.stock_name === stock) || {};
 
-    const topAccumulated = movers.filter(m => m.net > 0).sort((a, b) => b.net - a.net).slice(0, 5);
-    const topDivested = movers.filter(m => m.net < 0).sort((a, b) => a.net - b.net).slice(0, 5);
+    // Reduced by 1 from 5 to 4 stocks as requested to expand the graph!
+    const topAccumulated = movers.filter(m => m.net > 0).sort((a, b) => b.net - a.net).slice(0, 4);
+    const topDivested = movers.filter(m => m.net < 0).sort((a, b) => a.net - b.net).slice(0, 4);
 
     const renderMoverRowItem = (m, isBuy) => {
       const h = getHoldingInfo(m.stock);
-      const stakePct = h.direct_percent ? `${h.direct_percent.toFixed(2)}%` : '';
+      const stakePct = h.direct_percent ? `${h.direct_percent.toFixed(2)}% stake` : '';
       return `
-        <div class="py-2.5 flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-white/[0.04] px-2 rounded-xl transition-all" onclick="window.openStockHistoryDrawer('${m.stock}')" title="Inspect EPF past holdings trajectory for ${m.stock}">
+        <div class="py-1.5 flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-white/[0.04] px-2 rounded-xl transition-all" onclick="window.openStockHistoryDrawer('${m.stock}')" title="Inspect EPF past holdings trajectory for ${m.stock}">
           <div class="flex items-center gap-2.5 min-w-0">
-            <div class="shrink-0 group-hover:scale-105 transition-transform">${renderStockLogo(m.stock, m.company, 28)}</div>
+            <div class="shrink-0 group-hover:scale-105 transition-transform">${renderStockLogo(m.stock, m.company, 26)}</div>
             <div class="min-w-0">
               <div class="flex items-center gap-1.5">
                 <span class="font-bold text-xs text-white group-hover:text-primary transition-colors">${m.stock}</span>
-                ${stakePct ? `<span class="text-[9px] text-outline font-mono-numeric">(${stakePct})</span>` : ''}
+                ${stakePct ? `<span class="text-[10px] text-outline font-mono-numeric">(${stakePct})</span>` : ''}
               </div>
-              <div class="text-[10px] text-outline truncate max-w-[140px]">${m.company || m.stock}</div>
+              <div class="text-[10px] text-outline truncate max-w-[200px] uppercase">${m.company || m.stock}</div>
             </div>
           </div>
           <div class="text-right shrink-0 flex items-center gap-2">
@@ -4348,90 +4338,57 @@
               <div class="text-xs font-extrabold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : ''}${formatCompact(m.net)}</div>
               <div class="text-[9px] text-outline">${m.count} filings</div>
             </div>
-            <button class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white/5 group-hover:bg-primary group-hover:text-white border border-white/10 group-hover:border-primary transition-all text-outline pointer-events-none">
-              History
+            <button class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 group-hover:bg-primary group-hover:text-white border border-white/10 group-hover:border-primary transition-all text-outline flex items-center gap-0.5">
+              <span>History</span>
+              <svg class="w-2.5 h-2.5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
         </div>
       `;
     };
 
-    const isMobileView = containerId.includes('mobile') || (typeof window !== 'undefined' && window.innerWidth <= 768);
-    if (isMobileView) {
-      const renderMobileMoverCard = (title, subtitle, items, isBuy) => `
-        <div class="glass-card p-4 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all shadow-lg">
-          <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-2 shrink-0">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full ${isBuy ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]'} animate-pulse"></span>
-              <div>
-                <h4 class="text-sm font-extrabold text-white tracking-tight">${title}</h4>
-                <p class="text-[10px] text-outline">${subtitle}</p>
-              </div>
+    const renderMoverCard = (title, subtitle, items, isBuy) => `
+      <div class="glass-card p-3 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all shadow-md">
+        <div class="flex items-center justify-between pb-1.5 border-b border-white/10 mb-1 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full ${isBuy ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]'} animate-pulse"></span>
+            <div>
+              <h4 class="text-xs font-extrabold text-white tracking-tight">${title}</h4>
+              <p class="text-[9px] text-outline">${subtitle}</p>
             </div>
-            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${isBuy ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
-              ${isBuy ? 'Accumulation' : 'Divestment'}
-            </span>
           </div>
-          <div class="divide-y divide-white/5 flex-1 min-h-0">
-            ${items.map(m => renderMoverRowItem(m, isBuy)).join('')}
-          </div>
-        </div>
-      `;
-
-      container.innerHTML = `
-        <div class="p-2.5 px-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 transition-all flex items-center justify-between gap-3 shadow-md group cursor-pointer" onclick="window.openStockHistoryDrawer('MAYBANK'); setTimeout(() => document.getElementById('drawer-stock-search')?.focus(), 250);" title="Search past holding trajectory & filings for any stock">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-6 h-6 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            </div>
-            <span class="text-xs text-outline group-hover:text-white transition-colors truncate">Search stock history (e.g. MAYBANK, TENAGA)...</span>
-          </div>
-          <span class="text-xs font-semibold text-primary flex items-center gap-1 shrink-0">
-            <span>Search</span>
-            <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${isBuy ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+            ${isBuy ? 'Accumulation' : 'Divestment'}
           </span>
         </div>
-        ${renderMobileMoverCard('Top Net Accumulated', 'Highest net share purchases by EPF', topAccumulated, true)}
-        ${renderMobileMoverCard('Top Net Divested', 'Highest net share divestments by EPF', topDivested, false)}
-      `;
-      return;
-    }
-
-    // DESKTOP: Flow Leaders Card (Side by side with Chart, Zero Window Scroll)
-    let desktopMoverTab = 'accumulated';
-    function updateDesktopMoversView() {
-      const isAcc = desktopMoverTab === 'accumulated';
-      const items = isAcc ? topAccumulated : topDivested;
-      container.innerHTML = `
-        <div class="flex items-center justify-between mb-2 shrink-0 border-b border-white/10 pb-2.5">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full ${isAcc ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]'} animate-pulse"></span>
-            <div>
-              <h4 class="text-xs font-extrabold text-white tracking-tight uppercase">Top Capital Movers</h4>
-              <p class="text-[10px] text-outline">30-Day Flow Leaders</p>
-            </div>
-          </div>
-          <div class="flex gap-1 p-0.5 rounded-lg bg-white/5 border border-white/10 text-[10px]">
-            <button id="desk-tab-acc" class="px-2.5 py-1 rounded font-semibold transition-all cursor-pointer ${isAcc ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-outline hover:text-white'}">Accumulated</button>
-            <button id="desk-tab-div" class="px-2.5 py-1 rounded font-semibold transition-all cursor-pointer ${!isAcc ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'text-outline hover:text-white'}">Divested</button>
-          </div>
+        <div class="divide-y divide-white/5 flex-1 min-h-0">
+          ${items.map(m => renderMoverRowItem(m, isBuy)).join('')}
         </div>
-        <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar divide-y divide-white/5">
-          ${items.map(m => renderMoverRowItem(m, isAcc)).join('')}
+      </div>
+    `;
+
+    const searchBarHtml = `
+      <div class="p-2 px-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 transition-all flex items-center justify-between gap-3 shadow-md group cursor-pointer shrink-0" onclick="window.openStockHistoryDrawer('MAYBANK'); setTimeout(() => document.getElementById('drawer-stock-search')?.focus(), 250);" title="Search past holding history for any stock">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-5 h-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <span class="text-xs text-outline group-hover:text-white transition-colors truncate">Search stock history (e.g. MAYBANK, TENAGA)...</span>
         </div>
-      `;
+        <span class="text-xs font-semibold text-primary flex items-center gap-1 shrink-0">
+          <span>Search</span>
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    `;
 
-      document.getElementById('desk-tab-acc')?.addEventListener('click', () => {
-        desktopMoverTab = 'accumulated';
-        updateDesktopMoversView();
-      });
-      document.getElementById('desk-tab-div')?.addEventListener('click', () => {
-        desktopMoverTab = 'divested';
-        updateDesktopMoversView();
-      });
-    }
-
-    updateDesktopMoversView();
+    container.innerHTML = `
+      ${searchBarHtml}
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2.5 w-full">
+        ${renderMoverCard('Top Net Accumulated', 'Highest net share purchases by EPF', topAccumulated, true)}
+        ${renderMoverCard('Top Net Divested', 'Highest net share divestments by EPF', topDivested, false)}
+      </div>
+    `;
   }
 
   // Desktop transactions infinite scroll state

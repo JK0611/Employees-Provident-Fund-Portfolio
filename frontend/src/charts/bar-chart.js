@@ -163,9 +163,11 @@ export function drawBarChart(canvasId, data, animateChart = true) {
     }
     indicesToDraw.sort((a, b) => a - b);
 
+    const labelY = pad.top + plotH + Math.round(pad.bottom * 0.55);
+    ctx.textBaseline = 'middle';
     indicesToDraw.forEach(i => {
       const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
-      ctx.fillText(formatLabel(data[i].label), x, h - 12);
+      ctx.fillText(formatLabel(data[i].label), x, labelY);
     });
 
     if (progress < 1) {
