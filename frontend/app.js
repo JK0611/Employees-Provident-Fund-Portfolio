@@ -1502,6 +1502,14 @@
     getState() { return this.state; }
 
     setState(partial) {
+      let changed = false;
+      for (const k in partial) {
+        if (this.state[k] !== partial[k]) {
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) return;
       const prev = { ...this.state };
       this.state = { ...this.state, ...partial };
       this.listeners.forEach(fn => fn(this.state, prev));
@@ -1985,7 +1993,7 @@
     const pad = {
       top: 24,
       right: isMobile ? 12 : 24,
-      bottom: isMobile ? 26 : 32,
+      bottom: isMobile ? 28 : 38,
       left: isMobile ? 54 : 76
     };
     const plotW = w - pad.left - pad.right;
@@ -2163,7 +2171,7 @@
 
       indicesToDraw.forEach(i => {
         const x = pad.left + (plotW * i / data.length) + (plotW / data.length) / 2;
-        ctx.fillText(formatLabel(data[i].label), x, h - 8);
+        ctx.fillText(formatLabel(data[i].label), x, h - 12);
       });
 
       if (progress < 1) {
@@ -2253,7 +2261,7 @@
       const pillW = textW + 16;
       const pillH = 20;
       const pillX = Math.max(pad.left, Math.min(w - pad.right - pillW, barCenterX - (pillW / 2)));
-      const pillY = h - 23;
+      const pillY = h - 28;
 
       ctx.fillStyle = 'rgba(18, 20, 30, 0.96)';
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
@@ -2934,7 +2942,7 @@
   function renderDesktopReturns() {
     return `
       <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-y-auto custom-scrollbar pr-1">
-        <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden shrink-0 h-[340px]">
+        <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden shrink-0 h-[390px]">
           <div class="flex justify-between items-center mb-3 flex-wrap gap-3 shrink-0">
             <div>
               <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
@@ -3217,7 +3225,7 @@
 
   function renderMobileReturns() {
     return `
-      <div id="mobile-panel-returns" class="flex flex-col gap-2.5 w-full py-1 overflow-hidden">
+      <div id="mobile-panel-returns" class="flex flex-col gap-2.5 w-full py-1 pb-20">
         <div id="mobile-returns-chart-card" class="glass-card p-3 rounded-xl flex flex-col gap-2 shrink-0">
           <div class="flex justify-between items-center">
             <h3 class="text-xs font-bold text-white tracking-tight">Net Capital Activity</h3>
@@ -3313,51 +3321,27 @@
     const isMobile = window.innerWidth < 768;
 
     if (isMobile) {
-      if (tab === 'returns') {
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.height = '100%';
-        document.body.style.height = '100%';
-        document.documentElement.classList.add('mobile-locked');
-        document.body.classList.add('mobile-locked');
-        const root = document.getElementById('app-root');
-        if (root) {
-          root.classList.add('overflow-hidden', 'h-screen', 'max-h-screen');
-          root.classList.remove('min-h-screen');
-        }
-        const mobLayout = document.getElementById('mobile-app-layout');
-        if (mobLayout) {
-          mobLayout.classList.add('overflow-hidden', 'h-screen', 'max-h-screen');
-          mobLayout.classList.remove('min-h-screen', 'h-auto');
-        }
-        const mobContainer = document.getElementById('mobile-view-container');
-        if (mobContainer) {
-          mobContainer.classList.add('overflow-hidden', 'h-full');
-          mobContainer.classList.remove('overflow-y-auto');
-        }
-      } else {
-        document.documentElement.style.overflow = 'auto';
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.height = 'auto';
-        document.body.style.height = 'auto';
-        document.documentElement.classList.remove('mobile-locked');
-        document.body.classList.remove('mobile-locked');
-        const root = document.getElementById('app-root');
-        if (root) {
-          root.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
-          root.classList.add('min-h-screen');
-        }
-        const mobLayout = document.getElementById('mobile-app-layout');
-        if (mobLayout) {
-          mobLayout.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
-          mobLayout.classList.remove('min-h-screen');
-          mobLayout.classList.add('h-auto');
-        }
-        const mobContainer = document.getElementById('mobile-view-container');
-        if (mobContainer) {
-          mobContainer.classList.remove('overflow-hidden', 'h-full');
-          mobContainer.classList.add('overflow-y-auto');
-        }
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.height = 'auto';
+      document.body.style.height = 'auto';
+      document.documentElement.classList.remove('mobile-locked');
+      document.body.classList.remove('mobile-locked');
+      const root = document.getElementById('app-root');
+      if (root) {
+        root.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
+        root.classList.add('min-h-screen');
+      }
+      const mobLayout = document.getElementById('mobile-app-layout');
+      if (mobLayout) {
+        mobLayout.classList.remove('overflow-hidden', 'h-screen', 'max-h-screen');
+        mobLayout.classList.remove('min-h-screen');
+        mobLayout.classList.add('h-auto');
+      }
+      const mobContainer = document.getElementById('mobile-view-container');
+      if (mobContainer) {
+        mobContainer.classList.remove('overflow-hidden', 'h-full');
+        mobContainer.classList.add('overflow-y-auto');
       }
       return;
     }
@@ -3516,13 +3500,17 @@
   }
 
   function bindDesktopEvents() {
-    document.querySelectorAll('#desktop-tab-nav .tab-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const tab = btn.dataset.tab;
-        if (tab) store.setState({ activeTab: tab });
+    const deskNav = document.getElementById('desktop-tab-nav');
+    if (deskNav && !deskNav.dataset.bound) {
+      deskNav.dataset.bound = 'true';
+      deskNav.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const tab = btn.dataset.tab;
+          if (tab && tab !== store.getState().activeTab) store.setState({ activeTab: tab });
+        });
       });
-    });
+    }
 
     const state = store.getState();
     if (state.activeTab === 'dashboard') {
@@ -4614,13 +4602,17 @@
   }
 
   function bindMobileEvents() {
-    document.querySelectorAll('#mobile-tab-nav .mobile-tab-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const tab = btn.dataset.tab;
-        if (tab) store.setState({ activeTab: tab });
+    const mobNav = document.getElementById('mobile-tab-nav');
+    if (mobNav && !mobNav.dataset.bound) {
+      mobNav.dataset.bound = 'true';
+      mobNav.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const tab = btn.dataset.tab;
+          if (tab && tab !== store.getState().activeTab) store.setState({ activeTab: tab });
+        });
       });
-    });
+    }
 
     const state = store.getState();
     if (state.activeTab === 'dashboard') {

@@ -538,10 +538,17 @@ canvas {
   padding-bottom: 2px !important;
 }
 
+.returns-chart-card {
+  height: 390px !important;
+  min-height: 390px !important;
+  max-height: 390px !important;
+  flex: 0 0 390px !important;
+}
+
 .chart-body-tall {
-  flex: 1 1 0% !important;
-  min-height: 260px !important;
-  height: 100% !important;
+  flex: 1 1 auto !important;
+  min-height: 270px !important;
+  height: 270px !important;
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -659,6 +666,15 @@ canvas {
     height: 190px !important;
     min-height: 190px !important;
     max-height: 190px !important;
+  }
+
+  /* Performance: Pause continuous GPU composition of mesh animations on mobile */
+  .smoke-blob {
+    animation: none !important;
+    opacity: 0.15 !important;
+  }
+  .smoke-container {
+    pointer-events: none !important;
   }
 }
 
