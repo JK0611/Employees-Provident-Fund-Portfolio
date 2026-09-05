@@ -865,16 +865,18 @@ canvas {
 
 /* Returns Stat Bento Cards (Symmetrical Vertical Layout + Radial Mesh Diffusion) */
 .returns-stat-card {
-  background: rgba(22, 27, 34, 0.6) !important;
+  background: rgba(22, 27, 34, 0.7) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 12px !important;
-  padding: 6px 12px !important;
+  border-radius: 16px !important;
+  padding: 12px 14px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  min-height: 58px !important;
-  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+  min-height: 94px !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 

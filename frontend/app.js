@@ -2943,10 +2943,10 @@
 
   function renderDesktopReturns() {
     return `
-      <div id="desktop-panel-returns" class="flex flex-col gap-2.5 h-full w-full min-w-0 pt-1 pb-0.5 overflow-hidden">
-        <!-- Main Net Activity Chart Card (Expanded) -->
-        <div class="glass-card returns-chart-card px-5 py-3.5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-[200px]">
-          <div class="flex justify-between items-center mb-2 flex-wrap gap-2 shrink-0">
+      <div id="desktop-panel-returns" class="flex flex-col gap-2.5 h-full w-full min-w-0 pt-1 pb-1 overflow-hidden">
+        <!-- Main Net Activity Chart Card (Flexible, moderately sized) -->
+        <div class="glass-card returns-chart-card px-5 py-3 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-[160px]">
+          <div class="flex justify-between items-center mb-1.5 flex-wrap gap-2 shrink-0">
             <div>
               <h3 class="text-sm sm:text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
               <span class="text-[11px] text-outline">Accumulation vs Divestment volume over time</span>
@@ -2972,8 +2972,8 @@
           </div>
         </div>
 
-        <!-- Summary Cards Grid (6 Columns, Compact) -->
-        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 w-full shrink-0" id="returns-summary"></div>
+        <!-- Summary Cards Grid (6 Columns, Uncompressed) -->
+        <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 w-full shrink-0" id="returns-summary"></div>
 
         <!-- Picture 1: Search Launcher + Side-by-side Top Net Accumulated & Top Net Divested (4 items each) -->
         <div class="flex flex-col gap-2 w-full shrink-0" id="returns-movers"></div>
@@ -3787,81 +3787,81 @@
 
     container.innerHTML = `
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
-          <div class="h-5 w-5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Acquired</span>
+          <div class="h-6 w-6 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.trending_up}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold text-emerald-400 font-mono-numeric">+${formatCompact(totalAcquired)}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold text-emerald-400 font-mono-numeric">+${formatCompact(totalAcquired)}</div>
         </div>
-        <span class="text-[9px] text-outline">Accumulation volume</span>
+        <span class="text-xs text-outline">Accumulation volume</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
-          <div class="h-5 w-5 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Disposed</span>
+          <div class="h-6 w-6 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.trending_down}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold text-rose-400 font-mono-numeric">-${formatCompact(totalDisposed)}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold text-rose-400 font-mono-numeric">-${formatCompact(totalDisposed)}</div>
         </div>
-        <span class="text-[9px] text-outline">Divestment volume</span>
+        <span class="text-xs text-outline">Divestment volume</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
-          <div class="h-5 w-5 rounded-md ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} border border-white/10 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Net Momentum</span>
+          <div class="h-6 w-6 rounded-lg ${totalNet >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} border border-white/10 flex items-center justify-center shrink-0">
             ${ICONSTACK.account_balance}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold ${totalNet >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono-numeric">${totalNet >= 0 ? '+' : ''}${formatCompact(totalNet)}</div>
         </div>
-        <span class="text-[9px] text-outline">Net shares flow</span>
+        <span class="text-xs text-outline">Net shares flow</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
-          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Total Filings</span>
+          <div class="h-6 w-6 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.receipt_long}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${totalTx.toLocaleString()}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${totalTx.toLocaleString()}</div>
         </div>
-        <span class="text-[9px] text-outline">Recorded filings</span>
+        <span class="text-xs text-outline">Recorded filings</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Tracked Stocks</span>
-          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Tracked Stocks</span>
+          <div class="h-6 w-6 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.category}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${getRawData()?.uniqueStocks || 260}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${getRawData()?.uniqueStocks || 260}</div>
         </div>
-        <span class="text-[9px] text-outline">Bursa equities</span>
+        <span class="text-xs text-outline">Bursa equities</span>
       </div>
 
       <div class="returns-stat-card">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Trade Days</span>
-          <div class="h-5 w-5 rounded-md bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-outline">Trade Days</span>
+          <div class="h-6 w-6 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0">
             ${ICONSTACK.calendar_month}
           </div>
         </div>
-        <div class="my-0.5">
-          <div class="text-sm sm:text-base font-extrabold text-white font-mono-numeric">${dates.length}</div>
+        <div class="my-1.5">
+          <div class="text-xl font-extrabold text-white font-mono-numeric">${dates.length}</div>
         </div>
-        <span class="text-[9px] text-outline">Active sessions</span>
+        <span class="text-xs text-outline">Active sessions</span>
       </div>
     `;
 
