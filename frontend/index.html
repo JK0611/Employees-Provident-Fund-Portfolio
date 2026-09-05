@@ -59,6 +59,7 @@
   <!-- iOS Safari / WebKit Error Catcher & Diagnostics -->
   <script>
     window.addEventListener('error', function (e) {
+      if (e.message === 'Script error.' || (!e.filename && !e.lineno)) return;
       console.error('[Global Error]', e.message, e.filename, e.lineno);
       const b = document.getElementById('debug-banner');
       if (b) {
