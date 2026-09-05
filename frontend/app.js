@@ -1657,7 +1657,7 @@
   // ----------------------------------------------------
   // 5. CANVAS CHARTS ENGINE & HOVER PROBES
   // ----------------------------------------------------
-  let lineAnimId = null;
+  let lineAnimMap = {};
   let lineChartMeta = {};
 
   function drawLineChart(canvasId, data, color = null, animateChart = true) {
@@ -1689,7 +1689,7 @@
     const plotW = w - pad.left - pad.right;
     const plotH = h - pad.top - pad.bottom;
 
-    if (lineAnimId) cancelAnimationFrame(lineAnimId);
+    if (lineAnimMap[canvasId]) cancelAnimationFrame(lineAnimMap[canvasId]);
     ctx.clearRect(0, 0, w, h);
 
     if (!data || data.length < 2) {
@@ -1703,100 +1703,101 @@
     const values = data.map(d => d.value);
     const minV = Math.min(...values);
     const maxV = Math.max(...values);
-    const range = maxV - minV || 1;
+    const range = (maxV - minV) || 1;
 
     let startTime = null;
-    const DURATION = animateChart ? 600 : 0;
+    const DURATION = animateChart ? 500 : 0;
 
     function render(timestamp) {
       if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const progress = DURATION > 0 ? Math.min(elapsed / DURATION, 1) : 1;
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      const maxDrawIndex = (data.length - 1) * easeProgress;
+      const progress = DURATION > 0 ? Math.min((timestamp - startTime) / DURATION, 1) : 1;
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const maxDrawIndex = (data.length - 1) * ease;
 
       ctx.clearRect(0, 0, w, h);
 
-      // Grid + Y labels
-      ctx.fillStyle = textColor;
-      ctx.font = '10px "JetBrains Mono", monospace';
-      ctx.textAlign = 'right';
-      for (let i = 0; i <= 4; i++) {
-        const val = minV + (range * i / 4);
-        const y = pad.top + plotH - (plotH * i / 4);
-        ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-        ctx.strokeStyle = gridColor;
-        ctx.lineWidth = 1;
+      // Grid lines
+      ctx.strokeStyle = gridColor;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 4]);
+      for (let i = 0; i <= 3; i++) {
+        const y = pad.top + (plotH * i / 3);
         ctx.beginPath();
         ctx.moveTo(pad.left, y);
         ctx.lineTo(w - pad.right, y);
         ctx.stroke();
+
+        const val = maxV - (range * i / 3);
+        ctx.fillStyle = textColor;
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
+      }
+      ctx.setLineDash([]);
+
+      // Fill Gradient Area under curve
+      const grad = ctx.createLinearGradient(0, pad.top, 0, h - pad.bottom);
+      grad.addColorStop(0, dynamicColor === '#10b981' ? 'rgba(16, 185, 129, 0.28)' : 'rgba(244, 63, 94, 0.28)');
+      grad.addColorStop(0.8, dynamicColor === '#10b981' ? 'rgba(16, 185, 129, 0.02)' : 'rgba(244, 63, 94, 0.02)');
+      grad.addColorStop(1, 'transparent');
+
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top + plotH);
+      for (let i = 0; i <= maxDrawIndex; i++) {
+        const x = pad.left + (plotW * i / (data.length - 1));
+        const y = pad.top + plotH - ((data[i].value - minV) / range * plotH);
+        if (i === 0) ctx.lineTo(x, y);
+        else ctx.lineTo(x, y);
       }
 
-      // Line Path
+      if (maxDrawIndex < data.length - 1) {
+        const iFloor = Math.floor(maxDrawIndex);
+        const iCeil = Math.ceil(maxDrawIndex);
+        const subProgress = maxDrawIndex - iFloor;
+        const xFloor = pad.left + (plotW * iFloor / (data.length - 1));
+        const yFloor = pad.top + plotH - ((data[iFloor].value - minV) / range * plotH);
+        const xCeil = pad.left + (plotW * iCeil / (data.length - 1));
+        const yCeil = pad.top + plotH - ((data[iCeil].value - minV) / range * plotH);
+        const curX = xFloor + (xCeil - xFloor) * subProgress;
+        const curY = yFloor + (yCeil - yFloor) * subProgress;
+        ctx.lineTo(curX, curY);
+        ctx.lineTo(curX, pad.top + plotH);
+      } else {
+        ctx.lineTo(w - pad.right, pad.top + plotH);
+      }
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Main Stroke Line
       ctx.save();
       ctx.beginPath();
-      data.forEach((d, i) => {
-        if (i > Math.ceil(maxDrawIndex)) return;
-        let x = pad.left + (plotW * i / (data.length - 1));
-        let y = pad.top + plotH - ((d.value - minV) / range * plotH);
-
-        if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-          const prev = data[i - 1];
-          const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
-          const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-          const fraction = maxDrawIndex % 1;
-          x = prevX + (x - prevX) * fraction;
-          y = prevY + (y - prevY) * fraction;
-        }
-
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-
-      ctx.shadowColor = dynamicColor;
-      ctx.shadowBlur = 10;
       ctx.strokeStyle = dynamicColor;
       ctx.lineWidth = 2.5;
       ctx.lineJoin = 'round';
-      ctx.stroke();
-      ctx.restore();
+      ctx.lineCap = 'round';
+      ctx.shadowColor = dynamicColor;
+      ctx.shadowBlur = 10;
 
-      // Area Gradient Fill
-      ctx.save();
-      ctx.beginPath();
-      let lastX = pad.left;
-      let lastY = pad.top + plotH;
-
-      data.forEach((d, i) => {
-        if (i > Math.ceil(maxDrawIndex)) return;
-        let x = pad.left + (plotW * i / (data.length - 1));
-        let y = pad.top + plotH - ((d.value - minV) / range * plotH);
-
-        if (i === Math.ceil(maxDrawIndex) && i > 0 && maxDrawIndex % 1 !== 0) {
-          const prev = data[i - 1];
-          const prevX = pad.left + (plotW * (i - 1) / (data.length - 1));
-          const prevY = pad.top + plotH - ((prev.value - minV) / range * plotH);
-          const fraction = maxDrawIndex % 1;
-          x = prevX + (x - prevX) * fraction;
-          y = prevY + (y - prevY) * fraction;
-        }
-
+      for (let i = 0; i <= maxDrawIndex; i++) {
+        const x = pad.left + (plotW * i / (data.length - 1));
+        const y = pad.top + plotH - ((data[i].value - minV) / range * plotH);
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
-        lastX = x;
-        lastY = y;
-      });
+      }
 
-      ctx.lineTo(lastX, pad.top + plotH);
-      ctx.lineTo(pad.left, pad.top + plotH);
-      ctx.closePath();
+      if (maxDrawIndex < data.length - 1) {
+        const iFloor = Math.floor(maxDrawIndex);
+        const iCeil = Math.ceil(maxDrawIndex);
+        const subProgress = maxDrawIndex - iFloor;
+        const xFloor = pad.left + (plotW * iFloor / (data.length - 1));
+        const yFloor = pad.top + plotH - ((data[iFloor].value - minV) / range * plotH);
+        const xCeil = pad.left + (plotW * iCeil / (data.length - 1));
+        const yCeil = pad.top + plotH - ((data[iCeil].value - minV) / range * plotH);
+        ctx.lineTo(xFloor + (xCeil - xFloor) * subProgress, yFloor + (yCeil - yFloor) * subProgress);
+      }
 
-      const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
-      grad.addColorStop(0, 'rgba(244, 63, 94, 0.25)');
-      grad.addColorStop(1, 'rgba(244, 63, 94, 0.00)');
-      ctx.fillStyle = grad;
-      ctx.fill();
+      ctx.stroke();
       ctx.restore();
 
       // X Labels
@@ -1814,10 +1815,10 @@
         ctx.fillText(displayLabel, x, h - 6);
       }
 
-      // 1. Capture clean canvas (WITHOUT HEAD CIRCLE) for hover restore
+      // 1. Capture clean canvas (WITHOUT HEAD CIRCLE)
       const cleanImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      // 2. Draw Head Node (The Single Circle at the end of the line)
+      // 2. Draw Head Node
       if (data.length > 0) {
         const lastIdx = Math.min(Math.ceil(maxDrawIndex), data.length - 1);
         const currX = pad.left + (plotW * lastIdx / (data.length - 1));
@@ -1836,31 +1837,43 @@
         ctx.restore();
       }
 
-      // 3. Capture full canvas (WITH HEAD CIRCLE) for mouseleave restore
+      // 3. Capture full canvas (WITH HEAD CIRCLE) for mouseleave/touchend restore
       const fullImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+      // Save metadata immediately so hover works without delay
+      lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
+
       if (progress < 1) {
-        lineAnimId = requestAnimationFrame(render);
-      } else {
-        lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
+        lineAnimMap[canvasId] = requestAnimationFrame(render);
       }
     }
 
-    if (animateChart) lineAnimId = requestAnimationFrame(render);
+    if (animateChart) lineAnimMap[canvasId] = requestAnimationFrame(render);
     else render(performance.now() + DURATION);
   }
 
-  function setupLineChartHover(canvasId = 'portfolio-canvas') {
+  function setupLineChartHover(canvasId = 'portfolio-canvas', options = {}) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    canvas.addEventListener('mousemove', (e) => {
+    if (canvas._hasHoverAttached) return;
+    canvas._hasHoverAttached = true;
+
+    function handlePointerMove(clientX, clientY) {
+      if (lineAnimMap[canvasId]) {
+        cancelAnimationFrame(lineAnimMap[canvasId]);
+        lineAnimMap[canvasId] = null;
+        if (lineChartMeta[canvasId]?.data) {
+          drawLineChart(canvasId, lineChartMeta[canvasId].data, options.color || null, false);
+        }
+      }
+
       const meta = lineChartMeta[canvasId];
       if (!meta || !meta.data || meta.data.length < 2 || !meta.cleanImageData) return;
       const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData } = meta;
 
       const canvasRect = canvas.getBoundingClientRect();
-      const mx = e.clientX - canvasRect.left;
+      const mx = clientX - canvasRect.left;
       const relX = mx - pad.left;
 
       const ctx = canvas.getContext('2d');
@@ -1882,13 +1895,13 @@
       const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
       const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-      // RESTORE CLEAN IMAGE DATA (THIS ELIMINATES THE ORIGINAL HEAD CIRCLE!)
+      // RESTORE CLEAN IMAGE DATA (ELIMINATES THE ORIGINAL HEAD CIRCLE!)
       ctx.putImageData(cleanImageData, 0, 0);
 
-      // DRAW HOVER ELEMENTS (THE SINGLE CIRCLE ON THE ENTIRE CANVAS)
+      // DRAW HOVER ELEMENTS
       ctx.save();
 
-      // 1. Vertical Dashed Probe
+      // 1. Vertical Dashed Probe Line
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
       ctx.lineWidth = 1.2;
       ctx.setLineDash([4, 4]);
@@ -1898,14 +1911,15 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // 2. The ONLY Glowing Circle on Canvas
+      // 2. The Follower Glowing Circle on Canvas
+      const haloColor = options.color || dynamicColor || '#f43f5e';
       ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = dynamicColor;
+      ctx.shadowColor = haloColor;
       ctx.shadowBlur = 14;
       ctx.beginPath();
       ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = dynamicColor;
+      ctx.strokeStyle = haloColor;
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
@@ -1933,21 +1947,34 @@
 
       ctx.restore();
 
-      // Tooltip
-      showTooltip(e, `
-        <div class="tt-label">${d.label}</div>
-        <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
-        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
-      `);
+      // Tooltip positioning & custom content
+      const virtualEvent = { clientX, clientY };
+      if (canvasId === 'drawer-history-canvas') {
+        const subtitle = document.getElementById('drawer-chart-subtitle');
+        if (subtitle) {
+          subtitle.innerHTML = `<span class="text-white font-semibold">${d.label}</span>: <span class="text-rose-400 font-bold font-mono-numeric">${d.value.toLocaleString()} shares</span>`;
+        }
+        showTooltip(virtualEvent, `
+          <div class="tt-label">${d.label}</div>
+          <div class="tt-value text-rose-400 font-extrabold font-mono-numeric">${d.value.toLocaleString()} shares</div>
+          <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">EPF Cumulative Hold</div>
+        `);
+      } else {
+        showTooltip(virtualEvent, `
+          <div class="tt-label">${d.label}</div>
+          <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
+          <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
+        `);
 
-      // Update Live Value Display
-      const valDisp = document.getElementById('portfolio-value-display');
-      if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
-      const legDate = document.getElementById('portfolio-legend-date');
-      if (legDate) legDate.textContent = d.label;
-    });
+        // Update Live Value Display for portfolio-canvas
+        const valDisp = document.getElementById('portfolio-value-display');
+        if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
+        const legDate = document.getElementById('portfolio-legend-date');
+        if (legDate) legDate.textContent = d.label;
+      }
+    }
 
-    canvas.addEventListener('mouseleave', () => {
+    function handlePointerLeave() {
       const meta = lineChartMeta[canvasId];
       if (meta && meta.fullImageData) {
         const ctx = canvas.getContext('2d');
@@ -1956,17 +1983,45 @@
       hideTooltip();
       resetLineDisplay();
       canvas.style.cursor = 'default';
-    });
+    }
 
     function resetLineDisplay() {
       const meta = lineChartMeta[canvasId];
       if (!meta || !meta.data || meta.data.length === 0) return;
-      const lastVal = meta.data[meta.data.length - 1].value;
-      const valDisp = document.getElementById('portfolio-value-display');
-      if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
-      const legDate = document.getElementById('portfolio-legend-date');
-      if (legDate) legDate.textContent = 'Net Shareholdings Trend';
+      if (canvasId === 'drawer-history-canvas') {
+        const subtitle = document.getElementById('drawer-chart-subtitle');
+        if (subtitle) subtitle.textContent = 'Historical shares balance over time';
+      } else {
+        const lastVal = meta.data[meta.data.length - 1].value;
+        const valDisp = document.getElementById('portfolio-value-display');
+        if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
+        const legDate = document.getElementById('portfolio-legend-date');
+        if (legDate) legDate.textContent = 'Net Shareholdings Trend';
+      }
     }
+
+    // Mouse events (Desktop)
+    canvas.addEventListener('mousemove', (e) => {
+      handlePointerMove(e.clientX, e.clientY);
+    });
+    canvas.addEventListener('mouseleave', handlePointerLeave);
+
+    // Touch events (Mobile)
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        if (e.cancelable) e.preventDefault();
+        handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', handlePointerLeave);
+    canvas.addEventListener('touchcancel', handlePointerLeave);
   }
 
   let barChartAnimId = null;
@@ -4242,6 +4297,7 @@
 
     requestAnimationFrame(() => {
       drawLineChart('drawer-history-canvas', chartData, '#f43f5e', true);
+      setupLineChartHover('drawer-history-canvas', { color: '#f43f5e' });
     });
 
     const tbody = document.getElementById('drawer-ledger-tbody');

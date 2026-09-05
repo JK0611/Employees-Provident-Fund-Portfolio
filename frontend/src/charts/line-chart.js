@@ -7,7 +7,7 @@
 
 import { formatCompact } from '../core/utils.js';
 
-let lineAnimId = null;
+let lineAnimMap = {};
 let lineChartMeta = {};
 
 export function drawLineChart(canvasId, data, color = null, animateChart = true) {
@@ -39,7 +39,7 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
   const plotW = w - pad.left - pad.right;
   const plotH = h - pad.top - pad.bottom;
 
-  if (lineAnimId) cancelAnimationFrame(lineAnimId);
+  if (lineAnimMap[canvasId]) cancelAnimationFrame(lineAnimMap[canvasId]);
   ctx.clearRect(0, 0, w, h);
 
   if (!data || data.length < 2) {
@@ -189,28 +189,39 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
     // 3. Capture full canvas (WITH HEAD CIRCLE) for mouseleave restore
     const fullImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+    lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
+
     if (progress < 1) {
-      lineAnimId = requestAnimationFrame(render);
-    } else {
-      lineChartMeta[canvasId] = { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData };
+      lineAnimMap[canvasId] = requestAnimationFrame(render);
     }
   }
 
-  if (animateChart) lineAnimId = requestAnimationFrame(render);
+  if (animateChart) lineAnimMap[canvasId] = requestAnimationFrame(render);
   else render(performance.now() + DURATION);
 }
 
-export function setupLineChartHover(canvasId = 'portfolio-canvas') {
+export function setupLineChartHover(canvasId = 'portfolio-canvas', options = {}) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
 
-  canvas.addEventListener('mousemove', (e) => {
+  if (canvas._hasHoverAttached) return;
+  canvas._hasHoverAttached = true;
+
+  function handlePointerMove(clientX, clientY) {
+    if (lineAnimMap[canvasId]) {
+      cancelAnimationFrame(lineAnimMap[canvasId]);
+      lineAnimMap[canvasId] = null;
+      if (lineChartMeta[canvasId]?.data) {
+        drawLineChart(canvasId, lineChartMeta[canvasId].data, options.color || null, false);
+      }
+    }
+
     const meta = lineChartMeta[canvasId];
     if (!meta || !meta.data || meta.data.length < 2 || !meta.cleanImageData) return;
     const { data, pad, plotW, plotH, minV, range, w, h, dynamicColor, cleanImageData, fullImageData } = meta;
 
     const canvasRect = canvas.getBoundingClientRect();
-    const mx = e.clientX - canvasRect.left;
+    const mx = clientX - canvasRect.left;
     const relX = mx - pad.left;
 
     const ctx = canvas.getContext('2d');
@@ -232,13 +243,13 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas') {
     const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
     const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
 
-    // RESTORE CLEAN IMAGE DATA (THIS ELIMINATES THE ORIGINAL HEAD CIRCLE!)
+    // RESTORE CLEAN IMAGE DATA (ELIMINATES THE ORIGINAL HEAD CIRCLE!)
     ctx.putImageData(cleanImageData, 0, 0);
 
-    // DRAW HOVER ELEMENTS (THE SINGLE CIRCLE ON THE ENTIRE CANVAS)
+    // DRAW HOVER ELEMENTS
     ctx.save();
 
-    // 1. Vertical Dashed Probe
+    // 1. Vertical Dashed Probe Line
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
     ctx.lineWidth = 1.2;
     ctx.setLineDash([4, 4]);
@@ -248,14 +259,15 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas') {
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // 2. The ONLY Glowing Circle on Canvas
+    // 2. The Follower Glowing Circle on Canvas
+    const haloColor = options.color || dynamicColor || '#f43f5e';
     ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = dynamicColor;
+    ctx.shadowColor = haloColor;
     ctx.shadowBlur = 14;
     ctx.beginPath();
     ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = dynamicColor;
+    ctx.strokeStyle = haloColor;
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
@@ -283,21 +295,34 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas') {
 
     ctx.restore();
 
-    // Tooltip
-    showTooltip(e, `
-      <div class="tt-label">${d.label}</div>
-      <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
-      <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
-    `);
+    // Tooltip and UI updates
+    const virtualEvent = { clientX, clientY };
+    if (canvasId === 'drawer-history-canvas') {
+      const subtitle = document.getElementById('drawer-chart-subtitle');
+      if (subtitle) {
+        subtitle.innerHTML = `<span class="text-white font-semibold">${d.label}</span>: <span class="text-rose-400 font-bold font-mono-numeric">${d.value.toLocaleString()} shares</span>`;
+      }
+      showTooltip(virtualEvent, `
+        <div class="tt-label">${d.label}</div>
+        <div class="tt-value text-rose-400 font-extrabold font-mono-numeric">${d.value.toLocaleString()} shares</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">EPF Cumulative Hold</div>
+      `);
+    } else {
+      showTooltip(virtualEvent, `
+        <div class="tt-label">${d.label}</div>
+        <div class="tt-value tt-positive">${formatCompact(d.value)} shares</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">Net cumulative hold</div>
+      `);
 
-    // Update Live Value Display
-    const valDisp = document.getElementById('portfolio-value-display');
-    if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
-    const legDate = document.getElementById('portfolio-legend-date');
-    if (legDate) legDate.textContent = d.label;
-  });
+      // Update Live Value Display
+      const valDisp = document.getElementById('portfolio-value-display');
+      if (valDisp) valDisp.textContent = `${formatCompact(d.value)} shares (net)`;
+      const legDate = document.getElementById('portfolio-legend-date');
+      if (legDate) legDate.textContent = d.label;
+    }
+  }
 
-  canvas.addEventListener('mouseleave', () => {
+  function handlePointerLeave() {
     const meta = lineChartMeta[canvasId];
     if (meta && meta.fullImageData) {
       const ctx = canvas.getContext('2d');
@@ -306,17 +331,45 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas') {
     hideTooltip();
     resetLineDisplay();
     canvas.style.cursor = 'default';
-  });
+  }
 
   function resetLineDisplay() {
     const meta = lineChartMeta[canvasId];
     if (!meta || !meta.data || meta.data.length === 0) return;
-    const lastVal = meta.data[meta.data.length - 1].value;
-    const valDisp = document.getElementById('portfolio-value-display');
-    if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
-    const legDate = document.getElementById('portfolio-legend-date');
-    if (legDate) legDate.textContent = 'Net Shareholdings Trend';
+    if (canvasId === 'drawer-history-canvas') {
+      const subtitle = document.getElementById('drawer-chart-subtitle');
+      if (subtitle) subtitle.textContent = 'Historical shares balance over time';
+    } else {
+      const lastVal = meta.data[meta.data.length - 1].value;
+      const valDisp = document.getElementById('portfolio-value-display');
+      if (valDisp) valDisp.textContent = `${formatCompact(lastVal)} shares (net)`;
+      const legDate = document.getElementById('portfolio-legend-date');
+      if (legDate) legDate.textContent = 'Net Shareholdings Trend';
+    }
   }
+
+  // Mouse events (Desktop)
+  canvas.addEventListener('mousemove', (e) => {
+    handlePointerMove(e.clientX, e.clientY);
+  });
+  canvas.addEventListener('mouseleave', handlePointerLeave);
+
+  // Touch events (Mobile)
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      if (e.cancelable) e.preventDefault();
+      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', handlePointerLeave);
+  canvas.addEventListener('touchcancel', handlePointerLeave);
 }
 
 function showTooltip(e, html) {
