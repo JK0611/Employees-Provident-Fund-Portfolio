@@ -149,6 +149,34 @@ export function drawLineChart(canvasId, data, color = null, animateChart = true)
     ctx.fill();
     ctx.restore();
 
+    // Corporate Action Markers (Bonus Issue / Share Split)
+    data.forEach((d, i) => {
+      if (d.bonusRatio > 0 && i <= maxDrawIndex) {
+        const x = pad.left + (plotW * i / (data.length - 1));
+        const y = pad.top + plotH - ((d.value - minV) / range * plotH);
+
+        ctx.save();
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = 'bold 9px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText(`🎁 ${d.bonusRatio}x`, x, y - 6);
+        ctx.restore();
+      }
+    });
+
     // X Labels
     ctx.fillStyle = textColor;
     ctx.font = '10px "Plus Jakarta Sans", sans-serif';
@@ -238,7 +266,7 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas', options = {})
     const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
     const d = data[clampedIdx];
 
-    canvas.style.cursor = 'crosshair';
+    canvas.style.cursor = canvasId === 'drawer-history-canvas' ? 'pointer' : 'crosshair';
 
     const pointX = pad.left + (plotW * clampedIdx / (data.length - 1));
     const pointY = pad.top + plotH - ((d.value - minV) / range * plotH);
@@ -299,13 +327,22 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas', options = {})
     const virtualEvent = { clientX, clientY };
     if (canvasId === 'drawer-history-canvas') {
       const subtitle = document.getElementById('drawer-chart-subtitle');
+      const bonusTag = d.bonusRatio > 0 ? ` <span class="text-amber-400 font-bold text-[10px] ml-1.5 px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/30 whitespace-nowrap shadow-sm">🎁 Bonus Issue (~${d.bonusRatio}:1)</span>` : '';
       if (subtitle) {
-        subtitle.innerHTML = `<span class="text-white font-semibold">${d.label}</span>: <span class="text-rose-400 font-bold font-mono-numeric">${d.value.toLocaleString()} shares</span>`;
+        subtitle.innerHTML = `<span class="text-white font-semibold">${d.label}</span>: <span class="text-rose-400 font-bold font-mono-numeric">${d.value.toLocaleString()} shares</span>${bonusTag}`;
       }
       showTooltip(virtualEvent, `
         <div class="tt-label">${d.label}</div>
         <div class="tt-value text-rose-400 font-extrabold font-mono-numeric">${d.value.toLocaleString()} shares</div>
+        ${d.bonusRatio > 0 ? `
+          <div class="mt-1 px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-[10px] text-amber-300 font-bold flex items-center gap-1 shadow-sm">
+            <span>🎁 Corporate Action: Bonus Issue / Share Split (~${d.bonusRatio}:1)</span>
+          </div>
+        ` : ''}
         <div style="color:var(--text-muted);font-size:0.7rem;margin-top:2px">EPF Cumulative Hold</div>
+        <div class="text-[9.5px] text-sky-400 font-semibold mt-1.5 flex items-center gap-1">
+          <span>👇 Click point to jump to transaction in ledger</span>
+        </div>
       `);
     } else {
       showTooltip(virtualEvent, `
@@ -348,16 +385,41 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas', options = {})
     }
   }
 
+  function handleCanvasClick(clientX) {
+    if (canvasId !== 'drawer-history-canvas') return;
+    const meta = lineChartMeta[canvasId];
+    if (!meta || !meta.data || meta.data.length < 2) return;
+    const { data, pad, plotW } = meta;
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const mx = clientX - canvasRect.left;
+    const relX = mx - pad.left;
+    if (relX < 0 || relX > plotW) return;
+
+    const idx = Math.round(relX / (plotW / (data.length - 1)));
+    const clampedIdx = Math.max(0, Math.min(data.length - 1, idx));
+    const selected = data[clampedIdx];
+    if (selected && selected.label && typeof window.jumpToDrawerLedgerDate === 'function') {
+      window.jumpToDrawerLedgerDate(selected.label);
+    }
+  }
+
   // Mouse events (Desktop)
   canvas.addEventListener('mousemove', (e) => {
     handlePointerMove(e.clientX, e.clientY);
   });
   canvas.addEventListener('mouseleave', handlePointerLeave);
+  canvas.addEventListener('click', (e) => {
+    handleCanvasClick(e.clientX);
+  });
 
   // Touch events (Mobile)
+  let touchStartX = 0, touchStartY = 0;
   canvas.addEventListener('touchstart', (e) => {
     if (e.touches && e.touches[0]) {
-      handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      handlePointerMove(touchStartX, touchStartY);
     }
   }, { passive: true });
 
@@ -368,7 +430,16 @@ export function setupLineChartHover(canvasId = 'portfolio-canvas', options = {})
     }
   }, { passive: false });
 
-  canvas.addEventListener('touchend', handlePointerLeave);
+  canvas.addEventListener('touchend', (e) => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      if (Math.hypot(endX - touchStartX, endY - touchStartY) < 14) {
+        handleCanvasClick(endX);
+      }
+    }
+    handlePointerLeave();
+  });
   canvas.addEventListener('touchcancel', handlePointerLeave);
 }
 
