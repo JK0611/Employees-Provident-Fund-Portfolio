@@ -518,6 +518,14 @@ async function processData() {
   const outputContent = `const EPF_DATA = ${JSON.stringify(webDataset)};`;
   fs.writeFileSync(DATA_FILE, outputContent);
   console.log(`[✓] Successfully processed and saved web data to ${DATA_FILE} (${(outputContent.length / (1024*1024)).toFixed(2)} MB)`);
+
+  // Build full stock historical trajectories for instant drawer lookups
+  try {
+    const { buildStockHistory } = require('./build_stock_history');
+    buildStockHistory();
+  } catch (err) {
+    console.warn('[!] Stock history build warning:', err.message);
+  }
 }
 
 if (require.main === module) {

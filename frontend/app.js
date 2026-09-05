@@ -1977,14 +1977,16 @@
 
     canvas.width = w * dpr;
     canvas.height = h * dpr;
-    ctx.scale(dpr, dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const isMobile = window.innerWidth < 768;
     const pad = {
-      top: 20,
+      top: 24,
       right: isMobile ? 12 : 24,
       bottom: isMobile ? 26 : 32,
-      left: isMobile ? 48 : 70
+      left: isMobile ? 54 : 76
     };
     const plotW = w - pad.left - pad.right;
     const plotH = h - pad.top - pad.bottom;
@@ -2001,9 +2003,65 @@
     }
 
     const values = data.map(d => d.value);
-    const maxV = Math.max(...values, 0);
-    const minV = Math.min(...values, 0);
-    const range = maxV - minV || 1;
+    const rawMax = Math.max(...values, 0);
+    const rawMin = Math.min(...values, 0);
+
+    // Compute clean, rounded "nice ticks" with 0 always included
+    function computeNiceAxis(minVal, maxVal, targetTicks = 5) {
+      let low = Math.min(0, minVal);
+      let high = Math.max(0, maxVal);
+      if (low === 0 && high === 0) {
+        return { ticks: [-1000000, 0, 1000000], min: -1000000, max: 1000000, range: 2000000 };
+      }
+
+      // Add 8% headroom
+      if (high > 0) high *= 1.08;
+      if (low < 0) low *= 1.08;
+
+      const rawRange = high - low;
+      const rawStep = rawRange / targetTicks;
+      const mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+      const norm = rawStep / mag;
+      let niceNorm = 1;
+      if (norm > 5) niceNorm = 10;
+      else if (norm > 2.2) niceNorm = 5;
+      else if (norm > 1.2) niceNorm = 2;
+      const step = niceNorm * mag;
+
+      const niceMin = Math.floor(low / step) * step;
+      const niceMax = Math.ceil(high / step) * step;
+      const range = niceMax - niceMin || 1;
+
+      const ticks = [];
+      for (let v = niceMin; v <= niceMax + step * 0.001; v += step) {
+        ticks.push(Math.round(v * 10000) / 10000);
+      }
+      return { ticks, min: niceMin, max: niceMax, range, step };
+    }
+
+    function formatAxisTick(val) {
+      if (Math.abs(val) < 1) return '0';
+      const abs = Math.abs(val);
+      const sign = val < 0 ? '-' : '';
+      if (abs >= 1e9) {
+        const num = abs / 1e9;
+        return sign + (num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)) + 'B';
+      }
+      if (abs >= 1e6) {
+        const num = abs / 1e6;
+        return sign + (num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)) + 'M';
+      }
+      if (abs >= 1e3) {
+        const num = abs / 1e3;
+        return sign + (num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)) + 'K';
+      }
+      return sign + abs.toLocaleString('en-US');
+    }
+
+    const axisScale = computeNiceAxis(rawMin, rawMax, isMobile ? 4 : 5);
+    const minV = axisScale.min;
+    const maxV = axisScale.max;
+    const range = axisScale.range;
 
     const zeroY = pad.top + plotH - ((0 - minV) / range * plotH);
     const rawBarW = (plotW / data.length);
@@ -2020,30 +2078,32 @@
 
       ctx.clearRect(0, 0, w, h);
 
-      // Grid
-      ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
+      // Grid lines & Y-Axis Labels
+      ctx.font = '600 12px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
-      for (let i = 0; i <= 4; i++) {
-        const val = minV + (range * i / 4);
-        const y = pad.top + plotH - (plotH * i / 4);
-        ctx.fillText(formatCompact(val), pad.left - 8, y + 3);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.lineWidth = 1;
+      ctx.textBaseline = 'middle';
+
+      axisScale.ticks.forEach(val => {
+        const y = pad.top + plotH - ((val - minV) / range * plotH);
+        const isZero = Math.abs(val) < 1;
+
+        // Clean, legible text
+        ctx.fillStyle = isZero ? '#ffffff' : '#cbd5e1';
+        ctx.fillText(formatAxisTick(val), pad.left - 10, y);
+
+        // Grid line
         ctx.beginPath();
+        ctx.strokeStyle = isZero ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = isZero ? 1.5 : 1;
+        if (isZero) {
+          ctx.setLineDash([4, 4]);
+        } else {
+          ctx.setLineDash([]);
+        }
         ctx.moveTo(pad.left, y);
         ctx.lineTo(w - pad.right, y);
         ctx.stroke();
-      }
-
-      // Zero baseline
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(pad.left, zeroY);
-      ctx.lineTo(w - pad.right, zeroY);
-      ctx.stroke();
+      });
       ctx.setLineDash([]);
 
       // Bars
@@ -2077,8 +2137,8 @@
       });
 
       // X Axis labels
-      ctx.fillStyle = '#64748b';
-      ctx.font = '500 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = 'center';
       const maxLabels = isMobile ? 4 : 8;
 
@@ -2873,8 +2933,8 @@
 
   function renderDesktopReturns() {
     return `
-      <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
-        <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-0">
+      <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-y-auto custom-scrollbar pr-1">
+        <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden shrink-0 h-[340px]">
           <div class="flex justify-between items-center mb-3 flex-wrap gap-3 shrink-0">
             <div>
               <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
@@ -2895,10 +2955,11 @@
             </div>
           </div>
           <div class="chart-body-tall flex-1 relative min-h-0 w-full">
-            <canvas id="returns-canvas"></canvas>
+            <canvas id="returns-canvas" class="w-full h-full block absolute inset-0"></canvas>
           </div>
         </div>
         <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 w-full shrink-0" id="returns-summary"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 w-full pb-4 shrink-0" id="returns-movers"></div>
       </div>
     `;
   }
@@ -3177,6 +3238,7 @@
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2 shrink-0" id="mobile-returns-summary"></div>
+        <div class="flex flex-col gap-3.5 w-full pb-16 shrink-0" id="mobile-returns-movers"></div>
       </div>
     `;
   }
@@ -3563,7 +3625,9 @@
       setupPieInteractivity('pie-sector-canvas', 'pie-sector-legend', 'sector');
       filterDesktopHoldings();
     } else if (tab === 'returns') {
-      updateDesktopReturnsChart(animate);
+      requestAnimationFrame(() => {
+        updateDesktopReturnsChart(animate);
+      });
       renderDesktopReturnsSummary();
       setupBarChartHover('returns-canvas', (barData) => {
         store.setState({ activeTab: 'transactions' });
@@ -3671,9 +3735,7 @@
       const ren = resolveRenamedStock(h.stock_name, h.company_name);
       const stockName = ren.stock;
       const compName = ren.company;
-      const formerBadge = (ren.former && ren.former !== stockName)
-        ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
-        : '';
+      const formerBadge = '';
       const profileUrl = getKlseLink(stockName, compName, h.stock_code);
       const logoEl = profileUrl
         ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`
@@ -3800,6 +3862,522 @@
         <span class="text-xs text-outline">Active sessions</span>
       </div>
     `;
+
+    renderTopCapitalMovers('returns-movers');
+  }
+
+  // ----------------------------------------------------
+  // 7.5 STOCK HISTORY DEEP-DIVE DRAWER & MOVERS (DEMO)
+  // ----------------------------------------------------
+  let currentDrawerTicker = null;
+  let currentDrawerRange = 'ALL';
+
+  function ensureStockDrawer() {
+    if (document.getElementById('stock-drawer')) return;
+
+    const html = `
+      <div id="stock-drawer-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+      
+      <aside id="stock-drawer" class="fixed right-0 top-0 bottom-0 w-full max-w-2xl bg-surface/95 backdrop-blur-2xl border-l border-white/10 z-[101] shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-surface/90">
+          <div class="flex items-center gap-3.5 min-w-0">
+            <div id="drawer-logo" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 shrink-0 overflow-hidden shadow-md"></div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 id="drawer-ticker" class="text-xl font-extrabold text-white tracking-tight"></h2>
+                <span id="drawer-former" class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal hidden"></span>
+                <span id="drawer-sector" class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-semibold"></span>
+                <a id="drawer-klse-link" href="#" target="_blank" rel="noopener noreferrer" class="text-xs text-primary hover:text-primary-hover font-medium transition-colors flex items-center gap-1" title="View company on KLSE Screener">
+                  <span>KLSE Profile</span>
+                  <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+              <p id="drawer-company" class="text-xs text-outline truncate mt-0.5 max-w-md"></p>
+            </div>
+          </div>
+          <button id="drawer-close-btn" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-outline hover:text-white transition-colors cursor-pointer shrink-0 ml-3" title="Close drawer (ESC)">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Omnibox Stock Switcher -->
+        <div class="px-5 py-2.5 bg-white/[0.02] border-b border-white/10 relative">
+          <div class="relative flex items-center">
+            <svg class="w-4 h-4 text-outline absolute left-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input id="drawer-stock-search" type="text" placeholder="Search stock (e.g. MAYBANK, TENAGA)..." class="w-full bg-white/[0.05] hover:bg-white/[0.08] focus:bg-white/[0.1] border border-white/10 focus:border-primary/50 rounded-xl py-2 pl-9 pr-8 text-xs text-white placeholder-outline focus:outline-none transition-all" autocomplete="off" />
+            <button id="drawer-search-clear" class="absolute right-2.5 p-1 text-outline hover:text-white rounded-md hidden">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <!-- Auto-suggest dropdown -->
+          <div id="drawer-search-dropdown" class="absolute left-5 right-5 top-full mt-1 bg-surface/98 backdrop-blur-2xl border border-white/15 rounded-xl shadow-2xl max-h-64 overflow-y-auto z-50 hidden divide-y divide-white/5 custom-scrollbar"></div>
+        </div>
+
+        <!-- Spotlight 4-KPI Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-4 bg-white/[0.02] border-b border-white/10 shrink-0">
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+            <div class="text-[10px] text-outline uppercase font-semibold">Current Shares</div>
+            <div id="drawer-current-shares" class="text-sm font-extrabold text-white font-mono-numeric mt-1">-</div>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+            <div class="text-[10px] text-outline uppercase font-semibold">Current Stake</div>
+            <div id="drawer-stake-pct" class="text-sm font-extrabold text-emerald-400 font-mono-numeric mt-1">-</div>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+            <div class="text-[10px] text-outline uppercase font-semibold">Peak Shares Held</div>
+            <div id="drawer-peak-shares" class="text-sm font-extrabold text-white font-mono-numeric mt-1">-</div>
+          </div>
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+            <div class="text-[10px] text-outline uppercase font-semibold">EPF Tenure</div>
+            <div id="drawer-tenure" class="text-sm font-extrabold text-primary font-mono-numeric mt-1">-</div>
+          </div>
+        </div>
+
+        <!-- Historical Trajectory Chart Area -->
+        <div class="p-4 border-b border-white/10 shrink-0 flex flex-col">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">EPF Shareholding Trajectory</h3>
+              <span class="text-[10px] text-outline" id="drawer-chart-subtitle">Historical shares balance over time</span>
+            </div>
+            <div class="chart-toggle-group flex gap-0.5" id="drawer-range-toggle">
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="1Y">1Y</button>
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="3Y">3Y</button>
+              <button class="chart-toggle text-[10px] px-2 py-0.5" data-range="5Y">5Y</button>
+              <button class="chart-toggle active text-[10px] px-2 py-0.5" data-range="ALL">All Time</button>
+            </div>
+          </div>
+          <div class="h-44 w-full relative min-h-0">
+            <canvas id="drawer-history-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Past Filings Ledger Table -->
+        <div class="flex-1 overflow-y-auto p-4 custom-scrollbar min-h-0">
+          <div class="flex items-center justify-between mb-2.5">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Historical Filings Ledger</h3>
+            <span class="text-[10px] text-outline font-mono-numeric" id="drawer-ledger-count">0 filings</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="text-[10px] text-outline uppercase sticky top-0 bg-surface/90 backdrop-blur-sm">
+                <tr class="border-b border-white/10">
+                  <th class="py-2 px-2">Date</th>
+                  <th class="py-2 px-2">Action</th>
+                  <th class="py-2 px-2 text-right">Shares Held</th>
+                  <th class="py-2 px-2 text-right">Stake %</th>
+                  <th class="py-2 px-2 text-center">Bursa</th>
+                </tr>
+              </thead>
+              <tbody id="drawer-ledger-tbody" class="divide-y divide-white/5 font-mono-numeric"></tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    document.getElementById('drawer-close-btn')?.addEventListener('click', closeStockDrawer);
+    document.getElementById('stock-drawer-backdrop')?.addEventListener('click', closeStockDrawer);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeStockDrawer();
+    });
+
+    // Omnibox Quick Switcher Logic
+    const searchInput = document.getElementById('drawer-stock-search');
+    const searchClear = document.getElementById('drawer-search-clear');
+    const dropdown = document.getElementById('drawer-search-dropdown');
+
+    const hideDropdown = () => {
+      if (dropdown) dropdown.classList.add('hidden');
+    };
+
+    const doDrawerSearch = () => {
+      const q = (searchInput?.value || '').trim().toLowerCase();
+      if (!q) {
+        hideDropdown();
+        if (searchClear) searchClear.classList.add('hidden');
+        return;
+      }
+      if (searchClear) searchClear.classList.remove('hidden');
+
+      const allHoldings = getRawData()?.holdings || [];
+      const historyKeys = Object.keys(window.STOCK_HISTORY || {});
+
+      const candidateMap = new Map();
+      allHoldings.forEach(h => {
+        const ren = resolveRenamedStock(h.stock_name, h.company_name);
+        candidateMap.set(ren.stock, {
+          stock: ren.stock,
+          company: ren.company,
+          former: ren.former,
+          holding: h
+        });
+      });
+      historyKeys.forEach(t => {
+        const ren = resolveRenamedStock(t);
+        if (!candidateMap.has(ren.stock)) {
+          candidateMap.set(ren.stock, {
+            stock: ren.stock,
+            company: ren.company || ren.stock,
+            former: ren.former,
+            holding: null
+          });
+        }
+      });
+
+      const matches = [];
+      for (const item of candidateMap.values()) {
+        const s = item.stock.toLowerCase();
+        const c = item.company.toLowerCase();
+        const f = (item.former || '').toLowerCase();
+        if (s.includes(q) || c.includes(q) || f.includes(q)) {
+          matches.push(item);
+        }
+        if (matches.length >= 20) break;
+      }
+
+      if (!matches.length) {
+        dropdown.innerHTML = `<div class="p-3 text-xs text-outline text-center">No stocks matching "${q}"</div>`;
+        dropdown.classList.remove('hidden');
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(m => {
+        const formerTag = '';
+        const stakeStr = m.holding?.direct_percent ? `${m.holding.direct_percent.toFixed(2)}% stake` : '';
+        const sharesStr = m.holding?.total_securities ? `${m.holding.total_securities.toLocaleString()} shs` : '';
+        const extra = stakeStr ? `${stakeStr} • ${sharesStr}` : (window.STOCK_HISTORY?.[m.stock]?.length ? `${window.STOCK_HISTORY[m.stock].length} filings` : '');
+
+        return `
+          <div class="px-3 py-2 hover:bg-white/[0.08] cursor-pointer flex items-center justify-between gap-2.5 transition-colors drawer-search-item" data-ticker="${m.stock}">
+            <div class="flex items-center gap-2 min-w-0">
+              <div class="shrink-0">${renderStockLogo(m.stock, m.company, 24)}</div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-xs text-white">${m.stock}</span>
+                  ${formerTag}
+                </div>
+                <div class="text-[10px] text-outline truncate">${m.company}</div>
+              </div>
+            </div>
+            ${extra ? `<div class="text-[10px] text-primary font-mono-numeric shrink-0">${extra}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      dropdown.querySelectorAll('.drawer-search-item').forEach(el => {
+        el.onclick = () => {
+          const ticker = el.dataset.ticker;
+          if (ticker) {
+            openStockHistoryDrawer(ticker);
+          }
+        };
+      });
+
+      dropdown.classList.remove('hidden');
+    };
+
+    searchInput?.addEventListener('input', doDrawerSearch);
+    searchInput?.addEventListener('focus', () => {
+      if (searchInput.value.trim()) doDrawerSearch();
+    });
+    searchClear?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      hideDropdown();
+      searchClear?.classList.add('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#stock-drawer')) {
+        hideDropdown();
+      }
+    });
+  }
+
+  function openStockHistoryDrawer(rawTicker) {
+    ensureStockDrawer();
+    const ren = resolveRenamedStock(rawTicker);
+    const ticker = ren.stock;
+    currentDrawerTicker = ticker;
+    currentDrawerRange = 'ALL';
+
+    const searchInput = document.getElementById('drawer-stock-search');
+    if (searchInput) searchInput.value = '';
+    const dropdown = document.getElementById('drawer-search-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+    const searchClear = document.getElementById('drawer-search-clear');
+    if (searchClear) searchClear.classList.add('hidden');
+
+    const holding = (getRawData()?.holdings || []).find(h => h.stock_name === ticker) || {};
+    const compName = holding.company_name || ren.company || ticker;
+    const sector = holding.sector || 'Others';
+    const currentShares = holding.total_securities || 0;
+    const currentStake = holding.direct_percent || 0;
+    const profileUrl = getKlseLink(ticker, compName, holding.stock_code);
+
+    const tickerEl = document.getElementById('drawer-ticker');
+    if (tickerEl) tickerEl.textContent = ticker;
+    
+    const formerEl = document.getElementById('drawer-former');
+    if (formerEl) {
+      formerEl.textContent = '';
+      formerEl.classList.add('hidden');
+    }
+
+    const sectorEl = document.getElementById('drawer-sector');
+    if (sectorEl) sectorEl.textContent = sector;
+
+    const compEl = document.getElementById('drawer-company');
+    if (compEl) compEl.textContent = compName;
+
+    const logoEl = document.getElementById('drawer-logo');
+    if (logoEl) logoEl.innerHTML = renderStockLogo(ticker, compName, 44);
+
+    const linkEl = document.getElementById('drawer-klse-link');
+    if (linkEl) {
+      if (profileUrl) {
+        linkEl.href = profileUrl;
+        linkEl.classList.remove('hidden');
+      } else {
+        linkEl.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('drawer-current-shares').textContent = currentShares ? currentShares.toLocaleString() : '-';
+    document.getElementById('drawer-stake-pct').textContent = currentStake ? `${currentStake.toFixed(2)}%` : '-';
+
+    const backdrop = document.getElementById('stock-drawer-backdrop');
+    const drawer = document.getElementById('stock-drawer');
+    backdrop.classList.remove('pointer-events-none');
+    backdrop.classList.add('opacity-100');
+    drawer.classList.remove('translate-x-full');
+
+    renderDrawerHistoryContent(ticker, currentDrawerRange);
+
+    const rangeGroup = document.getElementById('drawer-range-toggle');
+    if (rangeGroup) {
+      rangeGroup.querySelectorAll('button').forEach(btn => {
+        btn.onclick = () => {
+          rangeGroup.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentDrawerRange = btn.dataset.range || 'ALL';
+          renderDrawerHistoryContent(ticker, currentDrawerRange);
+        };
+      });
+    }
+  }
+  window.openStockHistoryDrawer = openStockHistoryDrawer;
+
+  function closeStockDrawer() {
+    const backdrop = document.getElementById('stock-drawer-backdrop');
+    const drawer = document.getElementById('stock-drawer');
+    if (backdrop) {
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('pointer-events-none');
+    }
+    if (drawer) {
+      drawer.classList.add('translate-x-full');
+    }
+  }
+  window.closeStockDrawer = closeStockDrawer;
+
+  function renderDrawerHistoryContent(ticker, range = 'ALL') {
+    let rawList = (window.STOCK_HISTORY && window.STOCK_HISTORY[ticker]) || [];
+
+    if (!rawList.length && typeof allTransactions !== 'undefined') {
+      const matched = allTransactions.filter(t => resolveRenamedStock(t.stock).stock === ticker);
+      rawList = matched.map(t => [
+        t.date,
+        t.total || 0,
+        t.percent || 0,
+        t.amount || 0,
+        t.type === 'Acquired' ? 1 : 0,
+        (t.url || '').split('ann_id=')[1] || ''
+      ]).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    }
+
+    if (!rawList.length) {
+      const tbody = document.getElementById('drawer-ledger-tbody');
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-outline">No past holdings filings recorded for ${ticker}</td></tr>`;
+      document.getElementById('drawer-ledger-count').textContent = '0 filings';
+      return;
+    }
+
+    const peakShares = Math.max(...rawList.map(r => r[1]));
+    const firstDate = rawList[0][0];
+    const firstYear = new Date(firstDate).getFullYear();
+    const currentYear = new Date().getFullYear();
+    const tenureYears = isNaN(firstYear) ? '' : `${Math.max(1, currentYear - firstYear)}+ Yrs (${firstYear})`;
+
+    const peakEl = document.getElementById('drawer-peak-shares');
+    if (peakEl) peakEl.textContent = peakShares > 0 ? peakShares.toLocaleString() : '-';
+
+    const tenureEl = document.getElementById('drawer-tenure');
+    if (tenureEl) tenureEl.textContent = tenureYears || 'Active';
+
+    const now = new Date(rawList[rawList.length - 1][0]);
+    let cutoff = new Date(0);
+    if (range === '1Y') {
+      cutoff = new Date(now);
+      cutoff.setFullYear(cutoff.getFullYear() - 1);
+    } else if (range === '3Y') {
+      cutoff = new Date(now);
+      cutoff.setFullYear(cutoff.getFullYear() - 3);
+    } else if (range === '5Y') {
+      cutoff = new Date(now);
+      cutoff.setFullYear(cutoff.getFullYear() - 5);
+    }
+
+    const filteredForChart = rawList.filter(r => new Date(r[0]) >= cutoff);
+    const chartData = (filteredForChart.length >= 2 ? filteredForChart : rawList).map(r => ({
+      label: r[0],
+      value: r[1]
+    }));
+
+    requestAnimationFrame(() => {
+      drawLineChart('drawer-history-canvas', chartData, '#f43f5e', true);
+    });
+
+    const tbody = document.getElementById('drawer-ledger-tbody');
+    if (tbody) {
+      tbody.innerHTML = rawList.slice().reverse().map(r => {
+        const dateStr = r[0];
+        const sharesHeld = r[1];
+        const stakePct = r[2];
+        const changeShares = r[3];
+        const isBuy = r[4] === 1;
+        const annId = r[5];
+        const bursaUrl = annId ? `https://www.bursamalaysia.com/market_information/announcements/company_announcement/announcement_details?ann_id=${annId}` : '#';
+
+        return `
+          <tr class="hover:bg-white/[0.03] transition-colors">
+            <td class="py-2 px-2 text-outline whitespace-nowrap">${dateStr}</td>
+            <td class="py-2 px-2 whitespace-nowrap font-bold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">
+              ${isBuy ? '+' : ''}${changeShares.toLocaleString()}
+            </td>
+            <td class="py-2 px-2 text-right text-white font-semibold">${sharesHeld.toLocaleString()}</td>
+            <td class="py-2 px-2 text-right text-outline">${stakePct.toFixed(2)}%</td>
+            <td class="py-2 px-2 text-center">
+              ${annId ? `<a href="${bursaUrl}" target="_blank" rel="noopener noreferrer" class="text-outline hover:text-primary p-1 transition-colors" title="View Bursa announcement">↗</a>` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('drawer-ledger-count').textContent = `${rawList.length.toLocaleString()} filings`;
+    }
+  }
+
+  function renderTopCapitalMovers(containerId = 'returns-movers') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const netMap = {};
+    allTransactions.forEach(tx => {
+      let acq = 0, disp = 0;
+      (tx.rawTransactions || tx.transactions || []).forEach(t => {
+        const type = t.type_of_transaction || t.type;
+        const amt = t.no_of_securities || t.amount || 0;
+        if (type === 'Acquired') acq += amt;
+        else if (type === 'Disposed' || type === 'Divestment') disp += amt;
+      });
+      if (acq === 0 && disp === 0 && tx.amount) {
+        if (tx.type === 'Acquired') acq = tx.amount;
+        else disp = tx.amount;
+      }
+      const net = acq - disp;
+      const ren = resolveRenamedStock(tx.stock, tx.company);
+      const s = ren.stock;
+      if (!netMap[s]) {
+        netMap[s] = {
+          stock: s,
+          company: ren.company,
+          net: 0,
+          acq: 0,
+          disp: 0,
+          count: 0
+        };
+      }
+      netMap[s].net += net;
+      netMap[s].acq += acq;
+      netMap[s].disp += disp;
+      netMap[s].count++;
+    });
+
+    const movers = Object.values(netMap);
+    const holdings = getRawData()?.holdings || [];
+    const getHoldingInfo = (stock) => holdings.find(h => h.stock_name === stock) || {};
+
+    const topAccumulated = movers.filter(m => m.net > 0).sort((a, b) => b.net - a.net).slice(0, 5);
+    const topDivested = movers.filter(m => m.net < 0).sort((a, b) => a.net - b.net).slice(0, 5);
+
+    const renderMoverCard = (title, subtitle, items, isBuy) => `
+      <div class="glass-card p-4 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all shadow-lg">
+        <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-2 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full ${isBuy ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]'} animate-pulse"></span>
+            <div>
+              <h4 class="text-sm font-extrabold text-white tracking-tight">${title}</h4>
+              <p class="text-[10px] text-outline">${subtitle}</p>
+            </div>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${isBuy ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+            ${isBuy ? 'Accumulation' : 'Divestment'}
+          </span>
+        </div>
+        <div class="divide-y divide-white/5 flex-1 min-h-0">
+          ${items.map(m => {
+            const h = getHoldingInfo(m.stock);
+            const stakePct = h.direct_percent ? `${h.direct_percent.toFixed(2)}% stake` : '';
+            return `
+              <div class="py-2.5 flex items-center justify-between gap-3 group cursor-pointer hover:bg-white/[0.04] px-2 rounded-xl transition-all" onclick="window.openStockHistoryDrawer('${m.stock}')" title="Inspect EPF past holdings trajectory for ${m.stock}">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="shrink-0 group-hover:scale-105 transition-transform">${renderStockLogo(m.stock, m.company, 32)}</div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-xs text-white group-hover:text-primary transition-colors">${m.stock}</span>
+                      ${stakePct ? `<span class="text-[9px] text-outline font-mono-numeric">(${stakePct})</span>` : ''}
+                    </div>
+                    <div class="text-[10px] text-outline truncate">${m.company || m.stock}</div>
+                  </div>
+                </div>
+                <div class="text-right shrink-0 flex items-center gap-2.5">
+                  <div class="font-mono-numeric">
+                    <div class="text-xs font-extrabold ${isBuy ? 'text-emerald-400' : 'text-rose-400'}">${isBuy ? '+' : ''}${formatCompact(m.net)}</div>
+                    <div class="text-[9px] text-outline">${m.count} filings</div>
+                  </div>
+                  <button class="px-2 py-1 rounded-lg text-[10px] font-bold bg-white/5 group-hover:bg-primary group-hover:text-white border border-white/10 group-hover:border-primary transition-all text-outline flex items-center gap-1 pointer-events-none">
+                    <span>History</span>
+                    <svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    container.innerHTML = `
+      <div class="col-span-1 md:col-span-2 p-2.5 px-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 transition-all flex items-center justify-between gap-3 shadow-md group cursor-pointer" onclick="window.openStockHistoryDrawer('MAYBANK'); setTimeout(() => document.getElementById('drawer-stock-search')?.focus(), 250);" title="Search past holding trajectory & filings for any stock">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-6 h-6 rounded-lg bg-primary/10 text-primary border border-primary/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <span class="text-xs text-outline group-hover:text-white transition-colors truncate">Search stock history (e.g. MAYBANK, TENAGA)...</span>
+        </div>
+        <span class="text-xs font-semibold text-primary flex items-center gap-1 shrink-0">
+          <span>Search</span>
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+      ${renderMoverCard('Top Net Accumulated', 'Highest net share purchases by EPF', topAccumulated, true)}
+      ${renderMoverCard('Top Net Divested', 'Highest net share divestments by EPF', topDivested, false)}
+    `;
   }
 
   // Desktop transactions infinite scroll state
@@ -3815,9 +4393,7 @@
     const ren = resolveRenamedStock(tx.stock, tx.company);
     const stockName = ren.stock;
     const compName = ren.company;
-    const formerBadge = (ren.former && ren.former !== stockName)
-      ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
-      : '';
+    const formerBadge = '';
     const profileUrl = getKlseLink(stockName, compName);
     const logoEl = profileUrl
       ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 24)}</a>`
@@ -4267,9 +4843,7 @@
       const ren = resolveRenamedStock(h.stock_name, h.company_name);
       const stockName = ren.stock;
       const compName = ren.company;
-      const formerBadge = (ren.former && ren.former !== stockName)
-        ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
-        : '';
+      const formerBadge = '';
       const profileUrl = getKlseLink(stockName, compName, h.stock_code);
       const logoEl = profileUrl
         ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 30)}</a>`
@@ -4330,6 +4904,8 @@
         <div class="text-base font-bold text-white font-mono-numeric mt-0.5">${totalTx.toLocaleString()}</div>
       </div>
     `;
+
+    renderTopCapitalMovers('mobile-returns-movers');
   }
 
   // Mobile transactions infinite scroll state
@@ -4345,9 +4921,7 @@
     const ren = resolveRenamedStock(tx.stock, tx.company);
     const stockName = ren.stock;
     const compName = ren.company;
-    const formerBadge = (ren.former && ren.former !== stockName)
-      ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
-      : '';
+    const formerBadge = '';
     const profileUrl = getKlseLink(stockName, compName);
     const logoEl = profileUrl
       ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`

@@ -5,9 +5,9 @@
 
 export function renderDesktopReturns() {
   return `
-    <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
+    <div id="desktop-panel-returns" class="flex flex-col gap-3.5 h-full w-full min-w-0 pt-2 pb-1 overflow-y-auto custom-scrollbar pr-1">
       <!-- Main Net Activity Chart Card -->
-      <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden flex-1 min-h-0">
+      <div class="glass-card returns-chart-card p-5 glow-hover transition-all flex flex-col min-w-0 w-full overflow-hidden shrink-0 h-[340px]">
         <div class="flex justify-between items-center mb-3 flex-wrap gap-3 shrink-0">
           <div>
             <h3 class="text-base font-bold text-on-surface tracking-tight">Net Capital Activity</h3>
@@ -38,6 +38,9 @@ export function renderDesktopReturns() {
       <div class="summary-cards grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 w-full shrink-0" id="returns-summary">
         <!-- Dynamically populated -->
       </div>
+
+      <!-- Top Capital Movers (Flow Leaders) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 w-full pb-4 shrink-0" id="returns-movers"></div>
     </div>
   `;
 }

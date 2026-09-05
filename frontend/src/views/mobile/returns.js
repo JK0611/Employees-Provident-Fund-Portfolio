@@ -35,6 +35,9 @@ export function renderMobileReturns() {
       <div class="grid grid-cols-2 gap-2.5" id="mobile-returns-summary">
         <!-- Dynamically populated -->
       </div>
+
+      <!-- Mobile Top Capital Movers -->
+      <div class="flex flex-col gap-3.5 w-full pb-16 shrink-0" id="mobile-returns-movers"></div>
     </div>
   `;
 }

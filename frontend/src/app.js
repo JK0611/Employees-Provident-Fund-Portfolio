@@ -289,9 +289,7 @@ function filterDesktopHoldings() {
     const ren = resolveRenamedStock(h.stock_name, h.company_name);
     const stockName = ren.stock;
     const compName = ren.company;
-    const formerBadge = (ren.former && ren.former !== stockName)
-      ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
-      : '';
+    const formerBadge = '';
     const profileUrl = getKlseLink(stockName, compName, h.stock_code);
     const logoEl = profileUrl
       ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`
@@ -433,9 +431,7 @@ function renderDesktopTransactionRow(tx) {
   const ren = resolveRenamedStock(tx.stock, tx.company);
   const stockName = ren.stock;
   const compName = ren.company;
-  const formerBadge = (ren.former && ren.former !== stockName)
-    ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-outline font-normal" title="Formerly ${ren.former}">formerly ${ren.former}</span>`
-    : '';
+  const formerBadge = '';
   const profileUrl = getKlseLink(stockName, compName);
   const logoEl = profileUrl
     ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 24)}</a>`
@@ -782,9 +778,7 @@ function filterMobileHoldings() {
     const ren = resolveRenamedStock(h.stock_name, h.company_name);
     const stockName = ren.stock;
     const compName = ren.company;
-    const formerBadge = (ren.former && ren.former !== stockName)
-      ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
-      : '';
+    const formerBadge = '';
     const profileUrl = getKlseLink(stockName, compName, h.stock_code);
     const logoEl = profileUrl
       ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName} on KLSE Screener">${renderStockLogo(stockName, compName, 34)}</a>`
@@ -860,9 +854,7 @@ function renderMobileTransactionCard(tx) {
   const ren = resolveRenamedStock(tx.stock, tx.company);
   const stockName = ren.stock;
   const compName = ren.company;
-  const formerBadge = (ren.former && ren.former !== stockName)
-    ? `<span class="text-[8px] px-1 py-0.2 rounded bg-white/5 text-outline font-normal">formerly ${ren.former}</span>`
-    : '';
+  const formerBadge = '';
   const profileUrl = getKlseLink(stockName, compName);
   const logoEl = profileUrl
     ? `<a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="shrink-0 hover:opacity-80 transition-opacity" title="View ${compName || stockName} on KLSE Screener">${renderStockLogo(stockName, compName, 28)}</a>`
