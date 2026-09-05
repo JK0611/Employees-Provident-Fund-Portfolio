@@ -57,6 +57,37 @@ function buildStockHistory() {
   // Sort chronological (oldest to newest)
   Object.keys(stockHist).forEach(k => {
     stockHist[k].sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+    // Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
+    for (let i = 0; i < stockHist[k].length; i++) {
+      if (!stockHist[k][i][1] || stockHist[k][i][1] <= 0) {
+        const prev = i > 0 ? stockHist[k][i - 1][1] : 0;
+        const change = stockHist[k][i][3] || 0;
+        if (prev > 0) {
+          if (change !== 0 && (prev + change) > 0) {
+            stockHist[k][i][1] = prev + change;
+          } else {
+            let nextVal = 0;
+            for (let j = i + 1; j < stockHist[k].length; j++) {
+              if (stockHist[k][j][1] > 0) {
+                nextVal = stockHist[k][j][1];
+                break;
+              }
+            }
+            stockHist[k][i][1] = nextVal > 0 ? Math.round((prev + nextVal) / 2) : prev;
+          }
+        } else {
+          let nextVal = 0;
+          for (let j = i + 1; j < stockHist[k].length; j++) {
+            if (stockHist[k][j][1] > 0) {
+              nextVal = stockHist[k][j][1];
+              break;
+            }
+          }
+          stockHist[k][i][1] = change > 0 ? change : (nextVal || 0);
+        }
+      }
+    }
   });
 
   const fileContent = 'window.STOCK_HISTORY = ' + JSON.stringify(stockHist) + ';\n';

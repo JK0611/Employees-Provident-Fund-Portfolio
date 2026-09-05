@@ -3993,11 +3993,11 @@
           </div>
         </div>
 
-        <!-- Historical Trajectory Chart Area -->
+        <!-- Historical Holdings Chart Area -->
         <div class="p-4 border-b border-white/10 shrink-0 flex flex-col">
           <div class="flex justify-between items-center mb-2">
             <div>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">EPF Shareholding Trajectory</h3>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">EPF Shareholding History</h3>
               <span class="text-[10px] text-outline" id="drawer-chart-subtitle">Historical shares balance over time</span>
             </div>
             <div class="chart-toggle-group flex gap-0.5" id="drawer-range-toggle">
@@ -4264,6 +4264,37 @@
       return;
     }
 
+    // Clean and impute any missing/zero total securities (e.g. Bursa Form 29B/29C omissions)
+    for (let i = 0; i < rawList.length; i++) {
+      if (!rawList[i][1] || rawList[i][1] <= 0) {
+        const prev = i > 0 ? rawList[i - 1][1] : 0;
+        const change = rawList[i][3] || 0;
+        if (prev > 0) {
+          if (change !== 0 && (prev + change) > 0) {
+            rawList[i][1] = prev + change;
+          } else {
+            let nextVal = 0;
+            for (let j = i + 1; j < rawList.length; j++) {
+              if (rawList[j][1] > 0) {
+                nextVal = rawList[j][1];
+                break;
+              }
+            }
+            rawList[i][1] = nextVal > 0 ? Math.round((prev + nextVal) / 2) : prev;
+          }
+        } else {
+          let nextVal = 0;
+          for (let j = i + 1; j < rawList.length; j++) {
+            if (rawList[j][1] > 0) {
+              nextVal = rawList[j][1];
+              break;
+            }
+          }
+          rawList[i][1] = change > 0 ? change : (nextVal || 0);
+        }
+      }
+    }
+
     const peakShares = Math.max(...rawList.map(r => r[1]));
     const firstDate = rawList[0][0];
     const firstYear = new Date(firstDate).getFullYear();
@@ -4378,7 +4409,7 @@
       const h = getHoldingInfo(m.stock);
       const stakePct = h.direct_percent ? `${h.direct_percent.toFixed(2)}% stake` : '';
       return `
-        <div class="py-1.5 flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-white/[0.04] px-2 rounded-xl transition-all" onclick="window.openStockHistoryDrawer('${m.stock}')" title="Inspect EPF past holdings trajectory for ${m.stock}">
+        <div class="py-1.5 flex items-center justify-between gap-2.5 group cursor-pointer hover:bg-white/[0.04] px-2 rounded-xl transition-all" onclick="window.openStockHistoryDrawer('${m.stock}')" title="Inspect EPF past holdings history for ${m.stock}">
           <div class="flex items-center gap-2.5 min-w-0">
             <div class="shrink-0 group-hover:scale-105 transition-transform">${renderStockLogo(m.stock, m.company, 26)}</div>
             <div class="min-w-0">
