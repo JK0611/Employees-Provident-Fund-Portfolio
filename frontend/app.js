@@ -2532,10 +2532,6 @@
       ctx.arc(cx, cy, baseInnerR, d._endAngle, d._startAngle, true);
       ctx.closePath();
       ctx.fill();
-
-      ctx.strokeStyle = '#08090e';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
       ctx.restore();
     });
 
