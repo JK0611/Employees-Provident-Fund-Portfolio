@@ -257,7 +257,7 @@ aside#app-sidebar {
   z-index: 0;
 }
 
-/* --- Card Variant 2: Top-Left Ambient Sheen (Top Sector Card) --- */
+/* --- Card Variant 2: Top-Left Ambient White Smoke (Top Sector Card) --- */
 #bento-sector-card {
   background: radial-gradient(120% 120% at 0% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
@@ -271,9 +271,24 @@ aside#app-sidebar {
   height: 60%;
   background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* --- Card Variant 3: Top-Right Spark Titanium (Active Positions Card) --- */
+#bento-sector-card::after {
+  content: '';
+  position: absolute;
+  top: -35px;
+  left: -35px;
+  width: 175px;
+  height: 155px;
+  background: radial-gradient(ellipse at 35% 35%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.16) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 3: Top-Right Angled White Smoke Plume (Active Positions Card) --- */
 #bento-active-card {
   background: radial-gradient(110% 110% at 100% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.7) 45%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
@@ -287,9 +302,24 @@ aside#app-sidebar {
   height: 55%;
   background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* --- Card Variant 4: Panoramic Horizon Sheen (Portfolio Trend Card) --- */
+#bento-active-card::after {
+  content: '';
+  position: absolute;
+  top: -35px;
+  right: -35px;
+  width: 175px;
+  height: 155px;
+  background: radial-gradient(ellipse at 65% 35%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.16) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 4: Wide Horizon Panoramic White Smoke (Portfolio Trend Card) --- */
 .portfolio-trend-card {
   background: radial-gradient(160% 110% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 45%, rgba(8, 8, 14, 0.95) 100%) !important;
 }
@@ -303,21 +333,36 @@ aside#app-sidebar {
   height: 45%;
   background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 75%);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* --- Card Variant 5A: Smart Money Inflows (Rising Platinum White Spray Dome) --- */
+.portfolio-trend-card::after {
+  content: '';
+  position: absolute;
+  bottom: -45px;
+  left: 10%;
+  width: 80%;
+  height: 115px;
+  background: radial-gradient(ellipse at 50% 90%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0.02) 70%, transparent 85%) !important;
+  filter: blur(28px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 5A: Upper-Right Flank White Smoke (Smart Money Inflows) --- */
 .smart-inflows-card {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 22, 28, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 90% 20%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 22, 28, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
 }
 
 .smart-inflows-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 50px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  left: 12%;
+  right: 12%;
+  height: 35px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 75%);
   pointer-events: none;
   z-index: 0;
 }
@@ -325,31 +370,30 @@ aside#app-sidebar {
 .smart-inflows-card::after {
   content: '';
   position: absolute;
-  bottom: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 75px;
-  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  top: -20px;
+  right: -15px;
+  width: 145px;
+  height: 145px;
+  background: radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 35%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
   filter: blur(20px) !important;
   pointer-events: none;
   border-radius: 50%;
   z-index: 0;
 }
 
-/* --- Card Variant 5B: Smart Money Outflows (Rising Platinum White Spray Dome) --- */
+/* --- Card Variant 5B: Bottom-Right Corner Rising White Smoke (Smart Money Outflows) --- */
 .smart-outflows-card {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(22, 18, 26, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 85% 85%, rgba(255, 255, 255, 0.08) 0%, rgba(22, 18, 26, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
 }
 
 .smart-outflows-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 50px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  left: 12%;
+  right: 12%;
+  height: 35px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 75%);
   pointer-events: none;
   z-index: 0;
 }
@@ -358,12 +402,11 @@ aside#app-sidebar {
   content: '';
   position: absolute;
   bottom: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 75px;
-  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
-  filter: blur(20px) !important;
+  right: -20px;
+  width: 160px;
+  height: 130px;
+  background: radial-gradient(ellipse at 65% 75%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 35%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(22px) !important;
   pointer-events: none;
   border-radius: 50%;
   z-index: 0;
@@ -388,17 +431,53 @@ aside#app-sidebar {
 /* ============================================================================
    Mobile Specific Luxury Glow & Light Diffusion
    ========================================================================== */
+/* Mobile Card 1: Top-Center Subtle White Smoke Arch */
 #mobile-hero-balance-card {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(244, 63, 94, 0.2) 0%, rgba(28, 18, 28, 0.8) 45%, rgba(10, 10, 16, 0.96) 100%) !important;
-  box-shadow: 0 8px 24px -4px rgba(244, 63, 94, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid rgba(244, 63, 94, 0.25) !important;
+  background: radial-gradient(130% 120% at 50% 0%, rgba(255, 255, 255, 0.10) 0%, rgba(24, 26, 36, 0.8) 45%, rgba(10, 10, 16, 0.96) 100%) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  position: relative;
+  overflow: hidden;
 }
 
+#mobile-hero-balance-card::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 50px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Mobile Card 2: Top-Left White Smoke Plume */
 #mobile-bento-sector-card {
-  background: radial-gradient(120% 120% at 0% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(20, 22, 34, 0.8) 45%, rgba(9, 9, 16, 0.96) 100%) !important;
+  background: radial-gradient(120% 120% at 0% 0%, rgba(255, 255, 255, 0.10) 0%, rgba(20, 22, 34, 0.8) 45%, rgba(9, 9, 16, 0.96) 100%) !important;
   box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.15) !important;
+  position: relative;
+  overflow: hidden;
 }
 
+#mobile-bento-sector-card::after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 105px;
+  height: 95px;
+  background: radial-gradient(ellipse at 35% 35%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Mobile Card 3: Bottom-Center Rising White Smoke Plume */
 #mobile-bento-holding-card {
   background: radial-gradient(130% 130% at 50% 0%, rgba(30, 32, 48, 0.75) 0%, rgba(14, 16, 26, 0.88) 50%, rgba(8, 8, 14, 0.98) 100%) !important;
   box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.15) !important;
@@ -421,16 +500,51 @@ aside#app-sidebar {
   z-index: 0;
 }
 
+/* Mobile Card 4: Wide Panoramic Horizon White Smoke */
 #mobile-portfolio-card,
 #mobile-returns-chart-card {
-  background: radial-gradient(120% 120% at 50% -10%, rgba(244, 63, 94, 0.15) 0%, rgba(22, 16, 28, 0.78) 45%, rgba(8, 9, 14, 0.98) 100%) !important;
-  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.18) !important;
+  background: radial-gradient(140% 110% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(8, 9, 14, 0.98) 100%) !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.15) !important;
   border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  position: relative;
+  overflow: hidden;
 }
 
+#mobile-portfolio-card::after,
+#mobile-returns-chart-card::after {
+  content: '';
+  position: absolute;
+  bottom: -24px;
+  left: 15%;
+  width: 70%;
+  height: 65px;
+  background: radial-gradient(ellipse at 50% 90%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 80%) !important;
+  filter: blur(16px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Mobile Card 5: Bottom-Right Corner Rising White Smoke Plume */
 #mobile-activity-card {
-  background: linear-gradient(180deg, rgba(22, 25, 36, 0.75) 0%, rgba(14, 16, 24, 0.88) 50%, rgba(9, 9, 16, 0.98) 100%) !important;
+  background: radial-gradient(130% 130% at 85% 85%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.8) 45%, rgba(8, 9, 14, 0.98) 100%) !important;
   box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+#mobile-activity-card::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  right: -15px;
+  width: 115px;
+  height: 95px;
+  background: radial-gradient(ellipse at 65% 75%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(15px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
 }
 
 #mobile-pie-company-card,

@@ -36,7 +36,7 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
       </div>
 
       <!-- Hero Valuation Card -->
-      <div class="glass-card p-4 rounded-2xl flex flex-col gap-2">
+      <div id="mobile-hero-balance-card" class="glass-card p-4 rounded-2xl flex flex-col gap-2">
         <span class="text-[10px] font-bold uppercase tracking-wider text-outline">EPF Malaysia Portfolio</span>
         <div class="flex items-baseline justify-between">
           <h2 class="text-2xl font-black text-white font-mono-numeric tracking-tight" id="mobile-total-val">
@@ -51,7 +51,7 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
       <!-- Quick Metrics Grid -->
       <div class="grid grid-cols-2 gap-3">
         <!-- Top Sector -->
-        <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
+        <div id="mobile-bento-sector-card" class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
           <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Sector</span>
           <div class="mt-2">
             <div class="text-base font-bold text-white truncate">${topSector[0]}</div>
@@ -63,7 +63,7 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
         </div>
 
         <!-- Top Holding -->
-        <div class="glass-card p-3.5 rounded-xl flex flex-col justify-between">
+        <div id="mobile-bento-holding-card" class="glass-card p-3.5 rounded-xl flex flex-col justify-between relative overflow-hidden">
           <div class="flex justify-between items-center">
             <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Top Stock</span>
             <div class="h-6 w-6 shrink-0 flex items-center justify-center">
@@ -80,7 +80,7 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
       </div>
 
       <!-- Portfolio Trend Chart Card -->
-      <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
+      <div id="mobile-portfolio-card" class="glass-card p-4 rounded-2xl flex flex-col gap-3">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-sm font-bold text-white">Portfolio Trend</h3>
@@ -100,7 +100,7 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
       </div>
 
       <!-- Smart Money Flow Card -->
-      <div class="glass-card p-3 rounded-2xl flex flex-col gap-2">
+      <div id="mobile-activity-card" class="glass-card p-3 rounded-2xl flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
             <div class="flex items-center gap-1.5">
