@@ -3017,7 +3017,7 @@
           </div>
         </div>
 
-        <div class="glass-card table-card p-4 flex flex-col flex-1 min-h-0 overflow-hidden">
+        <div class="glass-card table-card holdings-table-card p-4 flex flex-col flex-1 min-h-0 overflow-hidden">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 mb-2.5 shrink-0">
             <div class="flex items-center gap-2">
               <h3 class="text-sm font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
@@ -3105,7 +3105,7 @@
   function renderDesktopTransactions() {
     return `
       <div id="desktop-panel-transactions" class="flex flex-col h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
-        <div class="glass-card table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
+        <div class="glass-card table-card tx-table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
           <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-3.5 shrink-0">
             <div>
               <div class="flex items-center gap-2.5 flex-wrap">
@@ -4816,7 +4816,7 @@
     };
 
     const renderMoverCard = (title, subtitle, items, isBuy) => `
-      <div class="glass-card p-3 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all shadow-md">
+      <div class="glass-card ${isBuy ? 'mover-card-accumulated' : 'mover-card-divested'} p-3 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-white/20 transition-all shadow-md">
         <div class="flex items-center justify-between pb-1.5 border-b border-white/10 mb-1 shrink-0">
           <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full ${isBuy ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]' : 'bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]'} animate-pulse"></span>

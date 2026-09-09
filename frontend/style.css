@@ -547,11 +547,49 @@ aside#app-sidebar {
   z-index: 0;
 }
 
-#mobile-pie-company-card,
-#mobile-pie-sector-card {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.8) 48%, rgba(9, 8, 16, 0.98) 100%) !important;
+/* Mobile Holdings Cards: Non-repetitive White Smoke */
+#mobile-pie-company-card {
+  background: radial-gradient(120% 120% at 20% 50%, rgba(255, 255, 255, 0.10) 0%, rgba(18, 20, 30, 0.8) 48%, rgba(9, 8, 16, 0.98) 100%) !important;
   box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.14) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+#mobile-pie-company-card::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: -15px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(15px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+#mobile-pie-sector-card {
+  background: radial-gradient(120% 120% at 80% 20%, rgba(255, 255, 255, 0.10) 0%, rgba(18, 20, 30, 0.8) 48%, rgba(9, 8, 16, 0.98) 100%) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+#mobile-pie-sector-card::after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 120px;
+  height: 100px;
+  background: radial-gradient(ellipse at 65% 35%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(15px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
 }
 
 @media (max-width: 767px) {
@@ -577,19 +615,136 @@ aside#app-sidebar {
   }
 }
 
-/* --- Card Variant 6: Doughnut Focal Titanium (Allocation by Company) --- */
+/* --- Card Variant 6: Left-Center Donut White Smoke Halo (Allocation by Company) --- */
 #pie-company-card {
-  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
+  background: radial-gradient(130% 130% at 25% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(9, 8, 16, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-/* --- Card Variant 7: Macro Sector Titanium (Allocation by Sector) --- */
+#pie-company-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 35px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.10) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#pie-company-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%);
+  width: 195px;
+  height: 175px;
+  background: radial-gradient(ellipse at 40% 50%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.14) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(24px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 7: Top-Right Diagonal White Smoke Spray (Allocation by Sector) --- */
 #pie-sector-card {
-  background: radial-gradient(120% 120% at 85% 15%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.75) 48%, rgba(9, 8, 16, 0.95) 100%) !important;
+  background: radial-gradient(130% 130% at 85% 20%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(9, 8, 16, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-/* --- Card Variant 8: Clean Crisp Data Table (Holdings & Transactions) --- */
+#pie-sector-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 35px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.10) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#pie-sector-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -25px;
+  width: 190px;
+  height: 170px;
+  background: radial-gradient(ellipse at 65% 35%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.14) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(22px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 8: Clean Crisp Data Table with White Smoke Crests (Holdings & Transactions) --- */
 .table-card {
-  background: linear-gradient(180deg, rgba(20, 23, 34, 0.72) 0%, rgba(11, 13, 20, 0.9) 100%) !important;
+  background: radial-gradient(160% 120% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(9, 9, 16, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Holdings Table: Center Horizon White Smoke Crest */
+.holdings-table-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 40px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.holdings-table-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 20%;
+  width: 60%;
+  height: 80px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.10) 45%, rgba(255, 255, 255, 0.02) 70%, transparent 85%) !important;
+  filter: blur(24px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Transactions Table: Top-Right Diagonal White Smoke Aurora */
+.tx-table-card {
+  background: radial-gradient(160% 120% at 75% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(9, 9, 16, 0.96) 100%) !important;
+}
+
+.tx-table-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 45px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tx-table-card::after {
+  content: '';
+  position: absolute;
+  top: -35px;
+  right: 8%;
+  width: 50%;
+  height: 90px;
+  background: radial-gradient(ellipse at 70% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.10) 45%, rgba(255, 255, 255, 0.02) 70%, transparent 85%) !important;
+  filter: blur(26px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
 }
 
 /* Glass Card Interactive Hover Glow */
@@ -1041,11 +1196,85 @@ canvas {
   flex-shrink: 0;
 }
 
-/* Returns Stat Bento Cards (Symmetrical Vertical Layout + Radial Mesh Diffusion) */
+/* --- Card Variant 9: Returns Chart Panoramic Horizon Smoke --- */
+.returns-chart-card {
+  background: radial-gradient(160% 120% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(8, 8, 14, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.returns-chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 45px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.returns-chart-card::after {
+  content: '';
+  position: absolute;
+  bottom: -45px;
+  left: 10%;
+  width: 80%;
+  height: 110px;
+  background: radial-gradient(ellipse at 50% 90%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.10) 45%, rgba(255, 255, 255, 0.02) 70%, transparent 85%) !important;
+  filter: blur(26px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 10: Top Capital Movers Cards (Diagonal White Smoke Counterpoints) --- */
+.mover-card-accumulated {
+  background: radial-gradient(130% 130% at 20% 20%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 22, 28, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.mover-card-accumulated::after {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: -20px;
+  width: 160px;
+  height: 140px;
+  background: radial-gradient(ellipse at 35% 35%, rgba(255, 255, 255, 0.30) 0%, rgba(167, 243, 208, 0.12) 35%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.mover-card-divested {
+  background: radial-gradient(130% 130% at 80% 80%, rgba(255, 255, 255, 0.08) 0%, rgba(22, 18, 26, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.mover-card-divested::after {
+  content: '';
+  position: absolute;
+  bottom: -25px;
+  right: -20px;
+  width: 160px;
+  height: 140px;
+  background: radial-gradient(ellipse at 65% 65%, rgba(255, 255, 255, 0.30) 0%, rgba(254, 205, 211, 0.12) 35%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Returns Stat Bento Cards (Consistent White Smoke with Rotating Non-Repetitive Micro-Smoke) */
 .returns-stat-card {
-  background: rgba(22, 27, 34, 0.7) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  background: rgba(20, 22, 32, 0.75) !important;
+  backdrop-filter: blur(18px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
   border-radius: 16px !important;
@@ -1054,8 +1283,10 @@ canvas {
   flex-direction: column !important;
   justify-content: space-between !important;
   min-height: 94px !important;
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12) !important;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 .returns-stat-card > * {
@@ -1063,41 +1294,98 @@ canvas {
   z-index: 1;
 }
 
-.returns-stat-card::before {
+.returns-stat-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
   pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
 }
 
-/* Individual Atmospheric Hues per Returns Card for Natural Visual Rhythm */
+/* 1. Total Acquired: Top-Left White Smoke */
 .returns-stat-card:nth-child(1) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(147, 51, 234, 0.14) 0%, rgba(20, 16, 34, 0.8) 50%, rgba(9, 8, 15, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 20% 20%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
+.returns-stat-card:nth-child(1)::after {
+  top: -16px;
+  left: -16px;
+  width: 85px;
+  height: 75px;
+  background: radial-gradient(ellipse at 35% 35%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+}
+
+/* 2. Total Disposed: Bottom-Right White Smoke */
 .returns-stat-card:nth-child(2) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(16, 185, 129, 0.13) 0%, rgba(16, 22, 26, 0.8) 50%, rgba(8, 12, 14, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 80% 80%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
+.returns-stat-card:nth-child(2)::after {
+  bottom: -16px;
+  right: -16px;
+  width: 85px;
+  height: 75px;
+  background: radial-gradient(ellipse at 65% 65%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+}
+
+/* 3. Net Momentum: Bottom-Center Rising White Smoke Dome */
 .returns-stat-card:nth-child(3) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(244, 63, 94, 0.13) 0%, rgba(24, 16, 22, 0.8) 50%, rgba(12, 8, 10, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 50% 100%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
+.returns-stat-card:nth-child(3)::after {
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 50px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.12) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+}
+
+/* 4. Total Filings: Top-Right White Smoke */
 .returns-stat-card:nth-child(4) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(99, 102, 241, 0.14) 0%, rgba(18, 17, 34, 0.8) 50%, rgba(9, 8, 16, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 80% 20%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
+.returns-stat-card:nth-child(4)::after {
+  top: -16px;
+  right: -16px;
+  width: 85px;
+  height: 75px;
+  background: radial-gradient(ellipse at 65% 35%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+}
+
+/* 5. Tracked Stocks: Bottom-Left White Smoke */
 .returns-stat-card:nth-child(5) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(217, 70, 239, 0.13) 0%, rgba(22, 16, 32, 0.8) 50%, rgba(10, 8, 16, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 20% 80%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
+.returns-stat-card:nth-child(5)::after {
+  bottom: -16px;
+  left: -16px;
+  width: 85px;
+  height: 75px;
+  background: radial-gradient(ellipse at 35% 65%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
+}
+
+/* 6. Trade Days: Top-Center White Smoke */
 .returns-stat-card:nth-child(6) {
-  background: radial-gradient(130% 130% at 50% 0%, rgba(139, 92, 246, 0.13) 0%, rgba(20, 16, 32, 0.8) 50%, rgba(9, 8, 15, 0.96) 100%) !important;
+  background: radial-gradient(130% 130% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(20, 22, 32, 0.78) 50%, rgba(9, 9, 16, 0.96) 100%) !important;
+}
+.returns-stat-card:nth-child(6)::after {
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 50px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.10) 45%, transparent 75%) !important;
+  filter: blur(14px) !important;
 }
 
 .returns-stat-card:hover {
-  border-color: rgba(165, 180, 252, 0.3) !important;
-  border-top-color: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.65), 0 0 25px -4px rgba(139, 92, 246, 0.22), inset 0 1px 0 0 rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  border-top-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.65), 0 0 25px -4px rgba(255, 255, 255, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.2) !important;
   transform: translateY(-2px);
 }
 

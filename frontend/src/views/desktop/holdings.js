@@ -44,7 +44,7 @@ export function renderDesktopHoldings(data = window.EPF_DATA) {
       </div>
 
       <!-- Domestic Equities Full Data Table Card -->
-      <div class="glass-card table-card p-4 flex flex-col flex-1 min-h-0 overflow-hidden">
+      <div class="glass-card table-card holdings-table-card p-4 flex flex-col flex-1 min-h-0 overflow-hidden">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 mb-2.5 shrink-0">
           <div class="flex items-center gap-2">
             <h3 class="text-sm font-bold text-on-surface tracking-tight">Domestic Equity Positions</h3>
