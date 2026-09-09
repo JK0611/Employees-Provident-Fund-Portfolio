@@ -716,9 +716,9 @@ aside#app-sidebar {
   z-index: 0;
 }
 
-/* Transactions Table: Transparent Underlying Card Surface */
+/* Transactions Table: Top-Right Diagonal White Smoke Aurora */
 .tx-table-card {
-  background: transparent !important;
+  background: radial-gradient(160% 120% at 75% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 20, 30, 0.78) 45%, rgba(9, 9, 16, 0.96) 100%) !important;
 }
 
 .tx-table-card::before {

@@ -9,7 +9,7 @@ export function renderDesktopTransactions() {
   return `
     <div id="desktop-panel-transactions" class="flex flex-col h-full w-full min-w-0 pt-2 pb-1 overflow-hidden">
       <!-- EPF Bursa Filings Data Table Card -->
-      <div class="glass-card table-card tx-table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden" style="background: transparent !important;">
+      <div class="glass-card table-card tx-table-card p-5 flex flex-col flex-1 h-full min-h-0 overflow-hidden">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-3.5 shrink-0">
           <div>
             <div class="flex items-center gap-2.5 flex-wrap">
