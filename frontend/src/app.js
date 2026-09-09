@@ -229,32 +229,181 @@ function updateDesktopReturnsChart(animate = true) {
   drawBarChart('returns-canvas', data, animate);
 }
 
-function renderDesktopRecentFilings() {
-  const feed = document.getElementById('bento-activity-feed');
-  if (!feed) return;
-  const latest = allTransactions.slice(0, 8);
-  feed.innerHTML = latest.map(tx => {
-    const isBuy = tx.type === 'Acquired';
+let desktopRadarMode = 'buys';
+let mobileRadarMode = 'buys';
+
+function computeConvictionRadar(transactions, holdings, limitWindow = 400) {
+  const priceMap = {};
+  (holdings || []).forEach(h => {
+    if (h.stock_name) priceMap[h.stock_name] = h.price || 0;
+  });
+
+  const recentWindow = (transactions || []).slice(0, limitWindow);
+  const stockStats = {};
+
+  recentWindow.forEach(t => {
+    if (!t || !t.stock) return;
+    if (!stockStats[t.stock]) {
+      stockStats[t.stock] = {
+        stock: t.stock,
+        company: t.company,
+        price: priceMap[t.stock] || 0,
+        acquired: 0,
+        disposed: 0,
+        buyCount: 0,
+        sellCount: 0,
+        recentTypes: [],
+        latestDate: t.date
+      };
+    }
+    const s = stockStats[t.stock];
+    s.recentTypes.push(t.type);
+    if (t.type === 'Acquired') {
+      s.acquired += (t.amount || 0);
+      s.buyCount++;
+    } else if (t.type === 'Disposed' || t.type === 'Divestment') {
+      s.disposed += (t.amount || 0);
+      s.sellCount++;
+    }
+  });
+
+  Object.values(stockStats).forEach(s => {
+    s.netShares = s.acquired - s.disposed;
+    s.netValue = s.netShares * (s.price || 0);
+
+    let streak = 0;
+    const firstType = s.recentTypes[0];
+    for (const ty of s.recentTypes) {
+      if (ty === firstType) streak++;
+      else break;
+    }
+    s.consecutiveStreak = streak;
+    s.firstType = firstType;
+  });
+
+  const buys = Object.values(stockStats)
+    .filter(s => s.netShares > 0)
+    .sort((a, b) => b.netShares - a.netShares);
+
+  const sells = Object.values(stockStats)
+    .filter(s => s.netShares < 0)
+    .sort((a, b) => a.netShares - b.netShares);
+
+  let daysSpanned = 15;
+  if (recentWindow.length > 0) {
+    try {
+      const dLatest = new Date(recentWindow[0].date).getTime();
+      const dOldest = new Date(recentWindow[recentWindow.length - 1].date).getTime();
+      if (!isNaN(dLatest) && !isNaN(dOldest)) {
+        daysSpanned = Math.max(1, Math.round(Math.abs(dLatest - dOldest) / (1000 * 60 * 60 * 24)));
+      }
+    } catch (e) {}
+  }
+
+  return { buys, sells, daysSpanned };
+}
+
+function renderFlowItems(items, isBuy, container) {
+  if (!container) return;
+  if (!items || !items.length) {
+    container.innerHTML = `
+      <div class="h-full flex items-center justify-center text-xs text-outline italic py-8">
+        No active ${isBuy ? 'inflow' : 'outflow'} signals detected
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = items.map(s => {
+    const absShares = Math.abs(s.netShares);
+    const absValue = Math.abs(s.netValue);
     const sign = isBuy ? '+' : '-';
     const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
+
+    let streakBadge = '';
+    if (isBuy) {
+      if (s.consecutiveStreak >= 2) {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-semibold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shrink-0 tracking-tight">${s.consecutiveStreak} days buy streak</span>`;
+      } else if (s.buyCount >= 3) {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-semibold rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 shrink-0 tracking-tight">${s.buyCount} buy filings</span>`;
+      } else {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-medium rounded bg-emerald-500/10 text-emerald-400/80 shrink-0">Net Inflow</span>`;
+      }
+    } else {
+      if (s.consecutiveStreak >= 2) {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-semibold rounded bg-rose-500/15 text-rose-400 border border-rose-500/25 shrink-0 tracking-tight">${s.consecutiveStreak} days sell streak</span>`;
+      } else if (s.sellCount >= 3) {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-semibold rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 shrink-0 tracking-tight">${s.sellCount} sell filings</span>`;
+      } else {
+        streakBadge = `<span class="px-1.5 py-0.5 text-[8.5px] font-medium rounded bg-rose-500/10 text-rose-400/80 shrink-0">Net Outflow</span>`;
+      }
+    }
+
+    const valText = absValue > 0 ? `${sign}RM ${formatCompact(absValue)}` : `${sign}${formatCompact(absShares)}`;
+    const subText = absValue > 0 ? `${sign}${formatCompact(absShares)} shrs` : 'Volume';
+
     return `
-      <div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.04] transition-colors">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="relative shrink-0">
-            ${renderStockLogo(tx.stock, tx.company, 32)}
-          </div>
+      <div class="flex items-center justify-between p-1.5 px-2 rounded-xl hover:bg-white/[0.04] transition-all cursor-pointer filing-item group border border-transparent hover:border-white/5" data-stock="${s.stock}">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="relative shrink-0">${renderStockLogo(s.stock, s.company, 24)}</div>
           <div class="min-w-0">
-            <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
-            <div class="text-[11px] text-outline truncate">${tx.company}</div>
+            <div class="flex items-center gap-1">
+              <span class="font-bold text-xs text-white group-hover:text-primary transition-colors truncate">${s.stock}</span>
+              ${streakBadge}
+            </div>
+            <div class="text-[9.5px] text-outline truncate max-w-[110px]">${s.company}</div>
           </div>
         </div>
-        <div class="text-right shrink-0 ml-2 font-mono-numeric">
-          <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
-          <div class="text-[10px] text-outline">${tx.date}</div>
+        <div class="text-right shrink-0 ml-1.5 font-mono-numeric">
+          <div class="text-xs font-bold ${color}">${valText}</div>
+          <div class="text-[9px] text-outline">${subText}</div>
         </div>
       </div>
     `;
   }).join('');
+
+  container.querySelectorAll('.filing-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const stock = item.dataset.stock;
+      store.setState({ activeTab: 'transactions' });
+      requestAnimationFrame(() => {
+        const searchInput = document.getElementById('tx-search');
+        if (searchInput) {
+          searchInput.value = stock;
+          filterDesktopTransactions();
+        }
+      });
+    });
+  });
+}
+
+function renderDesktopRecentFilings() {
+  const inflowsFeed = document.getElementById('bento-inflows-feed');
+  const outflowsFeed = document.getElementById('bento-outflows-feed');
+
+  const { buys, sells, daysSpanned = 15 } = computeConvictionRadar(allTransactions, window.EPF_DATA?.holdings || []);
+
+  const inflowsSub = document.getElementById('inflows-window-subtitle');
+  if (inflowsSub) inflowsSub.textContent = `Recent ${daysSpanned} Days • Institutional Accumulation`;
+  const outflowsSub = document.getElementById('outflows-window-subtitle');
+  if (outflowsSub) outflowsSub.textContent = `Recent ${daysSpanned} Days • Institutional Distribution`;
+
+  const inflowsBadge = document.getElementById('inflows-window-badge');
+  if (inflowsBadge) inflowsBadge.textContent = `Recent ${daysSpanned}D`;
+  const outflowsBadge = document.getElementById('outflows-window-badge');
+  if (outflowsBadge) outflowsBadge.textContent = `Recent ${daysSpanned}D`;
+
+  if (inflowsFeed) {
+    renderFlowItems(buys.slice(0, 7), true, inflowsFeed);
+  }
+  if (outflowsFeed) {
+    renderFlowItems(sells.slice(0, 7), false, outflowsFeed);
+  }
+
+  const legacyFeed = document.getElementById('bento-activity-feed');
+  if (legacyFeed) {
+    renderFlowItems(desktopRadarMode === 'buys' ? buys.slice(0, 8) : sells.slice(0, 8), desktopRadarMode === 'buys', legacyFeed);
+  }
 }
 
 function filterDesktopHoldings() {
@@ -721,29 +870,97 @@ function updateMobileReturnsChart(animate = true) {
 function renderMobileRecentFilings() {
   const feed = document.getElementById('mobile-activity-feed');
   if (!feed) return;
-  const latest = allTransactions.slice(0, 6);
-  feed.innerHTML = latest.map(tx => {
-    const isBuy = tx.type === 'Acquired';
+
+  const toggle = document.getElementById('mobile-radar-toggle');
+  if (toggle && !toggle.dataset.bound) {
+    toggle.dataset.bound = 'true';
+    toggle.querySelectorAll('.mobile-radar-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileRadarMode = btn.dataset.mode;
+        const buyBtn = document.getElementById('mobile-radar-buys');
+        const sellBtn = document.getElementById('mobile-radar-sells');
+        if (mobileRadarMode === 'buys') {
+          if (buyBtn) buyBtn.className = 'mobile-radar-btn px-2 py-0.5 text-[10px] font-bold rounded transition-all text-emerald-400 bg-emerald-500/15 border border-emerald-500/30';
+          if (sellBtn) sellBtn.className = 'mobile-radar-btn px-2 py-0.5 text-[10px] font-medium rounded transition-all text-outline hover:text-white';
+        } else {
+          if (buyBtn) buyBtn.className = 'mobile-radar-btn px-2 py-0.5 text-[10px] font-medium rounded transition-all text-outline hover:text-white';
+          if (sellBtn) sellBtn.className = 'mobile-radar-btn px-2 py-0.5 text-[10px] font-bold rounded transition-all text-rose-400 bg-rose-500/15 border border-rose-500/30';
+        }
+        renderMobileRecentFilings();
+      });
+    });
+  }
+
+  const { buys, sells } = computeConvictionRadar(allTransactions, window.EPF_DATA?.holdings || []);
+  const items = mobileRadarMode === 'buys' ? buys.slice(0, 6) : sells.slice(0, 6);
+
+  if (!items.length) {
+    feed.innerHTML = `<div class="text-[11px] text-outline italic text-center py-4">No active signals</div>`;
+    return;
+  }
+
+  feed.innerHTML = items.map(s => {
+    const isBuy = mobileRadarMode === 'buys';
+    const absShares = Math.abs(s.netShares);
+    const absValue = Math.abs(s.netValue);
     const sign = isBuy ? '+' : '-';
     const color = isBuy ? 'text-emerald-400' : 'text-rose-400';
+
+    let streakBadge = '';
+    if (isBuy) {
+      if (s.consecutiveStreak >= 2) {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] font-semibold rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">${s.consecutiveStreak}d buy streak</span>`;
+      } else if (s.buyCount >= 3) {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] font-semibold rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">${s.buyCount} buys</span>`;
+      } else {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] rounded bg-emerald-500/10 text-emerald-400/80">Inflow</span>`;
+      }
+    } else {
+      if (s.consecutiveStreak >= 2) {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] font-semibold rounded bg-rose-500/15 text-rose-400 border border-rose-500/25">${s.consecutiveStreak}d sell streak</span>`;
+      } else if (s.sellCount >= 3) {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] font-semibold rounded bg-rose-500/10 text-rose-300 border border-rose-500/20">${s.sellCount} sells</span>`;
+      } else {
+        streakBadge = `<span class="px-1.5 py-0.2 text-[8px] rounded bg-rose-500/10 text-rose-400/80">Outflow</span>`;
+      }
+    }
+
+    const valFormatted = absValue > 0 ? `RM ${formatCompact(absValue)}` : `${sign}${formatCompact(absShares)}`;
+
     return `
-      <div class="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="shrink-0">
-            ${renderStockLogo(tx.stock, tx.company, 28)}
-          </div>
+      <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.05] transition-colors cursor-pointer mobile-filing-item" data-stock="${s.stock}">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="shrink-0">${renderStockLogo(s.stock, s.company, 24)}</div>
           <div class="min-w-0">
-            <div class="font-bold text-xs text-white truncate">${tx.stock}</div>
-            <div class="text-[10px] text-outline truncate">${tx.company}</div>
+            <div class="flex items-center gap-1">
+              <span class="font-bold text-xs text-white truncate">${s.stock}</span>
+              ${streakBadge}
+            </div>
+            <div class="text-[9px] text-outline truncate">${s.company}</div>
           </div>
         </div>
         <div class="text-right shrink-0 ml-2 font-mono-numeric">
-          <div class="text-xs font-bold ${color}">${sign}${tx.amount.toLocaleString()}</div>
-          <div class="text-[9px] text-outline">${tx.date}</div>
+          <div class="text-xs font-bold ${color}">${sign}${valFormatted}</div>
+          <div class="text-[8px] text-outline">${sign}${formatCompact(absShares)} shrs</div>
         </div>
       </div>
     `;
   }).join('');
+
+  feed.querySelectorAll('.mobile-filing-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const stock = item.dataset.stock;
+      store.setState({ activeTab: 'transactions' });
+      requestAnimationFrame(() => {
+        const searchInput = document.getElementById('mobile-tx-search');
+        if (searchInput) {
+          searchInput.value = stock;
+          filterMobileTransactions();
+        }
+      });
+    });
+  });
 }
 
 function filterMobileHoldings() {

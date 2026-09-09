@@ -108,7 +108,7 @@ export function renderDesktopDashboard(data = window.EPF_DATA) {
         </div>
       </div>
 
-      <!-- Main Chart & Feed Bento Grid (Expands to fill all bottom space) -->
+      <!-- Main Chart & Flow Bento Grid (Expands to fill all bottom space) -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 flex-1 min-h-0 w-full">
         <!-- Cumulative Portfolio Value Chart -->
         <div class="lg:col-span-2 glass-card portfolio-trend-card p-5 glow-hover transition-all flex flex-col justify-between h-full min-h-0">
@@ -138,16 +138,43 @@ export function renderDesktopDashboard(data = window.EPF_DATA) {
           </div>
         </div>
 
-        <!-- Recent Filings Feed -->
-        <div class="glass-card recent-filings-card p-5 glow-hover transition-all flex flex-col h-full min-h-0">
-          <div class="flex justify-between items-center mb-2.5 border-b border-white/10 pb-2 shrink-0">
-            <div>
-              <h3 class="text-base font-bold text-on-surface tracking-tight">Recent Filings</h3>
-              <span class="text-xs text-outline">Bursa announcements feed</span>
+        <!-- Dual Flow Stack (Top & Bottom) -->
+        <div class="lg:col-span-1 flex flex-col gap-3.5 h-full min-h-0">
+          <!-- Smart Money Inflows Card (Top) -->
+          <div class="glass-card smart-inflows-card p-3.5 glow-hover transition-all flex flex-col flex-1 min-h-0">
+            <div class="flex justify-between items-center mb-1.5 border-b border-white/10 pb-1.5 shrink-0 gap-2">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] shrink-0"></span>
+                  <h3 class="text-sm font-bold text-on-surface tracking-tight truncate">Smart Money Inflows</h3>
+                </div>
+                <span class="text-[10px] text-outline truncate block" id="inflows-window-subtitle">Recent 15 Days • Institutional Accumulation</span>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="text-[9px] font-semibold text-outline/80 px-1.5 py-0.5 rounded bg-white/5 border border-white/10" id="inflows-window-badge">Recent 15D</span>
+                <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Buys</span>
+              </div>
             </div>
-            <svg class="w-4 h-4 text-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar min-h-0" id="bento-inflows-feed"></div>
           </div>
-          <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar min-h-0" id="bento-activity-feed"></div>
+
+          <!-- Smart Money Outflows Card (Bottom) -->
+          <div class="glass-card smart-outflows-card p-3.5 glow-hover transition-all flex flex-col flex-1 min-h-0">
+            <div class="flex justify-between items-center mb-1.5 border-b border-white/10 pb-1.5 shrink-0 gap-2">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)] shrink-0"></span>
+                  <h3 class="text-sm font-bold text-on-surface tracking-tight truncate">Smart Money Outflows</h3>
+                </div>
+                <span class="text-[10px] text-outline truncate block" id="outflows-window-subtitle">Recent 15 Days • Institutional Distribution</span>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="text-[9px] font-semibold text-outline/80 px-1.5 py-0.5 rounded bg-white/5 border border-white/10" id="outflows-window-badge">Recent 15D</span>
+                <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Sells</span>
+              </div>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-1 pr-1 custom-scrollbar min-h-0" id="bento-outflows-feed"></div>
+          </div>
         </div>
       </div>
     </div>

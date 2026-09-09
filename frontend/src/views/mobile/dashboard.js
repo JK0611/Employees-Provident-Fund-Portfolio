@@ -99,13 +99,23 @@ export function renderMobileDashboard(data = window.EPF_DATA) {
         </div>
       </div>
 
-      <!-- Recent Bursa Filings List -->
-      <div class="glass-card p-4 rounded-2xl flex flex-col gap-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-white">Recent Bursa Filings</h3>
-          <span class="text-[10px] text-outline">Latest notices</span>
+      <!-- Smart Money Flow Card -->
+      <div class="glass-card p-3 rounded-2xl flex flex-col gap-2">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h3 class="text-xs font-bold text-white uppercase tracking-tight">Smart Money Flow</h3>
+              <span class="text-[8px] font-extrabold uppercase px-1.5 py-0.2 rounded-full bg-primary/10 text-primary border border-primary/20">Alpha</span>
+            </div>
+            <span class="text-[9px] text-outline">Top institutional accumulation & distribution</span>
+          </div>
+          <!-- Mobile Toggle -->
+          <div class="flex items-center bg-black/40 border border-white/10 rounded-lg p-0.5 shrink-0" id="mobile-radar-toggle">
+            <button type="button" class="mobile-radar-btn px-2 py-0.5 text-[10px] font-bold rounded transition-all text-emerald-400 bg-emerald-500/15 border border-emerald-500/30" data-mode="buys" id="mobile-radar-buys">Inflows</button>
+            <button type="button" class="mobile-radar-btn px-2 py-0.5 text-[10px] font-medium rounded transition-all text-outline hover:text-white" data-mode="sells" id="mobile-radar-sells">Outflows</button>
+          </div>
         </div>
-        <div class="space-y-2" id="mobile-activity-feed">
+        <div class="space-y-1.5" id="mobile-activity-feed">
           <!-- Dynamically populated -->
         </div>
       </div>

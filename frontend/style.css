@@ -305,7 +305,71 @@ aside#app-sidebar {
   pointer-events: none;
 }
 
-/* --- Card Variant 5: Column Stream Frosted Glass (Recent Filings Card) --- */
+/* --- Card Variant 5A: Smart Money Inflows (Rising Platinum White Spray Dome) --- */
+.smart-inflows-card {
+  background: radial-gradient(130% 130% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 22, 28, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+}
+
+.smart-inflows-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 50px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.smart-inflows-card::after {
+  content: '';
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 75px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* --- Card Variant 5B: Smart Money Outflows (Rising Platinum White Spray Dome) --- */
+.smart-outflows-card {
+  background: radial-gradient(130% 130% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(22, 18, 26, 0.75) 45%, rgba(8, 9, 14, 0.96) 100%) !important;
+}
+
+.smart-outflows-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 50px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.smart-outflows-card::after {
+  content: '';
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 75px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0.03) 65%, transparent 80%) !important;
+  filter: blur(20px) !important;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Fallback for legacy filings card */
 .recent-filings-card {
   background: linear-gradient(180deg, rgba(22, 25, 36, 0.65) 0%, rgba(14, 16, 24, 0.8) 50%, rgba(9, 9, 16, 0.95) 100%) !important;
 }
