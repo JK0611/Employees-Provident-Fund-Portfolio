@@ -121,6 +121,10 @@ export function drawPieChart(canvasId, data, type = 'company', animate = true) {
     ctx.arc(cx, cy, innerR, endAngle, startAngle, true);
     ctx.closePath();
     ctx.fill();
+
+    ctx.strokeStyle = '#08090e';
+    ctx.lineWidth = 0.75;
+    ctx.stroke();
     ctx.restore();
 
     startAngle = endAngle;
